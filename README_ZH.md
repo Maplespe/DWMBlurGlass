@@ -14,9 +14,11 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 
 ## 效果
 * 为全局系统标题栏添加模糊效果
-* 可自定义模糊强度
+* 可自定义全局模糊强度
 * 可自定义混合背景颜色
 * 可自定义标题栏文本颜色
+
+请注意 模糊强度将影响全局 例如开始菜单、通知中心等位置...
 
 ![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/001701.png)
 

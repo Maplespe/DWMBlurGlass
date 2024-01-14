@@ -14,9 +14,11 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 
 ## Effects
 * Adds a blur effect to the global system title bar.
-* Customizable blur radius.
+* Customizable global blur radius.
 * Customizable blend background colors.
 * Customizable title bar text color.
+
+Please note that the blur radius will affect the global, which also includes locations such as the start menu, notification center, etc...
 
 ![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/001911.png)
 
