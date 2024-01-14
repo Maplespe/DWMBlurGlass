@@ -12,11 +12,11 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 <img src="https://img.shields.io/badge/language-c++-F34B7D.svg"/>
 <img src="https://img.shields.io/github/last-commit/Maplespe/DWMBlurGlass.svg"/>  
 
-## Effects
-* Adds a blur effect to the global system title bar.
-* Customizable blur radius.
-* Customizable mixed background colors.
-* Customizable title bar text color.
+## 效果
+* 为全局系统标题栏添加模糊效果
+* 可自定义模糊强度
+* 可自定义混合背景颜色
+* 可自定义标题栏文本颜色
 
 ## Compatibility
 
