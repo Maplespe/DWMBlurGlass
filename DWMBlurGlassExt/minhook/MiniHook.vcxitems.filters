@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)buffer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)hook.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)trampoline.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)hde\hde32.c">
+      <Filter>hde</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)hde\hde64.c">
+      <Filter>hde</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)buffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)trampoline.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)hde\hde32.h">
+      <Filter>hde</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)hde\hde64.h">
+      <Filter>hde</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)hde\pstdint.h">
+      <Filter>hde</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)hde\table32.h">
+      <Filter>hde</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)hde\table64.h">
+      <Filter>hde</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="hde">
+      <UniqueIdentifier>{8f6cf990-950d-40ec-a122-df8b9ae1bf18}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

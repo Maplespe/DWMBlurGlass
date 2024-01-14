@@ -1,0 +1,6 @@
+﻿# Visual Studio 生成了具有 C++ 设置的 .editorconfig 文件。
+root = true
+
+[*.{c++,cc,cpp,cppm,cu,cuh,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
+end_of_line = lf                    # 行尾 UNIX 格式 LF
+charset = utf-8-bom
