@@ -94,7 +94,8 @@ If you would like to help us translate into other languages, please see below fo
 
 ## Dependencies
 * MiaoUI interface library v2 (Private)
-* [minhook](https://github.com/m417z/minhook).
+* [minhook](https://github.com/m417z/minhook)
+* [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)
 * [Windows Implementation Libraries](https://github.com/Microsoft/wil)
 

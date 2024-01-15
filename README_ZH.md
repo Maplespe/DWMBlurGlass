@@ -93,7 +93,8 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 
 ## 依赖
 * MiaoUI interface library v2 (Private)
-* [minhook](https://github.com/m417z/minhook).
+* [minhook](https://github.com/m417z/minhook)
+* [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)
 * [Windows Implementation Libraries](https://github.com/Microsoft/wil)
 
