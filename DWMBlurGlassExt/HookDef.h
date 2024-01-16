@@ -21,6 +21,7 @@
 #include <d2d1_1.h>
 #include <d2d1effects.h>
 #include <wincodec.h>
+#include <dwmapi.h>
 #pragma comment(lib, "d2d1.lib")
 
 namespace MDWMBlurGlassExt
@@ -48,6 +49,10 @@ namespace MDWMBlurGlassExt
 	struct CText {};
 	struct CTopLevelWindow_WindowFrame {};
 	struct CDWriteText {};
+	struct CTopLevelWindow {};
+	struct CLegacyRenderTarget {};
+	struct COcclusionContext {};
+	struct CWindowNode {};
 
 	struct ACCENT_POLICY
 	{
@@ -178,6 +183,40 @@ namespace MDWMBlurGlassExt
 		CWindowList* This,
 		HWND hwnd,
 		RECT* rect
+	);
+
+	DWORD64 WINAPI CTopLevelWindow_UpdateNCAreaGeometry(
+		CTopLevelWindow* This
+	);
+
+	HRGN WINAPI MyCreateRoundRectRgn(
+		int x1,
+		int y1,
+		int x2, 
+		int y2, 
+		int w, 
+		int h
+	);
+
+	DWORD64 WINAPI CDrawingContext_FillEffect(
+		CDrawingContext* This,
+		ID2D1Effect* a2,
+		const D2D_RECT_F* a3,
+		const D2D_POINT_2F* a4,
+		char a5
+	);
+
+	DWORD64 __fastcall CDrawingContext_DrawVisualTree(
+		CDrawingContext* This,
+		MilRectF* a2,
+		MilRectF* a3,
+		COcclusionContext* a4,
+		int a5,
+		char a6
+	);
+
+	DWORD64 WINAPI HrgnFromRects(
+		const tagRECT* Src, unsigned int a2, HRGN* a3
 	);
 
 	void WINAPI CAccent_UpdateAccentBlurRect(

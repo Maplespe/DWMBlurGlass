@@ -21,7 +21,10 @@
 #include "VersionHelper.h"
 #include "Helper.h"
 #include <dwmapi.h>
+#include <Uxtheme.h>
 #pragma comment(lib, "dwmapi.lib")
+#pragma comment(lib, "uxtheme.lib")
+#pragma comment(lib, "dxguid.lib")
 
 namespace MDWMBlurGlassExt
 {
@@ -38,15 +41,21 @@ namespace MDWMBlurGlassExt
 	decltype(DrawTextW)* g_funDrawTextW = nullptr;
 	decltype(FillRect)* g_funFillRect = nullptr;
 	decltype(Vtbl::IWICImagingFactory2Vtbl::CreateBitmapFromHBITMAP) g_funCreateBitmapFromHBITMAP = nullptr;
+	decltype(CreateRoundRectRgn)* g_funCreateRoundRgn = nullptr;
 
 	decltype(CWindowList_GetExtendedFrameBounds)* g_funCWindowList_GetExtendedFrameBounds = nullptr;
 	decltype(CTopLevelWindow_OnAccentPolicyUpdated)* g_funCTopLevelWindow_OnAccentPolicyUpdated = nullptr;
 	decltype(CTopLevelWindow_s_ChooseWindowFrameFromStyle)* g_funCTopLevelWindow_s_ChooseWindowFrameFromStyle = nullptr;
 	decltype(CText_SetColor)* g_CText_SetColor = nullptr;
+	decltype(CDrawingContext_FillEffect)* g_funCDrawingContext_FillEffect = nullptr;
 
 	thread_local RECT g_blurRegion{ 0, 0, -1, -1 };
 	thread_local CAccent* g_accentThis = nullptr;
 	thread_local HWND g_window = nullptr;
+	thread_local MilRectF g_dstRect = { 0 };
+
+	winrt::com_ptr<ID2D1Bitmap1> g_aeroPeekBmp = nullptr;
+	winrt::com_ptr<ID2D1Effect> g_scaleEffect = nullptr;
 
 	//BlendColor
 	MinHook g_funCRenderData_DrawSolidColorRectangle
@@ -71,6 +80,22 @@ namespace MDWMBlurGlassExt
 	MinHook g_funCCustomBlur_DetermineOutputScale
 	{
 		"CCustomBlur::DetermineOutputScale", CCustomBlur_DetermineOutputScale
+	};
+
+	//Win10 ExtendBlendColor
+	MinHook g_funCTopLevelWindow_UpdateNCAreaGeometry
+	{
+		"CTopLevelWindow::UpdateNCAreaGeometry", CTopLevelWindow_UpdateNCAreaGeometry
+	};
+
+	MinHook g_funHrgnFromRects
+	{
+		"HrgnFromRects", HrgnFromRects
+	};
+
+	MinHook g_funCDrawingContext_DrawVisualTree
+	{
+		"CDrawingContext::DrawVisualTree", CDrawingContext_DrawVisualTree
 	};
 
 	MinHook g_funCAccent_UpdateAccentBlurRect
@@ -114,25 +139,7 @@ namespace MDWMBlurGlassExt
 		g_funCWindowList_GetExtendedFrameBounds = (decltype(g_funCWindowList_GetExtendedFrameBounds))MHostGetProcAddress("CWindowList::GetExtendedFrameBounds");
 		g_funCTopLevelWindow_OnAccentPolicyUpdated = (decltype(g_funCTopLevelWindow_OnAccentPolicyUpdated))MHostGetProcAddress("CTopLevelWindow::OnAccentPolicyUpdated");
 		g_CText_SetColor = (decltype(g_CText_SetColor))MHostGetProcAddress("CText::SetColor");
-
-		if(os::buildNumber < 22000)
-		{
-			g_funCRenderData_DrawSolidColorRectangle.Attach();
-			g_funCD2DContext_FillEffect.Attach();
-			g_funCCustomBlur_BuildEffect.Attach();
-			g_funCCustomBlur_DetermineOutputScale.Attach();
-			g_funCAccent_UpdateAccentBlurRect.Attach();
-			g_funCAccent_UpdateAccentPolicy.Attach();
-			g_funCTopLevelWindow_UpdateWindowVisuals.Attach();
-		}
-		if(os::buildNumber >= 22000)
-		{
-			g_funCRenderingTechnique_ExecuteBlur.Attach();
-			g_funCTopLevelWindow_UpdateText.Attach();
-		}
-
-		g_funCTopLevelWindow_ValidateVisual.Attach();
-		g_funCGlassColorizationParameters_AdjustWindowColorization.Attach();
+		g_funCDrawingContext_FillEffect = (decltype(g_funCDrawingContext_FillEffect))MHostGetProcAddress("CDrawingContext::FillEffect");
 
 		g_pDesktopManagerInstance_ptr = (PVOID*)MHostGetProcAddress("CDesktopManager::s_pDesktopManagerInstance");
 		if (g_pDesktopManagerInstance_ptr && *g_pDesktopManagerInstance_ptr)
@@ -142,7 +149,7 @@ namespace MDWMBlurGlassExt
 				// Windows 11 22H2
 				g_wicImageFactory = (IWICImagingFactory2*)*((PVOID*)*g_pDesktopManagerInstance_ptr + 30);
 			}
-			else if(os::buildNumber < 22000)
+			else if (os::buildNumber < 22000)
 			{
 				// Windows 10
 				g_wicImageFactory = (IWICImagingFactory2*)*((PVOID*)*g_pDesktopManagerInstance_ptr + 39);
@@ -159,14 +166,41 @@ namespace MDWMBlurGlassExt
 				WriteMemory(g_pCreateBitmapFromHBITMAP, [&] { *(PVOID*)g_pCreateBitmapFromHBITMAP = MyCreateBitmapFromHBITMAP; });
 		}
 
+		if(os::buildNumber < 22000)
+		{
+			g_funCDrawingContext_DrawVisualTree.Attach();
+			g_funCRenderData_DrawSolidColorRectangle.Attach();
+			g_funCD2DContext_FillEffect.Attach();
+			g_funCCustomBlur_BuildEffect.Attach();
+			g_funCCustomBlur_DetermineOutputScale.Attach();
+			g_funCAccent_UpdateAccentBlurRect.Attach();
+			g_funCAccent_UpdateAccentPolicy.Attach();
+			g_funCTopLevelWindow_UpdateWindowVisuals.Attach();
+			g_funCTopLevelWindow_UpdateNCAreaGeometry.Attach();
+			g_funHrgnFromRects.Attach();
+		}
+		if(os::buildNumber >= 22000)
+		{
+			g_funCRenderingTechnique_ExecuteBlur.Attach();
+			g_funCTopLevelWindow_UpdateText.Attach();
+		}
+
+		g_funCTopLevelWindow_ValidateVisual.Attach();
+		g_funCGlassColorizationParameters_AdjustWindowColorization.Attach();
+
+		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
 		if(os::buildNumber <= 22621)
 		{
 			HMODULE hModule = GetModuleHandleW(L"user32.dll");
 			g_funFillRect = (decltype(g_funFillRect))GetProcAddress(hModule, "FillRect");
 			g_funDrawTextW = (decltype(g_funDrawTextW))GetProcAddress(hModule, "DrawTextW");
-			WriteIAT(GetModuleHandleW(L"udwm.dll"), "User32.dll", {{ "FillRect", MyFillRect }, { "DrawTextW", MyDrawTextW }});
+			WriteIAT(udwmModule, "User32.dll", {{ "FillRect", MyFillRect }, { "DrawTextW", MyDrawTextW }});
 		}
-
+		if (os::buildNumber <= 22000)
+		{
+			g_funCreateRoundRgn = (decltype(g_funCreateRoundRgn))GetProcAddress(GetModuleHandleW(L"gdi32.dll"), "CreateRoundRectRgn");
+			WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", MyCreateRoundRectRgn } });
+		}
 		return true;
 	}
 	catch(...)
@@ -185,6 +219,8 @@ namespace MDWMBlurGlassExt
 		}
 		if (os::buildNumber < 22000)
 		{
+			g_funHrgnFromRects.Detach();
+			g_funCTopLevelWindow_UpdateNCAreaGeometry.Detach();
 			g_funCTopLevelWindow_UpdateWindowVisuals.Detach();
 			g_funCAccent_UpdateAccentPolicy.Detach();
 			g_funCAccent_UpdateAccentBlurRect.Detach();
@@ -192,6 +228,7 @@ namespace MDWMBlurGlassExt
 			g_funCCustomBlur_BuildEffect.Detach();
 			g_funCD2DContext_FillEffect.Detach();
 			g_funCRenderData_DrawSolidColorRectangle.Detach();
+			g_funCDrawingContext_DrawVisualTree.Detach();
 		}
 
 		g_funCGlassColorizationParameters_AdjustWindowColorization.Detach();
@@ -200,10 +237,12 @@ namespace MDWMBlurGlassExt
 		if(g_pCreateBitmapFromHBITMAP)
 			WriteMemory(g_pCreateBitmapFromHBITMAP, [&] {*(PVOID*)g_pCreateBitmapFromHBITMAP = g_funCreateBitmapFromHBITMAP; });
 
+		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
 		if(os::buildNumber <= 22621)
 		{
-			WriteIAT(GetModuleHandleW(L"udwm.dll"), "User32.dll", {{ "DrawTextW", g_funDrawTextW } , { "FillRect", g_funFillRect }});
+			WriteIAT(udwmModule, "User32.dll", {{ "DrawTextW", g_funDrawTextW } , { "FillRect", g_funFillRect }});
 		}
+		WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", g_funCreateRoundRgn } });
 
 		g_startup = false;
 	}
@@ -214,6 +253,11 @@ namespace MDWMBlurGlassExt
 		auto ret = Utils::GetIniString(path, L"config", L"blurAmount");
 
 		g_configData.applyglobal = Utils::GetIniString(path, L"config", L"applyglobal") == L"true";
+		g_configData.extendBorder = Utils::GetIniString(path, L"config", L"extendBorder") == L"true";
+		g_configData.reflection = Utils::GetIniString(path, L"config", L"reflection") == L"true";
+
+		if (!ret.empty())
+			g_configData.extendRound = (float)std::clamp(_wtoi(ret.data()), 0, 16);
 
 		if (!ret.empty())
 			g_configData.blurAmount = (float)std::clamp(_wtof(ret.data()), 0.0, 50.0);
@@ -235,6 +279,11 @@ namespace MDWMBlurGlassExt
 		ret = Utils::GetIniString(path, L"config", L"titlebarBlendColor");
 		if (!ret.empty())
 			g_configData.titleBarBlendColor = (COLORREF)_wtoll(ret.data());
+
+		if (g_scaleEffect)
+			g_scaleEffect = nullptr;
+		if (g_aeroPeekBmp)
+			g_aeroPeekBmp = nullptr;
 	}
 	
 	HRESULT __stdcall CRenderData_DrawSolidColorRectangle(
@@ -252,6 +301,56 @@ namespace MDWMBlurGlassExt
 		auto blurVector = *a4;
 		blurVector.x = blurVector.y = (g_configData.blurAmount / 2.f) / 10.f;
 		return g_funCRenderingTechnique_ExecuteBlur.call_org(This, a2, a3, &blurVector, a5);
+	}
+
+	winrt::com_ptr<ID2D1Bitmap1> CreateD2DBitmap(ID2D1DeviceContext* context, std::wstring_view filename)
+	{
+		using namespace winrt;
+
+		com_ptr<IWICBitmapDecoder> decoder = nullptr;
+
+		HRESULT hr = g_wicImageFactory->CreateDecoderFromFilename(filename.data(), &GUID_VendorMicrosoft, GENERIC_READ, WICDecodeMetadataCacheOnDemand, decoder.put());
+
+		if (FAILED(hr))
+			return nullptr;
+
+		com_ptr<IWICBitmapFrameDecode> frame = nullptr;
+		hr = decoder->GetFrame(0, frame.put());
+		if (FAILED(hr))
+			return nullptr;
+
+		com_ptr<IWICFormatConverter> converter = nullptr;
+		hr = g_wicImageFactory->CreateFormatConverter(converter.put());
+		if (FAILED(hr))
+			return nullptr;
+
+		com_ptr<IWICPalette> palette = nullptr;
+		hr = converter->Initialize(frame.get(), GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, palette.get(), 0, WICBitmapPaletteTypeCustom);
+
+		if (FAILED(hr))
+			return nullptr;
+
+		com_ptr<IWICBitmap> wicbitmap = nullptr;
+		hr = g_wicImageFactory->CreateBitmapFromSource(converter.get(), WICBitmapNoCache, wicbitmap.put());
+
+		if (FAILED(hr))
+			return nullptr;
+
+		com_ptr<ID2D1Bitmap1> ret = nullptr;
+		D2D1_PIXEL_FORMAT format;
+		format.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
+		format.format = DXGI_FORMAT_B8G8R8A8_UNORM;
+
+		D2D1_BITMAP_PROPERTIES1 bitmapProp;
+		bitmapProp.dpiX = 96;
+		bitmapProp.dpiY = 96;
+		bitmapProp.colorContext = nullptr;
+		bitmapProp.pixelFormat = format;
+		bitmapProp.bitmapOptions = D2D1_BITMAP_OPTIONS_TARGET;
+
+		context->CreateBitmapFromWicBitmap(wicbitmap.get(), bitmapProp, ret.put());
+
+		return ret;
 	}
 
 	DWORD64 __stdcall CD2DContext_FillEffect(
@@ -276,7 +375,7 @@ namespace MDWMBlurGlassExt
 			inputEffect->GetValue(i, &dv);
 
 			//HostBackdrop 
-			if (dv != 3.f)
+			if (count == 4)
 			{
 				return g_funCD2DContext_FillEffect.call_org(This, a2, inputEffect, srcRect, dstPoint, interMode, mode);
 			}
@@ -290,10 +389,41 @@ namespace MDWMBlurGlassExt
 			if(g_configData.blurAmount != 0.f)
 				g_funCD2DContext_FillEffect.call_org(This, a2, inputEffect, srcRect, dstPoint, interMode, mode);
 
+			if(!g_aeroPeekBmp && g_configData.reflection)
+			{
+				g_aeroPeekBmp = CreateD2DBitmap(This[30], Utils::GetCurrentDir() + L"\\data\\AeroPeek.png");
+				if(g_aeroPeekBmp)
+					This[30]->CreateEffect(CLSID_D2D1Scale, g_scaleEffect.put());
+			}
+			if(g_aeroPeekBmp)
+			{
+				g_scaleEffect->SetInput(0, g_aeroPeekBmp.get());
+
+				auto size = g_aeroPeekBmp->GetSize();
+
+				RECT rect = { 0 };
+				GetClientRect(GetDesktopWindow(), &rect);
+
+				float scaleX;
+				float scaleY;
+				if ((float)rect.right > size.width)
+					scaleX = (float)rect.right / size.width;
+				else
+					scaleX = 1.f / (size.width / (float)rect.right / 1.f);
+
+				if ((float)rect.bottom > size.height)
+					scaleY = (float)rect.bottom / size.height;
+				else
+					scaleY = 1.f / (size.height / (float)rect.bottom);
+
+				g_scaleEffect->SetValue(D2D1_SCALE_PROP_SCALE, D2D1::Vector2F(scaleX * 0.5f, scaleY * 0.5f));
+
+				This[30]->DrawImage(g_scaleEffect.get(), dstPoint, (D2D1_RECT_F*)&g_dstRect);
+			}
+
 			inputEffect->SetValue(D2D1_DIRECTIONALBLUR_PROP_STANDARD_DEVIATION, 3.f);
 			return ret;
 		}
-
 		return g_funCD2DContext_FillEffect.call_org(This, a2, inputEffect, srcRect, dstPoint, interMode, mode);
 	}
 
@@ -348,8 +478,16 @@ namespace MDWMBlurGlassExt
 		int result = 0;
 
 		if ((format & DT_CALCRECT) || (format & DT_INTERNAL) || (format & DT_NOCLIP))
+		{
+			//兼容第三方主题绘制发光字需要预留一些区域
+			if(format & DT_CALCRECT)
+			{
+				auto ret = g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
+				lprc->right += 5;
+				return ret;
+			}
 			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
-
+		}
 		if (FAILED(DrawTextWithAlpha(
 			hdc,
 			lpchText,
@@ -375,6 +513,70 @@ namespace MDWMBlurGlassExt
 		return g_funCreateBitmapFromHBITMAP(This, hBitmap, hPalette, options, ppIBitmap);
 	}
 
+	DWORD64 __stdcall CTopLevelWindow_UpdateNCAreaGeometry(CTopLevelWindow* This)
+	{
+		if (g_window && g_configData.extendBorder)
+		{
+			RECT* pRect = (RECT*)(*((DWORD64*)This + 91) + 48);
+			DWORD* extendLeft = (DWORD*)This + 153;
+			DWORD* extendRight = (DWORD*)This + 154;
+			DWORD* extendTop = (DWORD*)This + 155;
+
+			*extendLeft = 0;
+			*extendRight = 0;
+			*extendTop = pRect->bottom - pRect->top;
+		}
+		return g_funCTopLevelWindow_UpdateNCAreaGeometry.call_org(This);
+	}
+
+	HRGN __stdcall MyCreateRoundRectRgn(int x1, int y1, int x2, int y2, int w, int h)
+	{
+		if(g_window && g_configData.extendBorder)
+		{
+			w = h = g_configData.extendRound;
+		}
+		return g_funCreateRoundRgn(x1, y1, x2, y2, w, h);
+	}
+
+	DWORD64 CDrawingContext_DrawVisualTree(
+		CDrawingContext* This,
+		MilRectF* a2,
+		MilRectF* a3,
+		COcclusionContext* a4,
+		int a5, 
+		char a6)
+	{
+		if (thread_local bool check = false; g_configData.reflection && !check)
+		{
+			check = true;
+
+			g_dstRect = *a3;
+			g_dstRect.left = g_dstRect.left * 0.5f;
+			g_dstRect.top = g_dstRect.top * 0.5f;
+			g_dstRect.right = g_dstRect.right * 0.5f;
+			g_dstRect.bottom = g_dstRect.bottom * 0.5f;
+			if (g_dstRect.left < 0)
+				g_dstRect.left = 0.f;
+			if (g_dstRect.top < 0)
+				g_dstRect.top = 0.f;
+
+			auto ret = g_funCDrawingContext_DrawVisualTree.call_org(This, a2, a3, a4, a5, a6);
+			check = false;
+			return ret;
+		}
+		return g_funCDrawingContext_DrawVisualTree.call_org(This, a2, a3, a4, a5, a6);;
+	}
+
+	DWORD64 __stdcall HrgnFromRects(const tagRECT* Src, unsigned int a2, HRGN* a3)
+	{
+		if (g_window && g_configData.extendBorder)
+		{
+			*a3 = MyCreateRoundRectRgn(Src->left, Src->top, Src->right, Src->bottom, 8, 8);
+			return 0;
+		}
+		return g_funHrgnFromRects.call_org(Src, a2, a3);
+	}
+
 	void __stdcall CAccent_UpdateAccentBlurRect(
 		CAccent* This,
 		const RECT* a2)
@@ -393,7 +595,7 @@ namespace MDWMBlurGlassExt
 		thread_local auto redirected{ false };
 		thread_local RECT windowRect = { -1 };
 
-		if (!redirected)
+		if (!redirected && GetWindowLongPtrW(g_window, GWL_STYLE) & WS_CAPTION)
 		{
 			g_funCWindowList_GetExtendedFrameBounds(g_windowList, g_window, &windowRect);
 
@@ -534,7 +736,10 @@ namespace MDWMBlurGlassExt
 		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization.call_org(a1, a2, a3);
 		if (a3 == Color_TitleBackground)
 		{
-			a1->a = (g_configData.titleBarBlendColor >> 24) & 0xff;
+			if (os::buildNumber >= 22000)
+				a1->a = (g_configData.titleBarBlendColor >> 24) & 0xff;
+			else
+				a1->a = 255;
 			a1->r = GetRValue(g_configData.titleBarBlendColor);
 			a1->g = GetGValue(g_configData.titleBarBlendColor);
 			a1->b = GetBValue(g_configData.titleBarBlendColor);

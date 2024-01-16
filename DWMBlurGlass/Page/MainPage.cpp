@@ -53,6 +53,8 @@ namespace MDWMBlurGlass
             <UILabel frame="10,2,60,20" text="#effectset" />
         </UIControl>
 		<UICheckBox frame="0,11" text="#applyglobal" name="applyglobal" />
+		<UICheckBox frame="0,11" text="#extendborder" name="extendBorder" />
+		<UICheckBox frame="0,11" text="#reflection" name="reflection" />
         <UIControl frame="0,10,100,100" autoSize="true">
             <UILabel frame="0,1,60,20" text="#blurvalue" />
             <UISlider frame="10,0,200,16" name="blurslider" maxValue="50" />
@@ -74,7 +76,7 @@ namespace MDWMBlurGlass
             <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_preview" />
             <UILabel frame="10,2,60,20" text="#preview" />
         </UIControl>
-        <UIImgBox frame="0,10,10f,95" autoSize="false" frameColor="222,222,222,255" frameWidth="1" img="prebackground" imgStyle="3">
+        <UIImgBox frame="0,10,10f,90" autoSize="false" frameColor="222,222,222,255" frameWidth="1" img="prebackground" imgStyle="3">
             <UIControl frame="20,20,20f,100" frameColor="222,222,222,255" frameWidth="1" align="LinearV">
                 <UIEffectLayer frame="0,0,100%,30" name="preblur" bgColor="255,255,255,100" align="LinearH">
                     <UIImgBox frame="7,7,16,16" autoSize="false" img="icon_title" />
@@ -298,6 +300,16 @@ namespace MDWMBlurGlass
                     m_cfgData.applyglobal = static_cast<UICheckBox*>(control)->GetSel();
                     SetButtonEnable(true);
                 }
+                else if (_MNAME(L"extendBorder"))
+                {
+                    m_cfgData.extendBorder = static_cast<UICheckBox*>(control)->GetSel();
+                    SetButtonEnable(true);
+                }
+                else if (_MNAME(L"reflection"))
+                {
+                    m_cfgData.reflection = static_cast<UICheckBox*>(control)->GetSel();
+                    SetButtonEnable(true);
+                }
                 else
                     ret = false;
 	        }
@@ -380,6 +392,8 @@ namespace MDWMBlurGlass
         auto ret = Utils::GetIniString(path, L"config", L"blurAmount");
 
         m_cfgData.applyglobal = Utils::GetIniString(path, L"config", L"applyglobal") == L"true";
+        m_cfgData.extendBorder = Utils::GetIniString(path, L"config", L"extendBorder") == L"true";
+        m_cfgData.reflection = Utils::GetIniString(path, L"config", L"reflection") == L"true";
 
         if (!ret.empty())
             m_cfgData.blurAmount = (float)Helper::M_Clamp(0.0, 50.0, _wtof(ret.data()));
@@ -397,6 +411,8 @@ namespace MDWMBlurGlass
             m_cfgData.titleBarBlendColor = (COLORREF)_wtoll(ret.data());
 
         m_page->Child<UICheckBox>(L"applyglobal")->SetSel(m_cfgData.applyglobal);
+        m_page->Child<UICheckBox>(L"extendBorder")->SetSel(m_cfgData.extendBorder);
+        m_page->Child<UICheckBox>(L"reflection")->SetSel(m_cfgData.reflection);
 
         _m_color textColor = (m_cfgData.activeTextColor & 0x00FFFFFF) | 0xFF000000;
         m_page->Child<UILabel>(L"sampletitle")->SetAttributeSrc(L"fontColor", textColor, false);
@@ -421,6 +437,8 @@ namespace MDWMBlurGlass
     void MainWindowPage::SaveConfig(std::wstring_view path)
     {
         SetIniString(path, L"config", L"applyglobal", m_cfgData.applyglobal ? L"true" : L"false");
+        SetIniString(path, L"config", L"extendBorder", m_cfgData.extendBorder ? L"true" : L"false");
+        SetIniString(path, L"config", L"reflection", m_cfgData.reflection ? L"true" : L"false");
         SetIniString(path, L"config", L"blurAmount", std::to_wstring(m_cfgData.blurAmount));
         SetIniString(path, L"config", L"activeTextColor", std::to_wstring(m_cfgData.activeTextColor));
         SetIniString(path, L"config", L"inactiveTextColor", std::to_wstring(m_cfgData.inactiveTextColor));

@@ -92,7 +92,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		return 0;
 	}
 
-	auto context = engine.CreateWindowCtx({ 0,0,500,530 }, MWindowType::Normal, L"DWMBlurGlass", true, true, 0, WS_EX_NOREDIRECTIONBITMAP);
+	auto context = engine.CreateWindowCtx({ 0,0,500,588 }, MWindowType::Normal,
+		L"DWMBlurGlass " + MDWMBlurGlass::g_vernum, true, true, 0, WS_EX_NOREDIRECTIONBITMAP);
 	if(!context)
 	{
 		MessageBoxW(nullptr, MDWMBlurGlass::GetBaseLanguageString(L"inituifail1").c_str(), L"error", MB_ICONERROR);

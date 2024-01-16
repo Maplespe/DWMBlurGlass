@@ -20,6 +20,8 @@
 
 namespace MDWMBlurGlass
 {
+	inline const std::wstring g_vernum = L"1.0.1";
+
 	bool MainWindow_EventProc(Mui::MWindowCtx*, Mui::UINotifyEvent event, Mui::Ctrl::UIControl* control, Mui::_m_param param);
 
 	bool MainWindow_InitWindow(const Mui::MWindowCtx*, Mui::Ctrl::UIControl* root, Mui::XML::MuiXML* ui);

@@ -29,6 +29,8 @@
 	<effectset>效果设置</effectset>
 	<blurvalue>模糊半径:</blurvalue>
 	<applyglobal>覆盖使用DWMAPI设置的云母效果(win11)</applyglobal>
+	<extendborder>扩展效果到边框 (win10)</extendborder>
+	<reflection>启用Aero反光效果 (win10)</reflection>
 	<blendcolor>背景混合颜色:</blendcolor>
 	<activecolor>活动状态文本颜色:</activecolor>
 	<inactivecolor>非活动状态文本颜色:</inactivecolor>

@@ -128,7 +128,7 @@ namespace MDWMBlurGlassExt
 			DTTOPTS Options =
 			{
 				sizeof(DTTOPTS),
-				DTT_TEXTCOLOR | DTT_COMPOSITED | DTT_CALLBACK,
+				DTT_TEXTCOLOR | DTT_COMPOSITED | DTT_CALLBACK | DTT_GLOWSIZE,
 				GetTextColor(hdc),
 				0,
 				0,
@@ -139,7 +139,7 @@ namespace MDWMBlurGlassExt
 				0,
 				0,
 				FALSE,
-				0,
+				5,
 				drawTextCallback,
 				(LPARAM)&result
 			};
@@ -153,10 +153,11 @@ namespace MDWMBlurGlassExt
 
 		winrt::check_pointer(hdc);
 
-		if (FAILED(DrawThemeContent(hdc, *lprc, nullptr, nullptr, 0, callback)))
+		/*if (FAILED(DrawThemeContent(hdc, *lprc, nullptr, nullptr, 0, callback)))
 		{
 			winrt::check_hresult(DrawThemeContent(hdc, *lprc, nullptr, nullptr, 0, callbackAsFallback));
-		}
+		}*/
+		winrt::check_hresult(DrawThemeContent(hdc, *lprc, nullptr, nullptr, 0, callbackAsFallback));
 
 		GdiFlush();
 

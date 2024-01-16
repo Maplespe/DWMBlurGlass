@@ -17,10 +17,12 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 * Customizable global blur radius.
 * Customizable blend background colors.
 * Customizable title bar text color.
+* Third-party theme support.
+* Customize the Aero reflection effect.
 
 Please note that the blur radius will affect the global, which also includes locations such as the start menu, notification center, etc...
 
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/001911.png)
+![image](/Screenshot/001911.png)
 
 ## Compatibility
 Supported as low as **Windows 1709** and as high as the **latest version of Windows 11** (if not otherwise specified).
@@ -42,16 +44,23 @@ Compatible with [TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFl
 ## Gallery
 <details><summary><b>Windows 11</b></summary>
   
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/10307.png)
+![image](/Screenshot/10307.png)
 
 > Enable "Override DWMAPI mica effect (win11)"
 
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/013521.png)
+![image](/Screenshot/013521.png)
 </details>
 
 <details><summary><b>Windows 10</b></summary>
 
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/001911.png)
+![image](/Screenshot/001911.png)
+
+Using third-party themes
+
+> Enable "Extend effects to borders (win10)"
+> Enable "Aero reflection effect (win10)"
+
+![image](/Screenshot/025454.png)
 
 </details>
 
@@ -62,13 +71,13 @@ Compatible with [TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFl
 2. Unzip it to a location such as "`C:\Program Files`".
 <details><summary><b>3. Run the DWMBlurGlass.exe GUI program and click Install.</b></summary>
 
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/012746.png)
+![image](/Screenshot/012746.png)
 
 >If the prompt "Installation was successful! But you have not yet downloaded a valid symbol file, please download it from the "Symbols" page before you can use it!" then you need to click on the Symbols page and click Download before you can use it.
 
 >**Note that you may receive similar notifications in the future, especially after system updates.**
 
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/012924.png)
+![image](/Screenshot/012924.png)
 
 </details>
 

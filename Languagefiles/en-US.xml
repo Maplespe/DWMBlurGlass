@@ -29,6 +29,8 @@
 	<effectset>Effect Settings</effectset>
 	<blurvalue>Blur radius:</blurvalue>
 	<applyglobal>Override DWMAPI mica effect (win11)</applyglobal>
+	<extendborder>Extend effects to borders (win10)</extendborder>
+	<reflection>Enable Aero reflection effect (win10)</reflection>
 	<blendcolor>Background blend color:</blendcolor>
 	<activecolor>Active text color:</activecolor>
 	<inactivecolor>Inactive text color:</inactivecolor>

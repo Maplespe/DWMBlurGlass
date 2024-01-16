@@ -27,6 +27,9 @@ namespace MDWMBlurGlass
 	struct ConfigData
 	{
 		bool applyglobal = false;
+		bool extendBorder = false;
+		bool reflection = false;
+		int extendRound = 10;
 		float blurAmount = 20.f;
 		COLORREF activeTextColor = 0xFF000000;
 		COLORREF inactiveTextColor = 0xFFB4B4B4;

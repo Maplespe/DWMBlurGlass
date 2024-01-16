@@ -17,10 +17,12 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 * 可自定义全局模糊强度
 * 可自定义混合背景颜色
 * 可自定义标题栏文本颜色
+* 第三方主题支持
+* 自定义Aero反射底图效果
 
 请注意 模糊强度将影响全局 例如开始菜单、通知中心等位置...
 
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/001701.png)
+![image](/Screenshot/001701.png)
 
 ## 兼容性
 最低支持 **Windows 10 1709** 最高支持到 **Windows 11 最新版**(如果未另行说明)
@@ -42,16 +44,23 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 ## 预览
 <details><summary><b>Windows 11</b></summary>
   
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/78930.png)
+![image](/Screenshot/78930.png)
 
 > 启用 "覆盖使用DWMAPI设置的云母效果(win11)"
 
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/013521.png)
+![image](/Screenshot/013521.png)
 </details>
 
 <details><summary><b>Windows 10</b></summary>
 
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/001701.png)
+![image](/Screenshot/001701.png)
+
+使用第三方主题
+
+> 启用 "扩展效果到边框 (win10)"
+> 启用 "Aero反光效果 (win10)"
+
+![image](/Screenshot/025410.png)
 
 </details>
 
@@ -62,7 +71,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 2. 解压到一个位置 例如 "`C:\Program Files`".
 <details><summary><b>3. 运行 DWMBlurGlass.exe GUI 程序 并点击安装.</b></summary>
 
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/013025.png)
+![image](/Screenshot/013025.png)
 
 >如果提示 "安装成功! 但您还没有下载有效的符号文件，在"符号文件"页面下载后才能生效" 则需要前往"符号"页面下载符号
 
@@ -70,7 +79,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 >
 >如果下载失败 则可能需要使用代理，在中国大陆部分地区可能无法访问微软服务器
 
-![image](https://github.com/Maplespe/DWMBlurGlass/blob/master/Screenshot/013100.png)
+![image](/Screenshot/013100.png)
 
 </details>
 

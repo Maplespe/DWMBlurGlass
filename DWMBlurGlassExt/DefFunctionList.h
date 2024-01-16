@@ -31,9 +31,14 @@ namespace MDWMBlurGlassExt
 		{ dwmcore, "CD2DContext::FillEffect" },					//Only Windows 10
 		{ dwmcore, "CCustomBlur::BuildEffect" },				//Only Windows 10
 		{ dwmcore, "CCustomBlur::DetermineOutputScale" },		//Only Windows 10
+		{ dwmcore, "CDrawingContext::DrawVisualTree" },
+		{ dwmcore, "CDrawingContext::FillEffect" },
 
 		{ udwm, "CDesktopManager::s_pDesktopManagerInstance" },
 		{ udwm, "CWindowList::GetExtendedFrameBounds" },
+		{ udwm, "ResourceHelper::CreateGeometryFromHRGN" },
+		{ udwm, "HrgnFromRects" },
+		{ udwm, "CTopLevelWindow::UpdateNCAreaGeometry" },
 		{ udwm, "CAccent::UpdateAccentPolicy" },
 		{ udwm, "CAccent::UpdateAccentBlurRect" },
 		{ udwm, "CTopLevelWindow::s_ChooseWindowFrameFromStyle" },
