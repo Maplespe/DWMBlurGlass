@@ -25,7 +25,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 ![image](/Screenshot/001701.png)
 
 ## 兼容性
-最低支持 **Windows 10 1709** 最高支持到 **Windows 11 最新版**(如果未另行说明)
+最低支持 **Windows 10 1709** 最高支持到 **Windows 11 最新版**(不包括预览版)
 
 可以与第三方主题一起使用进一步定制DWM.
 

@@ -25,7 +25,7 @@ Please note that the blur radius will affect the global, which also includes loc
 ![image](/Screenshot/001911.png)
 
 ## Compatibility
-Supported as low as **Windows 1709** and as high as the **latest version of Windows 11** (if not otherwise specified).
+Supported as low as **Windows 10 1709** and as high as the **latest version of Windows 11** (excluding the preview version).
 
 Can be used with third party themes to further customize DWM.
 
