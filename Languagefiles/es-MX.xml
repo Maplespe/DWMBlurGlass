@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <lang local="es-MX" author="Alcatel">
-	<inituifail0>¡Carga del MiaoUI library fallida! código de error: </inituifail0>
+	<inituifail0>¡Carga de MiaoUI library fallida! código de error: </inituifail0>
 	<inituifail1>No se pudo crear un nuevo contexto de la ventana</inituifail1>
 	<inituifail2>No se pudo inicializar la ventana</inituifail2>
 	<initfail0>Nota que debido a las restricciones de la authenticación de DWM, la aplicación se debe colocar en una carpeta que no sea del usuario, y su ubicación no puede ser en "{path}" o sus subdirectorios. Por favor, cambia el directorio.</initfail0>
