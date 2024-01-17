@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<lang local="es-MX" author="Alcatel">
+	<inituifail0>¡Carga de MiaoUI library fallida! código de error: </inituifail0>
+	<inituifail1>No se pudo crear un nuevo contexto de la ventana</inituifail1>
+	<inituifail2>No se pudo inicializar la ventana</inituifail2>
+	<initfail0>Nota que debido a las restricciones de la authenticación de DWM, la aplicación se debe colocar en una carpeta que no sea del usuario, y su ubicación no puede ser en "{path}" o sus subdirectorios. Por favor, cambia el directorio.</initfail0>
+	<symloadfail>No se pudo cargar los archivos de símbolo. El programa no pudo cargar el DLL. Por favor, descarga los símbolos de nuevo. (Es posible que tengas que descargar los símbolos de nuevo despues de una actualización del sistema.)</symloadfail>
+	<colorpicker_dlg_sel>Elegir color:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Nuevo color:</colorpicker_dlg_c>
+	<msgdlg_no>Cancelar</msgdlg_no>
+	<msgdlg_yes>Confirmar</msgdlg_yes>
+	<colorpicker_dlg_alpha>Opacidad:</colorpicker_dlg_alpha>
+	<general>General</general>
+	<symbol>Símbolo</symbol>
+	<config>Ajustes</config>
+	<about>Acerca de</about>
+	<status>Estado:</status>
+	<status0>Desinstalado</status0>
+	<status1>Instalado</status1>
+	<install>Instalar</install>
+	<uninstall>Desinstalar</uninstall>
+	<installsucs>¡Instalación exitosa!</installsucs>
+	<installsucs1>¡La instalación fue exitosa! Pero aún no has descargado ningun archivo de símbolo valido, descárgalo en la página "símbolos" para que funcione!</installsucs1>
+	<installfail>¡Instalación fallida! Mensaje de error: </installfail>
+	<uninstallsucs>Desinstalado exitosamente.</uninstallsucs>
+	<uninstallfail>¡Desinstalación fallida! Mensaje de error: </uninstallfail>
+	<loadfail>¡Carga de componente fallida! Mensaje de error: </loadfail>
+	<saveconfig>Guardar ajustes</saveconfig>
+	<effectset>Ajustes de efectos</effectset>
+	<blurvalue>Radio de desenfoque:</blurvalue>
+	<applyglobal>Sobreponer efecto de mica (win11)</applyglobal>
+	<extendborder>Extender efectos a los marcos (win10)</extendborder>
+	<reflection>Activar efecto de reflección Aero (win10)</reflection>
+	<blendcolor>Color de mezcla de fondo:</blendcolor>
+	<activecolor>Color de texto activo:</activecolor>
+	<inactivecolor>Color de texto inactivo:</inactivecolor>
+	<preview>Vista previa</preview>
+	<sampletitle>Título de ventana de ejemplo (activo)</sampletitle>
+	<configfile>Archivo de configuración</configfile>
+	<symbolfile>Archivo de símbolo</symbolfile>
+	<download>Descargar</download>
+	<symtip>Archivos de símbolos son archivos que capturan información de depuración de un programa. Ya que sistemas varían entre versiones, tendrás que descargar los archivos de símbolo de un servidor de Microsoft. Si actualizas tu sistema, es posible que tengas que descargar el archivo de nuevo.</symtip>
+	<symstatus0>Inválido</symstatus0>
+	<symstatus1>Válido</symstatus1>
+	<symdowning>Descargando...</symdowning>
+	<symdownfail>¡Descarga fallida! No se pudo descargar el archivo de "msdl.microsoft.com".</symdownfail>
+	<syminvalid>Archivo de símbolo es inválido! Por favor, ve a la página de "símbolos" del programa para descargar un nuevo archivo de símbolo.</syminvalid>
+	<import>Importar</import>
+	<export>Exportar</export>
+	<restore>Restaurar configuración predeterminada</restore>
+	<importwarn>Al importar un archivo de configuración, tu archivo de configuración existente se sobreescribirá, ¿deseas continuar?</importwarn>
+	<restorecfg>¿Estás seguro que quieres restaurar la configuración predeterminada?</restorecfg>
+	<aboutinfo>Este programa se basa en el acuerdo LGPLv3 de software libre y de código abierto:</aboutinfo>
+	<curlang>Idioma actual:</curlang>
+	<langauthor>Contribuyentes de idioma:</langauthor>
+</lang>
