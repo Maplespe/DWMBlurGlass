@@ -661,16 +661,25 @@ namespace MDWMBlurGlassExt
 
 	DWORD64 __stdcall CTopLevelWindow_UpdateNCAreaGeometry(CTopLevelWindow* This)
 	{
-		if (g_window && g_configData.extendBorder)
+		if (g_window)
 		{
 			RECT* pRect = (RECT*)(*((DWORD64*)This + 91) + 48);
 			DWORD* extendLeft = (DWORD*)This + 153;
 			DWORD* extendRight = (DWORD*)This + 154;
 			DWORD* extendTop = (DWORD*)This + 155;
 
-			*extendLeft = 0;
-			*extendRight = 0;
-			*extendTop = pRect->bottom - pRect->top;
+			if (g_configData.extendBorder)
+			{
+				*extendLeft = 0;
+				*extendRight = 0;
+				*extendTop = pRect->bottom - pRect->top;
+			}
+			else
+			{
+				RECT rect;
+				g_funCWindowList_GetExtendedFrameBounds(g_windowList, g_window, &rect);
+				*extendTop = rect.bottom - rect.top;
+			}
 		}
 		return g_funCTopLevelWindow_UpdateNCAreaGeometry.call_org(This);
 	}
@@ -884,7 +893,7 @@ namespace MDWMBlurGlassExt
 		return g_funCTopLevelWindow_UpdateWindowVisuals.call_org(This);
 	}
 
-	DWORD64 CText_SetSize(CText* This, const SIZE* a2)
+	DWORD64 CText_SetSize(CText* This, SIZE* a2)
 	{
 		SIZE size = *a2;
 		size.cy += 10;
@@ -1000,15 +1009,21 @@ namespace MDWMBlurGlassExt
 	{
 		if (g_configData.oldBtnHeight)
 		{
+			SIZE* size;
+			UINT dpi = GetDpiForWindow(GetForegroundWindow());
+			if (dpi == 0)
+				dpi = GetDpiForSystem();
+			float scale = (float)dpi / 96.f;
+			int cap = int(22.f * scale);
 			if (os::buildNumber < 22000)
 			{
-				auto size = (SIZE*)This + 15;
-				size->cy -= 10;
+				size = (SIZE*)This + 15;
+				size->cy = cap;
 			}
 			else
 			{
-				auto size = (SIZE*)This + 16;
-				size->cy -= 10;
+				size = (SIZE*)This + 16;
+				size->cy = cap;
 			}
 		}
 		return g_funCButton_UpdateLayout.call_org(This);

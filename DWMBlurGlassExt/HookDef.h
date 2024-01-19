@@ -271,7 +271,7 @@ namespace MDWMBlurGlassExt
 
 	DWORD64 WINAPI CText_SetSize(
 		CText* This,
-		const SIZE* a2
+		SIZE* a2
 	);
 
 	DWORD64 WINAPI CGlassColorizationParameters_AdjustWindowColorization(
