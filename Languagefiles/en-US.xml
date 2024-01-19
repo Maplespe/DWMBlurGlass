@@ -31,7 +31,9 @@
 	<applyglobal>Override DWMAPI mica effect (win11)</applyglobal>
 	<extendborder>Extend effects to borders (win10)</extendborder>
 	<reflection>Enable Aero reflection effect (win10)</reflection>
-	<blendcolor>Background blend color:</blendcolor>
+	<oldBtnHeight>Reduce title bar button height (win7 style)</oldBtnHeight>
+	<blendcolor>Title bar blend color (Active):</blendcolor>
+	<inactiveblendcolor>Title bar blend color (Inactive):</inactiveblendcolor>
 	<activecolor>Active text color:</activecolor>
 	<inactivecolor>Inactive text color:</inactivecolor>
 	<preview>Preview</preview>

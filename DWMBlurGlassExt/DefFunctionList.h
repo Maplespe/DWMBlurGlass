@@ -27,17 +27,20 @@ namespace MDWMBlurGlassExt
 	constexpr auto g_hookFunList = std::to_array<std::pair<MHostModuleType, LPCSTR>>
 	({
 		{ dwmcore, "CRenderData::DrawSolidColorRectangle" },
-		{ dwmcore, "CRenderingTechnique::ExecuteBlur" },		//Only Windows 11
-		{ dwmcore, "CD2DContext::FillEffect" },					//Only Windows 10
-		{ dwmcore, "CCustomBlur::BuildEffect" },				//Only Windows 10
-		{ dwmcore, "CCustomBlur::DetermineOutputScale" },		//Only Windows 10
+		{ dwmcore, "CRenderingTechnique::ExecuteBlur" },
+		{ dwmcore, "CD2DContext::FillEffect" },
+		{ dwmcore, "CCustomBlur::BuildEffect" },
+		{ dwmcore, "CCustomBlur::DetermineOutputScale" },
 		{ dwmcore, "CDrawingContext::DrawVisualTree" },
 		{ dwmcore, "CDrawingContext::FillEffect" },
+		{ dwmcore, "CRenderData::DrawImageResource_FillMode" },
+		{ dwmcore, "CFilterEffect::CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive" },
 
 		{ udwm, "CDesktopManager::s_pDesktopManagerInstance" },
 		{ udwm, "CWindowList::GetExtendedFrameBounds" },
 		{ udwm, "ResourceHelper::CreateGeometryFromHRGN" },
 		{ udwm, "HrgnFromRects" },
+		{ udwm, "CAccentBlurBehind::UpdateAccentBlurBehind" },
 		{ udwm, "CTopLevelWindow::UpdateNCAreaGeometry" },
 		{ udwm, "CAccent::UpdateAccentPolicy" },
 		{ udwm, "CAccent::UpdateAccentBlurRect" },
@@ -46,7 +49,12 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CTopLevelWindow::ValidateVisual" },
 		{ udwm, "CTopLevelWindow::UpdateWindowVisuals" },
 		{ udwm, "CGlassColorizationParameters::AdjustWindowColorization" },
-		{ udwm, "CTopLevelWindow::UpdateText" },				//Only Windows 11
-		{ udwm, "CText::SetColor" }								//Only Windows 10
+		{ udwm, "CTopLevelWindow::UpdateText" },
+		{ udwm, "CText::SetColor" },
+		{ udwm, "CText::SetText" },
+		{ udwm, "CText::SetSize" },
+		{ udwm, "CWindowList::BlurBehindChange" },
+		{ udwm, "CWindowList::GetSyncedWindowData" },
+		{ udwm, "CButton::UpdateLayout" }
 	});
 }

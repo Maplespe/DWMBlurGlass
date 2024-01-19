@@ -42,12 +42,15 @@ namespace MDWMBlurGlassExt
 	decltype(FillRect)* g_funFillRect = nullptr;
 	decltype(Vtbl::IWICImagingFactory2Vtbl::CreateBitmapFromHBITMAP) g_funCreateBitmapFromHBITMAP = nullptr;
 	decltype(CreateRoundRectRgn)* g_funCreateRoundRgn = nullptr;
+	decltype(CreateBitmap)* g_funCreateBitmap = nullptr;
 
 	decltype(CWindowList_GetExtendedFrameBounds)* g_funCWindowList_GetExtendedFrameBounds = nullptr;
 	decltype(CTopLevelWindow_OnAccentPolicyUpdated)* g_funCTopLevelWindow_OnAccentPolicyUpdated = nullptr;
 	decltype(CTopLevelWindow_s_ChooseWindowFrameFromStyle)* g_funCTopLevelWindow_s_ChooseWindowFrameFromStyle = nullptr;
 	decltype(CText_SetColor)* g_CText_SetColor = nullptr;
 	decltype(CDrawingContext_FillEffect)* g_funCDrawingContext_FillEffect = nullptr;
+	decltype(CText_SetText)* g_funCText_SetText = nullptr;
+	decltype(CWindowList_GetSyncedWindowData)* g_funCWindowList_GetSyncedWindowData = nullptr;
 
 	thread_local RECT g_blurRegion{ 0, 0, -1, -1 };
 	thread_local CAccent* g_accentThis = nullptr;
@@ -72,6 +75,12 @@ namespace MDWMBlurGlassExt
 	{
 		"CD2DContext::FillEffect", CD2DContext_FillEffect
 	};
+
+	MinHook g_funCFilterEffect_CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive
+	{
+		"CFilterEffect::CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive", CFilterEffect_CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive
+	};
+
 	//Win10 WinUI HostBackdrop Brush
 	MinHook g_funCCustomBlur_BuildEffect
 	{
@@ -91,11 +100,6 @@ namespace MDWMBlurGlassExt
 	MinHook g_funHrgnFromRects
 	{
 		"HrgnFromRects", HrgnFromRects
-	};
-
-	MinHook g_funCDrawingContext_DrawVisualTree
-	{
-		"CDrawingContext::DrawVisualTree", CDrawingContext_DrawVisualTree
 	};
 
 	MinHook g_funCAccent_UpdateAccentBlurRect
@@ -128,6 +132,22 @@ namespace MDWMBlurGlassExt
 		"CTopLevelWindow::UpdateText", CTopLevelWindow_UpdateText
 	};
 
+	//为调用DwmEnableBlurBehind的程序启用效果
+	MinHook g_funCWindowList_BlurBehindChange
+	{
+		"CWindowList::BlurBehindChange", CWindowList_BlurBehindChange
+	};
+
+	MinHook g_funCText_SetSize
+	{
+		"CText::SetSize", CText_SetSize
+	};
+
+	MinHook g_funCButton_UpdateLayout
+	{
+		"CButton::UpdateLayout", CButton_UpdateLayout
+	};
+
 	bool Startup() try
 	{
 		if (g_startup) return true;
@@ -140,6 +160,8 @@ namespace MDWMBlurGlassExt
 		g_funCTopLevelWindow_OnAccentPolicyUpdated = (decltype(g_funCTopLevelWindow_OnAccentPolicyUpdated))MHostGetProcAddress("CTopLevelWindow::OnAccentPolicyUpdated");
 		g_CText_SetColor = (decltype(g_CText_SetColor))MHostGetProcAddress("CText::SetColor");
 		g_funCDrawingContext_FillEffect = (decltype(g_funCDrawingContext_FillEffect))MHostGetProcAddress("CDrawingContext::FillEffect");
+		g_funCText_SetText = (decltype(g_funCText_SetText))MHostGetProcAddress("CText::SetText");
+		g_funCWindowList_GetSyncedWindowData = (decltype(g_funCWindowList_GetSyncedWindowData))MHostGetProcAddress("CWindowList::GetSyncedWindowData");
 
 		g_pDesktopManagerInstance_ptr = (PVOID*)MHostGetProcAddress("CDesktopManager::s_pDesktopManagerInstance");
 		if (g_pDesktopManagerInstance_ptr && *g_pDesktopManagerInstance_ptr)
@@ -168,8 +190,9 @@ namespace MDWMBlurGlassExt
 
 		if(os::buildNumber < 22000)
 		{
-			g_funCDrawingContext_DrawVisualTree.Attach();
+			g_funCText_SetSize.Attach();
 			g_funCRenderData_DrawSolidColorRectangle.Attach();
+			g_funCFilterEffect_CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive.Attach();
 			g_funCD2DContext_FillEffect.Attach();
 			g_funCCustomBlur_BuildEffect.Attach();
 			g_funCCustomBlur_DetermineOutputScale.Attach();
@@ -185,8 +208,10 @@ namespace MDWMBlurGlassExt
 			g_funCTopLevelWindow_UpdateText.Attach();
 		}
 
+		g_funCButton_UpdateLayout.Attach();
 		g_funCTopLevelWindow_ValidateVisual.Attach();
 		g_funCGlassColorizationParameters_AdjustWindowColorization.Attach();
+		g_funCWindowList_BlurBehindChange.Attach();
 
 		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
 		if(os::buildNumber <= 22621)
@@ -198,8 +223,10 @@ namespace MDWMBlurGlassExt
 		}
 		if (os::buildNumber <= 22000)
 		{
-			g_funCreateRoundRgn = (decltype(g_funCreateRoundRgn))GetProcAddress(GetModuleHandleW(L"gdi32.dll"), "CreateRoundRectRgn");
-			WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", MyCreateRoundRectRgn } });
+			HMODULE hModule = GetModuleHandleW(L"gdi32.dll");
+			g_funCreateRoundRgn = (decltype(g_funCreateRoundRgn))GetProcAddress(hModule, "CreateRoundRectRgn");
+			g_funCreateBitmap = (decltype(g_funCreateBitmap))GetProcAddress(hModule, "CreateBitmap");
+			WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", MyCreateRoundRectRgn }, { "CreateBitmap", MyCreateBitmap }});
 		}
 		return true;
 	}
@@ -219,6 +246,7 @@ namespace MDWMBlurGlassExt
 		}
 		if (os::buildNumber < 22000)
 		{
+			g_funCText_SetSize.Detach();
 			g_funHrgnFromRects.Detach();
 			g_funCTopLevelWindow_UpdateNCAreaGeometry.Detach();
 			g_funCTopLevelWindow_UpdateWindowVisuals.Detach();
@@ -227,10 +255,12 @@ namespace MDWMBlurGlassExt
 			g_funCCustomBlur_DetermineOutputScale.Detach();
 			g_funCCustomBlur_BuildEffect.Detach();
 			g_funCD2DContext_FillEffect.Detach();
+			g_funCFilterEffect_CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive.Detach();
 			g_funCRenderData_DrawSolidColorRectangle.Detach();
-			g_funCDrawingContext_DrawVisualTree.Detach();
 		}
 
+		g_funCButton_UpdateLayout.Detach();
+		g_funCWindowList_BlurBehindChange.Detach();
 		g_funCGlassColorizationParameters_AdjustWindowColorization.Detach();
 		g_funCTopLevelWindow_ValidateVisual.Detach();
 
@@ -242,7 +272,7 @@ namespace MDWMBlurGlassExt
 		{
 			WriteIAT(udwmModule, "User32.dll", {{ "DrawTextW", g_funDrawTextW } , { "FillRect", g_funFillRect }});
 		}
-		WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", g_funCreateRoundRgn } });
+		WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", g_funCreateRoundRgn }, { "CreateBitmap", g_funCreateBitmap }});
 
 		g_startup = false;
 	}
@@ -255,6 +285,7 @@ namespace MDWMBlurGlassExt
 		g_configData.applyglobal = Utils::GetIniString(path, L"config", L"applyglobal") == L"true";
 		g_configData.extendBorder = Utils::GetIniString(path, L"config", L"extendBorder") == L"true";
 		g_configData.reflection = Utils::GetIniString(path, L"config", L"reflection") == L"true";
+		g_configData.oldBtnHeight = Utils::GetIniString(path, L"config", L"oldBtnHeight") == L"true";
 
 		if (!ret.empty())
 			g_configData.extendRound = (float)std::clamp(_wtoi(ret.data()), 0, 16);
@@ -276,9 +307,13 @@ namespace MDWMBlurGlassExt
 			g_configData.inactiveTextColor = (g_configData.inactiveTextColor & 0x00FFFFFF) | 0xFF000000;
 		}
 
-		ret = Utils::GetIniString(path, L"config", L"titlebarBlendColor");
+		ret = Utils::GetIniString(path, L"config", L"activeBlendColor");
 		if (!ret.empty())
-			g_configData.titleBarBlendColor = (COLORREF)_wtoll(ret.data());
+			g_configData.activeBlendColor = (COLORREF)_wtoll(ret.data());
+
+		ret = Utils::GetIniString(path, L"config", L"inactiveBlendColor");
+		if (!ret.empty())
+			g_configData.inactiveBlendColor = (COLORREF)_wtoll(ret.data());
 
 		if (g_scaleEffect)
 			g_scaleEffect = nullptr;
@@ -290,7 +325,10 @@ namespace MDWMBlurGlassExt
 		CRenderData* This, CDrawingContext* a2, CDrawListEntryBuilder* a3,
 		bool a4, const MilRectF* a5, D3DCOLORVALUE* a6)
 	{
-		a6->a = float(UINT(g_configData.titleBarBlendColor >> 24) & 0xff) / 255.f;
+		auto color = g_configData.inactiveBlendColor;
+		if(g_window && GetForegroundWindow() == g_window)
+			color = g_configData.activeBlendColor;
+		a6->a = float(UINT(color >> 24) & 0xff) / 255.f;
 		return g_funCRenderData_DrawSolidColorRectangle.call_org(This, a2, a3, a4, a5, a6);
 	}
 
@@ -306,6 +344,9 @@ namespace MDWMBlurGlassExt
 	winrt::com_ptr<ID2D1Bitmap1> CreateD2DBitmap(ID2D1DeviceContext* context, std::wstring_view filename)
 	{
 		using namespace winrt;
+
+		if (!context && !g_wicImageFactory)
+			return nullptr;
 
 		com_ptr<IWICBitmapDecoder> decoder = nullptr;
 
@@ -351,6 +392,24 @@ namespace MDWMBlurGlassExt
 		context->CreateBitmapFromWicBitmap(wicbitmap.get(), bitmapProp, ret.put());
 
 		return ret;
+	}
+
+	void EnumMonitors(std::vector<RECT>& monitorRects)
+	{
+		auto MonitorEnumProc = [](HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
+		{
+			auto pList = (std::vector<RECT>*)dwData;
+			pList->push_back(*lprcMonitor);
+			return TRUE;
+		};
+		monitorRects.clear();
+		EnumDisplayMonitors(nullptr, nullptr, MonitorEnumProc, (LPARAM)&monitorRects);
+	}
+
+	bool IsRectInside(const RECT& rect1, const RECT& rect2)
+	{
+		return rect1.left <= rect2.left && rect1.top <= rect2.top
+		&& rect1.right >= rect2.left && rect1.bottom >= rect2.top;
 	}
 
 	DWORD64 __stdcall CD2DContext_FillEffect(
@@ -401,30 +460,80 @@ namespace MDWMBlurGlassExt
 
 				auto size = g_aeroPeekBmp->GetSize();
 
-				RECT rect = { 0 };
-				GetClientRect(GetDesktopWindow(), &rect);
+				std::vector<RECT> monitorList;
+				EnumMonitors(monitorList);
+
+				MilRectF scaleRect = g_dstRect;
+				D2D1_SIZE_F dstSize = { scaleRect.right - scaleRect.left, scaleRect.bottom - scaleRect.top };
+				scaleRect.left = -scaleRect.left;
+				scaleRect.top = -scaleRect.top;
+				scaleRect.right = scaleRect.left + dstSize.width;
+				scaleRect.bottom = scaleRect.top + dstSize.height;
+
+				if (scaleRect.left < 0)
+					scaleRect.left = 0.f;
+				if (scaleRect.top < 0)
+					scaleRect.top = 0.f;
+
+				scaleRect.left *= 2.f;
+				scaleRect.top *= 2.f;
+				scaleRect.right *= 2.f;
+				scaleRect.bottom *= 2.f;
+
+				//查找目标矩形在哪个显示器
+				SIZE monitorSize = { 0 };
+				for (auto& rect : monitorList)
+				{
+					RECT _rect{ (int)scaleRect.left, (int)scaleRect.top, (int)scaleRect.right, (int)scaleRect.bottom };
+					if (!IsRectInside(rect, _rect))
+						continue;
+					monitorSize.cx = rect.right - rect.left;
+					monitorSize.cy = rect.bottom - rect.top;
+					scaleRect.left -= (float)rect.left;
+					scaleRect.top -= (float)rect.top;
+					scaleRect.right = scaleRect.left + dstSize.width;
+					scaleRect.bottom = scaleRect.top + dstSize.height;
+					break;
+				}
+
+				scaleRect.left *= 0.5f;
+				scaleRect.top *= 0.5f;
+				scaleRect.right *= 0.5f;
+				scaleRect.bottom *= 0.5f;
 
 				float scaleX;
 				float scaleY;
-				if ((float)rect.right > size.width)
-					scaleX = (float)rect.right / size.width;
+				if ((float)monitorSize.cx > size.width)
+					scaleX = (float)monitorSize.cx / size.width;
 				else
-					scaleX = 1.f / (size.width / (float)rect.right / 1.f);
+					scaleX = 1.f / (size.width / (float)monitorSize.cx / 1.f);
 
-				if ((float)rect.bottom > size.height)
-					scaleY = (float)rect.bottom / size.height;
+				if ((float)monitorSize.cy > size.height)
+					scaleY = (float)monitorSize.cy / size.height;
 				else
-					scaleY = 1.f / (size.height / (float)rect.bottom);
+					scaleY = 1.f / (size.height / (float)monitorSize.cy);
 
 				g_scaleEffect->SetValue(D2D1_SCALE_PROP_SCALE, D2D1::Vector2F(scaleX * 0.5f, scaleY * 0.5f));
 
-				This[30]->DrawImage(g_scaleEffect.get(), dstPoint, (D2D1_RECT_F*)&g_dstRect);
+				This[30]->DrawImage(g_scaleEffect.get(), dstPoint, (D2D1_RECT_F*)&scaleRect);
 			}
 
 			inputEffect->SetValue(D2D1_DIRECTIONALBLUR_PROP_STANDARD_DEVIATION, 3.f);
 			return ret;
 		}
 		return g_funCD2DContext_FillEffect.call_org(This, a2, inputEffect, srcRect, dstPoint, interMode, mode);
+	}
+
+	DWORD64 CFilterEffect_CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive(
+		CFilterEffect* This,
+		MilRectF* a2,
+		MilRectF* a3,
+		MilRectF* a4,
+		MilRectF* a5,
+		MilRectF* a6)
+	{
+		g_dstRect = *a4;
+		return g_funCFilterEffect_CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive.call_org(This, a2, a3, a4, a5, a6);
 	}
 
 	DWORD64 __stdcall CCustomBlur_BuildEffect(
@@ -483,23 +592,60 @@ namespace MDWMBlurGlassExt
 			if(format & DT_CALCRECT)
 			{
 				auto ret = g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
-				lprc->right += 5;
-				return ret;
+				lprc->right += 30;
+				lprc->bottom += 20;
+				lprc->top = -5;
+				lprc->left = -10;
+				return ret + 20;
 			}
 			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
 		}
-		if (FAILED(DrawTextWithAlpha(
+		/*if (FAILED(DrawTextWithAlpha(
 			hdc,
 			lpchText,
 			cchText,
 			lprc,
-			format,
+			DT_LEFT | DT_TOP,
 			result
 		)))
 		{
 			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
-		}
-		return result;
+		}*/
+		auto drawTextCallback = [](HDC hdc, LPWSTR pszText, int cchText, LPRECT prc, UINT dwFlags, LPARAM lParam) -> int
+		{
+			return *reinterpret_cast<int*>(lParam) = DrawTextW(hdc, pszText, cchText, prc, dwFlags);
+		};
+		DTTOPTS Options =
+		{
+			sizeof(DTTOPTS),
+			DTT_TEXTCOLOR | DTT_CALLBACK | DTT_COMPOSITED | DTT_GLOWSIZE,
+			GetTextColor(hdc),
+			0,
+			0,
+			0,
+			{},
+			0,
+			0,
+			0,
+			0,
+			FALSE,
+			15,
+			drawTextCallback,
+			(LPARAM)&result
+		};
+		HTHEME hTheme = OpenThemeData(nullptr, L"Composited::Window");
+
+		auto clean = RAIIHelper::scope_exit([&] { CloseThemeData(hTheme); });
+
+		if (!hTheme)
+			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
+
+		RECT offset = *lprc;
+		offset.left += 20;
+		offset.top += 10;
+		if(FAILED(DrawThemeTextEx(hTheme, hdc, 0, 0, lpchText, cchText, DT_LEFT | DT_TOP, &offset, &Options)))
+			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
+		return 1;
 	}
 
 	HRESULT __stdcall MyCreateBitmapFromHBITMAP(
@@ -538,33 +684,28 @@ namespace MDWMBlurGlassExt
 		return g_funCreateRoundRgn(x1, y1, x2, y2, w, h);
 	}
 
-	DWORD64 CDrawingContext_DrawVisualTree(
-		CDrawingContext* This,
-		MilRectF* a2,
-		MilRectF* a3,
-		COcclusionContext* a4,
-		int a5, 
-		char a6)
+	HBITMAP MyCreateBitmap(int nWidth, int nHeight, UINT nPlanes, UINT nBitCount, const void* lpBits)
 	{
-		if (thread_local bool check = false; g_configData.reflection && !check)
-		{
-			check = true;
+		if (nWidth == 1 && nHeight == 1)
+			return g_funCreateBitmap(nWidth, nHeight, nPlanes, nBitCount, lpBits);
 
-			g_dstRect = *a3;
-			g_dstRect.left = g_dstRect.left * 0.5f;
-			g_dstRect.top = g_dstRect.top * 0.5f;
-			g_dstRect.right = g_dstRect.right * 0.5f;
-			g_dstRect.bottom = g_dstRect.bottom * 0.5f;
-			if (g_dstRect.left < 0)
-				g_dstRect.left = 0.f;
-			if (g_dstRect.top < 0)
-				g_dstRect.top = 0.f;
+		BITMAPINFOHEADER bmih = { 0 };
+		bmih.biSize = sizeof(BITMAPINFOHEADER);
+		bmih.biWidth = nWidth;
+		bmih.biHeight = -nHeight;
+		bmih.biPlanes = 1;
+		bmih.biBitCount = 32;
+		bmih.biCompression = BI_RGB;
 
-			auto ret = g_funCDrawingContext_DrawVisualTree.call_org(This, a2, a3, a4, a5, a6);
-			check = false;
-			return ret;
-		}
-		return g_funCDrawingContext_DrawVisualTree.call_org(This, a2, a3, a4, a5, a6);;
+		BITMAPINFO bmi = { 0 };
+		bmi.bmiHeader = bmih;
+
+		HDC hdc = GetDC(nullptr);
+		void* bits;
+		HBITMAP hBitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &bits, nullptr, 0);
+		ReleaseDC(nullptr, hdc);
+
+		return hBitmap;
 	}
 
 	DWORD64 __stdcall HrgnFromRects(const tagRECT* Src, unsigned int a2, HRGN* a3)
@@ -645,7 +786,11 @@ namespace MDWMBlurGlassExt
 		}
 		else
 		{
-			windowData = *((PVOID*)This + 91);
+			if(os::buildNumber > 18363)
+				windowData = *((PVOID*)This + 91);
+			else
+				windowData = *((PVOID*)This + 90);
+
 			accent_policy = (ACCENT_POLICY*)((ULONGLONG)windowData + 152);
 		}
 
@@ -653,7 +798,6 @@ namespace MDWMBlurGlassExt
 		if (windowData)
 		{
 			HWND hWnd = *((HWND*)windowData + 5);
-			RECT* accentRect = (RECT*)((ULONGLONG)windowData + 48);
 			g_window = hWnd;
 
 			//扩展到非客户区的窗口才有效
@@ -662,8 +806,10 @@ namespace MDWMBlurGlassExt
 
 			//忽略已有Backdrop效果的窗口
 			DWM_SYSTEMBACKDROP_TYPE type = DWMSBT_NONE;
-			DwmGetWindowAttribute(hWnd, DWMWA_SYSTEMBACKDROP_TYPE, &type, sizeof type);
-
+			if (os::buildNumber >= 22621)
+			{
+				DwmGetWindowAttribute(hWnd, DWMWA_SYSTEMBACKDROP_TYPE, &type, sizeof type);
+			}
 			if (g_configData.applyglobal && (type == DWMSBT_MAINWINDOW || type == DWMSBT_TABBEDWINDOW))
 				type = DWMSBT_NONE;
 
@@ -681,6 +827,16 @@ namespace MDWMBlurGlassExt
 					needUpdate = true;
 					accent_policy->nAccentState = 3;
 					accent_policy->nFlags = 3584;
+				}
+				//DrawText处给发光字预留了空间 需要刷新文本布局
+				if (os::buildNumber < 22000)
+				{
+					if (CText* textThis = *((CText**)This + 65))
+					{
+						wchar_t* wndText = (wchar_t*)*((DWORD64*)textThis + 36);
+						if (wndText)
+							g_funCText_SetText(textThis, wndText);
+					}
 				}
 			}
 		}
@@ -728,6 +884,13 @@ namespace MDWMBlurGlassExt
 		return g_funCTopLevelWindow_UpdateWindowVisuals.call_org(This);
 	}
 
+	DWORD64 CText_SetSize(CText* This, const SIZE* a2)
+	{
+		SIZE size = *a2;
+		size.cy += 10;
+		return g_funCText_SetSize.call_org(This, &size);
+	}
+
 	DWORD64 __stdcall CGlassColorizationParameters_AdjustWindowColorization(
 		GpCC* a1,
 		float a2, 
@@ -736,13 +899,17 @@ namespace MDWMBlurGlassExt
 		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization.call_org(a1, a2, a3);
 		if (a3 == Color_TitleBackground)
 		{
+			auto color = g_configData.inactiveBlendColor;
+			if (g_window && GetForegroundWindow() == g_window)
+				color = g_configData.activeBlendColor;
+
 			if (os::buildNumber >= 22000)
-				a1->a = (g_configData.titleBarBlendColor >> 24) & 0xff;
+				a1->a = (color >> 24) & 0xff;
 			else
 				a1->a = 255;
-			a1->r = GetRValue(g_configData.titleBarBlendColor);
-			a1->g = GetGValue(g_configData.titleBarBlendColor);
-			a1->b = GetBValue(g_configData.titleBarBlendColor);
+			a1->r = GetRValue(color);
+			a1->g = GetGValue(color);
+			a1->b = GetBValue(color);
 		}
 		return ret;
 	}
@@ -776,5 +943,74 @@ namespace MDWMBlurGlassExt
 		return g_funCTopLevelWindow_UpdateText.call_org(This, a2, a3);
 	}
 
+	DWORD64 CWindowList_BlurBehindChange(
+		CWindowList* This,
+		IDwmWindow* a2,
+		const DWM_BLURBEHIND* a3)
+	{
+		auto ret = g_funCWindowList_BlurBehindChange.call_org(This, a2, a3);
+		if(a3->hRgnBlur)
+		{
+			RECT rect;
+			GetRgnBox(a3->hRgnBlur, &rect);
+			if (rect.right - rect.left <= 1 || rect.bottom - rect.top <= 1)
+				return ret;
+		}
 
+		struct WINDOWCOMPOSITIONATTRIBUTEDATA
+		{
+			DWORD dwAttribute;
+			PVOID pvData;
+			SIZE_T cbData;
+		};
+		static auto SetWindowCompositionAttribute = reinterpret_cast<BOOL(WINAPI*)(HWND, WINDOWCOMPOSITIONATTRIBUTEDATA*)>(
+			GetProcAddress(GetModuleHandleW(L"user32.dll"), "SetWindowCompositionAttribute"));
+
+		CWindowData* windowData = nullptr;
+		g_funCWindowList_GetSyncedWindowData(This, a2, 0, &windowData);
+
+		if (!windowData)
+			return ret;
+
+		HWND hWnd = *((HWND*)windowData + 5);
+
+		if (os::buildNumber >= 22621)
+		{
+			DWM_SYSTEMBACKDROP_TYPE type = a3->fEnable ? DWMSBT_TRANSIENTWINDOW : DWMSBT_NONE;
+			DwmSetWindowAttribute(hWnd, DWMWA_SYSTEMBACKDROP_TYPE, &type, sizeof type);
+		}
+		else
+		{
+			ACCENT_POLICY policy = {};
+			WINDOWCOMPOSITIONATTRIBUTEDATA data =
+			{
+				19,
+				&policy,
+				sizeof(policy)
+			};
+			policy.nAccentState = a3->fEnable ? 3 : 0;
+			policy.nFlags = 0;
+			SetWindowCompositionAttribute(hWnd, &data);
+		}
+
+		return ret;
+	}
+
+	DWORD64 CButton_UpdateLayout(CButton* This)
+	{
+		if (g_configData.oldBtnHeight)
+		{
+			if (os::buildNumber < 22000)
+			{
+				auto size = (SIZE*)This + 15;
+				size->cy -= 10;
+			}
+			else
+			{
+				auto size = (SIZE*)This + 16;
+				size->cy -= 10;
+			}
+		}
+		return g_funCButton_UpdateLayout.call_org(This);
+	}
 }

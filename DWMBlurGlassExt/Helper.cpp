@@ -17,6 +17,7 @@
 */
 #include "Helper.h"
 #include "Common.h"
+#include <Uxtheme.h>
 
 namespace MDWMBlurGlassExt
 {
@@ -128,7 +129,7 @@ namespace MDWMBlurGlassExt
 			DTTOPTS Options =
 			{
 				sizeof(DTTOPTS),
-				DTT_TEXTCOLOR | DTT_COMPOSITED | DTT_CALLBACK | DTT_GLOWSIZE,
+				DTT_TEXTCOLOR | DTT_COMPOSITED | DTT_CALLBACK | DTT_SHADOWCOLOR | DTT_GLOWSIZE,
 				GetTextColor(hdc),
 				0,
 				0,
@@ -139,7 +140,7 @@ namespace MDWMBlurGlassExt
 				0,
 				0,
 				FALSE,
-				5,
+				15,
 				drawTextCallback,
 				(LPARAM)&result
 			};
@@ -148,7 +149,10 @@ namespace MDWMBlurGlassExt
 			auto clean = MDWMBlurGlass::RAIIHelper::scope_exit([&] { CloseThemeData(hTheme); });
 
 			winrt::check_pointer(hTheme);
-			winrt::check_hresult(DrawThemeTextEx(hTheme, memoryDC, 0, 0, lpchText, cchText, format, lprc, &Options));
+			RECT offset = *lprc;
+			offset.left += 20;
+			offset.top += 10;
+			winrt::check_hresult(DrawThemeTextEx(hTheme, memoryDC, 0, 0, lpchText, cchText, format, &offset, &Options));
 		};
 
 		winrt::check_pointer(hdc);

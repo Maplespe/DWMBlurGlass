@@ -29,11 +29,13 @@ namespace MDWMBlurGlass
 		bool applyglobal = false;
 		bool extendBorder = false;
 		bool reflection = false;
+		bool oldBtnHeight = false;
 		int extendRound = 10;
 		float blurAmount = 20.f;
 		COLORREF activeTextColor = 0xFF000000;
 		COLORREF inactiveTextColor = 0xFFB4B4B4;
-		COLORREF titleBarBlendColor = 0x64FFFFFF;
+		COLORREF activeBlendColor = 0x64FFFFFF;
+		COLORREF inactiveBlendColor = 0x64FFFFFF;
 
 		bool isDefault()
 		{

@@ -19,6 +19,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 * 可自定义标题栏文本颜色
 * 第三方主题支持
 * 自定义Aero反射底图效果
+* 可还原win7样式标题栏按钮高度
 
 请注意 模糊强度将影响全局 例如开始菜单、通知中心等位置...
 

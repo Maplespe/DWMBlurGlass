@@ -31,7 +31,9 @@
 	<applyglobal>Sobreponer efecto de mica (win11)</applyglobal>
 	<extendborder>Extender efectos a los marcos (win10)</extendborder>
 	<reflection>Activar efecto de reflección Aero (win10)</reflection>
-	<blendcolor>Color de mezcla de fondo:</blendcolor>
+	<oldBtnHeight>Reduce title bar button height (win7 style)</oldBtnHeight>
+	<blendcolor>Title bar blend color (Active):</blendcolor>
+	<inactiveblendcolor>Title bar blend color (Inactive):</inactiveblendcolor>
 	<activecolor>Color de texto activo:</activecolor>
 	<inactivecolor>Color de texto inactivo:</inactivecolor>
 	<preview>Vista previa</preview>
@@ -47,7 +49,7 @@
 	<syminvalid>Archivo de símbolo es inválido! Por favor, ve a la página de "símbolos" del programa para descargar un nuevo archivo de símbolo.</syminvalid>
 	<import>Importar</import>
 	<export>Exportar</export>
-	<restore>Restaurar configuración predeterminada</restore>
+	<restore>Restaurar config</restore>
 	<importwarn>Al importar un archivo de configuración, tu archivo de configuración existente se sobreescribirá, ¿deseas continuar?</importwarn>
 	<restorecfg>¿Estás seguro que quieres restaurar la configuración predeterminada?</restorecfg>
 	<aboutinfo>Este programa se basa en el acuerdo LGPLv3 de software libre y de código abierto:</aboutinfo>

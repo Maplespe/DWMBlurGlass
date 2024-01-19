@@ -37,6 +37,7 @@ namespace MDWMBlurGlass
         void SaveConfig(std::wstring_view path);
 
         void RefreshDWMConfig();
+        void RefreshSysConfig();
 
         Ctrl::UIEffectLayer* m_effLayer = nullptr;
         Ctrl::UISlider* m_blurValue = nullptr;

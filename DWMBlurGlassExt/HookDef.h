@@ -50,9 +50,10 @@ namespace MDWMBlurGlassExt
 	struct CTopLevelWindow_WindowFrame {};
 	struct CDWriteText {};
 	struct CTopLevelWindow {};
-	struct CLegacyRenderTarget {};
 	struct COcclusionContext {};
-	struct CWindowNode {};
+	struct IDwmWindow {};
+	struct CFilterEffect {};
+	struct CButton {};
 
 	struct ACCENT_POLICY
 	{
@@ -171,6 +172,11 @@ namespace MDWMBlurGlassExt
 		UINT    format
 	);
 
+	DWORD64 WINAPI CText_SetText(
+		CText* This, 
+		const wchar_t* text
+	);
+
 	HRESULT WINAPI MyCreateBitmapFromHBITMAP(
 		IWICImagingFactory2* This,
 		HBITMAP hBitmap,
@@ -198,6 +204,14 @@ namespace MDWMBlurGlassExt
 		int h
 	);
 
+	HBITMAP WINAPI MyCreateBitmap(
+		int nWidth,
+		int nHeight, 
+		UINT nPlanes, 
+		UINT nBitCount, 
+		CONST VOID* lpBits
+	);
+
 	DWORD64 WINAPI CDrawingContext_FillEffect(
 		CDrawingContext* This,
 		ID2D1Effect* a2,
@@ -206,13 +220,14 @@ namespace MDWMBlurGlassExt
 		char a5
 	);
 
-	DWORD64 __fastcall CDrawingContext_DrawVisualTree(
-		CDrawingContext* This,
+	DWORD64 WINAPI CFilterEffect_CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive
+	(
+		CFilterEffect* This,
 		MilRectF* a2,
 		MilRectF* a3,
-		COcclusionContext* a4,
-		int a5,
-		char a6
+		MilRectF* a4,
+		MilRectF* a5,
+		MilRectF* a6
 	);
 
 	DWORD64 WINAPI HrgnFromRects(
@@ -238,7 +253,7 @@ namespace MDWMBlurGlassExt
 	);
 
 	void WINAPI CTopLevelWindow_OnAccentPolicyUpdated(
-		struct CTopLevelWindow* This
+		CTopLevelWindow* This
 	);
 
 	HRESULT WINAPI CTopLevelWindow_ValidateVisual(
@@ -254,6 +269,11 @@ namespace MDWMBlurGlassExt
 		COLORREF a2
 	);
 
+	DWORD64 WINAPI CText_SetSize(
+		CText* This,
+		const SIZE* a2
+	);
+
 	DWORD64 WINAPI CGlassColorizationParameters_AdjustWindowColorization(
 		GpCC* a1,
 		float a2,
@@ -262,7 +282,22 @@ namespace MDWMBlurGlassExt
 
 	DWORD64 WINAPI CTopLevelWindow_UpdateText(
 		CTopLevelWindow* This,
-		struct CTopLevelWindow_WindowFrame* a2,
+		CTopLevelWindow_WindowFrame* a2,
 		double a3
 	);
+
+	DWORD64 WINAPI CWindowList_BlurBehindChange(
+		CWindowList* This,
+		IDwmWindow* a2,
+		const DWM_BLURBEHIND* a3
+	);
+
+	DWORD64 WINAPI CWindowList_GetSyncedWindowData(
+		CWindowList* This,
+		IDwmWindow* a2,
+		char a3,
+		struct CWindowData** a4
+	);
+
+	DWORD64 WINAPI CButton_UpdateLayout(CButton* This);
 }

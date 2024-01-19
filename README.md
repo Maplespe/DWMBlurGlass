@@ -19,6 +19,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 * Customizable title bar text color.
 * Third-party theme support.
 * Customize the Aero reflection effect.
+* Restore Win7 style title bar button height.
 
 Please note that the blur radius will affect the global, which also includes locations such as the start menu, notification center, etc...
 

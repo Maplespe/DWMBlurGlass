@@ -55,6 +55,7 @@ namespace MDWMBlurGlass
 		<UICheckBox frame="0,11" text="#applyglobal" name="applyglobal" />
 		<UICheckBox frame="0,11" text="#extendborder" name="extendBorder" />
 		<UICheckBox frame="0,11" text="#reflection" name="reflection" />
+		<UICheckBox frame="0,11" text="#oldBtnHeight" name="oldBtnHeight" />
         <UIControl frame="0,10,100,100" autoSize="true">
             <UILabel frame="0,1,60,20" text="#blurvalue" />
             <UISlider frame="10,0,200,16" name="blurslider" maxValue="50" />
@@ -63,11 +64,13 @@ namespace MDWMBlurGlass
         <UIControl frame="0,10,100,100" autoSize="true" align="LinearH">
             <UIControl frame="0,0,100,100" autoSize="true" align="LinearV">
                 <UILabel frame="0,11,60,20" text="#blendcolor" />
-                <UILabel frame="0,22,60,20" text="#activecolor" />
+				<UILabel frame="0,22,60,20" text="#inactiveblendcolor" />
+                <UILabel frame="0,20,60,20" text="#activecolor" />
                 <UILabel frame="0,21,60,20" text="#inactivecolor" />
             </UIControl>
             <UIControl frame="0,0,100,100" autoSize="true" align="LinearV">
-                <ColorDisplay frame="10,5,190,30" name="blendcolor" prop="cdsp" curColor="255,255,255,100" showAlpha="true" />
+                <ColorDisplay frame="10,5,190,30" name="activeBlendColor" prop="cdsp" curColor="255,255,255,100" showAlpha="true" />
+				<ColorDisplay frame="10,5,190,30" name="inactiveBlendColor" prop="cdsp" curColor="255,255,255,100" showAlpha="true" />
                 <ColorDisplay frame="10,5,190,30" name="activetext" prop="cdsp" curColor="0,0,0,255" />
                 <ColorDisplay frame="10,5,190,30" name="inactivetext" prop="cdsp" curColor="180,180,180,255" />
             </UIControl>
@@ -177,13 +180,16 @@ namespace MDWMBlurGlass
                     if (InstallScheduledTasks(errinfo))
                     {
                         std::wstring err;
-                        if (MHostGetSymbolState() && !LoadDWMExtension(err, m_ui))
+                        bool symbolState = MHostGetSymbolState();
+                        if (symbolState && !LoadDWMExtension(err, m_ui))
                         {
                             MessageBoxW(hWnd, (m_ui->GetStringValue(L"loadfail") + err).c_str(), L"Error", MB_ICONERROR);
                             return false;
                         }
+                        if (symbolState)
+                            RefreshSysConfig();
                         MessageBoxW(hWnd,
-                            m_ui->GetStringValue(MHostGetSymbolState() ? L"installsucs" : L"installsucs1").c_str(),
+                            m_ui->GetStringValue(symbolState ? L"installsucs" : L"installsucs1").c_str(),
                             m_ui->GetStringValue(L"install").c_str(),
                             MB_ICONINFORMATION
                         );
@@ -202,8 +208,7 @@ namespace MDWMBlurGlass
                     ShutdownDWMExtension(errinfo);
                     if (DeleteScheduledTasks(errinfo))
                     {
-                        BOOL enable = TRUE;
-                        SystemParametersInfoW(SPI_SETGRADIENTCAPTIONS, 0, &enable, SPIF_SENDCHANGE);
+                        RefreshSysConfig();
 
                         MessageBoxW(hWnd,
                             m_ui->GetStringValue(L"uninstallsucs").c_str(),
@@ -244,6 +249,8 @@ namespace MDWMBlurGlass
                             std::wstring err;
                             if (!LoadDWMExtension(err, m_ui))
                                 MessageBoxW(hWnd, (m_ui->GetStringValue(L"loadfail") + err).c_str(), L"Error", MB_ICONERROR);
+                            else
+                                RefreshSysConfig();
                         }
                     }).detach();
                 }
@@ -310,6 +317,11 @@ namespace MDWMBlurGlass
                     m_cfgData.reflection = static_cast<UICheckBox*>(control)->GetSel();
                     SetButtonEnable(true);
                 }
+                else if (_MNAME(L"oldBtnHeight"))
+                {
+                    m_cfgData.oldBtnHeight = static_cast<UICheckBox*>(control)->GetSel();
+                    SetButtonEnable(true);
+                }
                 else
                     ret = false;
 	        }
@@ -339,12 +351,16 @@ namespace MDWMBlurGlass
                 {
                     m_cfgData.inactiveTextColor = (_m_color)param;
                 }
-                else if(_MNAME(L"blendcolor"))
+                else if(_MNAME(L"activeBlendColor"))
                 {
                     auto bkgnd = m_effLayer->GetBkgndStyle();
                     bkgnd.bkgndColor = (_m_color)param;
                     m_effLayer->SetBackground(bkgnd);
-                    m_cfgData.titleBarBlendColor = (_m_color)param;
+                    m_cfgData.activeBlendColor = (_m_color)param;
+                }
+                else if (_MNAME(L"inactiveBlendColor"))
+                {
+                    m_cfgData.inactiveBlendColor = (_m_color)param;
                 }
                 else
                     ret = false;
@@ -394,6 +410,7 @@ namespace MDWMBlurGlass
         m_cfgData.applyglobal = Utils::GetIniString(path, L"config", L"applyglobal") == L"true";
         m_cfgData.extendBorder = Utils::GetIniString(path, L"config", L"extendBorder") == L"true";
         m_cfgData.reflection = Utils::GetIniString(path, L"config", L"reflection") == L"true";
+        m_cfgData.oldBtnHeight = Utils::GetIniString(path, L"config", L"oldBtnHeight") == L"true";
 
         if (!ret.empty())
             m_cfgData.blurAmount = (float)Helper::M_Clamp(0.0, 50.0, _wtof(ret.data()));
@@ -406,13 +423,18 @@ namespace MDWMBlurGlass
         if (!ret.empty())
             m_cfgData.inactiveTextColor = (COLORREF)_wtoll(ret.data());
 
-        ret = Utils::GetIniString(path, L"config", L"titlebarBlendColor");
+        ret = Utils::GetIniString(path, L"config", L"activeBlendColor");
         if (!ret.empty())
-            m_cfgData.titleBarBlendColor = (COLORREF)_wtoll(ret.data());
+            m_cfgData.activeBlendColor = (COLORREF)_wtoll(ret.data());
+
+        ret = Utils::GetIniString(path, L"config", L"inactiveBlendColor");
+        if (!ret.empty())
+            m_cfgData.inactiveBlendColor = (COLORREF)_wtoll(ret.data());
 
         m_page->Child<UICheckBox>(L"applyglobal")->SetSel(m_cfgData.applyglobal);
         m_page->Child<UICheckBox>(L"extendBorder")->SetSel(m_cfgData.extendBorder);
         m_page->Child<UICheckBox>(L"reflection")->SetSel(m_cfgData.reflection);
+        m_page->Child<UICheckBox>(L"oldBtnHeight")->SetSel(m_cfgData.oldBtnHeight);
 
         _m_color textColor = (m_cfgData.activeTextColor & 0x00FFFFFF) | 0xFF000000;
         m_page->Child<UILabel>(L"sampletitle")->SetAttributeSrc(L"fontColor", textColor, false);
@@ -422,11 +444,12 @@ namespace MDWMBlurGlass
         m_page->Child(L"inactivetext")->SetAttribute(L"curColor", Color::M_RGBA_STR(textColor), false);
 
         auto bkgnd = m_effLayer->GetBkgndStyle();
-        bkgnd.bkgndColor = m_cfgData.titleBarBlendColor;
+        bkgnd.bkgndColor = m_cfgData.activeBlendColor;
         m_effLayer->SetBackground(bkgnd);
         m_effLayer->SetEffectValue(m_cfgData.blurAmount);
 
-        m_page->Child(L"blendcolor")->SetAttribute(L"curColor", Color::M_RGBA_STR(bkgnd.bkgndColor), false);
+        m_page->Child(L"activeBlendColor")->SetAttribute(L"curColor", Color::M_RGBA_STR(bkgnd.bkgndColor), false);
+        m_page->Child(L"inactiveBlendColor")->SetAttribute(L"curColor", Color::M_RGBA_STR(m_cfgData.inactiveBlendColor), false);
 
         m_blurValue->SetCurValue((int)m_cfgData.blurAmount, false);
         m_blurValueLabel->SetAttribute(L"text", std::to_wstring((int)m_cfgData.blurAmount), false);
@@ -439,10 +462,12 @@ namespace MDWMBlurGlass
         SetIniString(path, L"config", L"applyglobal", m_cfgData.applyglobal ? L"true" : L"false");
         SetIniString(path, L"config", L"extendBorder", m_cfgData.extendBorder ? L"true" : L"false");
         SetIniString(path, L"config", L"reflection", m_cfgData.reflection ? L"true" : L"false");
+        SetIniString(path, L"config", L"oldBtnHeight", m_cfgData.oldBtnHeight ? L"true" : L"false");
         SetIniString(path, L"config", L"blurAmount", std::to_wstring(m_cfgData.blurAmount));
         SetIniString(path, L"config", L"activeTextColor", std::to_wstring(m_cfgData.activeTextColor));
         SetIniString(path, L"config", L"inactiveTextColor", std::to_wstring(m_cfgData.inactiveTextColor));
-        SetIniString(path, L"config", L"titlebarBlendColor", std::to_wstring(m_cfgData.titleBarBlendColor));
+        SetIniString(path, L"config", L"activeBlendColor", std::to_wstring(m_cfgData.activeBlendColor));
+        SetIniString(path, L"config", L"inactiveBlendColor", std::to_wstring(m_cfgData.inactiveBlendColor));
     }
 
     void MainWindowPage::RefreshDWMConfig()
@@ -450,8 +475,14 @@ namespace MDWMBlurGlass
         MHostNotify(MHostNotifyType::Refresh);
         if(IsInstallTasks())
         {
-            BOOL enable = TRUE;
-            SystemParametersInfoW(SPI_SETGRADIENTCAPTIONS, 0, &enable, SPIF_SENDCHANGE);
+            RefreshSysConfig();
         }
+    }
+
+    void MainWindowPage::RefreshSysConfig()
+    {
+        BOOL enable = TRUE;
+        SystemParametersInfoW(SPI_SETGRADIENTCAPTIONS, 0, &enable, SPIF_SENDCHANGE);
+        SendNotifyMessageW(HWND_BROADCAST, WM_DWMCOLORIZATIONCOLORCHANGED, m_cfgData.activeBlendColor, 1);
     }
 }
