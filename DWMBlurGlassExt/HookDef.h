@@ -26,7 +26,7 @@
 
 namespace MDWMBlurGlassExt
 {
-	struct CRenderData {};
+	struct CSolidColorLegacyMilBrushProxy {};
 	struct CDrawingContext {};
 	struct CDrawListEntryBuilder {};
 	struct MilRectF
@@ -106,20 +106,16 @@ namespace MDWMBlurGlassExt
 
 	enum ColorizationFlags
 	{
-		Color_TitleBackground,
-		Color_ActiveText = 13,
-		Color_InactiveText,
-		Color_Unknown = 17984
+		Color_TitleBackground_Active_SWCA = 9,
+		Color_TitleBackground_Inactive_SWCA,
+		Color_TitleBackground_Active = 13,
+		Color_TitleBackground_Inactive,
 	};
 
-	HRESULT WINAPI CRenderData_DrawSolidColorRectangle
-	(
-		CRenderData* This,
-		CDrawingContext* a2,
-		CDrawListEntryBuilder* a3,
-		bool a4,
-		const MilRectF* a5,
-		D3DCOLORVALUE* a6
+	DWORD64 WINAPI CSolidColorLegacyMilBrushProxy_Update(
+		CSolidColorLegacyMilBrushProxy* This,
+		double a2,
+		const D3DCOLORVALUE* a3
 	);
 
 	DWORD64 WINAPI CRenderingTechnique_ExecuteBlur
@@ -274,10 +270,18 @@ namespace MDWMBlurGlassExt
 		SIZE* a2
 	);
 
-	DWORD64 WINAPI CGlassColorizationParameters_AdjustWindowColorization(
+	DWORD64 WINAPI CGlassColorizationParameters_AdjustWindowColorization_Win10(
 		GpCC* a1,
-		float a2,
-		TMILFlagsEnum<ColorizationFlags> a3
+		GpCC* a2,
+		float,
+		char a3
+	);
+
+	DWORD64 WINAPI CGlassColorizationParameters_AdjustWindowColorization_Win11(
+		GpCC* a1,
+		GpCC* a2,
+		float,
+		short a3
 	);
 
 	DWORD64 WINAPI CTopLevelWindow_UpdateText(
@@ -300,4 +304,6 @@ namespace MDWMBlurGlassExt
 	);
 
 	DWORD64 WINAPI CButton_UpdateLayout(CButton* This);
+
+	DWORD64 WINAPI CButton_RedrawVisual(CButton* This);
 }

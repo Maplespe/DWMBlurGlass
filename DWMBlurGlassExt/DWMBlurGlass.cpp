@@ -51,19 +51,21 @@ namespace MDWMBlurGlassExt
 	decltype(CDrawingContext_FillEffect)* g_funCDrawingContext_FillEffect = nullptr;
 	decltype(CText_SetText)* g_funCText_SetText = nullptr;
 	decltype(CWindowList_GetSyncedWindowData)* g_funCWindowList_GetSyncedWindowData = nullptr;
+	decltype(CButton_RedrawVisual)* g_funCButton_RedrawVisual = nullptr;
 
 	thread_local RECT g_blurRegion{ 0, 0, -1, -1 };
 	thread_local CAccent* g_accentThis = nullptr;
 	thread_local HWND g_window = nullptr;
 	thread_local MilRectF g_dstRect = { 0 };
+	thread_local std::unordered_map<CButton*, RECT> g_cbuttonList;
 
 	winrt::com_ptr<ID2D1Bitmap1> g_aeroPeekBmp = nullptr;
 	winrt::com_ptr<ID2D1Effect> g_scaleEffect = nullptr;
 
 	//BlendColor
-	MinHook g_funCRenderData_DrawSolidColorRectangle
+	MinHook g_funCSolidColorLegacyMilBrushProxy_Update
 	{
-		"CRenderData::DrawSolidColorRectangle", CRenderData_DrawSolidColorRectangle
+		"CSolidColorLegacyMilBrushProxy::Update", CSolidColorLegacyMilBrushProxy_Update
 	};
 	//Win11 BlurAmount
 	MinHook g_funCRenderingTechnique_ExecuteBlur
@@ -122,9 +124,14 @@ namespace MDWMBlurGlassExt
 		"CTopLevelWindow::UpdateWindowVisuals", CTopLevelWindow_UpdateWindowVisuals
 	};
 
-	MinHook g_funCGlassColorizationParameters_AdjustWindowColorization
+	MinHook g_funCGlassColorizationParameters_AdjustWindowColorization_Win10
 	{
-		"CGlassColorizationParameters::AdjustWindowColorization", CGlassColorizationParameters_AdjustWindowColorization
+		"CGlassColorizationParameters::AdjustWindowColorization", CGlassColorizationParameters_AdjustWindowColorization_Win10
+	};
+
+	MinHook g_funCGlassColorizationParameters_AdjustWindowColorization_Win11
+	{
+		"CGlassColorizationParameters::AdjustWindowColorization", CGlassColorizationParameters_AdjustWindowColorization_Win11
 	};
 
 	MinHook g_funCTopLevelWindow_UpdateText
@@ -148,6 +155,7 @@ namespace MDWMBlurGlassExt
 		"CButton::UpdateLayout", CButton_UpdateLayout
 	};
 
+
 	bool Startup() try
 	{
 		if (g_startup) return true;
@@ -162,6 +170,7 @@ namespace MDWMBlurGlassExt
 		g_funCDrawingContext_FillEffect = (decltype(g_funCDrawingContext_FillEffect))MHostGetProcAddress("CDrawingContext::FillEffect");
 		g_funCText_SetText = (decltype(g_funCText_SetText))MHostGetProcAddress("CText::SetText");
 		g_funCWindowList_GetSyncedWindowData = (decltype(g_funCWindowList_GetSyncedWindowData))MHostGetProcAddress("CWindowList::GetSyncedWindowData");
+		g_funCButton_RedrawVisual = (decltype(g_funCButton_RedrawVisual))MHostGetProcAddress("CButton::RedrawVisual");
 
 		g_pDesktopManagerInstance_ptr = (PVOID*)MHostGetProcAddress("CDesktopManager::s_pDesktopManagerInstance");
 		if (g_pDesktopManagerInstance_ptr && *g_pDesktopManagerInstance_ptr)
@@ -191,7 +200,7 @@ namespace MDWMBlurGlassExt
 		if(os::buildNumber < 22000)
 		{
 			g_funCText_SetSize.Attach();
-			g_funCRenderData_DrawSolidColorRectangle.Attach();
+			g_funCSolidColorLegacyMilBrushProxy_Update.Attach();
 			g_funCFilterEffect_CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive.Attach();
 			g_funCD2DContext_FillEffect.Attach();
 			g_funCCustomBlur_BuildEffect.Attach();
@@ -201,17 +210,18 @@ namespace MDWMBlurGlassExt
 			g_funCTopLevelWindow_UpdateWindowVisuals.Attach();
 			g_funCTopLevelWindow_UpdateNCAreaGeometry.Attach();
 			g_funHrgnFromRects.Attach();
+			g_funCGlassColorizationParameters_AdjustWindowColorization_Win10.Attach();
 		}
 		if(os::buildNumber >= 22000)
 		{
 			g_funCRenderingTechnique_ExecuteBlur.Attach();
+			g_funCGlassColorizationParameters_AdjustWindowColorization_Win11.Attach();
 			g_funCTopLevelWindow_UpdateText.Attach();
+			g_funCWindowList_BlurBehindChange.Attach();
 		}
 
 		g_funCButton_UpdateLayout.Attach();
 		g_funCTopLevelWindow_ValidateVisual.Attach();
-		g_funCGlassColorizationParameters_AdjustWindowColorization.Attach();
-		g_funCWindowList_BlurBehindChange.Attach();
 
 		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
 		if(os::buildNumber <= 22621)
@@ -221,7 +231,7 @@ namespace MDWMBlurGlassExt
 			g_funDrawTextW = (decltype(g_funDrawTextW))GetProcAddress(hModule, "DrawTextW");
 			WriteIAT(udwmModule, "User32.dll", {{ "FillRect", MyFillRect }, { "DrawTextW", MyDrawTextW }});
 		}
-		if (os::buildNumber <= 22000)
+		if (os::buildNumber < 22000)
 		{
 			HMODULE hModule = GetModuleHandleW(L"gdi32.dll");
 			g_funCreateRoundRgn = (decltype(g_funCreateRoundRgn))GetProcAddress(hModule, "CreateRoundRectRgn");
@@ -241,8 +251,10 @@ namespace MDWMBlurGlassExt
 
 		if (os::buildNumber >= 22000)
 		{
+			g_funCGlassColorizationParameters_AdjustWindowColorization_Win11.Detach();
 			g_funCTopLevelWindow_UpdateText.Detach();
 			g_funCRenderingTechnique_ExecuteBlur.Detach();
+			g_funCWindowList_BlurBehindChange.Detach();
 		}
 		if (os::buildNumber < 22000)
 		{
@@ -256,12 +268,11 @@ namespace MDWMBlurGlassExt
 			g_funCCustomBlur_BuildEffect.Detach();
 			g_funCD2DContext_FillEffect.Detach();
 			g_funCFilterEffect_CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive.Detach();
-			g_funCRenderData_DrawSolidColorRectangle.Detach();
+			g_funCSolidColorLegacyMilBrushProxy_Update.Detach();
+			g_funCGlassColorizationParameters_AdjustWindowColorization_Win10.Detach();
 		}
 
 		g_funCButton_UpdateLayout.Detach();
-		g_funCWindowList_BlurBehindChange.Detach();
-		g_funCGlassColorizationParameters_AdjustWindowColorization.Detach();
 		g_funCTopLevelWindow_ValidateVisual.Detach();
 
 		if(g_pCreateBitmapFromHBITMAP)
@@ -272,7 +283,8 @@ namespace MDWMBlurGlassExt
 		{
 			WriteIAT(udwmModule, "User32.dll", {{ "DrawTextW", g_funDrawTextW } , { "FillRect", g_funFillRect }});
 		}
-		WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", g_funCreateRoundRgn }, { "CreateBitmap", g_funCreateBitmap }});
+		if(os::buildNumber < 22000)
+			WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", g_funCreateRoundRgn }, { "CreateBitmap", g_funCreateBitmap }});
 
 		g_startup = false;
 	}
@@ -320,16 +332,16 @@ namespace MDWMBlurGlassExt
 		if (g_aeroPeekBmp)
 			g_aeroPeekBmp = nullptr;
 	}
-	
-	HRESULT __stdcall CRenderData_DrawSolidColorRectangle(
-		CRenderData* This, CDrawingContext* a2, CDrawListEntryBuilder* a3,
-		bool a4, const MilRectF* a5, D3DCOLORVALUE* a6)
+
+	DWORD64 CSolidColorLegacyMilBrushProxy_Update(
+		CSolidColorLegacyMilBrushProxy* This, double a2,
+		const D3DCOLORVALUE* a3)
 	{
-		auto color = g_configData.inactiveBlendColor;
-		if(g_window && GetForegroundWindow() == g_window)
-			color = g_configData.activeBlendColor;
-		a6->a = float(UINT(color >> 24) & 0xff) / 255.f;
-		return g_funCRenderData_DrawSolidColorRectangle.call_org(This, a2, a3, a4, a5, a6);
+		auto color = *a3;
+		color.a = float((
+			(GetForegroundWindow() == g_window ? g_configData.activeBlendColor : g_configData.inactiveBlendColor)
+			>> 24) & 0xff) / 255.f;
+		return g_funCSolidColorLegacyMilBrushProxy_Update.call_org(This, a2, &color);
 	}
 
 	DWORD64 __stdcall CRenderingTechnique_ExecuteBlur(
@@ -491,8 +503,8 @@ namespace MDWMBlurGlassExt
 					monitorSize.cy = rect.bottom - rect.top;
 					scaleRect.left -= (float)rect.left;
 					scaleRect.top -= (float)rect.top;
-					scaleRect.right = scaleRect.left + dstSize.width;
-					scaleRect.bottom = scaleRect.top + dstSize.height;
+					scaleRect.right = scaleRect.left + (float)monitorSize.cx;
+					scaleRect.bottom = scaleRect.top + (float)monitorSize.cy;
 					break;
 				}
 
@@ -515,7 +527,7 @@ namespace MDWMBlurGlassExt
 
 				g_scaleEffect->SetValue(D2D1_SCALE_PROP_SCALE, D2D1::Vector2F(scaleX * 0.5f, scaleY * 0.5f));
 
-				This[30]->DrawImage(g_scaleEffect.get(), dstPoint, (D2D1_RECT_F*)&scaleRect);
+				This[30]->DrawImage(g_scaleEffect.get(), nullptr, (D2D1_RECT_F*)&scaleRect);
 			}
 
 			inputEffect->SetValue(D2D1_DIRECTIONALBLUR_PROP_STANDARD_DEVIATION, 3.f);
@@ -850,14 +862,79 @@ namespace MDWMBlurGlassExt
 			}
 		}
 
+		//如果启用win7样式按钮 由我们手动计算
+		if (g_configData.oldBtnHeight && g_window)
+		{
+			auto PushButtonPtr = [&](int index, int x, int width, int height)
+			{
+				CButton** button;
+				if (os::buildNumber < 22000)
+					button = (CButton**)(This + 8 * (index + 61));
+				else
+					button = (CButton**)(This + 8 * (index + 66));
+
+				if (button && *button)
+				{
+					g_cbuttonList[*button] = { x, 0, width, height };
+					CButton_UpdateLayout(*button);
+					return true;
+				}
+				
+				return false;
+			};
+			RECT rect;
+			if (os::buildNumber >= 22000)
+				GetClientRect(g_window, &rect);
+			else
+			{
+				g_funCWindowList_GetExtendedFrameBounds(g_windowList, g_window, &rect);
+				OffsetRect(&rect, -rect.left, -rect.top);
+			}
+			UINT dpi = GetDpiForWindow(g_window);
+			if (dpi == 0)
+				dpi = GetDpiForSystem();
+
+			int frameY = 22;
+			int borderW = GetSystemMetrics(SM_CXPADDEDBORDER) + GetSystemMetrics(SM_CXFRAME);
+
+			if (os::buildNumber >= 22000)
+				borderW = -borderW;
+
+			if (IsZoomed(g_window))
+			{
+				frameY -= 2;
+				borderW = 0;
+			}
+			const float scale = (float)dpi / 96.f;
+
+			const int width = int(30.f * scale);
+			const int normalW = int(45.f * scale);
+			const int height = int((float)frameY * scale);
+			//borderW = int((float)borderW * scale);
+
+			int offset = rect.right - borderW;
+			//关闭按钮
+			if (PushButtonPtr(3, rect.right - normalW - borderW, normalW, height))
+				offset -= normalW + width;
+			//最大化按钮
+			if (PushButtonPtr(2, offset, width, height))
+				offset -= width;
+			//最小化按钮
+			if (PushButtonPtr(1, offset, width, height))
+				offset -= width;
+			//帮助按钮
+			PushButtonPtr(0, offset, width, height);
+		}
+
 		HRESULT hr = g_funCTopLevelWindow_ValidateVisual.call_org(This);
+
 		//手动通知
 		if (needUpdate)
 		{
 			g_funCTopLevelWindow_OnAccentPolicyUpdated(This);
 		}
-
 		g_window = nullptr;
+
 		return hr;
 	}
 
@@ -900,22 +977,41 @@ namespace MDWMBlurGlassExt
 		return g_funCText_SetSize.call_org(This, &size);
 	}
 
-	DWORD64 __stdcall CGlassColorizationParameters_AdjustWindowColorization(
+	DWORD64 __stdcall CGlassColorizationParameters_AdjustWindowColorization_Win10(
 		GpCC* a1,
-		float a2, 
-		TMILFlagsEnum<ColorizationFlags> a3)
+		GpCC* a2,
+		float a3,
+		char a4)
 	{
-		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization.call_org(a1, a2, a3);
-		if (a3 == Color_TitleBackground)
+		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization_Win10.call_org(a1, a2, a3, a4);
+		if (a4 == Color_TitleBackground_Active_SWCA || a4 == Color_TitleBackground_Inactive_SWCA
+			|| a4 == Color_TitleBackground_Active || a4 == Color_TitleBackground_Inactive)
 		{
-			auto color = g_configData.inactiveBlendColor;
-			if (g_window && GetForegroundWindow() == g_window)
-				color = g_configData.activeBlendColor;
+			auto color = (a4 == Color_TitleBackground_Inactive_SWCA || a4 == Color_TitleBackground_Inactive) ? g_configData.inactiveBlendColor
+				: g_configData.activeBlendColor;
 
-			if (os::buildNumber >= 22000)
-				a1->a = (color >> 24) & 0xff;
-			else
-				a1->a = 255;
+			a1->a = 255;
+			a1->r = GetRValue(color);
+			a1->g = GetGValue(color);
+			a1->b = GetBValue(color);
+		}
+		return ret;
+	}
+
+	DWORD64 __stdcall CGlassColorizationParameters_AdjustWindowColorization_Win11(
+		GpCC* a1,
+		GpCC* a2,
+		float a3,
+		short a4)
+	{
+		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization_Win11.call_org(a1, a2, a3, a4);
+		if (a4 == Color_TitleBackground_Active_SWCA || a4 == Color_TitleBackground_Inactive_SWCA
+			|| a4 == Color_TitleBackground_Active || a4 == Color_TitleBackground_Inactive)
+		{
+			auto color = (a4 == Color_TitleBackground_Inactive_SWCA || a4 == Color_TitleBackground_Inactive) ? g_configData.inactiveBlendColor
+				: g_configData.activeBlendColor;
+
+			a1->a = (color >> 24) & 0xff;
 			a1->r = GetRValue(color);
 			a1->g = GetGValue(color);
 			a1->b = GetBValue(color);
@@ -990,7 +1086,7 @@ namespace MDWMBlurGlassExt
 		}
 		else
 		{
-			ACCENT_POLICY policy = {};
+			/*ACCENT_POLICY policy = {};
 			WINDOWCOMPOSITIONATTRIBUTEDATA data =
 			{
 				19,
@@ -999,7 +1095,7 @@ namespace MDWMBlurGlassExt
 			};
 			policy.nAccentState = a3->fEnable ? 3 : 0;
 			policy.nFlags = 0;
-			SetWindowCompositionAttribute(hWnd, &data);
+			SetWindowCompositionAttribute(hWnd, &data);*/
 		}
 
 		return ret;
@@ -1009,22 +1105,34 @@ namespace MDWMBlurGlassExt
 	{
 		if (g_configData.oldBtnHeight)
 		{
+			POINT* pt;
 			SIZE* size;
-			UINT dpi = GetDpiForWindow(GetForegroundWindow());
-			if (dpi == 0)
-				dpi = GetDpiForSystem();
-			float scale = (float)dpi / 96.f;
-			int cap = int(22.f * scale);
 			if (os::buildNumber < 22000)
 			{
 				size = (SIZE*)This + 15;
-				size->cy = cap;
+				pt = (tagPOINT*)This + 14;
 			}
 			else
 			{
 				size = (SIZE*)This + 16;
-				size->cy = cap;
+				pt = (tagPOINT*)This + 15;
 			}
+
+			auto iter = g_cbuttonList.find(This);
+			if(iter == g_cbuttonList.end())
+				return g_funCButton_UpdateLayout.call_org(This);
+
+			size->cx = iter->second.right;
+			size->cy = iter->second.bottom;
+
+
+			auto ret = g_funCButton_UpdateLayout.call_org(This);
+			pt->x = iter->second.left;
+
+			if(!g_window)
+				g_cbuttonList.erase(iter);
+			return ret;
+
 		}
 		return g_funCButton_UpdateLayout.call_org(This);
 	}

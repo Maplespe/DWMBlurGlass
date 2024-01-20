@@ -26,7 +26,6 @@ namespace MDWMBlurGlassExt
 
 	constexpr auto g_hookFunList = std::to_array<std::pair<MHostModuleType, LPCSTR>>
 	({
-		{ dwmcore, "CRenderData::DrawSolidColorRectangle" },
 		{ dwmcore, "CRenderingTechnique::ExecuteBlur" },
 		{ dwmcore, "CD2DContext::FillEffect" },
 		{ dwmcore, "CCustomBlur::BuildEffect" },
@@ -37,6 +36,7 @@ namespace MDWMBlurGlassExt
 		{ dwmcore, "CFilterEffect::CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive" },
 
 		{ udwm, "CDesktopManager::s_pDesktopManagerInstance" },
+		{ udwm, "CSolidColorLegacyMilBrushProxy::Update" },
 		{ udwm, "CWindowList::GetExtendedFrameBounds" },
 		{ udwm, "ResourceHelper::CreateGeometryFromHRGN" },
 		{ udwm, "HrgnFromRects" },
