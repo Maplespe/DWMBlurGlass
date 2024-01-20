@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang local="de-DE" author="Akey.Dev">
+	<inituifail0>Die Initialisierung der MiaoUI-Bibliothek ist fehlgeschlagen! Fehlercode: </inituifail0>
+	<inituifail1>Fensterelement konnte nicht erstellt werden!</inituifail1>
+	<inituifail2>Das Fenster konnte nicht initialisiert werden!</inituifail2>
+	<initfail0>Beachten Sie, dass die Anwendung aufgrund von DWM-Autorisierungsisolationseinschränkungen in einem Nicht-Benutzerverzeichnis abgelegt werden muss und der Pfad nicht in "{path}" oder seinen Unterverzeichnissen liegen darf! Bitte wechseln Sie das Verzeichnis.</initfail0>
+	<symloadfail>Das Laden der Symboldatei ist fehlgeschlagen! Das Programm konnte die DLL nicht laden, bitte laden Sie die Symbole erneut herunter! (Symbole müssen möglicherweise auch nach einem Systemupdate erneut heruntergeladen werden)</symloadfail>
+	<colorpicker_dlg_sel>Farbe auswählen:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Neue Farbe:</colorpicker_dlg_c>
+	<msgdlg_no>Abbrechen</msgdlg_no>
+	<msgdlg_yes>Bestätigen</msgdlg_yes>
+	<colorpicker_dlg_alpha>Deckkraft:</colorpicker_dlg_alpha>
+	<general>Allgemein</general>
+	<symbol>Symbol</symbol>
+	<config>Konfig</config>
+	<about>Über</about>
+	<status>Status:</status>
+	<status0>Deinstalliert</status0>
+	<status1>Installiert</status1>
+	<install>Installieren</install>
+	<uninstall>Deinstallieren</uninstall>
+	<installsucs>Installation erfolgreich!</installsucs>
+	<installsucs1>Die Installation war erfolgreich! Sie haben aber noch keine gültige Symboldatei heruntergeladen, laden Sie sie von dem Reiter "Symbole" herunter, damit es funktioniert!</installsucs1>
+	<installfail>Installation fehlgeschlagen! Fehlermeldung: </installfail>
+	<uninstallsucs>Deinstallation erfolgreich.</uninstallsucs>
+	<uninstallfail>Deinstallation fehlgeschlagen! Fehlermeldung: </uninstallfail>
+	<loadfail>Komponente konnte nicht geladen werden! Fehlermeldung: </loadfail>
+	<saveconfig>Konfiguration speichern</saveconfig>
+	<effectset>Effekteinstellungen</effectset>
+	<blurvalue>Unschärferadius:</blurvalue>
+	<applyglobal>Überschreiben Sie den DWMAPI-Glimmereffekt (Win11)</applyglobal>
+	<extendborder>Effekte auf Ränder erweitern (Win10)</extendborder>
+	<reflection>Aero-Reflektionseffekt aktivieren (Win10)</reflection>
+	<oldBtnHeight>Reduzieren Sie die Höhe der Titelleistenschaltfläche (Win7-Stil)</oldBtnHeight>
+	<blendcolor>Titelleiste Blendfarbe (Aktiv):</blendcolor>
+	<inactiveblendcolor>Blendfarbe der Titelleiste (inaktiv):</inactiveblendcolor>
+	<activecolor>Textfarbe aktives Fenster:</activecolor>
+	<inactivecolor>Textfarbe inaktives Fenster:</inactivecolor>
+	<preview>Vorschau</preview>
+	<sampletitle>Beispiel Titelleiste (aktiv)</sampletitle>
+	<configfile>Konfigurationsdatei</configfile>
+	<symbolfile>Symboldatei:</symbolfile>
+	<download>Herunterladen</download>
+	<symtip>Symboldateien (pdb) sind Dateien, die Debugging-Informationen zu einem Programm aufzeichnen. Da die Systeme von Version zu Version unterschiedlich sind, müssen Sie die Symboldateien von einem Microsoft-Server herunterladen. Wenn Sie Ihr System aktualisieren, müssen Sie die neue Datei möglicherweise erneut herunterladen.</symtip>
+	<symstatus0>Ungültig</symstatus0>
+	<symstatus1>Gültig</symstatus1>
+	<symdowning>Wird heruntergeladen...</symdowning>
+	<symdownfail>Herunterladen fehlgeschlagen! Datei kann nicht von "msdl.microsoft.com" heruntergeladen werden.</symdownfail>
+	<syminvalid>Symboldatei ist ungültig! Bitte gehen Sie zur Seite "Symbole" des DWMBlurGlass-Programms, um eine neue Symboldatei herunterzuladen!</syminvalid>
+	<import>Importieren</import>
+	<export>Exportieren</export>
+	<restore>Standardeinstellungen wiederherstellen</restore>
+	<importwarn>Durch das Importieren einer Konfigurationsdatei wird Ihre vorhandene Konfiguration überschrieben, fortfahren?</importwarn>
+	<restorecfg>Sind Sie sicher, dass Sie die Standardkonfiguration wiederherstellen möchten?</restorecfg>
+	<aboutinfo>Dieses Programm basiert auf der kostenlosen Open-Source-Software der LGPLv3-Vereinbarung: </aboutinfo>
+	<curlang>Aktuelle Sprache:</curlang>
+	<langauthor>Mitwirkende an Übersetzungen:</langauthor>
+</lang>
