@@ -2,7 +2,7 @@
 Fügen Sie der Titelleiste des globalen Systems einen Unschärfeeffekt hinzu. Unterstützung für Win10 und Win11.
 
 #
-| [Chinesisch](/README_ZH.md) | [English](/README.md) | [Deutsch](/README_DE.md) |
+| [Chinesisch](/README_ZH.md) | [English](/README.md) | [Deutsch](/README_DE.md) | 
 This project uses [LGNU V3 license](/COPYING.LESSER).
 
 [![license](https://img.shields.io/github/license/Maplespe/DWMBlurGlass.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
