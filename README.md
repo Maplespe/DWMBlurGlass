@@ -10,7 +10,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 [![Github All Releases](https://img.shields.io/github/downloads/Maplespe/DWMBlurGlass/total.svg)](https://github.com/Maplespe/DWMBlurGlass/releases)
 [![GitHub release](https://img.shields.io/github/release/Maplespe/DWMBlurGlass.svg)](https://github.com/Maplespe/DWMBlurGlass/releases/latest)
 <img src="https://img.shields.io/badge/language-c++-F34B7D.svg"/>
-<img src="https://img.shields.io/github/last-commit/Maplespe/DWMBlurGlass.svg"/>  
+<img src="https://img.shields.io/github/last-commit/Maplespe/DWMBlurGlass.svg"/>   
 
 ## Effects
 * Adds a blur effect to the global system title bar.
