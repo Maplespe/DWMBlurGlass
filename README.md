@@ -87,6 +87,12 @@ Using third-party themes
 1. Run the DWMBlurGlass.exe GUI program and click Uninstall.
 2. Delete relevant files
 
+### Update
+1. Uninstall DWMBlurGlass via the GUI program as it will unhook from DWM.
+2. Download the latest version available on GitHub
+3. Extract it to where you installed DWMBlurGlass (e.g. C:/Program Files/DWMBlurGlass_x64)
+4. Reinstall DWMBlurGlass. It might keep your preferences.
+
 ## Language files
 We offer basic languages English and Simplified Chinese.
 If you would like to help us translate into other languages, please see below for language file formats.
