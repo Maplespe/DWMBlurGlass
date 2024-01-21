@@ -25,6 +25,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 请注意 模糊强度将影响全局 例如开始菜单、通知中心等位置...
 
 ![image](/Screenshot/001701.png)
+![image](/Screenshot/78930.png)
 
 ## 兼容性
 最低支持 **Windows 10 2004** 最高支持到 **Windows 11 最新版**(不包括预览版)
@@ -60,7 +61,10 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 使用第三方主题
 
 > 启用 "扩展效果到边框 (win10)"
+
 > 启用 "Aero反光效果 (win10)"
+
+> 启用 "减少标题栏按钮高度 (win7样式)"
 
 ![image](/Screenshot/025410.png)
 

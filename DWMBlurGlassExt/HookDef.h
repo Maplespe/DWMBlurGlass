@@ -110,6 +110,8 @@ namespace MDWMBlurGlassExt
 		Color_TitleBackground_Inactive_SWCA,
 		Color_TitleBackground_Active = 13,
 		Color_TitleBackground_Inactive,
+		Color_TitleBackground_ActiveBackDrop = 269,
+		Color_TitleBackground_InactiveBackDrop,
 	};
 
 	DWORD64 WINAPI CSolidColorLegacyMilBrushProxy_Update(

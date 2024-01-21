@@ -25,6 +25,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 Please note that the blur radius will affect the global, which also includes locations such as the start menu, notification center, etc...
 
 ![image](/Screenshot/001911.png)
+![image](/Screenshot/10307.png)
 
 ## Compatibility
 Supported as low as **Windows 10 2004** and as high as the **latest version of Windows 11** (excluding the preview version).
@@ -60,7 +61,10 @@ Compatible with [TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFl
 Using third-party themes
 
 > Enable "Extend effects to borders (win10)"
+
 > Enable "Aero reflection effect (win10)"
+
+> Enable "Reduce title bar button height (win7 style)"
 
 ![image](/Screenshot/025454.png)
 

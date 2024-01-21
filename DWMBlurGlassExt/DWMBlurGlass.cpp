@@ -1006,10 +1006,15 @@ namespace MDWMBlurGlassExt
 	{
 		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization_Win11.call_org(a1, a2, a3, a4);
 		if (a4 == Color_TitleBackground_Active_SWCA || a4 == Color_TitleBackground_Inactive_SWCA
-			|| a4 == Color_TitleBackground_Active || a4 == Color_TitleBackground_Inactive)
+			|| a4 == Color_TitleBackground_Active || a4 == Color_TitleBackground_Inactive
+			|| a4 == Color_TitleBackground_ActiveBackDrop || a4 == Color_TitleBackground_InactiveBackDrop)
 		{
-			auto color = (a4 == Color_TitleBackground_Inactive_SWCA || a4 == Color_TitleBackground_Inactive) ? g_configData.inactiveBlendColor
-				: g_configData.activeBlendColor;
+			auto color = (
+				a4 == Color_TitleBackground_Inactive_SWCA 
+				|| a4 == Color_TitleBackground_Inactive
+				|| a4 == Color_TitleBackground_InactiveBackDrop
+				)
+			? g_configData.inactiveBlendColor : g_configData.activeBlendColor;
 
 			a1->a = (color >> 24) & 0xff;
 			a1->r = GetRValue(color);
