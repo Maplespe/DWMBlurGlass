@@ -89,6 +89,13 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 1. 运行 DWMBlurGlass.exe GUI 程序 并点击卸载.
 2. 手动删除相关剩余文件.
 
+#### 更新
+1. 通过图形用户界面程序卸载 DWMBlurGlass，因为它会解除与 DWM 的连接。
+2. 下载 GitHub 上的最新版本
+3. 将其解压到安装 DWMBlurGlass 的位置（例如 C:/Program Files/DWMBlurGlass_x64）
+4. 重新安装 DWMBlurGlass。它可能会保留您的首选项。
+
+
 ## 语言文件
 我们提供基本的语言 英语和简体中文 如果您愿意帮助我们翻译其他语言，请参阅以下内容，了解语言文件格式.
 1. 首先需要fork并克隆此储存库到本地.
