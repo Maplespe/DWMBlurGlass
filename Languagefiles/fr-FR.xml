@@ -26,8 +26,8 @@
 	<uninstallfail>Déinstallation échouée ! Message d'erreur : </uninstallfail>
 	<loadfail>Un composant n'a pas pu charger ! Message d'erreur : </loadfail>
 	<saveconfig>Sauv. Config.</saveconfig>
-	<effectset>Effect Settings</effectset>
-	<blurvalue>Blur radius:</blurvalue>
+	<effectset>Paramètre d'effet</effectset>
+	<blurvalue>Rayon de flou :</blurvalue>
 	<applyglobal>Outrepasser l'effet MICA du DWMAPI (Win11)</applyglobal>
 	<extendborder>Étendre les effets aux bordures (Win10)</extendborder>
 	<reflection>Activer l'effect de refléction d'Aero (Win10)</reflection>
