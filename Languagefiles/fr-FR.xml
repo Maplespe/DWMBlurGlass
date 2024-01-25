@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang local="fr-FR" author="Unbloated">
+	<inituifail0>L'initialisation de la librairie MiaoUI à échoué ! Code Erreur: </inituifail0>
+	<inituifail1>Échec de création du contexte de la fenêtre !</inituifail1>
+	<inituifail2>Échec de l’initialisation de la fenêtre !</inituifail2>
+	<initfail0>Notez qu’en raison des restrictions d’isolation d’autorisation DWM, l’application doit être placée dans un répertoire non-utilisateur, et le chemin ne peut pas être dans "{path}" ou ses sous-répertoires! Veuillez changer le répertoire.</initfail0>
+	<symloadfail>Échec du chargement du fichier de symboles ! Le programme n’a pas pu charger le DLL, veuillez télécharger à nouveau les symboles! (Les symboles peuvent également devoir être re-téléchargés après une mise à jour du système)</symloadfail>
+	<colorpicker_dlg_sel>Seléctionnez la couleur :</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Nouvelle couleur :</colorpicker_dlg_c>
+	<msgdlg_no>Annuler</msgdlg_no>
+	<msgdlg_yes>Confirmer</msgdlg_yes>
+	<colorpicker_dlg_alpha>Opacity:</colorpicker_dlg_alpha>
+	<general>General</general>
+	<symbol>Symboles</symbol>
+	<config>Configuration</config>
+	<about>À propos</about>
+	<status>Statut :</status>
+	<status0>Déinstallé</status0>
+	<status1>Installé</status1>
+	<install>Installer</install>
+	<uninstall>Déinstaller</uninstall>
+	<installsucs>Installation réussie !</installsucs>
+	<installsucs1>Installation réussie ! Mais vous n'avez pas téléchargé de fichier valide pour les symboles, téléchargez-le dans la page "Symboles" pour le faire marcher !</installsucs1>
+	<installfail>Installation échouée ! Message d'erreur :</installfail>
+	<uninstallsucs>Déinstallé avec succès.</uninstallsucs>
+	<uninstallfail>Déinstallation échouée ! Message d'erreur : </uninstallfail>
+	<loadfail>Un composant n'a pas pu charger ! Message d'erreur : </loadfail>
+	<saveconfig>Sauv. Config.</saveconfig>
+	<effectset>Effect Settings</effectset>
+	<blurvalue>Blur radius:</blurvalue>
+	<applyglobal>Outrepasser l'effet MICA du DWMAPI (Win11)</applyglobal>
+	<extendborder>Étendre les effets aux bordures (Win10)</extendborder>
+	<reflection>Activer l'effect de refléction d'Aero (Win10)</reflection>
+	<oldBtnHeight>Réduire la taille des boutons de la barre de titre (Win7 style)</oldBtnHeight>
+	<blendcolor>Couleur de fusion de la barre de titre (Actif):</blendcolor>
+	<inactiveblendcolor>Couleur de fusion de la barre de titre (Inactif):</inactiveblendcolor>
+	<activecolor>Couleur du text actif :</activecolor>
+	<inactivecolor>Couleur du text inactif :</inactivecolor>
+	<preview>Aperçu</preview>
+	<sampletitle>Exemple de titre de fenêtre (active)</sampletitle>
+	<configfile>Fichier de configuration</configfile>
+	<symbolfile>Fichier de symboles :</symbolfile>
+	<download>Télécharger</download>
+	<symtip>Les fichiers de symboles (pdb) sont des fichiers qui enregistrent des informations de débogage sur un programme. Étant donné que les systèmes varient d’une version à l’autre, vous devrez télécharger les fichiers de symboles à partir d’un serveur Microsoft. Si vous mettez à jour votre système, vous devrez peut-être télécharger à nouveau le nouveau fichier.</symtip>
+	<symstatus0>Invalide</symstatus0>
+	<symstatus1>Valide</symstatus1>
+	<symdowning>Téléchargement...</symdowning>
+	<symdownfail>Téléchargement échoué ! Impossible de télécharger le fichier dans "msdl.microsoft.com".</symdownfail>
+	<syminvalid>Le fichier de symboles n’est pas valide ! Veuillez vous rendre sur la page "Symboles" du programme DWMBlurGlass pour télécharger un nouveau fichier de symboles !</syminvalid>
+	<import>Importer</import>
+	<export>Exporter</export>
+	<restore>Par défaut</restore>
+	<importwarn>Si vous importez un fichier de configuration, votre configuration actuellement utilisée sera remplacée. Continuer ?</importwarn>
+	<restorecfg>Êtes-vous sûr de revenir aux paramètres par défaut ?</restorecfg>
+	<aboutinfo>Ce programme est basé sur l’accord LGPLv3 logiciel libre open-source :</aboutinfo>
+	<curlang>Language utilisé :</curlang>
+	<langauthor>Contributeurs de traduction :</langauthor>
+</lang>
