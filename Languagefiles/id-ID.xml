@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <lang local="en-US" author="Lieba Natur Brilian (naturbrilian)">
 	<inituifail0>Gagal menginialisasikan pustaka MiaoUI! Kode kesalahan:</inituifail0>
 	<inituifail1>Gagal untuk membuat konteks window!</inituifail1>
@@ -28,7 +28,7 @@
 	<saveconfig>Simpan Konfigurasi</saveconfig>
 	<effectset>Pengaturan Efek</effectset>
 	<blurvalue>Blur radius:</blurvalue>
-	<applyglobal>Override DWMAPI mica effect (win11)</applyglobal>
+	<applyglobal>Ganti efek mica DWMAPI (win11)</applyglobal>
 	<extendborder>Perluas efek ke borders (win10)</extendborder>
 	<reflection>Aktifkan efek pantulan Aero (Win10)</reflection>
 	<oldBtnHeight>Kurangi tinggi tombol pada baris judul (win7 style)</oldBtnHeight>
@@ -41,7 +41,7 @@
 	<configfile>Berkas konfigurasi</configfile>
 	<symbolfile>Berkas simbol:</symbolfile>
 	<download>Unduh</download>
-	<symtip>Symbol files (pdb) are files that record debugging information about a program. Since systems vary from version to version, you will need to download the symbol files from a Microsoft server. If you update your system, you may need to download the new file again.</symtip>
+	<symtip>Berkas Simbol (pdb) adalah berkas yang merekam informasi debugging tentang suatu program. Dikarenakan sistem bervariasi dari versi ke versi, anda akan mengunduh berkas simbol dari server Microsoft. Jika anda memperbaharui sistem anda, anda harus mengunduh berkasnya lagi.</symtip>
 	<symstatus0>Tidak Valid</symstatus0>
 	<symstatus1>Valid</symstatus1>
 	<symdowning>Mengunduh...</symdowning>
