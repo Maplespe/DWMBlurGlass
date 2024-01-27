@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<lang local="it-IT" author="LuisYeah1234">
+	<inituifail0>Inizializzazione della libreria MiaoUI Fallita! Codice errore: </inituifail0>
+	<inituifail1>Impossibile creare il contesto della finestra!</inituifail1>
+	<inituifail2>Non sono riuscito ad inizializzare la finestra!</inituifail2>
+	<initfail0>Tieni presente che a causa delle restrizioni sull'isolamento dell'autorizzazione DWM, l'applicazione deve essere posizionata in una directory non utente e il percorso non può trovarsi in "{path}" o nelle sue sottodirectory! Per favore cambia la directory.</initfail0>
+	<symloadfail>Caricamento del file dei simboli fallito! Il programma non è riuscito a caricare la DLL, scarica nuovamente i simboli! (Potrebbe anche essere necessario scaricare nuovamente i simboli dopo un aggiornamento del sistema)</symloadfail>
+	<colorpicker_dlg_sel>Seleziona un colore:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Nuovo colore:</colorpicker_dlg_c>
+	<msgdlg_no>Annulla</msgdlg_no>
+	<msgdlg_yes>Conferma</msgdlg_yes>
+	<colorpicker_dlg_alpha>Opacità:</colorpicker_dlg_alpha>
+	<general>Generale</general>
+	<symbol>Simboli</symbol>
+	<config>Configurazione</config>
+	<about>Informazioni</about>
+	<status>Stato:</status>
+	<status0>Disinstallato</status0>
+	<status1>Installato</status1>
+	<install>Installa</install>
+	<uninstall>Disinstalla</uninstall>
+	<installsucs>Installazione riuscita!</installsucs>
+	<installsucs1>L'installazione e riuscita! Ma non hai ancora scaricato un file di simboli valido, scaricalo dalla pagina "Simboli" per farlo funzionare!</installsucs1>
+	<installfail>Installazione fallita! Messaggio di errore: </installfail>
+	<uninstallsucs>Disinstallazione riuscita.</uninstallsucs>
+	<uninstallfail>Disinstallazione fallita! Messaggio di errore: </uninstallfail>
+	<loadfail>Non e stato possibile caricare il componente! Messaggio di errore: </loadfail>
+	<saveconfig>Salva configurazione</saveconfig>
+	<effectset>Impostazioni effetto</effectset>
+	<blurvalue>Raggio di sfocatura:</blurvalue>
+	<applyglobal>Sostituisci l'effetto mica DWMAPI (win11)</applyglobal>
+	<extendborder>Estendi gli effetti ai bordi (win10)</extendborder>
+	<reflection>Abilita l'effetto riflesso Aero (win10)</reflection>
+	<oldBtnHeight>Riduci l'altezza del pulsante della barra del titolo (stile Win7)</oldBtnHeight>
+	<blendcolor>Colore di fusione della barra del titolo (attivo):</blendcolor>
+	<inactiveblendcolor>Colore di fusione della barra del titolo (Inattivo):</inactiveblendcolor>
+	<activecolor>Colore del testo attivo:</activecolor>
+	<inactivecolor>Colore del testo inattivo:</inactivecolor>
+	<preview>Anteprima</preview>
+	<sampletitle>Titolo finestra esempio (attivo)</sampletitle>
+	<configfile>File di configurazione</configfile>
+	<symbolfile>File di simboli:</symbolfile>
+	<download>Scarica</download>
+	<symtip>I file di simboli (pdb) sono file che registrano informazioni di debug su un programma. Poiché i sistemi variano da versione a versione, dovrai scaricare i file dei simboli da un server Microsoft. Se aggiorni il tuo sistema, potrebbe essere necessario scaricare nuovamente il nuovo file.</symtip>
+	<symstatus0>Non valido</symstatus0>
+	<symstatus1>Valido</symstatus1>
+	<symdowning>Download in corso...</symdowning>
+	<symdownfail>Download fallito! Impossibile scaricare il file da "msdl.microsoft.com".</symdownfail>
+	<syminvalid>Il file dei simboli non è valido! Vai alla pagina "Simboli" del programma DWMBlurGlass per scaricare un nuovo file di simboli!</syminvalid>
+	<import>Importa</import>
+	<export>Esporta</export>
+	<restore>Ripristina i valori predefiniti</restore>
+	<importwarn>L'importazione di un file di configurazione sovrascriverà la configurazione esistente, continuare?</importwarn>
+	<restorecfg>Sei sicuro di voler ripristinare alla configurazione predefinita?</restorecfg>
+	<aboutinfo>Questo programma si basa sul software open source gratuito con accordo LGPLv3:</aboutinfo>
+	<curlang>Lingua attuale:</curlang>
+	<langauthor>Collaboratori alla traduzione:</langauthor>
+</lang>
