@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<lang local="pt-BR" author="Nocthernet">
+	<inituifail0>Não foi possível inicializar a biblioteca MiaoUI.</inituifail0>
+	<inituifail1>Não foi possível inicializar o conteúdo da janela!</inituifail1>
+	<inituifail2>Não foi possível inicializar o programa!</inituifail2>
+	<initfail0>Devido às restrições de Isolamento de Autorização da DWM, o aplicativo deverá ser colocado em um diretório fora da pasta usuário. Isto é, não pode estar em "{path}" ou seus subdiretórios! Por favor, altere o local do programa.</initfail0>
+	<symloadfail>Não foi possível carregar as DLLs 'Símbolos'! Por favor, baixe-as novamente! (Os símbolos também podem precisar ser baixados novamente após uma atualização do sistema)</symloadfail>
+	<colorpicker_dlg_sel>Selecione uma cor:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Nova cor:</colorpicker_dlg_c>
+	<msgdlg_no>Cancelar</msgdlg_no>
+	<msgdlg_yes>Confirmar</msgdlg_yes>
+	<colorpicker_dlg_alpha>Opacidade:</colorpicker_dlg_alpha>
+	<general>Geral</general>
+	<symbol>Símbolos</symbol>
+	<config>Configuração</config>
+	<about>Sobre</about>
+	<status>Status:</status>
+	<status0>Desinstalado</status0>
+	<status1>Instalado</status1>
+	<install>Instalar</install>
+	<uninstall>Desinstalar</uninstall>
+	<installsucs>Instalado com sucesso!</installsucs>
+	<installsucs1>Instalação sucedida, porém detectamos que os módulos 'Símbolos' são inválidas. Você poderá baixar na guia 'Símbolos'.</installsucs1>
+	<installfail>Falha na instalação! Código de erro: </installfail>
+	<uninstallsucs>Desinstalado com sucesso.</uninstallsucs>
+	<uninstallfail>Falha na desinstalação! Código de erro: </uninstallfail>
+	<loadfail>Falha ao carregar os componentes! Código de erro: </loadfail>
+	<saveconfig>Aplicar Configs.</saveconfig>
+	<effectset>Configurações de Efeito</effectset>
+	<blurvalue>Desfoque:</blurvalue>
+	<applyglobal>Sobrescrever efeito mica DWMAPI (win11)</applyglobal>
+	<extendborder>Estender efeitos para as bordas (win10)</extendborder>
+	<reflection>Ativar efeito de reflexo Aero (win10)</reflection>
+	<oldBtnHeight>Tamanho dos botões de janela reduzidas (estilo win7)</oldBtnHeight>
+	<blendcolor>Cor da Barra de Título (Ativa):</blendcolor>
+	<inactiveblendcolor>Cor da Barra de Título (Inativa):</inactiveblendcolor>
+	<activecolor>Cor do texto da Barra de Título Ativa:</activecolor>
+	<inactivecolor>Cor do texto da Barra de Título Inativa:</inactivecolor>
+	<preview>Demonstração</preview>
+	<sampletitle>Exemplo da Barra de Título (Ativa)</sampletitle>
+	<configfile>Arquivo de configuração</configfile>
+	<symbolfile>Símbolos:</symbolfile>
+	<download>Baixar</download>
+	<symtip>Arquivos de símbolos (.pdb) são arquivos que registram informações de depuração sobre um programa. Devido às variações entre versões de sistemas, é necessário baixá-los de um servidor da Microsoft, especialmente após atualizar o sistema.</symtip>
+	<symstatus0>Invalidos</symstatus0>
+	<symstatus1>Validos</symstatus1>
+	<symdowning>Baixando...</symdowning>
+	<symdownfail>Falha no Download! Não foi possível baixar os arquivos do site "msdl.microsoft.com".</symdownfail>
+	<syminvalid>Symbol file is invalid! Please go to the "Symbols" page of the DWMBlurGlass program to download a new symbol file!</syminvalid>
+	<import>Importar</import>
+	<export>Exportar</export>
+	<restore>Restaurar padrões</restore>
+	<importwarn>Importar um arquivo de configuração irá sobrescrever sua configuração existente. Continuar?</importwarn>
+	<restorecfg>Você tem certeza de que deseja restaurar para as configurações originais?</restorecfg>
+	<aboutinfo>DWMbg é baseado no software livre e de código aberto sob licença LGPLv3.</aboutinfo>
+	<curlang>Idioma atual:</curlang>
+	<langauthor>Traduzido por:</langauthor>
+</lang>
