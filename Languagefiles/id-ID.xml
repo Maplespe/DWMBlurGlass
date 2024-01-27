@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang local="en-US" author="Lieba Natur Brilian (naturbrilian)">
+	<inituifail0>Gagal menginialisasikan pustaka MiaoUI! Kode kesalahan:</inituifail0>
+	<inituifail1>Gagal untuk membuat konteks window!</inituifail1>
+	<inituifail2>Gagal menginialisasikan window!</inituifail2>
+	<initfail0>Perhatikan bahwa karena pembatasan Isolasi Otorisasi DWM, aplikasi harus ditempatkan di direktori non-pengguna, dan jalurnya tidak boleh berada di "{path}" atau subdirektorinya! Silakan ubah direktorinya.</initfail0>
+	<symloadfail>Memuat berkas simbol gagal! Program tidak dapat memuat dll, mohon unduh simbol lagi! (simbol juga akan mengunduh ulang setelah pembaruan sistem)</symloadfail>
+	<colorpicker_dlg_sel>Pilih warna:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Warna baru:</colorpicker_dlg_c>
+	<msgdlg_no>Batal</msgdlg_no>
+	<msgdlg_yes>Konfirmasi</msgdlg_yes>
+	<colorpicker_dlg_alpha>Opacity:</colorpicker_dlg_alpha>
+	<general>Umum</general>
+	<symbol>Simbol</symbol>
+	<config>Konfigurasi</config>
+	<about>Tentang</about>
+	<status>Status:</status>
+	<status0>Dicopot</status0>
+	<status1>Terpasang</status1>
+	<install>Pasang</install>
+	<uninstall>Copot Pemasangan</uninstall>
+	<installsucs>Pemasangan berhasil!</installsucs>
+	<installsucs1>Pemasangan berhasil! Tetapi anda belum mengunduh berkas simbol yang valid, silahkan unduh dari halaman "Simbol" untuk membuat ini bekerja!</installsucs1>
+	<installfail>Pemasangan gagal! Kode kesalahan:</installfail>
+	<uninstallsucs>Pencopotan berhasil.</uninstallsucs>
+	<uninstallfail>Gagal mencopot pemasangan! Kode kesalahan: </uninstallfail>
+	<loadfail>Gagal untuk memuat komponen! Kode kesalahan:</loadfail>
+	<saveconfig>Simpan Konfigurasi</saveconfig>
+	<effectset>Pengaturan Efek</effectset>
+	<blurvalue>Blur radius:</blurvalue>
+	<applyglobal>Ganti efek mica DWMAPI (win11)</applyglobal>
+	<extendborder>Perluas efek ke borders (win10)</extendborder>
+	<reflection>Aktifkan efek pantulan Aero (Win10)</reflection>
+	<oldBtnHeight>Kurangi tinggi tombol pada baris judul (win7 style)</oldBtnHeight>
+	<blendcolor>Warna blend baris judul (Aktif):</blendcolor>
+	<inactiveblendcolor>Warna blend baris judul (Tidak Aktif):</inactiveblendcolor>
+	<activecolor>Warna teks aktif:</activecolor>
+	<inactivecolor>Warna teks ketika dinonaktifkan:</inactivecolor>
+	<preview>Pratinjau</preview>
+	<sampletitle>Contoh window judul (Aktif)</sampletitle>
+	<configfile>Berkas konfigurasi</configfile>
+	<symbolfile>Berkas simbol:</symbolfile>
+	<download>Unduh</download>
+	<symtip>Berkas Simbol (pdb) adalah berkas yang merekam informasi debugging tentang suatu program. Dikarenakan sistem bervariasi dari versi ke versi, anda akan mengunduh berkas simbol dari server Microsoft. Jika anda memperbaharui sistem anda, anda harus mengunduh berkasnya lagi.</symtip>
+	<symstatus0>Tidak Valid</symstatus0>
+	<symstatus1>Valid</symstatus1>
+	<symdowning>Mengunduh...</symdowning>
+	<symdownfail>Unduhan gagal! Tidak dapat mengunduh berkas dari "msdl.microsoft.com</symdownfail>
+	<syminvalid>Berkas simbol tidak valid! Mohon pergi ke halaman "Simbol" program DWMBlurGlass untuk mengunduh berkas simbol baru!</syminvalid>
+	<import>Impor</import>
+	<export>Ekspor</export>
+	<restore>Kembalikan ke semula</restore>
+	<importwarn>Mengimpor berkas konfigurasi akan menimpa konfigurasi anda sebelumnya, lanjutkan?</importwarn>
+	<restorecfg>Apakah anda yakin ingin mengembalikan konfigurasi ke semula?</restorecfg>
+	<aboutinfo>Program ini didasarkan pada perjanjian LGPLv3 perangkat lunak sumber terbuka gratis:</aboutinfo>
+	<curlang>Bahasa saat ini:</curlang>
+	<langauthor>Kontributor Penerjemah:</langauthor>
+</lang>
