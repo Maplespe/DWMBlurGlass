@@ -1,5 +1,5 @@
 # DWMBlurGlass
-Aggiungi l'effetto sfocato alla barra del titolo del sistema globale, supporta Win10 e Win11.
+Aggiunge l'effetto sfocato alla barra del titolo del sistema globale, supporta Win10 e Win11.
 
 #
 | [中文](/README_ZH.md) | [English](/README.md) | [Deutsch](/README_DE.md) | 
