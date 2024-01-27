@@ -86,8 +86,8 @@ Utilizzo di temi di terze parti
 </details>
 
 ### Disinstalla
-1. Run the DWMBlurGlass.exe GUI program and click Uninstall.
-2. Delete relevant files
+1. Eseguire il Programma GUI DWMBlurGlass.exe e fare clic su Disinstalla.
+2. Eliminare i file rilevanti
 
 ## File di lingua
 Offriamo le lingue di base inglese e cinese semplificato.
