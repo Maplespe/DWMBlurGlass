@@ -175,7 +175,12 @@ namespace MDWMBlurGlassExt
 		g_pDesktopManagerInstance_ptr = (PVOID*)MHostGetProcAddress("CDesktopManager::s_pDesktopManagerInstance");
 		if (g_pDesktopManagerInstance_ptr && *g_pDesktopManagerInstance_ptr)
 		{
-			if (os::buildNumber >= 22621)
+			if (os::buildNumber >= 22635)
+			{
+				// Windows 11 Release Preview
+				g_wicImageFactory = (IWICImagingFactory2*)*((PVOID*)*g_pDesktopManagerInstance_ptr + 31);
+			}
+			else if (os::buildNumber >= 22621)
 			{
 				// Windows 11 22H2
 				g_wicImageFactory = (IWICImagingFactory2*)*((PVOID*)*g_pDesktopManagerInstance_ptr + 30);
@@ -224,7 +229,7 @@ namespace MDWMBlurGlassExt
 		g_funCTopLevelWindow_ValidateVisual.Attach();
 
 		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
-		if(os::buildNumber <= 22621)
+		if(os::buildNumber <= 22635)
 		{
 			HMODULE hModule = GetModuleHandleW(L"user32.dll");
 			g_funFillRect = (decltype(g_funFillRect))GetProcAddress(hModule, "FillRect");
@@ -279,7 +284,7 @@ namespace MDWMBlurGlassExt
 			WriteMemory(g_pCreateBitmapFromHBITMAP, [&] {*(PVOID*)g_pCreateBitmapFromHBITMAP = g_funCreateBitmapFromHBITMAP; });
 
 		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
-		if(os::buildNumber <= 22621)
+		if(os::buildNumber <= 22635)
 		{
 			WriteIAT(udwmModule, "User32.dll", {{ "DrawTextW", g_funDrawTextW } , { "FillRect", g_funFillRect }});
 		}
