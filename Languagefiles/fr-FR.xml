@@ -41,7 +41,7 @@
 	<configfile>Fichier de configuration</configfile>
 	<symbolfile>Fichier de symboles :</symbolfile>
 	<download>Télécharger</download>
-	<symtip>Les fichiers de symboles (pdb) sont des fichiers qui enregistrent des informations de débogage sur un programme. Étant donné que les systèmes varient d’une version à l’autre, vous devrez télécharger les fichiers de symboles à partir d’un serveur Microsoft. Si vous mettez à jour votre système, vous devrez peut-être télécharger à nouveau le nouveau fichier.</symtip>
+	<symtip>Les fichiers de symboles (pdb) sont des fichiers qui enregistrent des\ninformations de débogage sur un programme. Étant donné que les\nsystèmes varient d’une version à l’autre, vous devrez télécharger les\nfichiers de symboles à partir d’un serveur Microsoft. Si vous mettez à\njour votre système, vous devrez peut-être télécharger à nouveau le\nnouveau fichier.</symtip>
 	<symstatus0>Invalide</symstatus0>
 	<symstatus1>Valide</symstatus1>
 	<symdowning>Téléchargement...</symdowning>

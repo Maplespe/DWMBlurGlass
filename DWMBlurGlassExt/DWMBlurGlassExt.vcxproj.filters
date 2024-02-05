@@ -19,12 +19,30 @@
     <Filter Include="minhook\hde">
       <UniqueIdentifier>{35845772-fd1a-469d-a1bc-586836cedb20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Helper">
+      <UniqueIdentifier>{7c5c19fb-801e-4638-a710-c043e1588fe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Helper">
+      <UniqueIdentifier>{8496af67-2dc9-4028-9816-d57ed6f67b65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Section">
+      <UniqueIdentifier>{2852c565-ec97-43e9-a43f-6ac0fe54ce02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Section">
+      <UniqueIdentifier>{91c2044c-b3cd-41f3-959e-14dd00ac5e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Common">
+      <UniqueIdentifier>{e128b23e-9405-4bdf-a68a-608fb6e8b87f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Common">
+      <UniqueIdentifier>{faec54f5-0903-47ac-967b-b50667aed3ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Effects">
+      <UniqueIdentifier>{d88a7a1e-9bb4-490f-b555-75ad09fbd934}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DefFunctionList.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="minhook\buffer.h">
@@ -57,14 +75,80 @@
     <ClInclude Include="DWMBlurGlass.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="HookHelper.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Helper\Helper.h">
+      <Filter>头文件\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="HookDef.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Helper\HookHelper.h">
+      <Filter>头文件\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="Helper.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Section\AccentBlurEffect.h">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="Section\CustomButton.h">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\DefFunctionList.h">
+      <Filter>头文件\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\DWMStruct.h">
+      <Filter>头文件\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\CommonDef.h">
+      <Filter>头文件\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\HookDef.h">
+      <Filter>头文件\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Section\TitleTextTweaker.h">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="Section\BlurRadiusTweaker.h">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\BlendEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\BorderEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\CanvasEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\ColorSourceEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\CompositeEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\CrossFadeEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\ExposureEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\GaussianBlurEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\OpacityEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Effects\SaturationEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\wil.h">
+      <Filter>头文件\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\DcompPrivate.h">
+      <Filter>头文件\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Section\BackdropMaterials.h">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="Section\CustomBackdropEffect.h">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="Section\DwmAPIEffect.h">
+      <Filter>头文件\Section</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -89,14 +173,38 @@
     <ClCompile Include="DWMBlurGlass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="HookHelper.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Helper\Helper.cpp">
+      <Filter>源文件\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="Notifier.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Helper\HookHelper.cpp">
+      <Filter>源文件\Helper</Filter>
     </ClCompile>
-    <ClCompile Include="Helper.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Helper\Notifier.cpp">
+      <Filter>源文件\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\AccentBlurEffect.cpp">
+      <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\CustomButton.cpp">
+      <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\DWMStruct.cpp">
+      <Filter>源文件\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\TitleTextTweaker.cpp">
+      <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\BlurRadiusTweaker.cpp">
+      <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\BackdropMaterials.cpp">
+      <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\CustomBackdropEffect.cpp">
+      <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\DwmAPIEffect.cpp">
+      <Filter>源文件\Section</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

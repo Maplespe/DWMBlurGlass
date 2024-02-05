@@ -20,7 +20,7 @@
 #include "Helper/Helper.h"
 #include "UIManager.h"
 #include "Common.h"
-#include "../DWMBlurGlassExt/DefFunctionList.h"
+#include "../DWMBlurGlassExt/Common/DefFunctionList.h"
 
 #pragma data_seg(".DWMBlurGlassShared")
 

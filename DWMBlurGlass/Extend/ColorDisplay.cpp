@@ -38,13 +38,6 @@ namespace Mui
 		parent->AddChildren(this);
 	}
 
-	ColorDisplay::~ColorDisplay()
-	{
-		MSafeRelease(font);
-		MSafeRelease(pen);
-		MSafeRelease(brush);
-	}
-
 	void ColorDisplay::SetAttribute(std::wstring_view attribName, std::wstring_view attrib, bool draw)
 	{
 		if (attribName == L"curColor")
@@ -58,7 +51,6 @@ namespace Mui
 		else if (attribName == L"fontStyle")
 		{
 			fontStyle = *(UILabel::Attribute*)M_StoULong64(attrib);
-			MSafeRelease(font);
 			font = m_render->CreateFonts(L"", fontStyle.font, fontStyle.fontSize, fontStyle.fontCustom);
 		}
 		else if (attribName == L"text")
@@ -124,7 +116,7 @@ namespace Mui
 		colorRc.left = colorRc.right + offset;
 		colorRc.right = param->destRect->right;
 
-		brush->SetColor(M_Black);
+		brush->SetColor(IsEnabled() ? M_Black : M_RGBA(130, 130, 130, 255));
 
 		std::wstring colorstr = showalpha ? L"RGBA(" : L"RGB(";
 		colorstr += std::to_wstring(M_GetRValue(curColor)) + L"," + std::to_wstring(M_GetGValue(curColor))
@@ -155,10 +147,6 @@ namespace Mui
 	void ColorDisplay::OnLoadResource(MRenderCmd* render, bool recreate)
 	{
 		UINodeBase::OnLoadResource(render, recreate);
-
-		MSafeRelease(font);
-		MSafeRelease(pen);
-		MSafeRelease(brush);
 
 		auto scale = GetRectScale().scale();
 		const float fontSize = M_MIN(scale.cx, scale.cy) * (float)fontStyle.fontSize;

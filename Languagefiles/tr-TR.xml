@@ -41,7 +41,7 @@
 	<configfile>Yapılandırma dosyası</configfile>
 	<symbolfile>Sembol dosyası:</symbolfile>
 	<download>İndir</download>
-	<symtip>Sembol dosyaları (pdb) bir programın hata giderme bilgilerini kaydeder. Bu sistemler sürümden sürüme değiştiğinden, sembol dosyalarını bir Microsoft sunucusundan indirmeniz gerekir. Eğer sisteminizi güncellerseniz, yeniden yeni dosyayı indirmeniz gerekebilir.</symtip>
+	<symtip>Sembol dosyaları (pdb) bir programın hata giderme bilgilerini kaydeder.\nBu sistemler sürümden sürüme değiştiğinden, sembol dosyalarını bir\nMicrosoft sunucusundan indirmeniz gerekir. Eğer sisteminizi güncellerseniz,\nyeniden yeni dosyayı indirmeniz gerekebilir.</symtip>
 	<symstatus0>Geçersiz</symstatus0>
 	<symstatus1>Geçerli</symstatus1>
 	<symdowning>İndiriliyor...</symdowning>

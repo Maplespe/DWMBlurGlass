@@ -24,24 +24,54 @@ namespace MDWMBlurGlass
 {
 	extern const HINSTANCE this_inst;
 
+	enum class blurMethod
+	{
+		CustomBlur,
+		AccentBlur,
+		DWMAPIBlur
+	};
+
+	enum class effectType
+	{
+		Blur,
+		Aero,
+		Acrylic,
+		Mica
+	};
+
 	struct ConfigData
 	{
 		bool applyglobal = false;
 		bool extendBorder = false;
 		bool reflection = false;
 		bool oldBtnHeight = false;
+		bool customAmount = false;
+		
 		int extendRound = 10;
 		float blurAmount = 20.f;
+		float customBlurAmount = 20.f;
+		float luminosityOpacity = 0.65f;
 		COLORREF activeTextColor = 0xFF000000;
 		COLORREF inactiveTextColor = 0xFFB4B4B4;
 		COLORREF activeBlendColor = 0x64FFFFFF;
 		COLORREF inactiveBlendColor = 0x64FFFFFF;
+
+		COLORREF activeTextColorDark = 0xFFFFFFFF;
+		COLORREF inactiveTextColorDark = 0xFFB4B4B4;
+		COLORREF activeBlendColorDark = 0x64000000;
+		COLORREF inactiveBlendColorDark = 0x64000000;
+
+		blurMethod blurmethod = blurMethod::CustomBlur;
+		effectType effectType = effectType::Blur;
 
 		bool isDefault()
 		{
 			static ConfigData _default;
 			return memcmp(this, &_default, sizeof ConfigData) == 0;
 		}
+
+		static ConfigData LoadFromFile(std::wstring_view path);
+		static void SaveToFile(std::wstring_view path, const ConfigData& cfg);
 	};
 
 	enum class MHostNotifyType
@@ -121,5 +151,7 @@ namespace MDWMBlurGlass
 	{
 		extern std::wstring GetCurrentDir();
 		extern std::wstring GetIniString(std::wstring_view path, std::wstring_view appName, std::wstring_view keyName);
+		extern bool SetIniString(std::wstring_view path, std::wstring_view appName, std::wstring_view keyName, std::wstring_view value);
+		extern bool IsAppUseLightMode();
 	}
 }

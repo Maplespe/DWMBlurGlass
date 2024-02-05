@@ -79,9 +79,9 @@ namespace MDWMBlurGlass
 						<UIControl frameWidth="1" frameColor="150,150,150,255" name="colorpicker_cur" frame="10,5,50,50" />
 					</UIControl>
 				</UIControl>
-				<UIControl frame="280,300,100%,100%" align="LinearHLB">
-					<UIButton frame="10,10,72,27" text="#msgdlg_no" name="color_dialog_no" animate="false" />
-					<UIButton frame="10,10,72,27" text="#msgdlg_yes" name="color_dialog_yes" animate="false" />
+				<UIControl frame="200,300,100%,100%" align="LinearHLB">
+					<UIButton pos="10,10" text="#msgdlg_no" name="color_dialog_no" animate="false" autoSize="true" minSize="72,27" maxSize="100,26" inset="5,2,5,2" />
+					<UIButton pos="10,10" text="#msgdlg_yes" name="color_dialog_yes" animate="false" autoSize="true" minSize="72,27" maxSize="100,26" inset="5,2,5,2" />
 				</UIControl>
 				<UILabel fontSize="12" text="HEX: #000000" pos="15,305" name="colorpicker_hex" />
 				<UIControl frame="150,305,100%,20" align="LinearH" name="colorpicker_ablock">

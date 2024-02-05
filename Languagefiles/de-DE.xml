@@ -41,7 +41,7 @@
 	<configfile>Konfigurationsdatei</configfile>
 	<symbolfile>Symboldatei:</symbolfile>
 	<download>Herunterladen</download>
-	<symtip>Symboldateien (pdb) sind Dateien, die Debugging-Informationen zu einem Programm aufzeichnen. Da die Systeme von Version zu Version unterschiedlich sind, müssen Sie die Symboldateien von einem Microsoft-Server herunterladen. Wenn Sie Ihr System aktualisieren, müssen Sie die neue Datei möglicherweise erneut herunterladen.</symtip>
+	<symtip>Symboldateien (pdb) sind Dateien, die Debugging-Informationen zu einem\nProgramm aufzeichnen. Da die Systeme von Version zu Version\nunterschiedlich sind, müssen Sie die Symboldateien von einem\nMicrosoft-Server herunterladen. Wenn Sie Ihr System aktualisieren, müssen\nSie die neue Datei möglicherweise erneut herunterladen.</symtip>
 	<symstatus0>Ungültig</symstatus0>
 	<symstatus1>Gültig</symstatus1>
 	<symdowning>Wird heruntergeladen...</symdowning>

@@ -17,12 +17,15 @@
 */
 #pragma once
 #include "framework.h"
+#include <User/Mui_Engine.h>
 
 namespace MDWMBlurGlass
 {
-	inline const std::wstring g_vernum = L"1.0.3";
+	inline const std::wstring g_vernum = L"2.0.0";
 
-	bool MainWindow_EventProc(Mui::MWindowCtx*, Mui::UINotifyEvent event, Mui::Ctrl::UIControl* control, Mui::_m_param param);
+	Mui::_m_result MainWindow_SrcEventProc(Mui::MWindowCtx*, const Mui::MWndDefEventSource&, Mui::MEventCodeEnum, Mui::_m_param);
+
+	Mui::_m_result MainWindow_EventProc(Mui::MWindowCtx*, Mui::UINotifyEvent event, Mui::Ctrl::UIControl* control, Mui::_m_param param);
 
 	bool MainWindow_InitWindow(const Mui::MWindowCtx*, Mui::Ctrl::UIControl* root, Mui::XML::MuiXML* ui);
 

@@ -93,7 +93,7 @@ namespace MDWMBlurGlass
 		for(auto& element : root)
 		{
 			std::wstring name = element.name();
-			std::wstring value = element.text().get();
+			std::wstring value = Helper::M_ReplaceString(element.text().get(), L"\\n", L"\n");
 
 			if (name.empty() || value.empty())
 				continue;

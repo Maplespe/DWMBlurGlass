@@ -4,6 +4,7 @@
 #include <ocidl.h>
 #include <xamlom.h>
 #include <DispatcherQueue.h>
+#include <winrt/base.h>
 
 #pragma push_macro("GetCurrentTime")
 #undef GetCurrentTime
@@ -47,8 +48,6 @@
 #include <windows.ui.xaml.hosting.h>
 #include <windows.ui.xaml.hosting.desktopwindowxamlsource.h>
 #pragma pop_macro("GetCurrentTime")
-
-#include <winrt/base.h>
 
 namespace MDWMBlurGlass
 {

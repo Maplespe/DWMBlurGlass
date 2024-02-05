@@ -16,8 +16,6 @@
  * If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.
 */
 #include "Helper.h"
-#include "Common.h"
-#include <Uxtheme.h>
 
 namespace MDWMBlurGlassExt
 {
@@ -170,5 +168,97 @@ namespace MDWMBlurGlassExt
 	catch (...)
 	{
 		return winrt::to_hresult();
+	}
+
+	winrt::com_ptr<ID2D1Bitmap1> CreateD2DBitmap(IWICImagingFactory2* factory, ID2D1DeviceContext* context,
+		std::wstring_view filename)
+	{
+		using namespace winrt;
+
+		if (!context && !factory)
+			return nullptr;
+
+		com_ptr<IWICBitmapDecoder> decoder = nullptr;
+
+		HRESULT hr = factory->CreateDecoderFromFilename(filename.data(), &GUID_VendorMicrosoft, GENERIC_READ, WICDecodeMetadataCacheOnDemand, decoder.put());
+
+		if (FAILED(hr))
+			return nullptr;
+
+		com_ptr<IWICBitmapFrameDecode> frame = nullptr;
+		hr = decoder->GetFrame(0, frame.put());
+		if (FAILED(hr))
+			return nullptr;
+
+		com_ptr<IWICFormatConverter> converter = nullptr;
+		hr = factory->CreateFormatConverter(converter.put());
+		if (FAILED(hr))
+			return nullptr;
+
+		com_ptr<IWICPalette> palette = nullptr;
+		hr = converter->Initialize(frame.get(), GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, palette.get(), 0, WICBitmapPaletteTypeCustom);
+
+		if (FAILED(hr))
+			return nullptr;
+
+		com_ptr<IWICBitmap> wicbitmap = nullptr;
+		hr = factory->CreateBitmapFromSource(converter.get(), WICBitmapNoCache, wicbitmap.put());
+
+		if (FAILED(hr))
+			return nullptr;
+
+		com_ptr<ID2D1Bitmap1> ret = nullptr;
+		D2D1_PIXEL_FORMAT format;
+		format.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
+		format.format = DXGI_FORMAT_B8G8R8A8_UNORM;
+
+		D2D1_BITMAP_PROPERTIES1 bitmapProp;
+		bitmapProp.dpiX = 96;
+		bitmapProp.dpiY = 96;
+		bitmapProp.colorContext = nullptr;
+		bitmapProp.pixelFormat = format;
+		bitmapProp.bitmapOptions = D2D1_BITMAP_OPTIONS_TARGET;
+
+		context->CreateBitmapFromWicBitmap(wicbitmap.get(), bitmapProp, ret.put());
+
+		return ret;
+	}
+
+	HBITMAP CreateAlphaBitmap(int width, int height)
+	{
+		BITMAPINFOHEADER bmih = { 0 };
+		bmih.biSize = sizeof(BITMAPINFOHEADER);
+		bmih.biWidth = width;
+		bmih.biHeight = -height;
+		bmih.biPlanes = 1;
+		bmih.biBitCount = 32;
+		bmih.biCompression = BI_RGB;
+
+		BITMAPINFO bmi = { 0 };
+		bmi.bmiHeader = bmih;
+
+		HDC hdc = GetDC(nullptr);
+		void* bits;
+		HBITMAP hBitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &bits, nullptr, 0);
+		ReleaseDC(nullptr, hdc);
+		return hBitmap;
+	}
+
+	void EnumMonitors(std::vector<RECT>& monitorRects)
+	{
+		auto MonitorEnumProc = [](HMONITOR, HDC, LPRECT lprcMonitor, LPARAM dwData)
+		{
+			auto pList = (std::vector<RECT>*)dwData;
+			pList->push_back(*lprcMonitor);
+			return TRUE;
+		};
+		monitorRects.clear();
+		EnumDisplayMonitors(nullptr, nullptr, MonitorEnumProc, (LPARAM)&monitorRects);
+	}
+
+	bool IsRectInside(const RECT& rect1, const RECT& rect2)
+	{
+		return rect1.left <= rect2.left && rect1.top <= rect2.top
+			&& rect1.right >= rect2.left && rect1.bottom >= rect2.top;
 	}
 }

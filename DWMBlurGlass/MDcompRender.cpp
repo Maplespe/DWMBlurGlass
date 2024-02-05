@@ -65,14 +65,13 @@ namespace MDWMBlurGlass
 
 			//再创建一个画布 用于兼容GDI绘制
 			auto base = static_cast<MRenderCmd*>(m_base);
-			m_CanvasDef = (MCanvas_D2D*)base->CreateCanvas(width, height, true);
+			m_CanvasDef = base->CreateCanvas(width, height, true).cast<MCanvas_D2D>();
 			//创建一个无关显示画布 给需要的控件临时使用
-			m_CanvasTmp = (MCanvas_D2D*)base->CreateCanvas(width, height, true);
+			m_CanvasTmp = base->CreateCanvas(width, height, true).cast<MCanvas_D2D>();
 		}
 		if (m_Context && m_Canvas)
 		{
-			auto canvas = (MCanvas*)m_Canvas;
-			SetCanvas(canvas);
+			SetCanvas(m_Canvas.get());
 		}
 		return true;
 	}

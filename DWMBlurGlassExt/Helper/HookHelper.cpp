@@ -16,9 +16,9 @@
  * If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.
 */
 #include "HookHelper.h"
-#include "Common.h"
 #include "DefFunctionList.h"
 #include <ImageHlp.h>
+#include <winrt.h>
 #pragma comment(lib, "dbghelp.lib")
 
 namespace MDWMBlurGlassExt
@@ -249,4 +249,6 @@ namespace MDWMBlurGlassExt
 		}
 		return status;
 	}
+
+
 }

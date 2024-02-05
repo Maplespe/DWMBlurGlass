@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<lang local="en-US" author="Lieba Natur Brilian (naturbrilian)">
+<lang local="id-ID" author="Lieba Natur Brilian (naturbrilian)">
 	<inituifail0>Gagal menginialisasikan pustaka MiaoUI! Kode kesalahan:</inituifail0>
 	<inituifail1>Gagal untuk membuat konteks window!</inituifail1>
 	<inituifail2>Gagal menginialisasikan window!</inituifail2>
@@ -41,7 +41,7 @@
 	<configfile>Berkas konfigurasi</configfile>
 	<symbolfile>Berkas simbol:</symbolfile>
 	<download>Unduh</download>
-	<symtip>Berkas Simbol (pdb) adalah berkas yang merekam informasi debugging tentang suatu program. Dikarenakan sistem bervariasi dari versi ke versi, anda akan mengunduh berkas simbol dari server Microsoft. Jika anda memperbaharui sistem anda, anda harus mengunduh berkasnya lagi.</symtip>
+	<symtip>Berkas Simbol (pdb) adalah berkas yang merekam informasi debugging\ntentang suatu program. Dikarenakan sistem bervariasi dari versi ke versi,\nanda akan mengunduh berkas simbol dari server Microsoft. Jika anda\nmemperbaharui sistem anda, anda harus mengunduh berkasnya lagi.</symtip>
 	<symstatus0>Tidak Valid</symstatus0>
 	<symstatus1>Valid</symstatus1>
 	<symdowning>Mengunduh...</symdowning>
@@ -52,7 +52,7 @@
 	<restore>Kembalikan ke semula</restore>
 	<importwarn>Mengimpor berkas konfigurasi akan menimpa konfigurasi anda sebelumnya, lanjutkan?</importwarn>
 	<restorecfg>Apakah anda yakin ingin mengembalikan konfigurasi ke semula?</restorecfg>
-	<aboutinfo>Program ini didasarkan pada perjanjian LGPLv3 perangkat lunak sumber terbuka gratis:</aboutinfo>
+	<aboutinfo>Program ini didasarkan pada perjanjian LGPLv3 perangkat lunak sumber\nterbuka gratis:</aboutinfo>
 	<curlang>Bahasa saat ini:</curlang>
 	<langauthor>Kontributor Penerjemah:</langauthor>
 </lang>

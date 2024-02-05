@@ -41,7 +41,7 @@
 	<configfile>File di configurazione</configfile>
 	<symbolfile>File di simboli:</symbolfile>
 	<download>Scarica</download>
-	<symtip>I file di simboli (pdb) sono file che registrano informazioni di debug su un programma. Poiché i sistemi variano da versione a versione, dovrai scaricare i file dei simboli da un server Microsoft. Se aggiorni il tuo sistema, potrebbe essere necessario scaricare nuovamente il nuovo file.</symtip>
+	<symtip>I file di simboli (pdb) sono file che registrano informazioni di debug su un\nprogramma. Poiché i sistemi variano da versione a versione, dovrai\nscaricare i file dei simboli da un server Microsoft. Se aggiorni il tuo\nsistema, potrebbe essere necessario scaricare nuovamente il nuovo file.</symtip>
 	<symstatus0>Non valido</symstatus0>
 	<symstatus1>Valido</symstatus1>
 	<symdowning>Download in corso...</symdowning>
@@ -52,7 +52,7 @@
 	<restore>Ripristina i valori predefiniti</restore>
 	<importwarn>L'importazione di un file di configurazione sovrascriverà la configurazione esistente, continuare?</importwarn>
 	<restorecfg>Sei sicuro di voler ripristinare alla configurazione predefinita?</restorecfg>
-	<aboutinfo>Questo programma si basa sul software open source gratuito con accordo LGPLv3:</aboutinfo>
+	<aboutinfo>Questo programma si basa sul software open source gratuito con accordo\nLGPLv3:</aboutinfo>
 	<curlang>Lingua attuale:</curlang>
 	<langauthor>Contributori alla traduzione:</langauthor>
 </lang>

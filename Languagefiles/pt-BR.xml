@@ -41,7 +41,7 @@
 	<configfile>Arquivo de configuração</configfile>
 	<symbolfile>Símbolos:</symbolfile>
 	<download>Baixar</download>
-	<symtip>Arquivos de símbolos (.pdb) são arquivos que registram informações de depuração sobre um programa. Devido às variações entre versões de sistemas, é necessário baixá-los de um servidor da Microsoft, especialmente após atualizar o sistema.</symtip>
+	<symtip>Arquivos de símbolos (.pdb) são arquivos que registram informações de\ndepuração sobre um programa. Devido às variações entre versões de\nsistemas, é necessário baixá-los de um servidor da Microsoft,\nespecialmente após atualizar o sistema.</symtip>
 	<symstatus0>Invalidos</symstatus0>
 	<symstatus1>Validos</symstatus1>
 	<symdowning>Baixando...</symdowning>
@@ -52,7 +52,7 @@
 	<restore>Restaurar padrões</restore>
 	<importwarn>Importar um arquivo de configuração irá sobrescrever sua configuração existente. Continuar?</importwarn>
 	<restorecfg>Você tem certeza de que deseja restaurar para as configurações originais?</restorecfg>
-	<aboutinfo>DWMbg é baseado no software livre e de código aberto sob licença LGPLv3.</aboutinfo>
+	<aboutinfo>DWMBlurGlass é baseado no software livre e de código aberto sob\nlicença LGPLv3.</aboutinfo>
 	<curlang>Idioma atual:</curlang>
 	<langauthor>Traduzido por:</langauthor>
 </lang>

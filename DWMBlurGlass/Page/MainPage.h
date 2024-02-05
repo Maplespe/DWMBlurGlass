@@ -17,6 +17,7 @@
 */
 #pragma once
 #include "../Extend/Dialog.h"
+#include "../MainWindow.h"
 #include "Common.h"
 
 namespace MDWMBlurGlass
@@ -27,8 +28,12 @@ namespace MDWMBlurGlass
         MainWindowPage(Ctrl::UIControl* parent, XML::MuiXML* ui);
 
         bool EventProc(UINotifyEvent event, Ctrl::UIControl* control, _m_param param) override;
+        bool SrcEventProc(MWindowCtx*, const MWndDefEventSource& defcallback, MEventCodeEnum code, _m_param param);
+
+        void CreateTitleBar(XML::MuiXML* ui);
 
     private:
+        void RefreshTopLineColor(bool active);
         void RefreshStatus();
         void RefreshSymStatus();
         void SetButtonEnable(bool enable);
@@ -39,11 +44,24 @@ namespace MDWMBlurGlass
         void RefreshDWMConfig();
         void RefreshSysConfig();
 
+        void RefreshBlurPreview();
+
+        void SwitchColorModePreview(bool light);
+        void SwitchBlurMethod(blurMethod index);
+
+        Ctrl::UINavBar* m_cmodeNavbar = nullptr;
+
         Ctrl::UIEffectLayer* m_effLayer = nullptr;
         Ctrl::UISlider* m_blurValue = nullptr;
         Ctrl::UILabel* m_blurValueLabel = nullptr;
 
-        Ctrl::UIButton* m_saveBtn = nullptr;
+        Ctrl::UISlider* m_customBlurValue = nullptr;
+        Ctrl::UILabel* m_customBlurValueLabel = nullptr;
+
+        Ctrl::UISlider* m_luminosityValue = nullptr;
+        Ctrl::UILabel* m_luminosityValueLabel = nullptr;
+
+        Ctrl::UIButton* m_saveBtn[2] = { nullptr };
         Ctrl::UIButton* m_restBtn = nullptr;
 
         ConfigData m_cfgData;

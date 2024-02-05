@@ -21,7 +21,6 @@
 #include "MDcompRender.h"
 #include "Helper/Helper.h"
 #include "MHostHelper.h"
-#include <User/Mui_Engine.h>
 #include "Extend/ColorDisplay.h"
 #include <Knownfolders.h>
 #include <Shlobj.h>
@@ -92,7 +91,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		return 0;
 	}
 
-	auto context = engine.CreateWindowCtx({ 0,0,500,648 }, MWindowType::Normal,
+	auto context = engine.CreateWindowCtx({ 0,0,500,680 }, MWindowType::NoTitleBar,
 		L"DWMBlurGlass " + MDWMBlurGlass::g_vernum, true, true, 0, WS_EX_NOREDIRECTIONBITMAP);
 	if(!context)
 	{
@@ -104,6 +103,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ColorDisplay::Register();
 
 	context->SetEventCallback(MDWMBlurGlass::MainWindow_EventProc);
+	context->SetEventSourceCallback(MDWMBlurGlass::MainWindow_SrcEventProc);
 	if(!context->InitWindow(MDWMBlurGlass::MainWindow_InitWindow, false))
 	{
 		delete context;
@@ -117,8 +117,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	render->InitBackdrop();
 
 	context->Base()->SetResMode(true);
+	//context->Base()->ShowDebugRect(true);
 	context->Base()->CenterWindow();
 	context->Base()->ShowWindow(true);
+
 
 	context->EventLoop();
 

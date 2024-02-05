@@ -16,11 +16,19 @@
  * If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.
 */
 #pragma once
-#include "framework.h"
-#include <functional>
+#include "../framework.h"
+#include "winrt.h"
 #include <Uxtheme.h>
+#include <d2d1.h>
+#include <d2d1_1.h>
+#include <d2d1effects.h>
+#include <d2d1effects_2.h>
+#include <dwmapi.h>
 #include <wincodec.h>
+#pragma comment(lib, "d2d1.lib")
+#pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "uxtheme.lib")
+#pragma comment(lib, "dwmapi.lib")
 
 namespace MDWMBlurGlassExt
 {
@@ -59,6 +67,18 @@ namespace MDWMBlurGlassExt
 		UINT    format,
 		int& result
 	);
+
+	winrt::com_ptr<ID2D1Bitmap1> CreateD2DBitmap(
+		IWICImagingFactory2* factory,
+		ID2D1DeviceContext* context,
+		std::wstring_view filename
+	);
+
+	HBITMAP CreateAlphaBitmap(int width, int height);
+
+	void EnumMonitors(std::vector<RECT>& monitorRects);
+
+	bool IsRectInside(const RECT& rect1, const RECT& rect2);
 
 	namespace Vtbl
 	{

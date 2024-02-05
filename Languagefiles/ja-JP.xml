@@ -18,7 +18,7 @@
 	<status0>未インストール</status0>
 	<status1>インストール済</status1>
 	<install>インストール</install>
-	<uninstall>ｱﾝｲﾝｽﾄｰﾙ</uninstall>
+	<uninstall>アンインストール</uninstall>
 	<installsucs>インストールに成功しました</installsucs>
 	<installsucs1>インストールに成功しました。"Symbol"ページよりSymbolを有効化してください。</installsucs1>
 	<installfail>インストールに失敗しました エラーコード: </installfail>
@@ -41,7 +41,7 @@
 	<configfile>Configファイル</configfile>
 	<symbolfile>Symbolファイル:</symbolfile>
 	<download>ダウンロード</download>
-	<symtip>Symbolファイル(pdb)はプログラムのデバッグ情報を記録するファイルです。システムごとにバージョンが異なるため、Microsoftのサーバーから直接ダウンロードする必要があります。システムアップデート後にはSymbolファイルの更新が必要になることがあります。</symtip>
+	<symtip>Symbolファイル(pdb)はプログラムのデバッグ情報を記録するファイルです。\nシステムごとにバージョンが異なるため、Microsoftのサーバーから直接ダウン\nロードする必要があります。システムアップデート後にはSymbolファイルの\n更新が必要になることがあります。</symtip>
 	<symstatus0>無効</symstatus0>
 	<symstatus1>有効</symstatus1>
 	<symdowning>ダウンロード中…</symdowning>
