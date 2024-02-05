@@ -11,6 +11,7 @@
 	<msgdlg_yes>确认</msgdlg_yes>
 	<colorpicker_dlg_alpha>不透明度:</colorpicker_dlg_alpha>
 	<general>通用设置</general>
+	<advanced>高级设置</advanced>
 	<symbol>符号文件</symbol>
 	<config>配置文件</config>
 	<about>关于</about>
@@ -27,26 +28,36 @@
 	<loadfail>加载组件失败! 错误信息: </loadfail>
 	<saveconfig>保存配置</saveconfig>
 	<effectset>效果设置</effectset>
-	<blurvalue>模糊半径:</blurvalue>
+	<blurvalue>模糊半径(全局):</blurvalue>
 	<applyglobal>覆盖使用DWMAPI设置的云母效果(win11)</applyglobal>
 	<extendborder>扩展效果到边框 (win10)</extendborder>
-	<reflection>启用Aero反光效果 (win10)</reflection>
+	<reflection>启用Aero反射效果</reflection>
+	<reflectiontip>(使用OldBlur仅限win10有效)</reflectiontip>
 	<oldBtnHeight>减少标题栏按钮高度 (win7样式)</oldBtnHeight>
+	<cmodelight>浅色模式颜色</cmodelight>
+	<cmodedark>深色模式颜色</cmodedark>
 	<blendcolor>标题栏混合颜色 (活动状态):</blendcolor>
 	<inactiveblendcolor>标题栏混合颜色 (非活动状态):</inactiveblendcolor>
 	<activecolor>活动状态文本颜色:</activecolor>
 	<inactivecolor>非活动状态文本颜色:</inactivecolor>
 	<preview>预览</preview>
 	<sampletitle>示例窗口标题(活动状态)</sampletitle>
-	<configfile>配置文件</configfile>
+	<blurmethod>模糊方法:</blurmethod>
+	<methodcustom>[推荐] 使用本程序编写的模糊类 利用CVisual(DWM)和IComposition(dcomp)\n实现自定义背景效果,可以自定义绝大部分参数,效率最高,效果最好,稳定性较好,\n但系统适配范围一般(系统如果大更新可能会失效 需要等待更新)</methodcustom>
+	<methodaccent>[不推荐] 使用DWM内部未公开但未删除的AccentBlurBehind类实现模糊效果,\n可以自定义一小部分参数,效率较低,稳定性较差,系统适配范围较好\n(一般系统更新不会失效)</methodaccent>
+	<methoddwmapi>使用公开的DWMAPI设置SystemBackdrop效果，可选预设的Acrylic、Mica效果,\n无法自定义参数，效率高，稳定性较好，但可能破坏部分程序的渲染,\n系统适配范围仅限Windows 11 22H2(+)</methoddwmapi>
+	<effecttype>效果类型:</effecttype>
+	<blurvaluetitle>模糊半径(仅标题栏):</blurvaluetitle>
+	<luminosity>材质亮度不透明度:</luminosity>
 	<symbolfile>符号文件:</symbolfile>
 	<download>下载</download>
-	<symtip>符号文件(pdb)是记录程序调试信息的一种文件，由于各版本系统各不相同所以需要从微软服务器下载符号文件。如果您更新系统 可能需要重新下载新的文件。</symtip>
+	<symtip>符号文件(pdb)是记录程序调试信息的一种文件，由于各版本系统各不相同所以\n需要从微软服务器下载符号文件。如果您更新系统 可能需要重新下载新的文件。</symtip>
 	<symstatus0>无效</symstatus0>
 	<symstatus1>有效</symstatus1>
 	<symdowning>下载中...</symdowning>
 	<symdownfail>下载失败! 无法从"msdl.microsoft.com"下载文件</symdownfail>
 	<syminvalid>符号文件无效! 请转到DWMBlurGlass"符号文件"页面下载新的符号文件</syminvalid>
+	<configfile>配置文件</configfile>
 	<import>导入</import>
 	<export>导出</export>
 	<restore>还原默认</restore>
