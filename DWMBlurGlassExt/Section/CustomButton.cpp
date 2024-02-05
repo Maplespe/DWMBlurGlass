@@ -80,6 +80,8 @@ namespace MDWMBlurGlassExt::CustomButton
 			CButton** button;
 			if (os::buildNumber < 22000)
 				button = (CButton**)((DWORD64)This + 8 * (index + 61));
+			else if (os::buildNumber < 22621)
+				button = (CButton**)((DWORD64)This + 8 * (index + 63));
 			else
 				button = (CButton**)((DWORD64)This + 8 * (index + 66));
 
