@@ -503,7 +503,7 @@ namespace MDWMBlurGlass
                     {
                         m_page->Child(L"customEffectGroup")->SetEnabled(param != 3, false);
                         m_page->Child(L"effectgroup")->SetSize(15,
-                            m_cfgData.effectType == effectType::Acrylic ? 120 : 80, false);
+                            (m_cfgData.effectType == effectType::Acrylic || m_cfgData.effectType == effectType::Mica) ? 120 : 80, false);
                         //m_page->Child(L"customEffectGroup1")->SetVisible(m_cfgData.effectType == effectType::Acrylic, false);
                         m_page->UpdateLayout();
                     }
@@ -649,7 +649,8 @@ namespace MDWMBlurGlass
         SwitchBlurMethod(m_cfgData.blurmethod);
         m_page->Child<UIComBox>(L"blurmethod")->SetCurSelItem((int)m_cfgData.blurmethod, false);
         m_page->Child<UIComBox>(L"effecttype")->SetCurSelItem((int)m_cfgData.effectType, false);
-        bool enableLuminosity = m_cfgData.effectType == effectType::Acrylic && m_cfgData.blurmethod == blurMethod::CustomBlur;
+        bool enableLuminosity = (m_cfgData.effectType == effectType::Acrylic || m_cfgData.effectType == effectType::Mica)
+            && m_cfgData.blurmethod == blurMethod::CustomBlur;
         m_page->Child(L"effectgroup")->SetSize(15, enableLuminosity ? 120 : 80, false);
         //m_page->Child(L"customEffectGroup1")->SetVisible(enableLuminosity, false);
 
