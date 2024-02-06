@@ -83,7 +83,7 @@ Compatibile con [TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFl
 
 ![image](/Screenshot/100750.png)
 
-Using third-party themes
+Utilizzando i temi di terze parti.
 
 > Abilita "Estendi gli effetti ai bordi (win10)"
 
