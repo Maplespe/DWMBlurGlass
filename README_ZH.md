@@ -3,13 +3,13 @@ Add blur effect to global system title bar, support win10 and win11.
 
 给全局系统标题栏添加自定义效果，支持win10和win11
 #
-| [中文](/README_ZH.md) | [English](/README.md) |
+| [中文](/README_ZH.md) | [English](/README.md) | [Italian](/README_IT.md)
 This project uses [LGNU V3 license](/COPYING.LESSER).
 
 其他语言:
 > 以下文档可能部分已经过期，请以当前文档为准
 >
-> [Deutsch](/README_DE.md) | [French](/README_FR.md) | [Italian](/README_IT.md)
+> [Deutsch](/README_DE.md) | [French](/README_FR.md)
 
 
 [![license](https://img.shields.io/github/license/Maplespe/DWMBlurGlass.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
