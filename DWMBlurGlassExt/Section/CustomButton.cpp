@@ -132,10 +132,10 @@ namespace MDWMBlurGlassExt::CustomButton
 		const int normalW = int(48.f * scale);
 		const int height = int((float)frameY * scale);
 
-		if (os::buildNumber >= 22000)
-		{
+		//if (os::buildNumber >= 22000)
+		//{
 			borderW += (int)round(1.f * scale);
-		}
+		//}
 
 		int offset = rect.right - borderW;
 		//关闭按钮
