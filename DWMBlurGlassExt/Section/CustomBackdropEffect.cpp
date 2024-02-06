@@ -116,7 +116,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 			backdrop->GetVisual()->AllowVisualTreeClone(cloneAllowed);
 			if (SUCCEEDED(hr))
 			{
-				auto clonedBackdrop{ std::make_shared<CCompositedBackdrop>(g_configData.effectType, true) };
+				auto clonedBackdrop{ std::make_shared<CCompositedBackdrop>(g_configData.effectType, g_configData.reflection) };
 				backdrop->InitializeVisualTreeClone(clonedBackdrop.get());
 				g_backdropManager.CreateWithGivenBackdrop(topLevelWindow, clonedBackdrop);
 			}
