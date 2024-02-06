@@ -1,10 +1,16 @@
 # DWMBlurGlass
 Add blur effect to global system title bar, support win10 and win11.
 
-给全局系统标题栏添加模糊效果，支持win10和win11
+给全局系统标题栏添加自定义效果，支持win10和win11
 #
 | [中文](/README_ZH.md) | [English](/README.md) |
 This project uses [LGNU V3 license](/COPYING.LESSER).
+
+其他语言:
+> 以下文档可能部分已经过期，请以当前文档为准
+>
+> [Deutsch](/README_DE.md) | [French](/README_FR.md) | [Italian](/README_IT.md)
+
 
 [![license](https://img.shields.io/github/license/Maplespe/DWMBlurGlass.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 [![Github All Releases](https://img.shields.io/github/downloads/Maplespe/DWMBlurGlass/total.svg)](https://github.com/Maplespe/DWMBlurGlass/releases)
@@ -12,44 +18,60 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 <img src="https://img.shields.io/badge/language-c++-F34B7D.svg"/>
 <img src="https://img.shields.io/github/last-commit/Maplespe/DWMBlurGlass.svg"/>  
 
+## 目录
+- [效果](#效果)
+- [兼容性](#兼容性)
+- [预览](#预览)
+- [材质效果](#材质效果)
+  - [Blur](#blur)
+  - [Acrylic](#acrylic)
+  - [Mica](#mica)
+  - [MicaAlt](#micaalt)
+- [如何使用](#如何使用)
+  - [安装](#安装)
+  - [卸载](卸载)
+- [语言文件](#语言文件)
+- [依赖](#依赖)
+
 ## 效果
-* 为全局系统标题栏添加模糊效果
-* 可自定义全局模糊强度
-* 可自定义混合背景颜色
+* 为全局系统标题栏添加自定义效果
+* 可自定义全局或仅标题栏的模糊强度
+* 可自定义标题栏混合颜色
 * 可自定义标题栏文本颜色
-* 第三方主题支持
-* 自定义Aero反射底图效果
+* 可添加Aero反射和视差效果
 * 可还原win7样式标题栏按钮高度
 * 支持为使用旧版win7API DwmEnableBlurBehindWindow 的程序启用模糊效果
-
-请注意 模糊强度将影响全局 例如开始菜单、通知中心等位置...
+* 支持 `Blur`, `Aero`, `Acrylic`, `Mica(仅win11)` 效果
+* 可单独设置 亮/暗 颜色模式颜色，跟随系统自动切换
+* 提供 `CustomBlur`、`AccentBlur`、`SystemBackdrop` 模糊方法可选
+* 第三方主题支持
 
 ![image](/Screenshot/001701.png)
-![image](/Screenshot/78930.png)
+![image](/Screenshot/10307.png)
 
 ## 兼容性
-最低支持 **Windows 10 2004** 最高支持到 **Windows 11 最新版**(不包括预览版)
+最低支持 **Windows 10 2004** 最高支持到 **Windows 11 最新版**(部分模糊方法不支持预览版)
 
 可以与第三方主题一起使用进一步定制DWM.
 
 我们不会修改应用程序本身的渲染逻辑，与MicaForEveryone原理完全不同，因此也最大程度与第三方程序兼容.
 
+我们通过逆向分析dwm并编写自定义模糊类带来令人惊叹的视觉效果，但如果你选择"SystemBackdrop"模糊方法，则使用公开的系统接口，效果和MicaForEveryone一样
+
+不推荐与MicaForEveryone一起使用，我们不保证其兼容性
+
 与[ExplorerBlurMica](https://github.com/Maplespe/ExplorerBlurMica)兼容，一起使用效果更佳.
 
 与[TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFlyouts)兼容. (**需要注意的是即使本项目与TF兼容，但EBMv2与TFv2并不完全兼容**)
 
-## 目录
-- [预览](#预览)
-- [如何使用](#如何使用)
-- [语言文件](#语言文件)
-- [依赖](#依赖)
-
 ## 预览
 <details><summary><b>Windows 11</b></summary>
   
-![image](/Screenshot/78930.png)
+![image](/Screenshot/10307.png)
 
-> 启用 "覆盖使用DWMAPI设置的云母效果(win11)"
+![image](/Screenshot/102134.png)
+
+> 启用 "覆盖使用DWMAPI设置的云母效果 (win11)"
 
 ![image](/Screenshot/013521.png)
 </details>
@@ -58,17 +80,45 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 
 ![image](/Screenshot/001701.png)
 
+![image](/Screenshot/100750.png)
+
 使用第三方主题
 
 > 启用 "扩展效果到边框 (win10)"
 
-> 启用 "Aero反光效果 (win10)"
+> 启用 "启用Aero反射效果"
 
-> 启用 "减少标题栏按钮高度 (win7样式)"
+> 启用 "减少标题栏按钮高度 (win7 样式)"
 
 ![image](/Screenshot/025410.png)
 
 </details>
+
+## 材质效果
+### Blur
+> 基础的模糊效果，没什么特别的
+
+![image](/Screenshot/blur.png)
+
+### Aero
+> Windows 7 的玻璃效果 失去焦点时具有曝光和饱和度效果
+
+![image](/Screenshot/aero.png)
+
+![image](/Screenshot/aero_inactive.png)
+
+### Acrylic
+> 亚克力效果配方: 背景, 模糊, 叠加混合, 饱和度, 颜色混合覆盖, 噪点纹理
+
+![image](/Screenshot/acrylic.png)
+
+### Mica
+> 云母效果配方: 模糊的壁纸, 饱和度, 颜色混合覆盖
+
+![image](/Screenshot/mica.png)
+
+### MicaAlt
+以上的所有效果均可以自定义混合颜色，MicaAlt是灰色调的云母效果的变体，你可以自定义混合颜色来实现MicaAlt效果
 
 ## 如何使用
 
@@ -108,6 +158,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 
 ## 依赖
 * MiaoUI interface library v2 (Private)
+* [AcrylicEverywhere](https://github.com/ALTaleX531/AcrylicEverywhere) - CustomBlur方法的上游单独实现，感谢ALTaleX的研究和支持.
 * [minhook](https://github.com/m417z/minhook)
 * [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)

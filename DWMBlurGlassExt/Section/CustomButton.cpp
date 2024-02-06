@@ -104,6 +104,9 @@ namespace MDWMBlurGlassExt::CustomButton
 		RECT client;
 		This->GetActualWindowRect(&client, 0, 0, true);
 
+		if (IsIconic(g_window))
+			return S_OK;
+
 		int frameY = 20;
 		int borderW = ((rect.right - rect.left) - (client.right - client.left)) / 2;
 
@@ -113,7 +116,6 @@ namespace MDWMBlurGlassExt::CustomButton
 			This->GetBorderMargins(&margins);
 			borderW = margins.cxRightWidth;
 		}
-
 		if (IsZoomed(g_window))
 		{
 			MARGINS margins{ 0 };
@@ -129,6 +131,11 @@ namespace MDWMBlurGlassExt::CustomButton
 		const int width = int(28.f * scale);
 		const int normalW = int(48.f * scale);
 		const int height = int((float)frameY * scale);
+
+		if (os::buildNumber >= 22000)
+		{
+			borderW += (int)round(1.f * scale);
+		}
 
 		int offset = rect.right - borderW;
 		//关闭按钮

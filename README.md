@@ -1,10 +1,16 @@
 # DWMBlurGlass
-Add blur effect to global system title bar, support win10 and win11.
+Add custom effect to global system title bar, support win10 and win11.
 
-给全局系统标题栏添加模糊效果，支持win10和win11
+给全局系统标题栏添加自定义效果，支持win10和win11
 #
-| [中文](/README_ZH.md) | [English](/README.md) | [Deutsch](/README_DE.md) | 
+| [中文](/README_ZH.md) | [English](/README.md)
 This project uses [LGNU V3 license](/COPYING.LESSER).
+
+Other languages:
+> The following documentation may be out of date, please refer to the current documentation.
+>
+> [Deutsch](/README_DE.md) | [French](/README_FR.md) | [Italian](/README_IT.md)
+
 
 [![license](https://img.shields.io/github/license/Maplespe/DWMBlurGlass.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 [![Github All Releases](https://img.shields.io/github/downloads/Maplespe/DWMBlurGlass/total.svg)](https://github.com/Maplespe/DWMBlurGlass/releases)
@@ -12,42 +18,59 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 <img src="https://img.shields.io/badge/language-c++-F34B7D.svg"/>
 <img src="https://img.shields.io/github/last-commit/Maplespe/DWMBlurGlass.svg"/>  
 
+## Catalog
+- [Effects](#effects)
+- [Compatibility](#compatibility)
+- [Gallery](#gallery)
+- [Material Effects](#material-effects)
+  - [Blur](#blur)
+  - [Aero](#aero)
+  - [Acrylic](#acrylic)
+  - [Mica](#mica)
+  - [MicaAlt](#micaalt)
+- [How to use](#how-to-use)
+  - [Install](#install)
+  - [Uninstall](#uninstall)
+- [Language files](#language-files)
+- [Dependencies](#dependencies)
+
 ## Effects
-* Adds a blur effect to the global system title bar.
-* Customizable global blur radius.
-* Customizable blend background colors.
+* Adds a custom effect to the global system title bar.
+* Customizable global blur radius or title bar blur radius only.
+* Customizable title bar blend colors.
 * Customizable title bar text color.
-* Third-party theme support.
-* Customize the Aero reflection effect.
+* Aero reflections and parallax effects can be added.
 * Restore Win7 style title bar button height.
 * Support to enable blur effect for programs using old win7 API DwmEnableBlurBehindWindow.
+* Support `Blur`, `Aero`, `Acrylic`, `Mica (Win11 only)` effects.
+* Individually customizable Light/Dark Color Mode Color Automatic switching.
+* `CustomBlur`, `AccentBlur` and `SystemBackdrop` blurring methods are available.
+* Third-party theme support.
 
-Please note that the blur radius will affect the global, which also includes locations such as the start menu, notification center, etc...
-
-![image](/Screenshot/001911.png)
+![image](/Screenshot/001701.png)
 ![image](/Screenshot/10307.png)
 
 ## Compatibility
-Supported as low as **Windows 10 2004** and as high as the **latest version of Windows 11** (excluding the preview version).
+Supported as low as **Windows 10 2004** and as high as the **latest version of Windows 11** (Some blurring methods are not supported in the preview version).
 
 Can be used with third party themes to further customize DWM.
 
 We do not modify the rendering logic of the application itself, which is completely different from the logic of MicaForEveryone and therefore maximizes compatibility with third-party programs.
 
+We reverse-analyze the dwm and code a custom blur method to bring stunning visual effects, but if you choose the "`SystemBackdrop`" blur method, it uses the system's publicly available interfaces and has the same effect as MicaForEveryone.
+
+Not recommended for use with MicaForEveryone, we do not guarantee compatibility with it.
+
 Compatible with [ExplorerBlurMica](https://github.com/Maplespe/ExplorerBlurMica), works better together.
 
 Compatible with [TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFlyouts). (**It should be noted that even though this project is compatible with TF, EBMv2 is not fully compatible with TFv2**)
-
-## Catalog
-- [Gallery](#gallery)
-- [How to use](#how-to-use)
-- [Language files](#language-files)
-- [Dependencies](#dependencies)
 
 ## Gallery
 <details><summary><b>Windows 11</b></summary>
   
 ![image](/Screenshot/10307.png)
+
+![image](/Screenshot/102134.png)
 
 > Enable "Override DWMAPI mica effect (win11)"
 
@@ -56,7 +79,9 @@ Compatible with [TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFl
 
 <details><summary><b>Windows 10</b></summary>
 
-![image](/Screenshot/001911.png)
+![image](/Screenshot/001701.png)
+
+![image](/Screenshot/100750.png)
 
 Using third-party themes
 
@@ -66,9 +91,37 @@ Using third-party themes
 
 > Enable "Reduce title bar button height (win7 style)"
 
-![image](/Screenshot/025454.png)
+![image](/Screenshot/025410.png)
 
 </details>
+
+## Material Effects
+### Blur
+> Basic pure blur. Nothing special.
+
+![image](/Screenshot/blur.png)
+
+### Aero
+> Windows 7's glass effect, with saturation and exposure effects on the background when it loses focus.
+
+![image](/Screenshot/aero.png)
+
+![image](/Screenshot/aero_inactive.png)
+
+### Acrylic
+> The acrylic recipe: background, blur, exclusion blend, saturation, color/tint overlay, noise
+
+![image](/Screenshot/acrylic.png)
+
+### Mica
+> The mica recipe: blurred wallpaper, saturation, color/tint overlay
+
+![image](/Screenshot/mica.png)
+
+### MicaAlt
+All of the above effects can be customized to blend colors.
+
+MicaAlt is Mica with grayish tone, you can modify the blend color by yourself to get the MicaAlt effect.
 
 ## How to use
 
@@ -109,6 +162,7 @@ If you would like to help us translate into other languages, please see below fo
 
 ## Dependencies
 * MiaoUI interface library v2 (Private)
+* [AcrylicEverywhere](https://github.com/ALTaleX531/AcrylicEverywhere) - Separate upstream implementation of the CustomBlur method, thanks to ALTaleX for research and support.
 * [minhook](https://github.com/m417z/minhook)
 * [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)
