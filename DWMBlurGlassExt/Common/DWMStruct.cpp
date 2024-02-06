@@ -633,7 +633,15 @@ namespace MDWMBlurGlassExt::DWM
 
 	CText* CTopLevelWindow::GetCText()
 	{
-		const auto text = *((CText**)this + 65);
+		CText* text{nullptr};
+		if (os::buildNumber < 22000)
+		{
+			text = *((CText**)this + 65);
+		}
+		else
+		{
+			text = *((CText**)this + 67);
+		}
 		return text;
 	}
 
@@ -838,7 +846,15 @@ namespace MDWMBlurGlassExt::DWM
 
 	LPCWSTR CText::GetText()
 	{
-		const wchar_t* text = (wchar_t*)*((DWORD64*)this + 36);
+		LPCWSTR text{nullptr};
+		if (os::buildNumber < 22000)
+		{
+			text = (wchar_t*)*((DWORD64*)this + 36);
+		}
+		else
+		{
+			text = (wchar_t*)*((DWORD64*)this + 37);
+		}
 		return text;
 	}
 
