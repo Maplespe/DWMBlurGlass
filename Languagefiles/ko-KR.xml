@@ -43,7 +43,7 @@
 	<preview>미리 보기</preview>
 	<sampletitle>예제 창 제목(활성)</sampletitle>
 	<blurmethod>블러 방법:</blurmethod>
-	<methodcustom>[추천] CVisual(DWM)에서 작성한 맞춤형 블러 구현 \n사용자 지정 배경 효과를 얻기 위한 Windows.UI.Composition(dcomp), \n대부분의 매개변수를 사용자 정의할 수 있으며, 가장 높은 값을 얻을 수 있을 뿐만 아니라 \n효율성 뿐만 아니라, 최고의 외관과 더 나은 안정성도 있습니다. 하지만 \n호환성이 별로 좋지 않습니다. \n(주요 윈도우 업데이트 후에 고장날 수 있으므로 다음 릴리스를 기다려야 합니다.)</methodcustom>
+		<methodcustom>[추천] CVisual(DWM)에서 작성한 맞춤형 블러 구현 \n사용자 지정 배경 효과를 얻기 위한 Windows.UI.Composition(dcomp), \n대부분의 매개변수를 사용자 정의할 수 있으며, 가장 높은 값을 얻을 수 있을 뿐만 \n아니라 효율성 뿐만 아니라, 최고의 외관과 더 나은 안정성도 있습니다. 하지만 \n호환성이 별로 좋지 않습니다. \n(주요 윈도우 업데이트 후에 고장날 수 있으므로 다음 릴리스를 기다려야 합니다.)</methodcustom>
 	<methodaccent>[권장하지 않음] DWM 내부 블러 구현 사용하되 삭제하지 않음 \nAccentBlurBehind 클래스는 블러 효과를 적용하기 위해 일부 \n매개변수를 사용자 정의할 수 있지만 비효율적이고 덜 안정적입니다. \n대부분의 시스템에서 정상적으로 작동할 수 있습니다. \n(일반적으로 시스템 업데이트는 이를 깨지 않습니다.</methodaccent>
 	<methoddwmapi>문서화된 DWMAPI를 사용하여 다음과 같은 제한된 SystemBackdrop 효과 적용 \n아크릴, 마이카 효과, 이러한 매개변수를 전혀 사용자 정의할 수 없지만 고효율, \n더 나은 안정성을 가지고 있습니다. \n그러나 일부 프로그램의 외관이 깨질 수 있으며, \n윈도우 11 22H2(+) 이상에서만 사용할 수 있습니다.</methoddwmapi>
 	<effecttype>효과 유형:</effecttype>
