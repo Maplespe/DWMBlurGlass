@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<lang local="ko-KR" author="KimWoo(Longhorn004)">
+	<inituifail0>MiaoUI 라이브러리 초기화 실패! 오류 코드: </inituifail0>
+	<inituifail1>창 컨텍스트를 만들지 못했습니다!</inituifail1>
+	<inituifail2>창을 초기화하지 못했습니다!</inituifail2>
+	<initfail0>DWM이 샌드박스에서 실행되고 있기 때문에 이 응용프로그램은 사용자가 아닌 디렉터리에 위치해야 하며 경로는 "{path}" 또는 해당 하위 디렉터리에 있을 수 없습니다. 다른 디렉터리에 위치시켜 주세요.</initfail0>
+	<symloadfail>심볼 파일을 로드하지 못했습니다! 프로그램이 dll을 로드할 수 없습니다. 심볼을 다시 다운로드하십시오! (시스템 업데이트 후 심볼을 다시 다운로드해야 할 수도 있습니다.)</symloadfail>
+	<colorpicker_dlg_sel>색상 선택:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>새 색상:</colorpicker_dlg_c>
+	<msgdlg_no>취소</msgdlg_no>
+	<msgdlg_yes>확인</msgdlg_yes>
+	<colorpicker_dlg_alpha>불투명도:</colorpicker_dlg_alpha>
+	<general>일반</general>
+	<advanced>고급</advanced>
+	<symbol>기호</symbol>
+	<config>구성</config>
+	<about>대해서</about>
+	<status>상태:</status>
+	<status0>언인스톨</status0>
+	<status1>설치된</status1>
+	<install>설치</install>
+	<uninstall>제거</uninstall>
+	<installsucs>설치에 성공했습니다!</installsucs>
+	<installsucs1>설치에 성공했습니다! 하지만 아직 유효한 심볼 파일을 다운로드하지 않았습니다. DWMBlurGlass가 작동하도록 하려면 "기호" 페이지에서 다운로드하십시오!</installsucs1>
+	<installfail>설치에 실패했습니다! 오류 메시지: </installfail>
+	<uninstallsucs>제거가 성공적으로 완료되었습니다.</uninstallsucs>
+	<uninstallfail>제거하지 못했습니다! 오류 메시지: </uninstallfail>
+	<loadfail>구성 요소를 로드하지 못했습니다! 오류 메시지: </loadfail>
+	<saveconfig>절약</saveconfig>
+	<effectset>효과 설정</effectset>
+	<blurvalue>블러 반경(글로벌):</blurvalue>
+	<applyglobal>DWMAPI 효과 재정의(win11)</applyglobal>
+	<extendborder>효과는 국경까지 확장됩니다(win10)</extendborder>
+	<reflection>에어로 글라스 반사 효과 활성화</reflection>
+	<reflectiontip>(윈도우 10에 한해 레거시 블러 방식)</reflectiontip>
+	<oldBtnHeight>제목 표시줄 단추 높이 감소(win7 스타일)</oldBtnHeight>
+	<cmodelight>라이트 모드 색상</cmodelight>
+	<cmodedark>다크 모드 색상</cmodedark>
+	<blendcolor>제목 표시줄 혼합 색상(활성):</blendcolor>
+	<inactiveblendcolor>제목 표시줄 혼합 색상(비활성):</inactiveblendcolor>
+	<activecolor>활성 텍스트 색상:</activecolor>
+	<inactivecolor>비활성 텍스트 색상:</inactivecolor>
+	<preview>미리 보기</preview>
+	<sampletitle>예제 창 제목(활성)</sampletitle>
+	<blurmethod>블러 방법:</blurmethod>
+	<methodcustom>[추천] CVisual(DWM)에서 작성한 맞춤형 블러 구현 \n사용자 지정 배경 효과를 얻기 위한 Windows.UI.Composition(dcomp), \n대부분의 매개변수를 사용자 정의할 수 있으며, 가장 높은 값을 얻을 수 있을 뿐만 아니라 \n효율성 뿐만 아니라, 최고의 외관과 더 나은 안정성도 있습니다. 하지만 \n호환성이 별로 좋지 않습니다. \n(주요 윈도우 업데이트 후에 고장날 수 있으므로 다음 릴리스를 기다려야 합니다.)</methodcustom>
+	<methodaccent>[권장하지 않음] DWM 내부 블러 구현 사용하되 삭제하지 않음 \nAccentBlurBehind 클래스는 블러 효과를 적용하기 위해 일부 \n매개변수를 사용자 정의할 수 있지만 비효율적이고 덜 안정적입니다. \n대부분의 시스템에서 정상적으로 작동할 수 있습니다. \n(일반적으로 시스템 업데이트는 이를 깨지 않습니다.</methodaccent>
+	<methoddwmapi>문서화된 DWMAPI를 사용하여 다음과 같은 제한된 SystemBackdrop 효과 적용 \n아크릴, 마이카 효과, 이러한 매개변수를 전혀 사용자 정의할 수 없지만 고효율, \n더 나은 안정성을 가지고 있습니다. \n그러나 일부 프로그램의 외관이 깨질 수 있으며, \n윈도우 11 22H2(+) 이상에서만 사용할 수 있습니다.</methoddwmapi>
+	<effecttype>효과 유형:</effecttype>
+	<blurvaluetitle>블러 반경(타이틀바만 해당):</blurvaluetitle>
+	<luminosity>광도 불투명도:</luminosity>
+	<symbolfile>기호 파일:</symbolfile>
+	<download>다운로드</download>
+	<symtip>기호 파일(pdb)은 프로그램에 대한 디버깅 정보를 기록하는 \n파일입니다. 시스템은 버전마다 다르기 때문에 마이크로소프트 \n서버에서 기호 파일을 다운로드해야 합니다. \n시스템을 업데이트하는 경우 기호 파일을 다시 다운로드해야 할 수 있습니다.</symtip>
+	<symstatus0>무효한</symstatus0>
+	<symstatus1>유효한</symstatus1>
+	<symdowning>다운로드 중...</symdowning>
+	<symdownfail>다운로드에 실패했습니다! "msdl.microsoft.com "에서 기호 파일을 다운로드할 수 없습니다.</symdownfail>
+	<syminvalid>기호 파일이 잘못되었습니다! 새 심볼 파일을 다운로드하려면 DWMBlurGlass 프로그램의 "기호"페이지로 이동하십시오!</syminvalid>
+	<configfile>구성 파일</configfile>
+	<import>수입품</import>
+	<export>내보내기</export>
+	<restore>기본 설정으로 복원</restore>
+	<importwarn>구성 파일을 가져오면 기존 구성을 덮어씁니다. 계속하시겠습니까?</importwarn>
+	<restorecfg>기본 구성을 복원하시겠습니까?</restorecfg>
+	<aboutinfo>이 프로그램은 LGPLv3 계약 무료 오픈 소스 소프트웨어를 기반으로 합니다:</aboutinfo>
+	<curlang>현재 언어:</curlang>
+	<langauthor>번역 기여자:</langauthor>
+</lang>
