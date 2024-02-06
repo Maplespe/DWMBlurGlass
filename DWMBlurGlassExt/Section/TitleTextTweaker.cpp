@@ -56,25 +56,25 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 				WriteMemory(g_pCreateBitmapFromHBITMAP, [&] { *(PVOID*)g_pCreateBitmapFromHBITMAP = MyCreateBitmapFromHBITMAP; });
 		}
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < 22621)
 		{
 			g_funCTopLevelWindow_UpdateWindowVisuals.Attach();
 			g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<1, true>();
 		}
-		else if (os::buildNumber >= 22000)
+		else if (os::buildNumber >= 22621)
 		{
 			g_funCTopLevelWindow_UpdateText.Attach();
 		}
 
 		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
-		if (os::buildNumber <= 22621)
+		if (os::buildNumber < 22621)
 		{
 			HMODULE hModule = GetModuleHandleW(L"user32.dll");
 			g_funFillRect = (decltype(g_funFillRect))GetProcAddress(hModule, "FillRect");
 			g_funDrawTextW = (decltype(g_funDrawTextW))GetProcAddress(hModule, "DrawTextW");
 			WriteIAT(udwmModule, "User32.dll", { { "FillRect", MyFillRect }, { "DrawTextW", MyDrawTextW } });
 		}
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < 22621)
 		{
 			HMODULE hModule = GetModuleHandleW(L"gdi32.dll");
 			g_funCreateBitmap = (decltype(g_funCreateBitmap))GetProcAddress(hModule, "CreateBitmap");
@@ -84,11 +84,11 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 
 	void Detach()
 	{
-		if (os::buildNumber >= 22000)
+		if (os::buildNumber >= 22621)
 		{
 			g_funCTopLevelWindow_UpdateText.Detach();
 		}
-		else if (os::buildNumber < 22000)
+		else if (os::buildNumber < 22621)
 		{
 			g_funCTopLevelWindow_UpdateWindowVisuals.Detach();
 			g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<1, false>();
@@ -98,11 +98,11 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 			WriteMemory(g_pCreateBitmapFromHBITMAP, [&] {*(PVOID*)g_pCreateBitmapFromHBITMAP = g_funCreateBitmapFromHBITMAP; });
 
 		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
-		if (os::buildNumber <= 22621)
+		if (os::buildNumber < 22621)
 		{
 			WriteIAT(udwmModule, "User32.dll", { { "DrawTextW", g_funDrawTextW } , { "FillRect", g_funFillRect } });
 		}
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < 22621)
 			WriteIAT(udwmModule, "gdi32.dll", { { "CreateBitmap", g_funCreateBitmap } });
 	}
 
@@ -118,15 +118,18 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 
 		if ((format & DT_CALCRECT) || (format & DT_INTERNAL) || (format & DT_NOCLIP))
 		{
-			//兼容第三方主题绘制发光字需要预留一些区域
-			if (format & DT_CALCRECT)
+			if (os::buildNumber < 22621)
 			{
-				auto ret = g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
-				lprc->right += 30;
-				lprc->bottom += 20;
-				lprc->top = 0;
-				lprc->left = -10;
-				return ret + 20;
+				//兼容第三方主题绘制发光字需要预留一些区域
+				if (format & DT_CALCRECT)
+				{
+					auto ret = g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
+					lprc->right += 30;
+					lprc->bottom += 20;
+					lprc->top = 0;
+					lprc->left = -10;
+					return ret + 20;
+				}
 			}
 			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
 		}
@@ -160,8 +163,11 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
 
 		RECT offset = *lprc;
-		offset.left += 20;
-		offset.top += 10;
+		if (os::buildNumber < 22621)
+		{
+			offset.left += 20;
+			offset.top += 10;
+		}
 		if (FAILED(DrawThemeTextEx(hTheme, hdc, 0, 0, lpchText, cchText, DT_LEFT | DT_TOP, &offset, &Options)))
 			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
 		return 1;
@@ -184,12 +190,25 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 
 	HRESULT CTopLevelWindow_UpdateWindowVisuals(CTopLevelWindow* This)
 	{
-		auto frame = CTopLevelWindow::s_ChooseWindowFrameFromStyle
-		(
-			(char)*((DWORD*)This + 148),
-			false,
-			(char)(*(BYTE*)(*((ULONG64*)This + 91) + 611) & 0x20) != 0
-		);
+		CTopLevelWindow::WindowFrame* frame{nullptr};
+		if (os::buildNumber < 22000)
+		{
+			frame = CTopLevelWindow::s_ChooseWindowFrameFromStyle
+			(
+				(char)*((DWORD*)This + 148),
+				false,
+				(char)(*(BYTE*)(*((ULONG64*)This + 91) + 611) & 0x20) != 0
+			);
+		}
+		else
+		{
+			frame = CTopLevelWindow::s_ChooseWindowFrameFromStyle
+			(
+				(char)*((DWORD*)This + 152),
+				false,
+				(char)(*(BYTE*)(*((ULONG64*)This + 94) + 667) & 0x20) != 0
+			);
+		}
 
 		//对于Ribbon或扩展到NC区域的窗口 我们无法处理标题文本颜色 需要过滤掉 它应该由应用程序处理
 		if (frame && (*((BYTE*)This + 592) & 8) != 0)
@@ -239,7 +258,7 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 
 		g_window = hWnd;
 
-		if (os::buildNumber < 22000 && This->HasNonClientBackground())
+		if (os::buildNumber < 22621 && This->HasNonClientBackground())
 		{
 			//DrawText处给发光字预留了空间 需要刷新文本布局
 			if (CText* textThis = This->GetCText())
