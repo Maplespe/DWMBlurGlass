@@ -98,6 +98,7 @@ namespace MDWMBlurGlassExt
 	{
 		bool useDarkMode{ false };
 		bool windowActivated{ false };
+		bool extendToBorders{ false };
 
 		winrt::com_ptr<DCompPrivate::IDCompositionDesktopDevicePartner> interopDCompDevice{ nullptr };
 		winrt::com_ptr<DWM::CVisual> udwmVisual{ nullptr };
@@ -105,6 +106,7 @@ namespace MDWMBlurGlassExt
 		comp::CompositionBrush currentBrush{ nullptr };
 		comp::SpriteVisual spriteVisual{ nullptr };
 		winrt::Windows::Foundation::Numerics::float2 currentSize{ 0.f, 0.f };
+		MARGINS margins{};
 		std::chrono::milliseconds crossFadeTime{ 187 };
 
 		STDMETHOD(InitializeDCompAndVisual)();
@@ -156,6 +158,9 @@ namespace MDWMBlurGlassExt
 		winrt::com_ptr<DWM::CVisual> m_visual{ nullptr };
 		std::unique_ptr<CBackdropEffect> m_backdropEffect{ nullptr };
 		std::unique_ptr<CGlassReflectionBackdrop> m_glassReflection{ nullptr };
+		DWM::CRgnGeometryProxy* m_borderGeometry{ nullptr };
+		winrt::com_ptr<DWM::CVisual> m_solidColorVisual{nullptr};
+		bool m_extendToBorders{ false };
 		
 		void ConnectPrimaryBackdropToParent();
 		void ConnectGlassReflectionToParent();
@@ -165,7 +170,7 @@ namespace MDWMBlurGlassExt
 		CCompositedBackdrop(CCompositedBackdrop&& backdrop) = delete;
 		CCompositedBackdrop(const CCompositedBackdrop& backdrop) = delete;
 		~CCompositedBackdrop();
-		void InitializeVisualTreeClone(CCompositedBackdrop* backdrop);
+		void InitializeVisualTreeClone(CCompositedBackdrop* backdrop, DWM::CTopLevelWindow* window);
 
 		void UpdateGlassReflection(bool enable);
 		void UpdateBackdropType(MDWMBlurGlass::effectType type);

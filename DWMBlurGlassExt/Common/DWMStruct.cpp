@@ -296,6 +296,24 @@ namespace MDWMBlurGlassExt::DWM
 		return DEFCALL_MHOST_METHOD(CVisual::Initialize);
 	}
 
+	void CVisual::Show(bool show)
+	{
+		if (show)
+		{
+			//this->Unhide();
+			this->SetOpacity(1.);
+			this->SendSetOpacity(1.);
+			//this->ConnectToParent(true);
+		}
+		else
+		{
+			//this->Hide();
+			this->SetOpacity(0.);
+			this->SendSetOpacity(0.);
+			//this->ConnectToParent(false);
+		}
+	}
+
 	HRESULT VisualCollection::RemoveAll()
 	{
 		return DEFCALL_MHOST_METHOD(VisualCollection::RemoveAll);
@@ -393,10 +411,10 @@ namespace MDWMBlurGlassExt::DWM
 			{
 				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[34]);
 			}
-			if (reinterpret_cast<CVisual* const*>(this)[36]) // legacy
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[36]);
-			}
+			//if (reinterpret_cast<CVisual* const*>(this)[36]) // legacy
+			//{
+			//	visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[36]);
+			//}
 			if (reinterpret_cast<CVisual* const*>(this)[37]) // client blur
 			{
 				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[37]);
@@ -408,10 +426,10 @@ namespace MDWMBlurGlassExt::DWM
 			{
 				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[35]);
 			}
-			if (reinterpret_cast<CVisual* const*>(this)[37]) // legacy
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[37]);
-			}
+			//if (reinterpret_cast<CVisual* const*>(this)[37]) // legacy
+			//{
+			//	visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[37]);
+			//}
 			if (reinterpret_cast<CVisual* const*>(this)[38]) // system backdrop
 			{
 				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[38]);
@@ -427,10 +445,10 @@ namespace MDWMBlurGlassExt::DWM
 			{
 				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[37]);
 			}
-			if (reinterpret_cast<CVisual* const*>(this)[39]) // legacy
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[39]);
-			}
+			//if (reinterpret_cast<CVisual* const*>(this)[39]) // legacy
+			//{
+			//	visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[39]);
+			//}
 			if (reinterpret_cast<CVisual* const*>(this)[40]) // system backdrop
 			{
 				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[40]);
@@ -446,10 +464,10 @@ namespace MDWMBlurGlassExt::DWM
 		}
 		else
 		{
-			if (reinterpret_cast<CVisual* const*>(this)[32]) // legacy
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[32]);
-			}
+			//if (reinterpret_cast<CVisual* const*>(this)[32]) // legacy
+			//{
+			//	visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[32]);
+			//}
 			if (reinterpret_cast<CVisual* const*>(this)[34]) // accent
 			{
 				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[34]);
@@ -467,33 +485,57 @@ namespace MDWMBlurGlassExt::DWM
 				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[37]);
 			}
 		}
+		if (os::buildNumber >= 22000)
+		{
+			auto legacySolidColorVisual{ GetNCLegacySolidColorVisual() };
+			if (legacySolidColorVisual)
+			{
+				visuals.emplace_back(nullptr).copy_from(legacySolidColorVisual);
+			}
+		}
 
 		return visuals;
+	}
+	CVisual* CTopLevelWindow::GetNCLegacySolidColorVisual() const
+	{
+		CVisual* visual{nullptr};
+
+		if (os::buildNumber < 22000)
+		{
+			if (reinterpret_cast<CVisual* const*>(this)[36]) // legacy
+			{
+				visual = reinterpret_cast<CVisual* const*>(this)[36];
+			}
+		}
+		else if (os::buildNumber < 22621)
+		{
+			if (reinterpret_cast<CVisual* const*>(this)[37]) // legacy
+			{
+				visual = reinterpret_cast<CVisual* const*>(this)[37];
+			}
+		}
+		else if (os::buildNumber < 26020)
+		{
+			if (reinterpret_cast<CVisual* const*>(this)[39]) // legacy
+			{
+				visual = reinterpret_cast<CVisual* const*>(this)[39];
+			}
+		}
+		else
+		{
+			if (reinterpret_cast<CVisual* const*>(this)[32]) // legacy
+			{
+				visual = reinterpret_cast<CVisual* const*>(this)[32];
+			}
+		}
+		return visual;
 	}
 
 	void CTopLevelWindow::ShowNCBackgroundVisualList(bool show)
 	{
-		auto showInternal = [show](CVisual* visual)
-		{
-			if (show)
-			{
-				//visual->Unhide();
-				visual->SetOpacity(1.);
-				visual->SendSetOpacity(1.);
-				//visual->ConnectToParent(true);
-			}
-			else
-			{
-				//visual->Hide();
-				visual->SetOpacity(0.);
-				visual->SendSetOpacity(0.);
-				//visual->ConnectToParent(false);
-			}
-		};
-
 		for (auto visual : GetNCBackgroundVisualList())
 		{
-			showInternal(visual.get());
+			visual->Show(show);
 		}
 	}
 
@@ -671,10 +713,7 @@ namespace MDWMBlurGlassExt::DWM
 
 	bool CTopLevelWindow::TreatAsActiveWindow()
 	{
-		if(os::buildNumber >= 22000)
-			return (*((BYTE*)this + 624) & 0x40) != 0 || (*(BYTE*)(*((ULONG64*)this + 94) + 675) & 0x10) != 0;
-
-		return (*((BYTE*)this + 592) & 0x40) != 0 || (*(BYTE*)(*((ULONG64*)this + 91) + 611) & 0x20) != 0;
+		return DEFCALL_MHOST_METHOD(CTopLevelWindow::TreatAsActiveWindow);
 	}
 
 	RECT* CTopLevelWindow::GetActualWindowRect(RECT* rect, char eraseOffset, char includeNonClient,

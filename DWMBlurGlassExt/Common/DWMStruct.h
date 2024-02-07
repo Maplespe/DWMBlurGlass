@@ -158,6 +158,8 @@ namespace MDWMBlurGlassExt::DWM
 		HRESULT MoveToFront(bool unknown);
 
 		HRESULT Initialize();
+
+		void Show(bool show);
 	};
 
 	struct CContainerVisual : CBaseObject
@@ -204,6 +206,7 @@ namespace MDWMBlurGlassExt::DWM
 		CVisual* GetNCAreaBackgroundVisual() const;
 		CVisual* GetClientBlurVisual() const;
 		std::vector<winrt::com_ptr<CVisual>> GetNCBackgroundVisualList() const;
+		CVisual* GetNCLegacySolidColorVisual() const;
 		void ShowNCBackgroundVisualList(bool show);
 
 		CRgnGeometryProxy* const& GetBorderGeometry() const;

@@ -677,6 +677,10 @@ namespace MDWMBlurGlassExt
 		backdrop->windowActivated = windowActivated;
 		backdrop->spriteVisual.Size(currentSize);
 		backdrop->spriteVisual.Brush(currentBrush);
+		if (os::buildNumber < 22000)
+		{
+			backdrop->udwmVisual->SetInsetFromParent(&margins);
+		}
 	
 		return S_OK;
 	}
@@ -692,6 +696,19 @@ namespace MDWMBlurGlassExt
 		THROW_IF_FAILED(EnsureBackdropResources());
 		// Color mode changed
 		useDarkMode = topLevelWindow->GetData()->IsUsingDarkMode();
+		// extension changed
+		if (os::buildNumber < 22000)
+		{
+			if (extendToBorders != g_configData.extendBorder)
+			{
+				if (g_configData.extendBorder)
+				{
+					MARGINS margins{};
+					udwmVisual->SetInsetFromParent(&margins);
+				}
+				extendToBorders = g_configData.extendBorder;
+			}
+		}
 		// Window activation changed
 		windowActivated = topLevelWindow->TreatAsActiveWindow();
 		// Window size changed
@@ -703,16 +720,29 @@ namespace MDWMBlurGlassExt
 		}
 		else
 		{
-			bool maximized{ static_cast<bool>(IsZoomed(hwnd)) };
-			RECT windowRect{};
-			THROW_HR_IF_NULL(E_INVALIDARG, topLevelWindow->GetActualWindowRect(&windowRect, false, true, false));
-			MARGINS margins{};
 			topLevelWindow->GetBorderMargins(&margins);
-			newSize =
+			if (extendToBorders || os::buildNumber >= 22000)
 			{
-				static_cast<float>(wil::rect_width(windowRect) + (maximized ? margins.cxLeftWidth + margins.cxRightWidth : 0)),
-				static_cast<float>(wil::rect_height(windowRect) + (maximized ? margins.cyTopHeight + margins.cyBottomHeight : 0))
-			};
+				bool maximized{ static_cast<bool>(IsZoomed(hwnd)) };
+				RECT windowRect{};
+				THROW_HR_IF_NULL(E_INVALIDARG, topLevelWindow->GetActualWindowRect(&windowRect, false, true, false));
+				newSize =
+				{
+					static_cast<float>(wil::rect_width(windowRect) + (maximized ? margins.cxLeftWidth + margins.cxRightWidth : 0)),
+					static_cast<float>(wil::rect_height(windowRect) + (maximized ? margins.cyTopHeight + margins.cyBottomHeight : 0))
+				};
+			}
+			else
+			{
+				udwmVisual->SetInsetFromParent(&margins);
+				RECT windowRect{};
+				THROW_HR_IF_NULL(E_INVALIDARG, topLevelWindow->GetActualWindowRect(&windowRect, false, true, true)); 
+				newSize =
+				{
+					static_cast<float>(wil::rect_width(windowRect)) - 1.f,
+					static_cast<float>(wil::rect_height(windowRect)) - 1.f
+				};
+			}
 		}
 		if (currentSize != newSize)
 		{
@@ -991,7 +1021,7 @@ namespace MDWMBlurGlassExt
 		m_visual->SetDirtyChildren();
 	}
 
-	void CCompositedBackdrop::InitializeVisualTreeClone(CCompositedBackdrop* backdrop)
+	void CCompositedBackdrop::InitializeVisualTreeClone(CCompositedBackdrop* backdrop, DWM::CTopLevelWindow* window)
 	{
 		if (m_backdropEffect)
 		{
@@ -1022,10 +1052,35 @@ namespace MDWMBlurGlassExt
 		{
 			THROW_IF_FAILED(backdrop->m_visual->GetVisualProxy()->SetClip(nullptr));
 		}
+
+		if (os::buildNumber < 22000)
+		{
+			m_borderGeometry = backdrop->m_borderGeometry;
+			m_extendToBorders = backdrop->m_extendToBorders;
+			auto visual{ window->GetNCLegacySolidColorVisual() };
+			if (visual)
+			{
+				if (m_extendToBorders)
+				{
+					visual->GetVisualProxy()->SetClip(nullptr);
+					visual->Show(false);
+				}
+				else
+				{
+					visual->GetVisualProxy()->SetClip(m_borderGeometry);
+					visual->Show(true);
+				}
+			}
+		}
 	}
 
 	CCompositedBackdrop::~CCompositedBackdrop()
 	{
+		if (m_solidColorVisual)
+		{
+			m_solidColorVisual->GetVisualProxy()->SetClip(nullptr);
+			m_solidColorVisual->Show(true);
+		}
 		m_visual->GetVisualCollection()->RemoveAll();
 	}
 
@@ -1115,6 +1170,29 @@ namespace MDWMBlurGlassExt
 			{
 				m_clipRgn.reset();
 				THROW_IF_FAILED(m_visual->GetVisualProxy()->SetClip(nullptr));
+			}
+		}
+
+		if (os::buildNumber < 22000)
+		{
+			auto visual{ window->GetNCLegacySolidColorVisual() };
+			auto borderGeometry{ window->GetBorderGeometry() };
+			if (visual && (m_borderGeometry != borderGeometry || m_extendToBorders != g_configData.extendBorder))
+			{
+				if (g_configData.extendBorder)
+				{
+					visual->GetVisualProxy()->SetClip(nullptr);
+					visual->Show(false);
+				}
+				else
+				{
+					visual->GetVisualProxy()->SetClip(borderGeometry);
+					visual->Show(true);
+				}
+
+				m_borderGeometry = borderGeometry;
+				m_extendToBorders = g_configData.extendBorder;
+				m_solidColorVisual.copy_from(visual);
 			}
 		}
 	}
