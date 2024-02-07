@@ -44,6 +44,7 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CAccent::UpdateAccentBlurRect" },
 		{ udwm, "CAccent::s_IsPolicyActive" },
 
+		{ udwm, "CTopLevelWindow::TreatAsActiveWindow" },
 		{ udwm, "CTopLevelWindow::s_ChooseWindowFrameFromStyle" },
 		{ udwm, "CTopLevelWindow::ValidateVisual" },
 		{ udwm, "CTopLevelWindow::UpdateWindowVisuals" },

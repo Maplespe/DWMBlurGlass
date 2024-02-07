@@ -656,10 +656,7 @@ namespace MDWMBlurGlassExt::DWM
 
 	bool CTopLevelWindow::TreatAsActiveWindow()
 	{
-		if(os::buildNumber >= 22000)
-			return (*((BYTE*)this + 624) & 0x40) != 0 || (*(BYTE*)(*((ULONG64*)this + 94) + 675) & 0x10) != 0;
-
-		return (*((BYTE*)this + 592) & 0x40) != 0 || (*(BYTE*)(*((ULONG64*)this + 91) + 611) & 0x20) != 0;
+		return DEFCALL_MHOST_METHOD(CTopLevelWindow::TreatAsActiveWindow);
 	}
 
 	RECT* CTopLevelWindow::GetActualWindowRect(RECT* rect, char eraseOffset, char includeNonClient,
