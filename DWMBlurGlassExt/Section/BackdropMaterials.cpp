@@ -677,7 +677,7 @@ namespace MDWMBlurGlassExt
 		backdrop->windowActivated = windowActivated;
 		backdrop->spriteVisual.Size(currentSize);
 		backdrop->spriteVisual.Brush(currentBrush);
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < 22000 != extendToBorders)
 		{
 			backdrop->udwmVisual->SetInsetFromParent(&margins);
 		}
