@@ -3,13 +3,13 @@ Aggiunge l'effetto sfocato alla barra del titolo del sistema globale, supporta W
 
 给全局系统标题栏添加自定义效果，支持win10和win11
 #
-| [中文](/README_ZH.md) | [English](/README.md) | [Italian](/README_IT.md)
+| [中文](/README_ZH.md) | [English](/README.md) | [Italian](/README_IT.md) | [French](/README_FR.md)
 This project uses [LGNU V3 license](/COPYING.LESSER).
 
 Altre lingue:
 > La seguente documentazione potrebbe non essere aggiornata, fare riferimento alla documentazione corrente.
 >
-> [Deutsch](/README_DE.md) | [French](/README_FR.md)
+> [Deutsch](/README_DE.md)
 
 
 [![licenza](https://img.shields.io/github/license/Maplespe/DWMBlurGlass.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
