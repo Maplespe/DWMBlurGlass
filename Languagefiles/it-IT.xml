@@ -11,6 +11,7 @@
 	<msgdlg_yes>Conferma</msgdlg_yes>
 	<colorpicker_dlg_alpha>Opacità:</colorpicker_dlg_alpha>
 	<general>Generale</general>
+	<advanced>Avanzate</advanced>
 	<symbol>Simboli</symbol>
 	<config>Configurazione</config>
 	<about>Informazioni</about>
@@ -32,12 +33,21 @@
 	<extendborder>Estendi gli effetti ai bordi (win10)</extendborder>
 	<reflection>Abilita l'effetto riflesso Aero (win10)</reflection>
 	<oldBtnHeight>Riduci l'altezza del pulsante della barra del titolo (stile Win7)</oldBtnHeight>
+	<cmodelight>Colori Modalità Chiara</cmodelight>
+	<cmodedark>Colori Modalità Scura</cmodedark>
 	<blendcolor>Colore di fusione della barra del titolo (attivo):</blendcolor>
 	<inactiveblendcolor>Colore di fusione della barra del titolo (Inattivo):</inactiveblendcolor>
 	<activecolor>Colore del testo attivo:</activecolor>
 	<inactivecolor>Colore del testo inattivo:</inactivecolor>
 	<preview>Anteprima</preview>
 	<sampletitle>Titolo finestra esempio (attivo)</sampletitle>
+	<blurmethod>Metodo Blur:</blurmethod>
+	<methodcustom>[Consigliato] Implementazione della sfocatura personalizzata scritta da \nCVisual (DWM) e Windows.UI.Composition (dcomp) per ottenere effetti di \nsfondo personalizzati, è possibile personalizzare la maggior parte dei \nparametri, non solo è possibile ottenere la massima efficienza, \nma anche la migliore aspetto e migliore stabilità. Tuttavia, la compatibilità\nnon è così buona. (potrebbe essere rotto dopo un importante \naggiornamento di Windows, quindi dovrai attendere la prossima versione).</methodcustom>
+	<methodaccent>[Non consigliato] Utilizza l'implementazione di sfocatura interna DWM ma \nnon elimina la classe AccentBlurBehind per applicare l'effetto di sfocatura, \npuoi personalizzare alcuni parametri, ma è inefficiente e \nmeno stabile. Può funzionare normalmente sulla maggior parte dei sistemi. \n(generalmente, un aggiornamento del sistema non lo interromperà).</methodaccent>
+	<methoddwmapi>Utilizza DWMAPI documentata per applicare effetti SystemBackdrop limitati,\ncome Acrylic, effetto Mica, non puoi personalizzare affatto questi parametri, \nma ha alta efficienza, migliore stabilità. Tuttavia, potrebbe compromettere \nl'aspetto di alcuni programmi ed è disponibile solo sopra \nWindows 11 22H2(+).</methoddwmapi>
+	<effecttype>Tipo di effetto:</effecttype>
+        <blurvaluetitle>Raggio di blur (solo barra del titolo):</blurvaluetitle>
+	<luminosity>Opacità di luminosità:</luminosity>
 	<configfile>File di configurazione</configfile>
 	<symbolfile>File di simboli:</symbolfile>
 	<download>Scarica</download>
