@@ -28,7 +28,7 @@ namespace MDWMBlurGlass
 
 	void ClearBaseLanguage();
 
-	bool LoadLanguageString(Mui::XML::MuiXML* ui, std::wstring_view local, bool init);
+	bool LoadLanguageString(Mui::XML::MuiXML* ui, std::wstring_view local, bool init, bool replaceCur = true);
 
 	bool LoadDefualtUIStyle(Mui::XML::MuiXML* ui);
 

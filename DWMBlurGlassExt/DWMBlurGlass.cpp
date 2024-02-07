@@ -70,7 +70,7 @@ namespace MDWMBlurGlassExt
 			g_funCWindowList_BlurBehindChange.Attach();
 		}*/
 
-		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<5, true>();
+		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<4, true>();
 
 		Refresh();
 		TitleTextTweaker::Attach();
@@ -109,7 +109,7 @@ namespace MDWMBlurGlassExt
 		CustomBackdrop::Detach();
 		DwmAPIEffect::Detach();
 
-		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<5, false>();
+		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<4, false>();
 
 		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
 		if(os::buildNumber < 22000)

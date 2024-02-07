@@ -43,7 +43,7 @@
 	<preview>Preview</preview>
 	<sampletitle>Example window title (active)</sampletitle>
 	<blurmethod>Blur Method:</blurmethod>
-	<methodcustom>[Recommended] Custom blur implementation written by CVisual (DWM)\nand Windows.UI.Composition (dcomp) to achieve custom backdrop effects, \nyou can customize most of the parameters, not only you can get the highest \nefficiency, but also the best appearance and better stability. However, the \ncompatibility is not that good. \n(it may be broken after a major Windows update, then you have to wait for \nthe next rlease).</methodcustom>
+	<methodcustom>[Recommended] Custom blur implementation written by CVisual (DWM)\nand Windows.UI.Composition (dcomp) to achieve custom backdrop effects, \nyou can customize most of the parameters, not only you can get the highest \nefficiency, but also the best appearance and better stability. However, the \ncompatibility is not that good. \n(it may be broken after a major Windows update, then you have to wait for \nthe next release).</methodcustom>
 	<methodaccent>[Not Recommended] Use DWM internal blur implementation but not deleted \nAccentBlurBehind class to apply blur effect, you can customize some of the \nparameters, but it is inefficient and less stable. It can work normally on most \nof the systems. \n(generally, a system update will not break it).</methodaccent>
 	<methoddwmapi>Use documented DWMAPI to apply limited SystemBackdrop effect, such as \nAcrylic, Mica effect, you cannot customize these parameters at all, but it has \nhigh efficiency, better stability. However, it may break the appearance of \nsome programs, and it is only available above Windows 11 22H2(+).</methoddwmapi>
 	<effecttype>Effect Type:</effecttype>

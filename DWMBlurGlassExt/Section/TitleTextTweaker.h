@@ -63,5 +63,5 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		double a3
 	);
 
-	HRESULT CTopLevelWindow_ValidateVisual(DWM::CTopLevelWindow* This);
+	HRESULT CText_UpdateAlignmentTransform(DWM::CText* This);
 }

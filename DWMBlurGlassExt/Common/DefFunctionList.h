@@ -60,6 +60,7 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CText::SetColor" },
 		{ udwm, "CText::SetText" },
 		{ udwm, "CText::SetSize" },
+		{ udwm, "CText::UpdateAlignmentTransform" },
 
 		{ udwm, "CWindowList::BlurBehindChange" },
 		{ udwm, "CWindowList::GetSyncedWindowData" },
@@ -77,7 +78,9 @@ namespace MDWMBlurGlassExt
 
 		{ udwm, "CVisual::Create" },
 		{ udwm, "CVisual::SetInsetFromParent" },
+		{ udwm, "CVisual::SetInsetFromParentTop" },
 		{ udwm, "CVisual::SetSize" },
+		{ udwm, "CVisual::SetOffset" },
 		{ udwm, "CVisual::InitializeVisualTreeClone" },
 		{ udwm, "CVisual::Unhide" },
 		{ udwm, "CVisual::Hide" },
@@ -95,6 +98,8 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CContainerVisual" },
 		{ udwm, "CContainerVisual::Create" },
 
-		{ udwm, "CWindowData::IsImmersiveWindow" }
+		{ udwm, "CWindowData::IsImmersiveWindow" },
+
+		{ udwm, "CMatrixTransformProxy::Update" }
 	});
 }

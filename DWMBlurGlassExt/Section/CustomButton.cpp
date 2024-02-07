@@ -41,7 +41,7 @@ namespace MDWMBlurGlassExt::CustomButton
 		g_startup = true;
 
 		g_funCButton_UpdateLayout.Attach();
-		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<2, true>();
+		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<1, true>();
 
 	}
 
@@ -49,7 +49,7 @@ namespace MDWMBlurGlassExt::CustomButton
 	{
 		if (!g_startup) return;
 
-		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<2, false>();
+		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<1, false>();
 		g_funCButton_UpdateLayout.Detach();
 		g_cbuttonList.clear();
 
@@ -128,14 +128,18 @@ namespace MDWMBlurGlassExt::CustomButton
 
 		const float scale = (float)dpi / 96.f;
 
+		if (borderW != 0)
+			borderW += (int)round(1.f * scale);
+		else if(!IsZoomed(g_window))
+		{
+			borderW = GetSystemMetrics(SM_CXPADDEDBORDER) + GetSystemMetrics(SM_CXFRAME);
+			if (os::buildNumber >= 22000)
+				borderW = -borderW;
+		}
+
 		const int width = int(28.f * scale);
 		const int normalW = int(48.f * scale);
 		const int height = int((float)frameY * scale);
-
-		//if (os::buildNumber >= 22000)
-		//{
-			borderW += (int)round(1.f * scale);
-		//}
 
 		int offset = rect.right - borderW;
 		//关闭按钮

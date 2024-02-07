@@ -38,7 +38,7 @@ namespace MDWMBlurGlass
 		ui->Mgr()->AddGeometryStyle(L"colorpickerbtn", geometry);
 
 		std::wstring_view xml = LR"(
-		<PropGroup id="colorpicker_edit" limitText="3" number="true" inset="3,1,1,1" />
+		<PropGroup id="colorpicker_edit" limitText="3" number="true" inset="3,1,1,1" wordAutoSel="true" />
 
 		<UIControl name="colorpicker" bgColor="80,80,80,60" size="100%,100%" autoSize="false" align="Center" visible="false">
 			<UIControl bgColor="255,255,255,255" frameWidth="1" frameColor="222,222,222,255" frameRound="10" name="content"
@@ -209,7 +209,7 @@ namespace MDWMBlurGlass
 				ret = false;
 		}
 		break;
-		case Event_Edit_TextChanged:
+		case Event_Focus_False:
 		{
 			//防止文本越界
 			auto textFormat = [](UIEditBox* edit, int max)

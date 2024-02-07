@@ -75,7 +75,7 @@ namespace MDWMBlurGlass
 		g_baselangList.clear();
 	}
 
-	bool LoadLanguageString(XML::MuiXML* ui, std::wstring_view local, bool init)
+	bool LoadLanguageString(XML::MuiXML* ui, std::wstring_view local, bool init, bool replaceCur)
 	{
 		const auto iter = g_langfileList.find(local.data());
 		if (iter == g_langfileList.end() || !ui)
@@ -109,7 +109,7 @@ namespace MDWMBlurGlass
 				g_baselangList.insert({ name, value });
 		}
 
-		if ((_m_ptrv)ui != 1)
+		if ((_m_ptrv)ui != 1 && replaceCur)
 		{
 			g_curlangInfo.local = local;
 			g_curlangInfo.author = root.attribute(L"author").value();

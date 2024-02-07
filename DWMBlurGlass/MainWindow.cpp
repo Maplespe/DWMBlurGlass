@@ -44,7 +44,7 @@ namespace MDWMBlurGlass
 				return false;
 		}
 		else if(GetSystemLocalName() != L"en-US")
-			LoadLanguageString(ui, L"en-US", true);
+			LoadLanguageString(ui, L"en-US", true, false);
 
 		const HWND hWnd = (HWND)ctx->Base()->GetWindowHandle();
 		//SetWindowLongW(hWnd, GWL_STYLE, GetWindowLongW(hWnd, GWL_STYLE) & ~(WS_MAXIMIZEBOX | WS_SIZEBOX));

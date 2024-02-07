@@ -96,7 +96,7 @@ namespace MDWMBlurGlass
 
         xml += LR"(
 <UIControl frame="0,50,485,100%" name="page1" visible="false" align="LinearV">
-	<UIControl frame="15,5,15f,115" align="LinearV" prop="group" autoSize="true" maxSize="455,150" minSize="455,90">
+	<UIControl frame="15,5,15f,115" align="LinearV" prop="group" autoSize="true" maxSize="455,180" minSize="455,90">
 		<UIControl frame="0,0,10f,30">
             <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_code" />
             <UILabel pos="10,2" text="#blurmethod" />
@@ -153,7 +153,7 @@ namespace MDWMBlurGlass
     </UIControl>
 </UIControl>
 <UIControl frame="0,50,485,100%" name="page4" visible="false" align="LinearV">
-    <UIControl pos="15,5" align="LinearV" prop="group" autoSize="true" maxSize="455,150" minSize="455,90">
+    <UIControl pos="15,5" align="LinearV" prop="group" autoSize="true" maxSize="455,180" minSize="455,90">
         <UIControl autoSize="true">
             <UIImgBox frame="0,0,18,20" autoSize="false" img="icon_about" />
             <UILabel pos="10,3" text="#about" />

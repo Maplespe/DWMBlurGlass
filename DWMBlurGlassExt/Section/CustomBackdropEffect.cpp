@@ -70,7 +70,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 		g_funCTopLevelWindow_InitializeVisualTreeClone.Attach();
 		g_funCTopLevelWindow_UpdateNCAreaBackground.Attach();
 		g_funResourceHelper_CreateGeometryFromHRGN.Attach();
-		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<3, true>();
+		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<2, true>();
 
 	}
 
@@ -78,7 +78,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	{
 		if (!g_startup) return;
 
-		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<3, false>();
+		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<2, false>();
 		g_funResourceHelper_CreateGeometryFromHRGN.Detach();
 		g_funCTopLevelWindow_UpdateNCAreaBackground.Detach();
 		g_funCTopLevelWindow_InitializeVisualTreeClone.Detach();

@@ -94,6 +94,21 @@ namespace MDWMBlurGlassExt::DWM
 	struct CBaseGeometryProxy : CBaseObject {};
 	struct CRgnGeometryProxy : CBaseGeometryProxy {};
 
+	struct MilMatrix3x2D
+	{
+		DOUBLE S_11;
+		DOUBLE S_12;
+		DOUBLE S_21;
+		DOUBLE S_22;
+		DOUBLE DX;
+		DOUBLE DY;
+	};
+
+	struct CMatrixTransformProxy
+	{
+		HRESULT Update(const MilMatrix3x2D* matrix);
+	};
+
 	struct CVisualProxy : CBaseObject
 	{
 		HRESULT SetClip(CBaseGeometryProxy* geometry);
@@ -112,7 +127,11 @@ namespace MDWMBlurGlassExt::DWM
 
 		void SetInsetFromParent(MARGINS* margins);
 
+		void SetInsetFromParentTop(int top);
+
 		HRESULT SetSize(const SIZE& size);
+
+		void SetOffset(const POINT& pt);
 
 		HRESULT InitializeVisualTreeClone(CBaseObject* baseObject, UINT cloneOptions);
 
@@ -155,12 +174,14 @@ namespace MDWMBlurGlassExt::DWM
 		HRESULT InsertRelative(CVisual* visual, CVisual* reference, bool insterAfter, bool updateNow);
 	};
 
-	struct CText
+	struct CText : CVisual
 	{
 		void SetColor(COLORREF color);
-		void SetText(LPCWSTR text);
-
+		HRESULT SetText(LPCWSTR text);
+		HRESULT SetSize(SIZE* size);
 		LPCWSTR GetText();
+
+		CMatrixTransformProxy* GetMatrixProxy();
 	};
 
 	struct CDWriteText {};

@@ -17,7 +17,6 @@
 */
 #include "DwmAPIEffect.h"
 #include "CommonDef.h"
-#include "AccentBlurEffect.h"
 
 namespace MDWMBlurGlassExt::DwmAPIEffect
 {
@@ -29,23 +28,23 @@ namespace MDWMBlurGlassExt::DwmAPIEffect
 
 	void Attach()
 	{
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < 22621)
 			return;
 		if (g_startup) return;
 		g_startup = true;
-		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<4, true>();
+		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<3, true>();
 	}
 
 	void Detach()
 	{
 		if (!g_startup) return;
-		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<4, false>();
+		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<3, false>();
 		g_startup = false;
 	}
 
 	void Refresh()
 	{
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < 22621)
 			return;
 		if (g_configData.blurmethod == blurMethod::DWMAPIBlur && !g_startup)
 			Attach();
@@ -59,7 +58,7 @@ namespace MDWMBlurGlassExt::DwmAPIEffect
 		{
 			const HWND hWnd = windowData->GetHWND();
 
-			if (os::buildNumber >= 22000 && This->HasNonClientBackground())
+			if (os::buildNumber >= 22621 && This->HasNonClientBackground())
 			{
 				DWM_SYSTEMBACKDROP_TYPE type = DWMSBT_NONE;
 				switch ((int)g_configData.effectType)

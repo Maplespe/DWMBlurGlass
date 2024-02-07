@@ -127,6 +127,11 @@ namespace MDWMBlurGlassExt::DWM
 		return accentpolicy;
 	}
 
+	HRESULT CMatrixTransformProxy::Update(const MilMatrix3x2D* matrix)
+	{
+		return DEFCALL_MHOST_METHOD(CMatrixTransformProxy::Update, matrix);
+	}
+
 	HRESULT CVisualProxy::SetClip(CBaseGeometryProxy* geometry)
 	{
 		return DEFCALL_MHOST_METHOD(CVisualProxy::SetClip, geometry);
@@ -206,9 +211,19 @@ namespace MDWMBlurGlassExt::DWM
 		DEFCALL_MHOST_METHOD(CVisual::SetInsetFromParent, margins);
 	}
 
+	void CVisual::SetInsetFromParentTop(int top)
+	{
+		DEFCALL_MHOST_METHOD(CVisual::SetInsetFromParentTop, top);
+	}
+
 	HRESULT CVisual::SetSize(const SIZE& size)
 	{
 		return DEFCALL_MHOST_METHOD(CVisual::SetSize, size);
+	}
+
+	void CVisual::SetOffset(const POINT& pt)
+	{
+		DEFCALL_MHOST_METHOD(CVisual::SetOffset, pt);
 	}
 
 	HRESULT CVisual::InitializeVisualTreeClone(CBaseObject* baseObject, UINT cloneOptions)
@@ -839,9 +854,14 @@ namespace MDWMBlurGlassExt::DWM
 		DEFCALL_MHOST_METHOD(CText::SetColor, color);
 	}
 
-	void CText::SetText(LPCWSTR text)
+	HRESULT CText::SetText(LPCWSTR text)
 	{
-		DEFCALL_MHOST_METHOD(CText::SetText, text);
+		return DEFCALL_MHOST_METHOD(CText::SetText, text);
+	}
+
+	HRESULT CText::SetSize(SIZE* size)
+	{
+		return DEFCALL_MHOST_METHOD(CText::SetSize, size);
 	}
 
 	LPCWSTR CText::GetText()
@@ -856,6 +876,13 @@ namespace MDWMBlurGlassExt::DWM
 			text = (wchar_t*)*((DWORD64*)this + 37);
 		}
 		return text;
+	}
+
+	CMatrixTransformProxy* CText::GetMatrixProxy()
+	{
+		if(os::buildNumber >= 22000)
+			return (CMatrixTransformProxy*)*((DWORD64*)this + 50);
+		return (CMatrixTransformProxy*)*((DWORD64*)this + 49);
 	}
 
 	HRESULT CWindowList::GetExtendedFrameBounds(HWND hWnd, RECT* rect)

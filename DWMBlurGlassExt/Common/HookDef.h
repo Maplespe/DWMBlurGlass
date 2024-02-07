@@ -37,7 +37,6 @@ namespace MDWMBlurGlassExt
 		std::array
 		{
 			detour_info(AccentBlur::CTopLevelWindow_ValidateVisual, call_type::before),
-			detour_info(TitleTextTweaker::CTopLevelWindow_ValidateVisual, call_type::before),
 			detour_info(CustomButton::CTopLevelWindow_ValidateVisual, call_type::before),
 			detour_info(CustomBackdrop::CTopLevelWindow_ValidateVisual, call_type::after),
 			detour_info(DwmAPIEffect::CTopLevelWindow_ValidateVisual, call_type::after),

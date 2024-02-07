@@ -17,7 +17,8 @@
  */
 #include "TitleTextTweaker.h"
 #include "CommonDef.h"
-#include "AccentBlurEffect.h"
+#include <shellscalingapi.h>
+#pragma comment(lib, "shcore.lib")
 
 namespace MDWMBlurGlassExt::TitleTextTweaker
 {
@@ -42,6 +43,11 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		"CTopLevelWindow::UpdateText", CTopLevelWindow_UpdateText
 	};
 
+	MinHook g_funCText_UpdateAlignmentTransform
+	{
+		"CText::UpdateAlignmentTransform", CText_UpdateAlignmentTransform
+	};
+
 	void Attach()
 	{
 		if (auto wicFactory = CDesktopManager::s_pDesktopManagerInstance->GetWICFactory())
@@ -59,7 +65,8 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		if (os::buildNumber < 22621)
 		{
 			g_funCTopLevelWindow_UpdateWindowVisuals.Attach();
-			g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<1, true>();
+			g_funCText_UpdateAlignmentTransform.Attach();
+			g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<3, true>();
 		}
 		else if (os::buildNumber >= 22621)
 		{
@@ -91,7 +98,8 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		else if (os::buildNumber < 22621)
 		{
 			g_funCTopLevelWindow_UpdateWindowVisuals.Detach();
-			g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<1, false>();
+			g_funCText_UpdateAlignmentTransform.Detach();
+			g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<3, false>();
 		}
 
 		if (g_pCreateBitmapFromHBITMAP)
@@ -104,6 +112,7 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		}
 		if (os::buildNumber < 22621)
 			WriteIAT(udwmModule, "gdi32.dll", { { "CreateBitmap", g_funCreateBitmap } });
+
 	}
 
 	int MyFillRect(HDC hdc, LPRECT rect, HBRUSH hbrush)
@@ -126,7 +135,7 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 					auto ret = g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
 					lprc->right += 30;
 					lprc->bottom += 20;
-					lprc->top = 0;
+					lprc->top = -5;
 					lprc->left = -10;
 					return ret + 20;
 				}
@@ -247,31 +256,39 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		return g_funCTopLevelWindow_UpdateText.call_org(This, a2, a3);
 	}
 
-	HRESULT CTopLevelWindow_ValidateVisual(CTopLevelWindow* This)
+	HRESULT CText_UpdateAlignmentTransform(CText* This)
 	{
-		const auto windowData = This->GetData();
-		if (!windowData)
-			return S_OK;
+		DWORD64* textCache;
+		if(os::buildNumber < 22000)
+			textCache = (DWORD64*)*((DWORD64*)CDesktopManager::s_pDesktopManagerInstance + 33);
+		else
+			textCache = (DWORD64*)*((DWORD64*)CDesktopManager::s_pDesktopManagerInstance + 25);
 
-		const HWND hWnd = windowData->GetHWND();
-		const auto accentPolicy = windowData->GetAccentPolicy();
-
-		g_window = hWnd;
-
-		if (os::buildNumber < 22621 && This->HasNonClientBackground())
+		if (textCache)
 		{
-			//DrawText处给发光字预留了空间 需要刷新文本布局
-			if (CText* textThis = This->GetCText())
+			HDC hdc = (HDC)*(textCache + 13);
+			RECT rc{ 0 };
+			MyDrawTextW(hdc, This->GetText(), -1, &rc, DT_CALCRECT);
+
+			int* textHeight;
+			int* titleHeight;
+			if (os::buildNumber >= 22000)
 			{
-				if (auto title = textThis->GetText())
-				{
-					textThis->SetText(title);
-					/*SIZE size = *((SIZE*)textThis + 15);
-					size.cy += 10;
-					CText_SetSize(textThis, &size);*/
-				}
+				textHeight = (int*)This + 103;
+				titleHeight = (int*)This + 33;
 			}
+			else
+			{
+				textHeight = (int*)This + 101;
+				titleHeight = (int*)This + 31;
+			}
+
+			*textHeight = rc.bottom - rc.top;
+			*titleHeight += 25;
+			g_funCText_UpdateAlignmentTransform.call_org(This);
+			*titleHeight -= 25;
+			return 0;
 		}
-		return S_OK;
+		return g_funCText_UpdateAlignmentTransform.call_org(This);
 	}
 }
