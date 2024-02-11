@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <lang local="zh-TW" author="railyinu">
 	<inituifail0>MiaoUI 初始化失敗! 錯誤資訊:</inituifail0>
-	<inituifail1>創建視窗上下文失敗!</inituifail1>
+	<inituifail1>建立視窗上下文失敗!</inituifail1>
 	<inituifail2>初始化視窗失敗!</inituifail2>
 	<initfail0>警告: 由於 DWM 隔離權限限制，應用程式必須安裝在使用者資料夾以外，也不能是"{path}"及其子資料夾裡。請變更程式的路徑。</initfail0>
-	<symloadfail>載入程式資料庫失敗! 程式無法載入組件，請重新下載符號! (系統更新後可能也需要重新下載符號)</symloadfail>
+	<symloadfail>載入程式資料庫失敗! 程式無法載入組件，請重新下載程式資料庫! (系統更新後可能也需要重新下載。)</symloadfail>
 	<colorpicker_dlg_sel>選取色彩:</colorpicker_dlg_sel>
 	<colorpicker_dlg_c>新色彩:</colorpicker_dlg_c>
 	<msgdlg_no>取消</msgdlg_no>
