@@ -896,26 +896,25 @@ namespace MDWMBlurGlassExt
 		MONITORINFO mi{ sizeof(MONITORINFO) };
 		THROW_IF_WIN32_BOOL_FALSE(GetMonitorInfoW(monitor, &mi));
 	
+		auto surfaceSize{ s_sharedResources.drawingSurface.SizeInt32() };
 		if (currentMonitor != monitor || !EqualRect(&currentMonitorRect, &mi.rcMonitor))
 		{
-			auto surfaceSize{ s_sharedResources.drawingSurface.SizeInt32() };
 			auto scaleFactor
 			{
 				[&]()
 				{
-					if (
-						static_cast<float>(surfaceSize.Width) / static_cast<float>(surfaceSize.Height) <=
-						static_cast<float>(wil::rect_width(mi.rcMonitor)) / static_cast<float>(wil::rect_height(mi.rcMonitor))
-					)
+					float factor{1.f};
+
+					auto scaledWidth{ static_cast<float>(surfaceSize.Width) * static_cast<float>(wil::rect_height(mi.rcMonitor)) * (1 + parallaxIntensity) / static_cast<float>(surfaceSize.Height) };
+					factor = scaledWidth / static_cast<float>(surfaceSize.Width);
+
+					if (scaledWidth < static_cast<float>(wil::rect_width(mi.rcMonitor)) * (1 + parallaxIntensity))
 					{
-						return static_cast<float>(wil::rect_width(mi.rcMonitor)) / static_cast<float>(surfaceSize.Width);
+						scaledWidth = static_cast<float>(wil::rect_width(mi.rcMonitor)) * (1 + parallaxIntensity);
+						factor = scaledWidth / static_cast<float>(surfaceSize.Width);
 					}
-					else
-					{
-						return static_cast<float>(wil::rect_height(mi.rcMonitor)) / static_cast<float>(surfaceSize.Height);
-					}
-	
-					return 1.f;
+
+					return factor;
 				} ()
 			};
 			glassSurfaceBrush.Scale(
@@ -927,10 +926,10 @@ namespace MDWMBlurGlassExt
 				static_cast<float>(surfaceSize.Height) * scaleFactor
 			};
 	
-			fixedOffset = 
-			{ 
-				(static_cast<float>(wil::rect_width(mi.rcMonitor)) - scaledSize.x) / 2.f,
-				(static_cast<float>(wil::rect_height(mi.rcMonitor)) - scaledSize.y) / 2.f
+			fixedOffset =
+			{
+				(static_cast<float>(wil::rect_width(mi.rcMonitor)) * (1 + parallaxIntensity) - scaledSize.x) / 2.f,
+				(static_cast<float>(wil::rect_height(mi.rcMonitor)) * (1 + parallaxIntensity) - scaledSize.y) / 2.f
 			};
 			currentMonitor = monitor;
 			currentMonitorRect = mi.rcMonitor;

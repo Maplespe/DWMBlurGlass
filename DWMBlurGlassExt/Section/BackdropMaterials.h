@@ -140,6 +140,7 @@ namespace MDWMBlurGlassExt
 	struct CGlassReflectionBackdrop : CBackdropEffect
 	{
 		static CGlassReflectionResources s_sharedResources;
+		static constexpr float parallaxIntensity{ 0.25 };
 		winrt::Windows::Foundation::Numerics::float2 relativeOffset{};
 		winrt::Windows::Foundation::Numerics::float2 fixedOffset{};
 		RECT currentWindowRect{};
