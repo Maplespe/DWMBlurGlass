@@ -137,16 +137,16 @@ namespace MDWMBlurGlassExt::CustomButton
 				borderW = -borderW;
 		}
 
-		const int width = int(28.f * scale);
-		const int normalW = int(48.f * scale);
+		const int width = int(29.f * scale);
+		const int normalW = int(49.f * scale);
 		const int height = int((float)frameY * scale);
 
-		int offset = rect.right - borderW;
+		int offset = (rect.right - borderW) + (5 * scale);
 		//关闭按钮
-		if (PushButtonPtr(3, rect.right - normalW - borderW, normalW, height))
+		if (PushButtonPtr(3, (rect.right - normalW - borderW) + (3 * scale), normalW, height))
 			offset -= normalW + width;
 		//最大化按钮
-		if (PushButtonPtr(2, offset, width, height))
+		if (PushButtonPtr(2, offset, width - (2 * scale), height))
 			offset -= width;
 		//最小化按钮
 		if (PushButtonPtr(1, offset, width, height))
