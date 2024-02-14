@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<lang local="sv-SE" author="Vinyxdev">
+	<inituifail0>MiaoUI bibliotek Initialisering misslyckades! felkod: </inituifail0>
+	<inituifail1>Misslyckades med att skapa fönsterkontext!</inituifail1>
+	<inituifail2>Det gick inte att initiera fönstret!</inituifail2>
+	<initfail0>Observera att på grund av restriktioner för DWM Authorization Isolation måste programmet placeras i en katalog som inte är användarkatalog, och sökvägen kan inte vara i "{path}" eller dess underkataloger! Vänligen ändra katalogen.</initfail0>
+	<symloadfail>Laddning av symbolfilen misslyckades! Programmet kunde inte ladda dll-filen, ladda ner symbolerna igen! (Symboler kan också behöva laddas ner igen efter en systemuppdatering)</symloadfail>
+	<colorpicker_dlg_sel>Välj färg:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Ny färg:</colorpicker_dlg_c>
+	<msgdlg_no>Avbryt</msgdlg_no>
+	<msgdlg_yes>Bekräfta</msgdlg_yes>
+	<colorpicker_dlg_alpha>Genomskinlighet:</colorpicker_dlg_alpha>
+	<general>Allmänt</general>
+	<symbol>Symbol</symbol>
+	<config>Konfig</config>
+	<about>Om</about>
+	<status>Status:</status>
+	<status0>Avinstallerad</status0>
+	<status1>Installerad</status1>
+	<install>Installera</install>
+	<uninstall>Avinstallera</uninstall>
+	<installsucs>Installationen lyckades!</installsucs>
+	<installsucs1>Installationen lyckades! Men du har inte laddat ner en giltig symbolfil ännu, ladda ner den från sidan "Symboler" för att få det att fungera!</installsucs1>
+	<installfail>Installationen misslyckades! Felmeddelande: </installfail>
+	<uninstallsucs>Avinstallationen lyckades.</uninstallsucs>
+	<uninstallfail>Avinstallationen misslyckades! Felmeddelande: </uninstallfail>
+	<loadfail>Det gick inte att ladda komponenten! Felmeddelande: </loadfail>
+	<saveconfig>Spara konfiguration</saveconfig>
+	<effectset>Effektinställningar</effectset>
+	<blurvalue>Radie för oskärpa:</blurvalue>
+	<applyglobal>Åsidosätt DWMAPI mica-effekt (win11)</applyglobal>
+	<extendborder>Utöka effekter till gränser (win10)</extendborder>
+	<reflection>Aktivera Aero reflektionseffekt (win10)</reflection>
+	<oldBtnHeight>Minska titelfältets knapphöjd (win7-stil)</oldBtnHeight>
+	<blendcolor>Blandad färg för titelfältet (Aktiv):</blendcolor>
+	<inactiveblendcolor>Blandad färg för titelraden (Inaktiv):</inactiveblendcolor>
+	<activecolor>Färg på aktiv text:</activecolor>
+	<inactivecolor>Inaktiv textfärg:</inactivecolor>
+	<preview>Förhandsvisning</preview>
+	<sampletitle>Exempel på fönstertitel (aktiv)</sampletitle>
+	<configfile>Konfigurationsfil</configfile>
+	<symbolfile>Symbol fil:</symbolfile>
+	<download>Nedladdning</download>
+	<symtip>Symbolfiler (pdb) är filer som innehåller felsökningsinformation om ett program. Eftersom systemen varierar från version till version måste du ladda ner symbolfilerna från en Microsoft-server. Om du uppdaterar ditt system kan du behöva ladda ner den nya filen igen.</symtip>
+	<symstatus0>Ogiltig</symstatus0>
+	<symstatus1>Giltig</symstatus1>
+	<symdowning>Nedladdning...</symdowning>
+	<symdownfail>Nedladdning misslyckades! Det gick inte att ladda ner filen från "msdl.microsoft.com".</symdownfail>
+	<syminvalid>Symbolfilen är ogiltig! Gå till sidan "Symboler" i programmet DWMBlurGlass för att ladda ner en ny symbolfil!</syminvalid>
+	<import>Import</import>
+	<export>Export</export>
+	<restore>Återställ standardvärdena</restore>
+	<importwarn>Import av en konfigurationsfil kommer att skriva över din befintliga konfiguration, fortsätt?</importwarn>
+	<restorecfg>Är du säker på att du vill återställa standardkonfigurationen?</restorecfg>
+	<aboutinfo>Detta program är baserat på LGPLv3-avtalet för fri programvara med öppen källkod:</aboutinfo>
+	<curlang>Nuvarande språk:</curlang>
+	<langauthor>Översättning Medverkande:</langauthor>
+</lang>
