@@ -21,7 +21,7 @@
 	<install>安裝</install>
 	<uninstall>移除</uninstall>
 	<installsucs>安裝成功！</installsucs>
-	<installsucs1>安裝成功！但尚未下載有效的符號檔案，在「符號檔案」頁面下載後才能生效</installsucs1>
+	<installsucs1>安裝成功！但尚未下載有效的符號檔案，在「符號檔案」分頁裡下載符號後才能使本軟體所進行的變更生效。</installsucs1>
 	<installfail>安裝失敗！錯誤資訊：</installfail>
 	<uninstallsucs>移除成功</uninstallsucs>
 	<uninstallfail>移除失敗！錯誤資訊：</uninstallfail>
@@ -56,7 +56,7 @@
 	<symstatus1>有效</symstatus1>
 	<symdowning>下載中...</symdowning>
 	<symdownfail>下載失敗！無法自「msdl.microsoft.com」下載檔案</symdownfail>
-	<syminvalid>符號檔案無效！請在「符號檔案」分頁中下載新的符號檔案</syminvalid>
+	<syminvalid>符號檔案無效！請在「符號檔案」分頁中下載新的符號檔案。</syminvalid>
 	<configfile>設定檔</configfile>
 	<import>匯入</import>
 	<export>匯出</export>
