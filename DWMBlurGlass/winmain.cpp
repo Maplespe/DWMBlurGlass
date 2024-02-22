@@ -66,7 +66,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	{
 		std::wstring err;
 		if (!MDWMBlurGlass::LoadDWMExtensionBase(err))
-			MessageBoxW(nullptr, err.c_str(), L"DWMBlurGlass Error", MB_ICONERROR);
+			MessageBoxW(nullptr, err.c_str(), L"DWMBlurGlass loaddll Error", MB_ICONERROR);
+		return 0;
+	}
+	
+	if (lpCmdLine && _wcsicmp(lpCmdLine, L"unloaddll") == 0)
+	{
+		std::wstring err;
+		if (!MDWMBlurGlass::ShutdownDWMExtension(err))
+			MessageBoxW(nullptr, err.c_str(), L"DWMBlurGlass unloaddll Error", MB_ICONERROR);
 		return 0;
 	}
 
