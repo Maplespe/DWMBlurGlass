@@ -9,8 +9,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Automatically close issues that don't follow the issue template
-        uses: lucasbento/auto-close-issues@v1.0.2
+        uses: lucasbento/auto-close-issues@28e2d2bff4035cd60111c3e1fa4d0145875fabd9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           issue-close-message: "@${issue.user.login}: hello! :wave:\n\nThis issue is being automatically closed because it does not follow the issue template." # optional property
-          closed-issues-label: "🙁 Not following issue template" # optional property
+          closed-issues-label: "not following issue template" # optional property
