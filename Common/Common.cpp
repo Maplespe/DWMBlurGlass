@@ -148,6 +148,32 @@ namespace MDWMBlurGlass
 		if (!ret.empty())
 			cfgData.blurmethod = (blurMethod)std::clamp(_wtoi(ret.data()), 0, 2);
 
+		// new - begin
+
+		ret = Utils::GetIniString(path, L"aero", L"PrimaryBalance");
+		if (!ret.empty())
+			cfgData.PrimaryBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
+
+		ret = Utils::GetIniString(path, L"aero", L"Active_SecondaryBalance");
+		if (!ret.empty())
+			cfgData.Active_SecondaryBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
+
+		ret = Utils::GetIniString(path, L"aero", L"Inactive_SecondaryBalance");
+		if (!ret.empty())
+			cfgData.Inactive_SecondaryBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
+
+
+		ret = Utils::GetIniString(path, L"aero", L"Active_BlurBalance");
+		if (!ret.empty())
+			cfgData.Active_BlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
+
+		ret = Utils::GetIniString(path, L"aero", L"Inactive_BlurBalance");
+		if (!ret.empty())
+			cfgData.Inactive_BlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
+
+
+		// new - end
+
 		ret = Utils::GetIniString(path, L"config", L"effectType");
 		if (!ret.empty())
 		{
@@ -178,5 +204,7 @@ namespace MDWMBlurGlass
 		Utils::SetIniString(path, L"config", L"inactiveBlendColorDark", std::to_wstring(cfg.inactiveBlendColorDark));
 		Utils::SetIniString(path, L"config", L"blurMethod", std::to_wstring((int)cfg.blurmethod));
 		Utils::SetIniString(path, L"config", L"effectType", std::to_wstring((int)cfg.effectType));
+
+		// not on the gui... not sure if i should put the new entries here!
 	}
 }

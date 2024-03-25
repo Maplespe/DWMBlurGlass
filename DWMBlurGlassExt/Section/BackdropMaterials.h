@@ -73,14 +73,18 @@ namespace MDWMBlurGlassExt
 		);
 		HRESULT EnsureMicaBrush();
 	};
+
+	// bookmark
+
 	struct CAeroResources : CBackdropResources
 	{
 		comp::CompositionBrush CreateBrush(
 			const comp::Compositor& compositor,
 			const winrt::Windows::UI::Color& tintColor,
-			float tintOpacity,
-			float exposureAmount,
-			float blurAmount
+			float colorBalance,
+			float glowBalance,
+			float blurAmount,
+			float blurBalance
 		);
 		bool onlyBlur = false;
 		HRESULT EnsureAeroBrush();
@@ -133,7 +137,7 @@ namespace MDWMBlurGlassExt
 	{
 		static CAeroResources s_sharedResources;
 
-		CAeroBackdrop() { crossFadeTime = std::chrono::milliseconds{87}; }
+		CAeroBackdrop() { crossFadeTime = std::chrono::milliseconds{ 87 }; }
 		STDMETHOD(UpdateBackdrop)(DWM::CTopLevelWindow* topLevelWindow) override;
 		STDMETHOD(EnsureBackdropResources)() override;
 	};
@@ -159,9 +163,9 @@ namespace MDWMBlurGlassExt
 		std::unique_ptr<CBackdropEffect> m_backdropEffect{ nullptr };
 		std::unique_ptr<CGlassReflectionBackdrop> m_glassReflection{ nullptr };
 		DWM::CRgnGeometryProxy* m_borderGeometry{ nullptr };
-		winrt::com_ptr<DWM::CVisual> m_solidColorVisual{nullptr};
+		winrt::com_ptr<DWM::CVisual> m_solidColorVisual{ nullptr };
 		bool m_extendToBorders{ false };
-		
+
 		void ConnectPrimaryBackdropToParent();
 		void ConnectGlassReflectionToParent();
 		void ConnectBorderFillToParent();
@@ -183,7 +187,7 @@ namespace MDWMBlurGlassExt
 	class CBackdropManager
 	{
 	public:
-		std::shared_ptr<CCompositedBackdrop> GetOrCreateBackdrop(DWM::CTopLevelWindow* topLevelWindow,  bool createIfNecessary = false);
+		std::shared_ptr<CCompositedBackdrop> GetOrCreateBackdrop(DWM::CTopLevelWindow* topLevelWindow, bool createIfNecessary = false);
 		std::shared_ptr<CCompositedBackdrop> CreateWithGivenBackdrop(DWM::CTopLevelWindow* topLevelWindow, std::shared_ptr<CCompositedBackdrop> backdrop);
 		std::shared_ptr<CCompositedBackdrop> Remove(DWM::CTopLevelWindow* topLevelWindow);
 		void RefreshEffectConfig();
