@@ -51,6 +51,15 @@ namespace MDWMBlurGlass
 		float blurAmount = 20.f;
 		float customBlurAmount = 20.f;
 		float luminosityOpacity = 0.65f;
+
+		// these settings are optimal for the default Sky color from Windows 7
+
+		float PrimaryBalance = 0.08f;
+		float Active_SecondaryBalance = 0.43f;
+		float Inactive_SecondaryBalance = 0.43f;
+		float Active_BlurBalance = -0.125f;
+		float Inactive_BlurBalance = 0.365f;
+
 		COLORREF activeTextColor = 0xFF000000;
 		COLORREF inactiveTextColor = 0xFFB4B4B4;
 		COLORREF activeBlendColor = 0x64FFFFFF;
@@ -60,6 +69,7 @@ namespace MDWMBlurGlass
 		COLORREF inactiveTextColorDark = 0xFFB4B4B4;
 		COLORREF activeBlendColorDark = 0x64000000;
 		COLORREF inactiveBlendColorDark = 0x64000000;
+
 
 		blurMethod blurmethod = blurMethod::CustomBlur;
 		effectType effectType = effectType::Blur;
