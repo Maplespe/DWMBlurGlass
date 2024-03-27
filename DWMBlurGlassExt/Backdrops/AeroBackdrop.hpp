@@ -104,7 +104,7 @@ namespace MDWMBlurGlassExt
 			colorBalanceEffect->SetExposureAmount(colorBalance / 10.f);
 			colorBalanceEffect->SetInput(*compositeEffect);
 
-			auto effectBrush{ compositor.CreateEffectFactory(*glowBalanceEffect).CreateBrush() };
+			auto effectBrush{ compositor.CreateEffectFactory(*colorBalanceEffect).CreateBrush() };
 			if (hostBackdrop)
 			{
 				effectBrush.SetSourceParameter(L"Backdrop", compositor.CreateHostBackdropBrush());
