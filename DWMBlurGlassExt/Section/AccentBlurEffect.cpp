@@ -415,7 +415,7 @@ namespace MDWMBlurGlassExt::AccentBlur
 				(accentPolicy->nAccentState == ACCENT_DISABLED || accentPolicy->nAccentState == ACCENT_ENABLE_BLURBEHIND))
 			{
 				auto collection = This->GetNCAreaVisualCollection();
-				auto visual1 = This->GetNCAreaBackgroundVisual();
+				auto visual1 = This->GetLegacyVisual();
 				auto visual2 = This->GetClientBlurVisual();
 
 				if (visual1 && visual2)

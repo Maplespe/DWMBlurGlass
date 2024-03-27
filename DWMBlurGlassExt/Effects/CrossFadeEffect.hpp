@@ -21,31 +21,22 @@ namespace MDWMBlurGlassExt
 		{
 			SetProperty(D2D1_CROSSFADE_PROP_WEIGHT, BoxValue(weight));
 		}
-		void SetDestination(IGraphicsEffectSource* source)
+		void SetDestination(const winrt::Windows::Graphics::Effects::IGraphicsEffectSource& source)
 		{
 			SetInput(1, source);
 		}
-		void SetSource(IGraphicsEffectSource* source)
+		void SetSource(const winrt::Windows::Graphics::Effects::IGraphicsEffectSource& source)
 		{
 			SetInput(0, source);
 		}
 
 		void SetDestination(const winrt::Windows::UI::Composition::CompositionEffectSourceParameter& source)
 		{
-			SetInput(1, source.as<IGraphicsEffectSource>().get());
+			SetInput(1, source);
 		}
 		void SetSource(const winrt::Windows::UI::Composition::CompositionEffectSourceParameter& source)
 		{
-			SetInput(0, source.as<IGraphicsEffectSource>().get());
-		}
-
-		void SetDestination(const winrt::com_ptr<IGraphicsEffectSource> source)
-		{
-			SetInput(1, source.get());
-		}
-		void SetSource(const winrt::com_ptr<IGraphicsEffectSource> source)
-		{
-			SetInput(0, source.get());
+			SetInput(0, source);
 		}
 	};
 }

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FileName: Common.cpp
  *
  * Copyright (C) 2024 Maplespe
@@ -82,6 +82,8 @@ namespace MDWMBlurGlass
 		cfgData.reflection = Utils::GetIniString(path, L"config", L"reflection") == L"true";
 		cfgData.oldBtnHeight = Utils::GetIniString(path, L"config", L"oldBtnHeight") == L"true";
 		cfgData.customAmount = Utils::GetIniString(path, L"config", L"customAmount") == L"true";
+		// newly added params since 2.1.0
+		cfgData.overrideAccent = Utils::GetIniString(path, L"config", L"overrideAccent") == L"true";
 
 		auto ret = Utils::GetIniString(path, L"config", L"extendRound");
 
@@ -148,31 +150,24 @@ namespace MDWMBlurGlass
 		if (!ret.empty())
 			cfgData.blurmethod = (blurMethod)std::clamp(_wtoi(ret.data()), 0, 2);
 
-		// new - begin
-
-		ret = Utils::GetIniString(path, L"aero", L"PrimaryBalance");
+		// newly added params since 2.1.0
+		ret = Utils::GetIniString(path, L"config", L"glassIntensity");
 		if (!ret.empty())
-			cfgData.PrimaryBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
-
-		ret = Utils::GetIniString(path, L"aero", L"Active_SecondaryBalance");
+			cfgData.glassIntensity = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
+		ret = Utils::GetIniString(path, L"config.aero", L"activeColorBalance");
 		if (!ret.empty())
-			cfgData.Active_SecondaryBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
-
-		ret = Utils::GetIniString(path, L"aero", L"Inactive_SecondaryBalance");
+			cfgData.activeColorBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
+		ret = Utils::GetIniString(path, L"config.aero", L"inactiveColorBalance");
 		if (!ret.empty())
-			cfgData.Inactive_SecondaryBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
+			cfgData.inactiveColorBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
 
-
-		ret = Utils::GetIniString(path, L"aero", L"Active_BlurBalance");
+		ret = Utils::GetIniString(path, L"config.aero", L"activeBlurBalance");
 		if (!ret.empty())
-			cfgData.Active_BlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
-
-		ret = Utils::GetIniString(path, L"aero", L"Inactive_BlurBalance");
+			cfgData.activeBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
+		ret = Utils::GetIniString(path, L"config.aero", L"inactiveBlurBalance");
 		if (!ret.empty())
-			cfgData.Inactive_BlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
-
-
-		// new - end
+			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
+		//
 
 		ret = Utils::GetIniString(path, L"config", L"effectType");
 		if (!ret.empty())
@@ -180,6 +175,13 @@ namespace MDWMBlurGlass
 			cfgData.effectType = (MDWMBlurGlass::effectType)std::clamp(_wtoi(ret.data()), 0, 3);
 			if (cfgData.blurmethod != blurMethod::CustomBlur && cfgData.effectType > effectType::Acrylic)
 				cfgData.effectType = effectType::Acrylic;
+		}
+
+		// newly added params since 2.1.0
+		ret = Utils::GetIniString(path, L"config", L"crossfadeTime");
+		if (!ret.empty())
+		{
+			cfgData.crossfadeTime = (UINT)_wtoll(ret.data());
 		}
 		return cfgData;
 	}
@@ -191,9 +193,21 @@ namespace MDWMBlurGlass
 		Utils::SetIniString(path, L"config", L"reflection", cfg.reflection ? L"true" : L"false");
 		Utils::SetIniString(path, L"config", L"oldBtnHeight", cfg.oldBtnHeight ? L"true" : L"false");
 		Utils::SetIniString(path, L"config", L"customAmount", cfg.customAmount ? L"true" : L"false");
+
+		// newly added params since 2.1.0
+		Utils::SetIniString(path, L"config", L"overrideAccent", cfg.overrideAccent ? L"true" : L"false");
+
 		Utils::SetIniString(path, L"config", L"blurAmount", std::to_wstring(cfg.blurAmount));
 		Utils::SetIniString(path, L"config", L"customBlurAmount", std::to_wstring(cfg.customBlurAmount));
 		Utils::SetIniString(path, L"config", L"luminosityOpacity", std::to_wstring(cfg.luminosityOpacity));
+
+		// newly added params since 2.1.0
+		Utils::SetIniString(path, L"config", L"glassIntensity", std::to_wstring(cfg.glassIntensity));
+		Utils::SetIniString(path, L"config.aero", L"activeColorBalance", std::to_wstring(cfg.activeColorBalance));
+		Utils::SetIniString(path, L"config.aero", L"inactiveColorBalance", std::to_wstring(cfg.inactiveColorBalance));
+		Utils::SetIniString(path, L"config.aero", L"activeBlurBalance", std::to_wstring(cfg.activeBlurBalance));
+		Utils::SetIniString(path, L"config.aero", L"inactiveBlurBalance", std::to_wstring(cfg.inactiveBlurBalance));
+
 		Utils::SetIniString(path, L"config", L"activeTextColor", std::to_wstring(cfg.activeTextColor));
 		Utils::SetIniString(path, L"config", L"inactiveTextColor", std::to_wstring(cfg.inactiveTextColor));
 		Utils::SetIniString(path, L"config", L"activeTextColorDark", std::to_wstring(cfg.activeTextColorDark));
@@ -205,6 +219,7 @@ namespace MDWMBlurGlass
 		Utils::SetIniString(path, L"config", L"blurMethod", std::to_wstring((int)cfg.blurmethod));
 		Utils::SetIniString(path, L"config", L"effectType", std::to_wstring((int)cfg.effectType));
 
-		// not on the gui... not sure if i should put the new entries here!
+		// newly added params since 2.1.0
+		Utils::SetIniString(path, L"config", L"crossfadeTime", std::to_wstring(cfg.crossfadeTime));
 	}
 }

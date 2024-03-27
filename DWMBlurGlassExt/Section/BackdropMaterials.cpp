@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2024 Maplespe、ALTaleX531
  *
- * This file is part of MToolBox and DWMBlurGlass and AcrylicEverywhere.
+ * This file is part of MToolBox and DWMBlurGlass and MDWMBlurGlassExt.
  * DWMBlurGlass is free software: you can redistribute it and/or modify it under the terms of the
  * GNU Lesser General Public License as published by the Free Software Foundation, either version 3
  * of the License, or any later version.
@@ -449,7 +449,7 @@ namespace MDWMBlurGlassExt
 		float blurBalance
 	)
 	{
-		// New Aero backdrop recipe by @ALTaleX531 (https://github.com/ALTaleX531/AcrylicEverywhere), @aubymori (normal layer fixes)
+		// New Aero backdrop recipe by @ALTaleX531 (https://github.com/ALTaleX531/MDWMBlurGlassExt), @aubymori (normal layer fixes)
 		// @kfh83 for porting to DWMBlurGlass and minor modifications
 
 		auto colorEffect{ winrt::make_self<ColorSourceEffect>() };
