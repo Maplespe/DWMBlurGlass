@@ -50,7 +50,8 @@ namespace MDWMBlurGlassExt::DWM
 		virtual ~CBaseObject() = default;
 	};
 
-	struct CSolidColorLegacyMilBrushProxy {};
+	struct CBaseLegacyMilBrushProxy : CBaseObject {};
+	struct CSolidColorLegacyMilBrushProxy : CBaseLegacyMilBrushProxy {};
 	struct CDrawingContext {};
 	struct CDrawListEntryBuilder {};
 	struct MilRectF
@@ -78,11 +79,18 @@ namespace MDWMBlurGlassExt::DWM
 		int32_t	nFlags;
 		uint32_t nColor;
 		int32_t	nAnimationId;
+
+		inline bool IsAccentBlurEnabled() const
+		{
+			return (DWORD)nAccentState > 2 && (DWORD)nAccentState < 5;
+		}
 	};
 
+	struct CTopLevelWindow;
 	struct CWindowData : CBaseObject
 	{
 		HWND GetHWND() const;
+		CTopLevelWindow* GetWindow() const;
 		bool IsUsingDarkMode() const;
 		DWORD GetNonClientAttribute() const;
 		bool IsImmersiveWindow() const;
@@ -123,7 +131,9 @@ namespace MDWMBlurGlassExt::DWM
 
 		CVisualProxy* GetVisualProxy() const;
 
+		bool IsCloneAllowed() const;
 		bool AllowVisualTreeClone(bool allow);
+		void Cloak(bool cloak);
 
 		void SetInsetFromParent(MARGINS* margins);
 
@@ -142,6 +152,7 @@ namespace MDWMBlurGlassExt::DWM
 		void ConnectToParent(bool connect);
 
 		void SetOpacity(double opacity);
+		HRESULT STDMETHODCALLTYPE UpdateOpacity();
 
 		void SetScale(double x, double y);
 
@@ -158,8 +169,6 @@ namespace MDWMBlurGlassExt::DWM
 		HRESULT MoveToFront(bool unknown);
 
 		HRESULT Initialize();
-
-		void Show(bool show);
 	};
 
 	struct CContainerVisual : CBaseObject
@@ -194,6 +203,7 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		HRESULT GetExtendedFrameBounds(HWND hWnd, RECT* rect);
 		HRESULT GetSyncedWindowData(IDwmWindow* dwmWindow, bool shared, CWindowData** pWindowData);
+		HRESULT STDMETHODCALLTYPE GetSyncedWindowDataByHwnd(HWND hwnd, CWindowData** windowData);
 	};
 
 	struct CTopLevelWindow : CVisual
@@ -203,11 +213,15 @@ namespace MDWMBlurGlassExt::DWM
 		CWindowData* GetData();
 		VisualCollection* GetNCAreaVisualCollection();
 		CVisual* GetVisual() const;
-		CVisual* GetNCAreaBackgroundVisual() const;
+
+		struct CAccent* GetAccent() const;
+		CVisual* GetLegacyVisual() const;
 		CVisual* GetClientBlurVisual() const;
-		std::vector<winrt::com_ptr<CVisual>> GetNCBackgroundVisualList() const;
-		CVisual* GetNCLegacySolidColorVisual() const;
-		void ShowNCBackgroundVisualList(bool show);
+		CVisual* GetSystemBackdropVisual() const;
+		CVisual* GetAccentColorVisual() const;
+		std::vector<winrt::com_ptr<CVisual>> GetNCBackgroundVisuals() const;
+		bool IsNCBackgroundVisualsCloneAllAllowed();
+		CSolidColorLegacyMilBrushProxy* const* GetBorderMilBrush() const;
 
 		CRgnGeometryProxy* const& GetBorderGeometry() const;
 		CRgnGeometryProxy* const& GetTitlebarGeometry() const;
@@ -243,9 +257,44 @@ namespace MDWMBlurGlassExt::DWM
 		ID2D1Effect* DirBlurKernelYEffect();
 	};
 
-	struct CAccent
+	struct CAccent : CVisual
 	{
 		static bool s_IsPolicyActive(const ACCENT_POLICY* accentPolicy);
+		CBaseGeometryProxy* const& GetClipGeometry() const;
+	};
+
+	struct IRenderDataBuilder : IUnknown
+	{
+		STDMETHOD(DrawBitmap)(UINT bitmapHandleTableIndex) PURE;
+		STDMETHOD(DrawGeometry)(UINT geometryHandleTableIndex, UINT brushHandleTableIndex) PURE;
+		STDMETHOD(DrawImage)(const D2D1_RECT_F& rect, UINT imageHandleTableIndex) PURE;
+		STDMETHOD(DrawMesh2D)(UINT meshHandleTableIndex, UINT brushHandleTableIndex) PURE;
+		STDMETHOD(DrawRectangle)(const D2D1_RECT_F* rect, UINT brushHandleTableIndex) PURE;
+		STDMETHOD(DrawTileImage)(UINT imageHandleTableIndex, const D2D1_RECT_F& rect, float opacity, const D2D1_POINT_2F& point) PURE;
+		STDMETHOD(DrawVisual)(UINT visualHandleTableIndex) PURE;
+		STDMETHOD(Pop)() PURE;
+		STDMETHOD(PushTransform)(UINT transformHandleTableInfex) PURE;
+		STDMETHOD(DrawSolidRectangle)(const D2D1_RECT_F& rect, const D2D1_COLOR_F& color) PURE;
+	};
+	struct CRenderDataInstruction : CBaseObject
+	{
+		STDMETHOD(WriteInstruction)(
+			IRenderDataBuilder* builder,
+			const struct CVisual* visual
+			) PURE;
+	};
+	struct CDrawGeometryInstruction : CRenderDataInstruction
+	{
+		static HRESULT STDMETHODCALLTYPE Create(CBaseLegacyMilBrushProxy* brush, CBaseGeometryProxy* geometry, CDrawGeometryInstruction** instruction);
+	};
+	struct CRenderDataVisual : CVisual
+	{
+		HRESULT STDMETHODCALLTYPE AddInstruction(CRenderDataInstruction* instruction);
+		HRESULT STDMETHODCALLTYPE ClearInstructions();
+	};
+	struct CCanvasVisual : CRenderDataVisual
+	{
+		static HRESULT STDMETHODCALLTYPE Create(CCanvasVisual** visual);
 	};
 
 	struct COcclusionContext {};
@@ -261,6 +310,10 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		inline static CDesktopManager* s_pDesktopManagerInstance{ nullptr };
 
+		bool IsVanillaTheme() const
+		{
+			return reinterpret_cast<bool const*>(this)[25];
+		}
 		CWindowList* GetWindowList() const;
 
 		IWICImagingFactory2* GetWICFactory() const;
@@ -336,5 +389,43 @@ namespace MDWMBlurGlassExt::DWM
 	struct ResourceHelper
 	{
 		static HRESULT CreateGeometryFromHRGN(HRGN hrgn, CRgnGeometryProxy** geometry);
+	};
+
+	struct CSecondaryWindowRepresentation
+	{
+		CWindowData* GetWindowData() const
+		{
+			return reinterpret_cast<CWindowData* const*>(this)[8];
+		}
+		CWindowData* GetOwnedWindowData() const
+		{
+			return reinterpret_cast<CWindowData* const*>(this)[4];
+		}
+		CVisual* GetCachedVisual() const
+		{
+			return reinterpret_cast<CVisual* const*>(this)[6];
+		}
+		CVisual* GetVisual() const
+		{
+			return reinterpret_cast<CVisual* const*>(this)[7];
+		}
+		POINT GetOffset() const
+		{
+			return
+			{
+				*(reinterpret_cast<LONG const*>(this) + 22),
+				*(reinterpret_cast<LONG const*>(this) + 24)
+			};
+		}
+		RECT GetRect() const
+		{
+			return
+			{
+				*(reinterpret_cast<LONG const*>(this) + 23),
+				*(reinterpret_cast<LONG const*>(this) + 25),
+				*(reinterpret_cast<LONG const*>(this) + 20),
+				*(reinterpret_cast<LONG const*>(this) + 21)
+			};
+		}
 	};
 }

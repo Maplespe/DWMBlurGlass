@@ -22,7 +22,7 @@ namespace MDWMBlurGlassExt
 		{
 			SetProperty(D2D1_GAUSSIANBLUR_PROP_OPTIMIZATION, BoxValue(optimizationMode));
 		}
-		void SetBorderMode(D2D1_BORDER_MODE borderMode = D2D1_BORDER_MODE_HARD)
+		void SetBorderMode(D2D1_BORDER_MODE borderMode = D2D1_BORDER_MODE_SOFT)
 		{
 			SetProperty(D2D1_GAUSSIANBLUR_PROP_BORDER_MODE, BoxValue(borderMode));
 		}

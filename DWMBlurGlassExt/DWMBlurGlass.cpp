@@ -116,6 +116,8 @@ namespace MDWMBlurGlassExt
 			WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", g_funCreateRoundRgn } });
 
 		g_startup = false;
+
+		PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
 	}
 
 	void Refresh()
@@ -132,6 +134,8 @@ namespace MDWMBlurGlassExt
 		AccentBlur::Refresh();
 		BlurRadiusTweaker::Refresh();
 		CustomButton::Refresh();
+
+		PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
 	}
 
 	namespace Common

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FileName: VersionHelper.cpp
  *
  * Copyright (C) 2024 Maplespe

@@ -63,6 +63,20 @@ namespace MDWMBlurGlassExt::DWM
 		const HWND hWnd = *((HWND*)this + 5);
 		return hWnd;
 	}
+	CTopLevelWindow* CWindowData::GetWindow() const
+	{
+		CTopLevelWindow* window{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+			window = reinterpret_cast<CTopLevelWindow* const*>(this)[48];
+		}
+		else
+		{
+			window = reinterpret_cast<CTopLevelWindow* const*>(this)[55];
+		}
+		return window;
+	}
 
 	bool CWindowData::IsUsingDarkMode() const
 	{
@@ -168,6 +182,35 @@ namespace MDWMBlurGlassExt::DWM
 		return reinterpret_cast<CVisualProxy*>(reinterpret_cast<const ULONG_PTR*>(this)[2]);
 	}
 
+	bool CVisual::IsCloneAllowed() const
+	{
+		const BYTE* properties{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+			properties = &reinterpret_cast<BYTE const*>(this)[84];
+		}
+		else if (os::buildNumber < 22621)
+		{
+			properties = &reinterpret_cast<BYTE const*>(this)[92];
+		}
+		else if (os::buildNumber < 26020)
+		{
+			properties = &reinterpret_cast<BYTE const*>(this)[92];
+		}
+		else
+		{
+			properties = &reinterpret_cast<BYTE const*>(this)[36];
+		}
+
+		bool allowed{ false };
+		if (properties)
+		{
+			allowed = (*properties & 8) == 0;
+		}
+
+		return allowed;
+	}
 	bool CVisual::AllowVisualTreeClone(bool allow)
 	{
 		BYTE* properties;
@@ -204,6 +247,19 @@ namespace MDWMBlurGlassExt::DWM
 		}
 
 		return allowed;
+	}
+	void CVisual::Cloak(bool cloak)
+	{
+		if (!cloak)
+		{
+			SetOpacity(1.);
+			UpdateOpacity();
+		}
+		else
+		{
+			SetOpacity(0.);
+			UpdateOpacity();
+		}
 	}
 
 	void CVisual::SetInsetFromParent(MARGINS* margins)
@@ -250,6 +306,10 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		DEFCALL_MHOST_METHOD(CVisual::SetOpacity, opacity);
 	}
+	HRESULT STDMETHODCALLTYPE CVisual::UpdateOpacity()
+	{
+		return DEFCALL_MHOST_METHOD(CVisual::UpdateOpacity, );
+	}
 
 	void CVisual::SetScale(double x, double y)
 	{
@@ -294,24 +354,6 @@ namespace MDWMBlurGlassExt::DWM
 	HRESULT CVisual::Initialize()
 	{
 		return DEFCALL_MHOST_METHOD(CVisual::Initialize);
-	}
-
-	void CVisual::Show(bool show)
-	{
-		if (show)
-		{
-			//this->Unhide();
-			this->SetOpacity(1.);
-			this->SendSetOpacity(1.);
-			//this->ConnectToParent(true);
-		}
-		else
-		{
-			//this->Hide();
-			this->SetOpacity(0.);
-			this->SendSetOpacity(0.);
-			//this->ConnectToParent(false);
-		}
 	}
 
 	HRESULT VisualCollection::RemoveAll()
@@ -385,21 +427,160 @@ namespace MDWMBlurGlassExt::DWM
 		return visual;
 	}
 
-	CVisual* CTopLevelWindow::GetNCAreaBackgroundVisual() const
+	CAccent* CTopLevelWindow::GetAccent() const
 	{
-		const auto visual = *(CVisual**)((char*)this + 288);
+		CAccent* accent{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+			accent = reinterpret_cast<CAccent* const*>(this)[34];
+		}
+		else if (os::buildNumber < 22621)
+		{
+			accent = reinterpret_cast<CAccent* const*>(this)[35];
+		}
+		else if (os::buildNumber < 26020)
+		{
+			accent = reinterpret_cast<CAccent* const*>(this)[37];
+		}
+		else
+		{
+			accent = reinterpret_cast<CAccent* const*>(this)[34];
+		}
+
+		return accent;
+	}
+	CVisual* CTopLevelWindow::GetLegacyVisual() const
+	{
+		CVisual* visual{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[36];
+		}
+		else if (os::buildNumber < 22621)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[37];
+		}
+		else if (os::buildNumber < 26020)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[39];
+		}
+		else
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[40];
+		}
+
 		return visual;
 	}
-
 	CVisual* CTopLevelWindow::GetClientBlurVisual() const
 	{
-		const auto visual = (CVisual*)*((DWORD64*)this + 34);
+		CVisual* visual{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[37];
+		}
+		else if (os::buildNumber < 22621)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[39];
+		}
+		else if (os::buildNumber < 26020)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[37];
+		}
+		else
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[40];
+		}
+
 		return visual;
 	}
-
-	std::vector<com_ptr<CVisual>> CTopLevelWindow::GetNCBackgroundVisualList() const
+	CVisual* CTopLevelWindow::GetSystemBackdropVisual() const
 	{
-		std::vector<com_ptr<CVisual>> visuals{};
+		CVisual* visual{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+		}
+		else if (os::buildNumber < 22621)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[38];
+		}
+		else if (os::buildNumber < 26020)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[40];
+		}
+		else
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[35];
+		}
+
+		return visual;
+	}
+	CVisual* CTopLevelWindow::GetAccentColorVisual() const
+	{
+		CVisual* visual{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+		}
+		else if (os::buildNumber < 22621)
+		{
+		}
+		else if (os::buildNumber < 26020)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[41];
+		}
+		else
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[36];
+		}
+
+		return visual;
+	}
+	std::vector<winrt::com_ptr<CVisual>> CTopLevelWindow::GetNCBackgroundVisuals() const
+	{
+		std::vector<winrt::com_ptr<CVisual>> visuals{};
+
+		if (GetLegacyVisual())
+		{
+			visuals.emplace_back(nullptr).copy_from(GetLegacyVisual());
+		}
+		if (GetAccent())
+		{
+			visuals.emplace_back(nullptr).copy_from(GetAccent());
+		}
+		if (GetClientBlurVisual())
+		{
+			visuals.emplace_back(nullptr).copy_from(GetClientBlurVisual());
+		}
+		if (GetSystemBackdropVisual())
+		{
+			visuals.emplace_back(nullptr).copy_from(GetSystemBackdropVisual());
+		}
+		if (GetAccentColorVisual())
+		{
+			visuals.emplace_back(nullptr).copy_from(GetAccentColorVisual());
+		}
+
+		return visuals;
+	}
+	bool CTopLevelWindow::IsNCBackgroundVisualsCloneAllAllowed()
+	{
+		for (const auto& visual : GetNCBackgroundVisuals())
+		{
+			if (!visual->IsCloneAllowed())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+	CSolidColorLegacyMilBrushProxy* const* CTopLevelWindow::GetBorderMilBrush() const
+	{
+		CSolidColorLegacyMilBrushProxy* const* brush{ nullptr };
 
 		if (os::buildNumber < 19041)
 		{
@@ -407,136 +588,30 @@ namespace MDWMBlurGlassExt::DWM
 		}
 		else if (os::buildNumber < 22000)
 		{
-			if (reinterpret_cast<CVisual* const*>(this)[34]) // accent
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[34]);
-			}
-			//if (reinterpret_cast<CVisual* const*>(this)[36]) // legacy
-			//{
-			//	visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[36]);
-			//}
-			if (reinterpret_cast<CVisual* const*>(this)[37]) // client blur
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[37]);
-			}
+			brush = &reinterpret_cast<CSolidColorLegacyMilBrushProxy* const*>(this)[94];
 		}
 		else if (os::buildNumber < 22621)
 		{
-			if (reinterpret_cast<CVisual* const*>(this)[35]) // accent
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[35]);
-			}
-			//if (reinterpret_cast<CVisual* const*>(this)[37]) // legacy
-			//{
-			//	visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[37]);
-			//}
-			if (reinterpret_cast<CVisual* const*>(this)[38]) // system backdrop
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[38]);
-			}
-			if (reinterpret_cast<CVisual* const*>(this)[39]) // client blur
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[39]);
-			}
+			brush = &reinterpret_cast<CSolidColorLegacyMilBrushProxy* const*>(this)[98];
 		}
 		else if (os::buildNumber < 26020)
 		{
-			if (reinterpret_cast<CVisual* const*>(this)[37]) // accent
+			auto legacyBackgroundVisual{ reinterpret_cast<CVisual* const*>(this)[39] };
+			if (legacyBackgroundVisual)
 			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[37]);
-			}
-			//if (reinterpret_cast<CVisual* const*>(this)[39]) // legacy
-			//{
-			//	visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[39]);
-			//}
-			if (reinterpret_cast<CVisual* const*>(this)[40]) // system backdrop
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[40]);
-			}
-			if (reinterpret_cast<CVisual* const*>(this)[41]) // accent color
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[41]);
-			}
-			if (reinterpret_cast<CVisual* const*>(this)[42]) // client blur
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[42]);
+				brush = &reinterpret_cast<CSolidColorLegacyMilBrushProxy* const*>(legacyBackgroundVisual)[38];
 			}
 		}
 		else
 		{
-			//if (reinterpret_cast<CVisual* const*>(this)[32]) // legacy
-			//{
-			//	visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[32]);
-			//}
-			if (reinterpret_cast<CVisual* const*>(this)[34]) // accent
+			auto legacyBackgroundVisual{ reinterpret_cast<CVisual* const*>(this)[34] };
+			if (legacyBackgroundVisual)
 			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[34]);
-			}
-			if (reinterpret_cast<CVisual* const*>(this)[35]) // system backdrop
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[35]);
-			}
-			if (reinterpret_cast<CVisual* const*>(this)[36]) // accent color
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[36]);
-			}
-			if (reinterpret_cast<CVisual* const*>(this)[37]) // client blur
-			{
-				visuals.emplace_back(nullptr).copy_from(reinterpret_cast<CVisual* const*>(this)[37]);
-			}
-		}
-		if (os::buildNumber >= 22000)
-		{
-			auto legacySolidColorVisual{ GetNCLegacySolidColorVisual() };
-			if (legacySolidColorVisual)
-			{
-				visuals.emplace_back(nullptr).copy_from(legacySolidColorVisual);
+				brush = &reinterpret_cast<CSolidColorLegacyMilBrushProxy* const*>(legacyBackgroundVisual)[32];
 			}
 		}
 
-		return visuals;
-	}
-	CVisual* CTopLevelWindow::GetNCLegacySolidColorVisual() const
-	{
-		CVisual* visual{nullptr};
-
-		if (os::buildNumber < 22000)
-		{
-			if (reinterpret_cast<CVisual* const*>(this)[36]) // legacy
-			{
-				visual = reinterpret_cast<CVisual* const*>(this)[36];
-			}
-		}
-		else if (os::buildNumber < 22621)
-		{
-			if (reinterpret_cast<CVisual* const*>(this)[37]) // legacy
-			{
-				visual = reinterpret_cast<CVisual* const*>(this)[37];
-			}
-		}
-		else if (os::buildNumber < 26020)
-		{
-			if (reinterpret_cast<CVisual* const*>(this)[39]) // legacy
-			{
-				visual = reinterpret_cast<CVisual* const*>(this)[39];
-			}
-		}
-		else
-		{
-			if (reinterpret_cast<CVisual* const*>(this)[32]) // legacy
-			{
-				visual = reinterpret_cast<CVisual* const*>(this)[32];
-			}
-		}
-		return visual;
-	}
-
-	void CTopLevelWindow::ShowNCBackgroundVisualList(bool show)
-	{
-		for (auto visual : GetNCBackgroundVisualList())
-		{
-			visual->Show(show);
-		}
+		return brush;
 	}
 
 	CRgnGeometryProxy* const& CTopLevelWindow::GetBorderGeometry() const
@@ -762,6 +837,48 @@ namespace MDWMBlurGlassExt::DWM
 		static auto pfun = MHostGetProcAddress<decltype(s_IsPolicyActive)>("CAccent::s_IsPolicyActive");
 		return pfun(accentPolicy);
 	}
+	CBaseGeometryProxy* const& CAccent::GetClipGeometry() const
+	{
+		CBaseGeometryProxy* const* geometry{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+			geometry = &reinterpret_cast<CBaseGeometryProxy* const*>(this)[52];
+		}
+		else if (os::buildNumber < 22621)
+		{
+			geometry = &reinterpret_cast<CBaseGeometryProxy* const*>(this)[53];
+		}
+		else if (os::buildNumber < 26020)
+		{
+			geometry = &reinterpret_cast<CBaseGeometryProxy* const*>(this)[48];
+		}
+		else
+		{
+			geometry = &reinterpret_cast<CBaseGeometryProxy* const*>(this)[42];
+		}
+
+		return *geometry;
+	}
+
+	HRESULT STDMETHODCALLTYPE CDrawGeometryInstruction::Create(CBaseLegacyMilBrushProxy* brush, CBaseGeometryProxy* geometry, CDrawGeometryInstruction** instruction)
+	{
+		static auto pfun = MHostGetProcAddress<decltype(Create)>("CDrawGeometryInstruction::Create");
+		return pfun(brush, geometry, instruction);
+	}
+	HRESULT STDMETHODCALLTYPE CRenderDataVisual::AddInstruction(CRenderDataInstruction* instruction)
+	{
+		return DEFCALL_MHOST_METHOD(CRenderDataVisual::AddInstruction, instruction);
+	}
+	HRESULT STDMETHODCALLTYPE CRenderDataVisual::ClearInstructions()
+	{
+		return DEFCALL_MHOST_METHOD(CRenderDataVisual::ClearInstructions, );
+	}
+	HRESULT STDMETHODCALLTYPE CCanvasVisual::Create(CCanvasVisual** visual)
+	{
+		static auto pfun = MHostGetProcAddress<decltype(Create)>("CCanvasVisual::Create");
+		return pfun(visual);
+	}
 
 	POINT* CButton::GetPoint()
 	{
@@ -932,6 +1049,10 @@ namespace MDWMBlurGlassExt::DWM
 	HRESULT CWindowList::GetSyncedWindowData(IDwmWindow* dwmWindow, bool shared, CWindowData** pWindowData)
 	{
 		return DEFCALL_MHOST_METHOD(CWindowList::GetSyncedWindowData, dwmWindow, shared, pWindowData);
+	}
+	HRESULT STDMETHODCALLTYPE CWindowList::GetSyncedWindowDataByHwnd(HWND hwnd, CWindowData** windowData)
+	{
+		return DEFCALL_MHOST_METHOD(CWindowList::GetSyncedWindowDataByHwnd, hwnd, windowData);
 	}
 }
 #pragma pop_macro("DEFCALL_MHOST_METHOD")

@@ -8,30 +8,30 @@ namespace MDWMBlurGlassExt
 {
 	struct NamedProperty
 	{
-		const wchar_t* Name; // Compile-time constant
+		LPCWSTR Name; // Compile-time constant
 		UINT Index; // Property index
 		using GRAPHICS_EFFECT_PROPERTY_MAPPING = ABI::Windows::Graphics::Effects::GRAPHICS_EFFECT_PROPERTY_MAPPING;
 		GRAPHICS_EFFECT_PROPERTY_MAPPING Mapping;
 	};
-	class CanvasEffect : public winrt::implements<CanvasEffect, ABI::Windows::Graphics::Effects::IGraphicsEffect, ABI::Windows::Graphics::Effects::IGraphicsEffectSource, ABI::Windows::Graphics::Effects::IGraphicsEffectD2D1Interop>
+	class CanvasEffect : public winrt::implements<CanvasEffect, winrt::Windows::Graphics::Effects::IGraphicsEffect, winrt::Windows::Graphics::Effects::IGraphicsEffectSource, ABI::Windows::Graphics::Effects::IGraphicsEffectD2D1Interop>
 	{
 		CLSID m_effectId{};
-		wil::unique_hstring m_name{};
+		winrt::hstring m_name{};
 		std::unordered_map<size_t, winrt::Windows::Foundation::IPropertyValue> m_properties{};
-		std::unordered_map<size_t, winrt::com_ptr<IGraphicsEffectSource>> m_effectSources{};
+		std::unordered_map<size_t, winrt::Windows::Graphics::Effects::IGraphicsEffectSource> m_effectSources{};
 	protected:
 		std::vector<NamedProperty> m_namedProperties{};
 	public:
 		CanvasEffect(REFCLSID effectId) : m_effectId{ effectId } {}
 		virtual ~CanvasEffect() = default;
 
-		IFACEMETHOD(get_Name)(HSTRING* name) override
+		winrt::hstring Name()
 		{
-			return WindowsDuplicateString(m_name.get(), name);
+			return m_name;
 		}
-		IFACEMETHOD(put_Name)(HSTRING name) override
+		void Name(const winrt::hstring& string)
 		{
-			return WindowsDuplicateString(name, m_name.put());
+			m_name = string;
 		}
 
 		IFACEMETHOD(GetEffectId)(CLSID* id) override
@@ -54,14 +54,14 @@ namespace MDWMBlurGlassExt
 
 			return E_POINTER;
 		}
-		IFACEMETHOD(GetSource)(UINT index, IGraphicsEffectSource** source)
+		IFACEMETHOD(GetSource)(UINT index, ABI::Windows::Graphics::Effects::IGraphicsEffectSource** source)
 		{
 			if (!source)
 			{
 				return E_POINTER;
 			}
 
-			m_effectSources.at(index).copy_to(source);
+			m_effectSources.at(index).as<ABI::Windows::Graphics::Effects::IGraphicsEffectSource>().copy_to(source);
 			return S_OK;
 		}
 		IFACEMETHOD(GetPropertyCount)(UINT* count) override
@@ -107,39 +107,25 @@ namespace MDWMBlurGlassExt
 
 			return to;
 		};
-		void SetName(const winrt::hstring& name)
+		void SetName(const winrt::hstring& name) { Name(name); }
+		void SetInput(UINT index, const winrt::Windows::Graphics::Effects::IGraphicsEffectSource& source)
 		{
-			put_Name(reinterpret_cast<HSTRING>(winrt::get_abi(name)));
+			m_effectSources.insert_or_assign(index, source);
 		}
-		void SetInput(UINT index, IGraphicsEffectSource* source)
-		{
-			m_effectSources.insert_or_assign(index, construct_from_abi(source));
-		}
-		void SetInput(IGraphicsEffectSource* source)
+		void SetInput(const winrt::Windows::Graphics::Effects::IGraphicsEffectSource& source)
 		{
 			SetInput(0, source);
 		}
-		void SetInput(const winrt::com_ptr<IGraphicsEffectSource>& source)
-		{
-			SetInput(0, source.get());
-		}
 		void SetInput(const winrt::Windows::UI::Composition::CompositionEffectSourceParameter& source)
 		{
-			SetInput(0, source.as<IGraphicsEffectSource>().get());
+			SetInput(0, source.as<winrt::Windows::Graphics::Effects::IGraphicsEffectSource>());
 		}
 
-		void SetInput(const std::vector<IGraphicsEffectSource*>& effectSourceList)
+		void SetInput(const std::vector<winrt::Windows::Graphics::Effects::IGraphicsEffectSource>& effectSourceList)
 		{
 			for (UINT i = 0; i < effectSourceList.size(); i++)
 			{
 				SetInput(i, effectSourceList[i]);
-			}
-		}
-		void SetInput(const std::vector<winrt::com_ptr<IGraphicsEffectSource>>& effectSourceList)
-		{
-			for (UINT i = 0; i < effectSourceList.size(); i++)
-			{
-				SetInput(i, effectSourceList[i].get());
 			}
 		}
 	protected:
@@ -163,6 +149,10 @@ namespace MDWMBlurGlassExt
 		auto BoxValue(UINT32 value)
 		{
 			return winrt::Windows::Foundation::PropertyValue::CreateUInt32(value).as<winrt::Windows::Foundation::IPropertyValue>();
+		}
+		auto BoxValue(const D2D1_MATRIX_5X4_F& value)
+		{
+			return winrt::Windows::Foundation::PropertyValue::CreateSingleArray(value.m[0]).as<winrt::Windows::Foundation::IPropertyValue>();
 		}
 		template <size_t size>
 		auto BoxValue(float(&value)[size])
