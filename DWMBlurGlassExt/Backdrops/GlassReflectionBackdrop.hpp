@@ -180,7 +180,7 @@ namespace MDWMBlurGlassExt
 						auto scaledWidth{ static_cast<float>(surfaceSize.Width) * static_cast<float>(wil::rect_height(mi.rcMonitor)) * (1 + s_sharedResources.parallaxIntensity) / static_cast<float>(surfaceSize.Height) };
 						factor = scaledWidth / static_cast<float>(surfaceSize.Width);
 
-						if (scaledWidth < static_cast<float>(wil::rect_width(mi.rcMonitor)) * (1 + s_sharedResources.parallaxIntensity))
+						if (scaledWidth < static_cast<float>(wil::rect_width(mi.rcMonitor)) * (1 - s_sharedResources.parallaxIntensity))
 						{
 							scaledWidth = static_cast<float>(wil::rect_width(mi.rcMonitor)) * (1 + s_sharedResources.parallaxIntensity);
 							factor = scaledWidth / static_cast<float>(surfaceSize.Width);
@@ -200,7 +200,7 @@ namespace MDWMBlurGlassExt
 
 				fixedOffset =
 				{
-					(static_cast<float>(wil::rect_width(mi.rcMonitor)) * (1.f + s_sharedResources.parallaxIntensity) - scaledSize.x) / 2.f,
+					(static_cast<float>(wil::rect_width(mi.rcMonitor)) * (1.f - s_sharedResources.parallaxIntensity) - scaledSize.x) / 2.f,
 					(static_cast<float>(wil::rect_height(mi.rcMonitor)) * (1.f + s_sharedResources.parallaxIntensity) - scaledSize.y) / 2.f
 				};
 				currentMonitor = monitor;
@@ -213,7 +213,7 @@ namespace MDWMBlurGlassExt
 				glassSurfaceBrush.Offset(
 					winrt::Windows::Foundation::Numerics::float2
 					{
-						-static_cast<float>(windowRect.left - mi.rcMonitor.left) * (1.f + s_sharedResources.parallaxIntensity) +
+						-static_cast<float>(windowRect.left - mi.rcMonitor.left) * (1.f - s_sharedResources.parallaxIntensity) +
 						//static_cast<float>(IsMaximized(hwnd) ? margins.cxLeftWidth : 0.f) +
 						fixedOffset.x,
 						-static_cast<float>(windowRect.top - mi.rcMonitor.top) * (1.f + s_sharedResources.parallaxIntensity) +
