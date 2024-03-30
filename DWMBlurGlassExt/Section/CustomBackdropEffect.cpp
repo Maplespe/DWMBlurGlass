@@ -138,6 +138,13 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	}
 	HRESULT CTopLevelWindow_UpdateNCAreaBackground(CTopLevelWindow* This)
 	{
+		// temporary patch for round corner fix
+		{
+			if (This->GetData())
+			{
+				CommonDef::g_window = This->GetData()->GetHWND();
+			}
+		}
 		g_windowOfInterest = This;
 		g_borderGeometry = &This->GetBorderGeometry();
 		g_titlebarGeometry = &This->GetTitlebarGeometry();
@@ -187,6 +194,14 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 
 		g_borderRgn.reset();
 		g_titlebarRgn.reset();
+
+		// temporary patch for round corner fix
+		{
+			if (CommonDef::g_window)
+			{
+				CommonDef::g_window = nullptr;
+			}
+		}
 
 		return hr;
 	}

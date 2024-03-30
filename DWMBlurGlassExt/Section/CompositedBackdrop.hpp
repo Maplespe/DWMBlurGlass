@@ -215,15 +215,19 @@ namespace MDWMBlurGlassExt
 				UpdateEffectType(allowNCBackgroundVisual ? backdrop->m_type : MDWMBlurGlass::effectType::None);
 				UpdateGlassReflectionState(backdrop->m_enableGlassReflection);
 				UpdateBordersState(allowNCBackgroundVisual ? backdrop->m_enableBorders : false);
-				THROW_IF_FAILED(UpdateClipRegion(allowNCBackgroundVisual ? backdrop->m_clipRgn.get() : nullptr));
-				THROW_IF_FAILED(
-					UpdateRootAndChildren(
-						backdrop->m_offset,
-						backdrop->m_size,
-						backdrop->m_windowContext
-					)
-				);
-				THROW_IF_FAILED(UpdateBorderVisual());
+				try
+				{
+					THROW_IF_FAILED(UpdateClipRegion(allowNCBackgroundVisual ? backdrop->m_clipRgn.get() : nullptr));
+					THROW_IF_FAILED(
+						UpdateRootAndChildren(
+							backdrop->m_offset,
+							backdrop->m_size,
+							backdrop->m_windowContext
+						)
+					);
+					THROW_IF_FAILED(UpdateBorderVisual());
+				}
+				catch (...) { }
 			}
 		}
 		CCompositedBackdrop(
