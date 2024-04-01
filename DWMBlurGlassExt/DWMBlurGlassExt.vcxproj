@@ -123,7 +123,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;DWMBLURGLASSEXT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;DWMBLURGLASSEXT_EXPORTS;_WINDOWS;_USRDLL;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -131,6 +131,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>./Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -162,6 +163,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Backdrops\AcrylicBackdrop.hpp" />
+    <ClInclude Include="Backdrops\AeroBackdrop.hpp" />
+    <ClInclude Include="Backdrops\BlurBackdrop.hpp" />
+    <ClInclude Include="Backdrops\DCompBackdrop.hpp" />
+    <ClInclude Include="Backdrops\GlassReflectionBackdrop.hpp" />
+    <ClInclude Include="Backdrops\MicaBackdrop.hpp" />
+    <ClInclude Include="Backdrops\uDwmBackdrop.hpp" />
+    <ClInclude Include="Common\ColorConversion.hpp" />
     <ClInclude Include="Common\CommonDef.h" />
     <ClInclude Include="Common\DcompPrivate.h" />
     <ClInclude Include="Common\DefFunctionList.h" />
@@ -192,14 +201,16 @@
     <ClInclude Include="minhook\trampoline.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Section\AccentBlurEffect.h" />
-    <ClInclude Include="Section\BackdropMaterials.h" />
     <ClInclude Include="Section\BlurRadiusTweaker.h" />
+    <ClInclude Include="Section\CompositedBackdrop.hpp" />
     <ClInclude Include="Section\CustomBackdropEffect.h" />
     <ClInclude Include="Section\CustomButton.h" />
     <ClInclude Include="Section\DwmAPIEffect.h" />
     <ClInclude Include="Section\TitleTextTweaker.h" />
+    <ClInclude Include="Section\VisualManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Common\ColorConversion.cpp" />
     <ClCompile Include="Common\DWMStruct.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="DWMBlurGlass.cpp" />
@@ -212,7 +223,6 @@
     <ClCompile Include="minhook\hook.cpp" />
     <ClCompile Include="minhook\trampoline.cpp" />
     <ClCompile Include="Section\AccentBlurEffect.cpp" />
-    <ClCompile Include="Section\BackdropMaterials.cpp" />
     <ClCompile Include="Section\BlurRadiusTweaker.cpp" />
     <ClCompile Include="Section\CustomBackdropEffect.cpp" />
     <ClCompile Include="Section\CustomButton.cpp" />

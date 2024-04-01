@@ -14,7 +14,7 @@ namespace MDWMBlurGlassExt
 
 		void SetColor(const D2D1_COLOR_F& color = { 0.f, 0.f, 0.f, 1.f })
 		{
-			float value[] = { color.r, color.g, color.b, color.a };
+			float value[]{ color.r, color.g, color.b, color.a };
 			SetProperty(D2D1_FLOOD_PROP_COLOR, BoxValue(value));
 		}
 		void SetColor(const winrt::Windows::UI::Color& color)

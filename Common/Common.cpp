@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FileName: Common.cpp
  *
  * Copyright (C) 2024 Maplespe
@@ -84,6 +84,8 @@ namespace MDWMBlurGlass
 		cfgData.reflection = Utils::GetIniString(path, L"config", L"reflection") == L"true";
 		cfgData.oldBtnHeight = Utils::GetIniString(path, L"config", L"oldBtnHeight") == L"true";
 		cfgData.customAmount = Utils::GetIniString(path, L"config", L"customAmount") == L"true";
+		// newly added params since 2.1.0
+		cfgData.overrideAccent = Utils::GetIniString(path, L"config", L"overrideAccent") == L"true";
 		cfgData.useAccentColor = Utils::GetIniString(path, L"config", L"useAccentColor") == L"true";
 
 		auto ret = Utils::GetIniString(path, L"config", L"crossFade");
@@ -154,12 +156,38 @@ namespace MDWMBlurGlass
 		if (!ret.empty())
 			cfgData.blurmethod = (blurMethod)std::clamp(_wtoi(ret.data()), 0, 2);
 
+		// newly added params since 2.1.0
+		ret = Utils::GetIniString(path, L"config", L"glassIntensity");
+		if (!ret.empty())
+			cfgData.glassIntensity = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
+		ret = Utils::GetIniString(path, L"config.aero", L"activeColorBalance");
+		if (!ret.empty())
+			cfgData.activeColorBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
+		ret = Utils::GetIniString(path, L"config.aero", L"inactiveColorBalance");
+		if (!ret.empty())
+			cfgData.inactiveColorBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
+
+		ret = Utils::GetIniString(path, L"config.aero", L"activeBlurBalance");
+		if (!ret.empty())
+			cfgData.activeBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
+		ret = Utils::GetIniString(path, L"config.aero", L"inactiveBlurBalance");
+		if (!ret.empty())
+			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
+		//
+
 		ret = Utils::GetIniString(path, L"config", L"effectType");
 		if (!ret.empty())
 		{
 			cfgData.effectType = (MDWMBlurGlass::effectType)std::clamp(_wtoi(ret.data()), 0, 3);
 			if (cfgData.blurmethod != blurMethod::CustomBlur && cfgData.effectType > effectType::Acrylic)
 				cfgData.effectType = effectType::Acrylic;
+		}
+
+		// newly added params since 2.1.0
+		ret = Utils::GetIniString(path, L"config", L"crossfadeTime");
+		if (!ret.empty())
+		{
+			cfgData.crossfadeTime = (UINT)_wtoll(ret.data());
 		}
 		return cfgData;
 	}

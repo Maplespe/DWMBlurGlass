@@ -149,8 +149,9 @@ namespace MDWMBlurGlass
 		const bool ret = Inject(GetProcessId(L"dwm.exe"), Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err);
 		if(ret)
 		{
-			BOOL enable = TRUE;
-			SystemParametersInfoW(SPI_SETGRADIENTCAPTIONS, 0, &enable, SPIF_SENDCHANGE);
+			/*BOOL enable = TRUE;
+			SystemParametersInfoW(SPI_SETGRADIENTCAPTIONS, 0, &enable, SPIF_SENDCHANGE);*/
+			PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
 		}
 		return ret;
 	}

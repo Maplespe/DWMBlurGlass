@@ -274,13 +274,13 @@ namespace MDWMBlurGlass
                             MessageBoxW(hWnd, (m_ui->GetStringValue(L"loadfail") + err).c_str(), L"Error", MB_ICONERROR);
                             return false;
                         }
-                        if (symbolState)
-                            RefreshSysConfig();
-                        MessageBoxW(hWnd,
+                       // if (symbolState)
+                            //RefreshSysConfig();
+                           /* MessageBoxW(hWnd,
                             m_ui->GetStringValue(symbolState ? L"installsucs" : L"installsucs1").c_str(),
                             m_ui->GetStringValue(L"install").c_str(),
                             MB_ICONINFORMATION
-                        );
+                        );*/
                     }
                     else
                         MessageBoxW(hWnd,
@@ -296,13 +296,13 @@ namespace MDWMBlurGlass
                     ShutdownDWMExtension(errinfo);
                     if (DeleteScheduledTasks(errinfo))
                     {
-                        RefreshSysConfig();
+                        //RefreshSysConfig();
 
-                        MessageBoxW(hWnd,
+                        /*MessageBoxW(hWnd,
                             m_ui->GetStringValue(L"uninstallsucs").c_str(),
                             m_ui->GetStringValue(L"uninstall").c_str(),
                             MB_ICONINFORMATION
-                        );
+                        );*/
                     }
                     else
                         MessageBoxW(hWnd,
@@ -690,10 +690,12 @@ namespace MDWMBlurGlass
 
     void MainWindowPage::RefreshSysConfig()
     {
-        BOOL enable = TRUE;
+        PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
+        InvalidateRect(nullptr, nullptr, FALSE);
+        /*BOOL enable = TRUE;
         SystemParametersInfoW(SPI_SETGRADIENTCAPTIONS, 0, &enable, SPIF_SENDCHANGE);
         SendNotifyMessageW(HWND_BROADCAST, WM_DWMCOLORIZATIONCOLORCHANGED, m_cfgData.activeBlendColor, 1);
-        BroadcastSystemMessageW(BSF_POSTMESSAGE, nullptr, WM_THEMECHANGED, 0, 0);
+        BroadcastSystemMessageW(BSF_POSTMESSAGE, nullptr, WM_THEMECHANGED, 0, 0);*/
     }
 
     void MainWindowPage::RefreshBlurPreview()

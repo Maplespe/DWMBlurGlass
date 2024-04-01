@@ -72,7 +72,6 @@ namespace MDWMBlurGlassExt
 
 		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<4, true>();
 
-		Refresh();
 		TitleTextTweaker::Attach();
 
 		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
@@ -82,6 +81,8 @@ namespace MDWMBlurGlassExt
 			g_funCreateRoundRgn = (decltype(g_funCreateRoundRgn))GetProcAddress(hModule, "CreateRoundRectRgn");
 			WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", MyCreateRoundRectRgn } });
 		}
+
+		Refresh();
 		return true;
 	}
 	catch(...)
@@ -116,6 +117,8 @@ namespace MDWMBlurGlassExt
 			WriteIAT(udwmModule, "gdi32.dll", { { "CreateRoundRectRgn", g_funCreateRoundRgn } });
 
 		g_startup = false;
+
+		PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
 	}
 
 	void Refresh()
@@ -132,6 +135,8 @@ namespace MDWMBlurGlassExt
 		AccentBlur::Refresh();
 		BlurRadiusTweaker::Refresh();
 		CustomButton::Refresh();
+
+		PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
 	}
 
 	namespace Common

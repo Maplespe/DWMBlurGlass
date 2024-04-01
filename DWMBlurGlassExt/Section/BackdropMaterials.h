@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2024 Maplespe、ALTaleX531
  *
- * This file is part of MToolBox and DWMBlurGlass and AcrylicEverywhere.
+ * This file is part of MToolBox and DWMBlurGlass and MDWMBlurGlassExt.
  * DWMBlurGlass is free software: you can redistribute it and/or modify it under the terms of the
  * GNU Lesser General Public License as published by the Free Software Foundation, either version 3
  * of the License, or any later version.
@@ -73,14 +73,18 @@ namespace MDWMBlurGlassExt
 		);
 		HRESULT EnsureMicaBrush();
 	};
+
+	// bookmark
+
 	struct CAeroResources : CBackdropResources
 	{
 		comp::CompositionBrush CreateBrush(
 			const comp::Compositor& compositor,
 			const winrt::Windows::UI::Color& tintColor,
-			float tintOpacity,
-			float exposureAmount,
-			float blurAmount
+			float colorBalance,
+			float glowBalance,
+			float blurAmount,
+			float blurBalance
 		);
 		bool onlyBlur = false;
 		HRESULT EnsureAeroBrush();
@@ -133,13 +137,14 @@ namespace MDWMBlurGlassExt
 	{
 		static CAeroResources s_sharedResources;
 
-		CAeroBackdrop() { crossFadeTime = std::chrono::milliseconds{87}; }
+		CAeroBackdrop() { crossFadeTime = std::chrono::milliseconds{ 87 }; }
 		STDMETHOD(UpdateBackdrop)(DWM::CTopLevelWindow* topLevelWindow) override;
 		STDMETHOD(EnsureBackdropResources)() override;
 	};
 	struct CGlassReflectionBackdrop : CBackdropEffect
 	{
 		static CGlassReflectionResources s_sharedResources;
+		static constexpr float parallaxIntensity{ 0.25 };
 		winrt::Windows::Foundation::Numerics::float2 relativeOffset{};
 		winrt::Windows::Foundation::Numerics::float2 fixedOffset{};
 		RECT currentWindowRect{};
@@ -159,9 +164,9 @@ namespace MDWMBlurGlassExt
 		std::unique_ptr<CBackdropEffect> m_backdropEffect{ nullptr };
 		std::unique_ptr<CGlassReflectionBackdrop> m_glassReflection{ nullptr };
 		DWM::CRgnGeometryProxy* m_borderGeometry{ nullptr };
-		winrt::com_ptr<DWM::CVisual> m_solidColorVisual{nullptr};
+		winrt::com_ptr<DWM::CVisual> m_solidColorVisual{ nullptr };
 		bool m_extendToBorders{ false };
-		
+
 		void ConnectPrimaryBackdropToParent();
 		void ConnectGlassReflectionToParent();
 		void ConnectBorderFillToParent();
@@ -183,7 +188,7 @@ namespace MDWMBlurGlassExt
 	class CBackdropManager
 	{
 	public:
-		std::shared_ptr<CCompositedBackdrop> GetOrCreateBackdrop(DWM::CTopLevelWindow* topLevelWindow,  bool createIfNecessary = false);
+		std::shared_ptr<CCompositedBackdrop> GetOrCreateBackdrop(DWM::CTopLevelWindow* topLevelWindow, bool createIfNecessary = false);
 		std::shared_ptr<CCompositedBackdrop> CreateWithGivenBackdrop(DWM::CTopLevelWindow* topLevelWindow, std::shared_ptr<CCompositedBackdrop> backdrop);
 		std::shared_ptr<CCompositedBackdrop> Remove(DWM::CTopLevelWindow* topLevelWindow);
 		void RefreshEffectConfig();

@@ -37,6 +37,8 @@ namespace MDWMBlurGlassExt
 
 		{ udwm, "CSolidColorLegacyMilBrushProxy::Update" },
 		{ udwm, "CWindowList::GetExtendedFrameBounds" },
+		{ udwm, "CWindowList::UpdateAccentBlurRect" },
+		{ udwm, "CWindowList::GetSyncedWindowDataByHwnd" },
 		{ udwm, "ResourceHelper::CreateGeometryFromHRGN" },
 		{ udwm, "HrgnFromRects" },
 
@@ -54,6 +56,7 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CTopLevelWindow::InitializeVisualTreeClone" },
 		{ udwm, "CTopLevelWindow::UpdateNCAreaBackground" },
 		{ udwm, "CTopLevelWindow::OnAccentPolicyUpdated" },
+		{ udwm, "CTopLevelWindow::OnClipUpdated" },
 		{ udwm, "CTopLevelWindow::~CTopLevelWindow" },
 
 		{ udwm, "CGlassColorizationParameters::AdjustWindowColorization" },
@@ -88,6 +91,7 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CVisual::Hide" },
 		{ udwm, "CVisual::ConnectToParent" },
 		{ udwm, "CVisual::SetOpacity" },
+		{ udwm, "CVisual::UpdateOpacity" },
 		{ udwm, "CVisual::SetScale" },
 		{ udwm, "CVisual::SendSetOpacity" },
 		{ udwm, "CVisual::RenderRecursive" },
@@ -99,6 +103,11 @@ namespace MDWMBlurGlassExt
 
 		{ udwm, "CContainerVisual" },
 		{ udwm, "CContainerVisual::Create" },
+
+		{ udwm, "CRenderDataVisual::AddInstruction" },
+		{ udwm, "CRenderDataVisual::ClearInstructions" },
+		{ udwm, "CDrawGeometryInstruction::Create" },
+		{ udwm, "CCanvasVisual::Create" },
 
 		{ udwm, "CWindowData::IsImmersiveWindow" },
 

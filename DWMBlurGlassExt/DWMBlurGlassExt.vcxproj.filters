@@ -40,6 +40,9 @@
     <Filter Include="头文件\Effects">
       <UniqueIdentifier>{d88a7a1e-9bb4-490f-b555-75ad09fbd934}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Backdrops">
+      <UniqueIdentifier>{84028c5e-ea88-4c4c-8025-bcd2770a0c2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -141,13 +144,40 @@
     <ClInclude Include="Common\DcompPrivate.h">
       <Filter>头文件\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Section\BackdropMaterials.h">
-      <Filter>头文件\Section</Filter>
-    </ClInclude>
     <ClInclude Include="Section\CustomBackdropEffect.h">
       <Filter>头文件\Section</Filter>
     </ClInclude>
     <ClInclude Include="Section\DwmAPIEffect.h">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="Backdrops\AcrylicBackdrop.hpp">
+      <Filter>头文件\Backdrops</Filter>
+    </ClInclude>
+    <ClInclude Include="Backdrops\AeroBackdrop.hpp">
+      <Filter>头文件\Backdrops</Filter>
+    </ClInclude>
+    <ClInclude Include="Backdrops\BlurBackdrop.hpp">
+      <Filter>头文件\Backdrops</Filter>
+    </ClInclude>
+    <ClInclude Include="Backdrops\DCompBackdrop.hpp">
+      <Filter>头文件\Backdrops</Filter>
+    </ClInclude>
+    <ClInclude Include="Backdrops\GlassReflectionBackdrop.hpp">
+      <Filter>头文件\Backdrops</Filter>
+    </ClInclude>
+    <ClInclude Include="Backdrops\MicaBackdrop.hpp">
+      <Filter>头文件\Backdrops</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\ColorConversion.hpp">
+      <Filter>头文件\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Backdrops\uDwmBackdrop.hpp">
+      <Filter>头文件\Backdrops</Filter>
+    </ClInclude>
+    <ClInclude Include="Section\CompositedBackdrop.hpp">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="Section\VisualManager.hpp">
       <Filter>头文件\Section</Filter>
     </ClInclude>
   </ItemGroup>
@@ -197,14 +227,14 @@
     <ClCompile Include="Section\BlurRadiusTweaker.cpp">
       <Filter>源文件\Section</Filter>
     </ClCompile>
-    <ClCompile Include="Section\BackdropMaterials.cpp">
-      <Filter>源文件\Section</Filter>
-    </ClCompile>
     <ClCompile Include="Section\CustomBackdropEffect.cpp">
       <Filter>源文件\Section</Filter>
     </ClCompile>
     <ClCompile Include="Section\DwmAPIEffect.cpp">
       <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\ColorConversion.cpp">
+      <Filter>源文件\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

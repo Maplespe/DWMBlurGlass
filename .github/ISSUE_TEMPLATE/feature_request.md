@@ -7,6 +7,11 @@ assignees: ''
 
 ---
 
+<!--
+**Please fill out this document according to the format, otherwise we will not accept it and simply CLOSE.**
+
+Alternatively, you should head over to the Discussions page and create a new discussion.
+-->
 **Describe the solution you'd like**
 > A clear and concise description of what you want to happen.
 

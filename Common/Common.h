@@ -33,6 +33,7 @@ namespace MDWMBlurGlass
 
 	enum class effectType
 	{
+		None=-1,
 		Blur,
 		Aero,
 		Acrylic,
@@ -46,6 +47,8 @@ namespace MDWMBlurGlass
 		bool reflection = false;
 		bool oldBtnHeight = false;
 		bool customAmount = false;
+		// newly added params since 2.1.0
+		bool overrideAccent = false;
 		bool crossFade = true;
 		bool useAccentColor = false;
 		
@@ -53,6 +56,15 @@ namespace MDWMBlurGlass
 		float blurAmount = 20.f;
 		float customBlurAmount = 20.f;
 		float luminosityOpacity = 0.65f;
+		// newly added params since 2.1.0
+		float glassIntensity = 1.f;
+
+		// these settings are optimal for the default Sky color from Windows 7
+		// newly added params since 2.1.0
+		float activeColorBalance = 0.08f;
+		float inactiveColorBalance = 0.032f;
+		float activeBlurBalance = -0.125f;
+		float inactiveBlurBalance = 0.365f;
 
 		COLORREF activeTextColor = 0xFF000000;
 		COLORREF inactiveTextColor = 0xFFB4B4B4;
@@ -64,8 +76,11 @@ namespace MDWMBlurGlass
 		COLORREF activeBlendColorDark = 0x64000000;
 		COLORREF inactiveBlendColorDark = 0x64000000;
 
+
 		blurMethod blurmethod = blurMethod::CustomBlur;
 		effectType effectType = effectType::Blur;
+		// newly added params since 2.1.0
+		UINT crossfadeTime = 87;
 
 		bool isDefault()
 		{

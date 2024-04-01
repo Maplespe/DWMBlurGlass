@@ -31,21 +31,21 @@ namespace MDWMBlurGlassExt
 		{
 			SetProperty(D2D1_COMPOSITE_PROP_MODE, BoxValue(compositeMode));
 		}
-		void SetDestination(IGraphicsEffectSource* source)
+		void SetDestination(const winrt::Windows::Graphics::Effects::IGraphicsEffectSource& source)
 		{
 			SetInput(0, source);
 		}
-		void SetDestination(const winrt::com_ptr<IGraphicsEffectSource>& source)
+		void SetDestination(const winrt::Windows::UI::Composition::CompositionEffectSourceParameter& source)
 		{
-			SetInput(0, source.get());
+			SetInput(0, source);
 		}
-		void SetSource(IGraphicsEffectSource* source)
+		void SetSource(const winrt::Windows::Graphics::Effects::IGraphicsEffectSource& source)
 		{
 			SetInput(1, source);
 		}
-		void SetSource(const winrt::com_ptr<IGraphicsEffectSource>& source)
+		void SetSource(const winrt::Windows::UI::Composition::CompositionEffectSourceParameter& source)
 		{
-			SetInput(1, source.get());
+			SetInput(1, source);
 		}
 	};
 }
