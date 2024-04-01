@@ -36,14 +36,19 @@ namespace MDWMBlurGlass
 {
     SymbolResolver g_symResolver;
 
-	void ParsingSymbol(PSYMBOL_INFO symInfo, std::string& funName, DWORD64& offset)
+	void ParsingSymbol(PSYMBOL_INFO symInfo, std::string& funName, std::string& fullName, DWORD64& offset)
 	{
 		auto functionName{ reinterpret_cast<const CHAR*>(symInfo->Name) };
+
 		CHAR unDecoratedFunctionName[MAX_PATH + 1]{};
 		UnDecorateSymbolName(
 			functionName, unDecoratedFunctionName, MAX_PATH,
-			UNDNAME_COMPLETE | UNDNAME_NO_ACCESS_SPECIFIERS | UNDNAME_NO_THROW_SIGNATURES
+			UNDNAME_COMPLETE | UNDNAME_NO_ACCESS_SPECIFIERS | UNDNAME_NO_THROW_SIGNATURES | UNDNAME_NO_ALLOCATION_LANGUAGE
 		);
+
+		fullName = unDecoratedFunctionName;
+		OutputDebugStringA((std::string(unDecoratedFunctionName) + "\n").c_str());
+
 		CHAR fullyUnDecoratedFunctionName[MAX_PATH + 1]{};
 		UnDecorateSymbolName(
 			functionName, fullyUnDecoratedFunctionName, MAX_PATH,
@@ -57,34 +62,34 @@ namespace MDWMBlurGlass
 	bool SymCallback_Dwmcore(PSYMBOL_INFO symInfo, ULONG symbolSize)
 	{
 		DWORD64 offset = 0;
-		std::string funName;
-		ParsingSymbol(symInfo, funName, offset);
+		std::string funName, fullName;
+		ParsingSymbol(symInfo, funName, fullName, offset);
 
 		size_t funCount = 0;
 		for (size_t i = 0; i < MDWMBlurGlassExt::g_hookFunList.size(); ++i)
 		{
 			auto& [type, _funName] = MDWMBlurGlassExt::g_hookFunList[i];
-			if (type == dwmcore && funName == _funName)
+			if (type == dwmcore && (funName == _funName || fullName == _funName))
 			{
 				g_hookFunOffsetList[i] = offset;
 				funCount++;
 			}
 		}
 
-		return g_dwmcoreFunCount != funCount;
+		return 1;
 	}
 
 	bool SymCallback_uDwm(PSYMBOL_INFO symInfo, ULONG symbolSize)
 	{
 		DWORD64 offset = 0;
-		std::string funName;
-		ParsingSymbol(symInfo, funName, offset);
+		std::string funName, fullName;
+		ParsingSymbol(symInfo, funName, fullName, offset);
 
 		size_t funCount = 0;
 		for (size_t i = 0; i < MDWMBlurGlassExt::g_hookFunList.size(); ++i)
 		{
 			auto& [type, _funName] = MDWMBlurGlassExt::g_hookFunList[i];
-			if (type == udwm && funName == _funName)
+			if (type == udwm && (funName == _funName || fullName == _funName))
 			{
 				g_hookFunOffsetList[i] = offset;
 				funCount++;

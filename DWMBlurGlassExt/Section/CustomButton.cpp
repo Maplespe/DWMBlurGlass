@@ -29,10 +29,14 @@ namespace MDWMBlurGlassExt::CustomButton
 	std::atomic_bool g_startup = false;
 	thread_local std::unordered_map<CButton*, RECT> g_cbuttonList;
 
-
 	MinHook g_funCButton_UpdateLayout
 	{
 		"CButton::UpdateLayout", CButton_UpdateLayout
+	};
+
+	MinHook g_funCButton_DrawStateW
+	{
+		"CButton::DrawStateW", CButton_DrawStateW
 	};
 
 	void Attach()
@@ -41,6 +45,7 @@ namespace MDWMBlurGlassExt::CustomButton
 		g_startup = true;
 
 		g_funCButton_UpdateLayout.Attach();
+		g_funCButton_DrawStateW.Attach();
 		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<1, true>();
 
 	}
@@ -51,6 +56,7 @@ namespace MDWMBlurGlassExt::CustomButton
 
 		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<1, false>();
 		g_funCButton_UpdateLayout.Detach();
+		g_funCButton_DrawStateW.Detach();
 		g_cbuttonList.clear();
 
 		g_startup = false;
@@ -180,5 +186,14 @@ namespace MDWMBlurGlassExt::CustomButton
 
 		}
 		return g_funCButton_UpdateLayout.call_org(This);
+	}
+
+	HRESULT CButton_DrawStateW(CButton* This, DWM::CButton* a2, unsigned a3)
+	{
+		if (a3 - 1 <= 1)
+		{
+			
+		}
+		return g_funCButton_DrawStateW.call_org(This, a2, a3);
 	}
 }

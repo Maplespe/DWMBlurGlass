@@ -16,6 +16,7 @@
  * If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.
 */
 #include "Common.h"
+#include <array>
 #include <algorithm>
 #include <Shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
@@ -42,6 +43,8 @@ namespace MDWMBlurGlass
 				return {};
 
 			const HANDLE pFile = CreateFileW(path.data(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+			auto clean = RAIIHelper::scope_exit([&] { CloseHandle(pFile); });
+
 			if (!pFile)
 				return {};
 
@@ -55,8 +58,6 @@ namespace MDWMBlurGlass
 
 			std::wstring ret = data;
 			delete[] data;
-
-			CloseHandle(pFile);
 			return ret;
 		}
 
@@ -69,7 +70,8 @@ namespace MDWMBlurGlass
 		{
 			DWORD dwResult = 0;
 			DWORD dwSize = sizeof(DWORD);
-			auto hr = RegGetValueW(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", L"AppsUseLightTheme", RRF_RT_REG_DWORD, nullptr, &dwResult, &dwSize);
+			auto hr = RegGetValueW(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+				L"AppsUseLightTheme", RRF_RT_REG_DWORD, nullptr, &dwResult, &dwSize);
 			return dwResult == 1;
 		}
 	}
@@ -82,9 +84,13 @@ namespace MDWMBlurGlass
 		cfgData.reflection = Utils::GetIniString(path, L"config", L"reflection") == L"true";
 		cfgData.oldBtnHeight = Utils::GetIniString(path, L"config", L"oldBtnHeight") == L"true";
 		cfgData.customAmount = Utils::GetIniString(path, L"config", L"customAmount") == L"true";
+		cfgData.useAccentColor = Utils::GetIniString(path, L"config", L"useAccentColor") == L"true";
 
-		auto ret = Utils::GetIniString(path, L"config", L"extendRound");
+		auto ret = Utils::GetIniString(path, L"config", L"crossFade");
+		if (!ret.empty())
+			cfgData.crossFade = ret == L"true";
 
+		ret = Utils::GetIniString(path, L"config", L"extendRound");
 		if (!ret.empty())
 			cfgData.extendRound = (float)std::clamp(_wtoi(ret.data()), 0, 16);
 
@@ -158,25 +164,44 @@ namespace MDWMBlurGlass
 		return cfgData;
 	}
 
+	template<typename T>
+	std::wstring make_wstring(T&& value)
+	{
+		return std::to_wstring(std::forward<T>(value));
+	}
+
+	std::wstring make_wstring(bool value)
+	{
+		return value ? L"true" : L"false";
+	}
+
 	void ConfigData::SaveToFile(std::wstring_view path, const ConfigData& cfg)
 	{
-		Utils::SetIniString(path, L"config", L"applyglobal", cfg.applyglobal ? L"true" : L"false");
-		Utils::SetIniString(path, L"config", L"extendBorder", cfg.extendBorder ? L"true" : L"false");
-		Utils::SetIniString(path, L"config", L"reflection", cfg.reflection ? L"true" : L"false");
-		Utils::SetIniString(path, L"config", L"oldBtnHeight", cfg.oldBtnHeight ? L"true" : L"false");
-		Utils::SetIniString(path, L"config", L"customAmount", cfg.customAmount ? L"true" : L"false");
-		Utils::SetIniString(path, L"config", L"blurAmount", std::to_wstring(cfg.blurAmount));
-		Utils::SetIniString(path, L"config", L"customBlurAmount", std::to_wstring(cfg.customBlurAmount));
-		Utils::SetIniString(path, L"config", L"luminosityOpacity", std::to_wstring(cfg.luminosityOpacity));
-		Utils::SetIniString(path, L"config", L"activeTextColor", std::to_wstring(cfg.activeTextColor));
-		Utils::SetIniString(path, L"config", L"inactiveTextColor", std::to_wstring(cfg.inactiveTextColor));
-		Utils::SetIniString(path, L"config", L"activeTextColorDark", std::to_wstring(cfg.activeTextColorDark));
-		Utils::SetIniString(path, L"config", L"inactiveTextColorDark", std::to_wstring(cfg.inactiveTextColorDark));
-		Utils::SetIniString(path, L"config", L"activeBlendColor", std::to_wstring(cfg.activeBlendColor));
-		Utils::SetIniString(path, L"config", L"inactiveBlendColor", std::to_wstring(cfg.inactiveBlendColor));
-		Utils::SetIniString(path, L"config", L"activeBlendColorDark", std::to_wstring(cfg.activeBlendColorDark));
-		Utils::SetIniString(path, L"config", L"inactiveBlendColorDark", std::to_wstring(cfg.inactiveBlendColorDark));
-		Utils::SetIniString(path, L"config", L"blurMethod", std::to_wstring((int)cfg.blurmethod));
-		Utils::SetIniString(path, L"config", L"effectType", std::to_wstring((int)cfg.effectType));
+		for (const auto regkeyList = std::to_array<std::pair<LPCWSTR, std::wstring>>
+		({
+			 { L"applyglobal", make_wstring(cfg.applyglobal) },
+			 { L"extendBorder", make_wstring(cfg.extendBorder) },
+			 { L"reflection", make_wstring(cfg.reflection) },
+			 { L"oldBtnHeight", make_wstring(cfg.oldBtnHeight) },
+			 { L"customAmount", make_wstring(cfg.customAmount) },
+			 { L"crossFade", make_wstring(cfg.crossFade) },
+			 { L"useAccentColor", make_wstring(cfg.useAccentColor) },
+			 { L"blurAmount", make_wstring(cfg.blurAmount) },
+			 { L"customBlurAmount", make_wstring(cfg.customBlurAmount) },
+			 { L"luminosityOpacity", make_wstring(cfg.luminosityOpacity) },
+			 { L"activeTextColor", make_wstring(cfg.activeTextColor) },
+			 { L"inactiveTextColor", make_wstring(cfg.inactiveTextColor) },
+			 { L"activeTextColorDark", make_wstring(cfg.activeTextColorDark) },
+			 { L"inactiveTextColorDark", make_wstring(cfg.inactiveTextColorDark) },
+			 { L"activeBlendColor", make_wstring(cfg.activeBlendColor) },
+			 { L"inactiveBlendColor", make_wstring(cfg.inactiveBlendColor) },
+			 { L"activeBlendColorDark", make_wstring(cfg.activeBlendColorDark) },
+			 { L"inactiveBlendColorDark", make_wstring(cfg.inactiveBlendColorDark) },
+			 { L"blurMethod", make_wstring((int)cfg.blurmethod) },
+			 { L"effectType", make_wstring((int)cfg.effectType) }
+		}); const auto& [key, value] : regkeyList)
+		{
+			Utils::SetIniString(path, L"config", key, value);
+		}
 	}
 }

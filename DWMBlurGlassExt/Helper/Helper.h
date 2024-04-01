@@ -68,6 +68,11 @@ namespace MDWMBlurGlassExt
 		int& result
 	);
 
+	winrt::com_ptr<IWICBitmap> CreateWICBitmap(
+		IWICImagingFactory2* factory,
+		std::wstring_view filename
+	);
+
 	winrt::com_ptr<ID2D1Bitmap1> CreateD2DBitmap(
 		IWICImagingFactory2* factory,
 		ID2D1DeviceContext* context,

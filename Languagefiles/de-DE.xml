@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<lang local="de-DE" author="Akey.Dev">
+<lang local="da-DE" author="Akey.Dev">
 	<inituifail0>Die Initialisierung der MiaoUI-Bibliothek ist fehlgeschlagen! Fehlercode: </inituifail0>
 	<inituifail1>Fensterelement konnte nicht erstellt werden!</inituifail1>
 	<inituifail2>Das Fenster konnte nicht initialisiert werden!</inituifail2>
@@ -31,8 +31,8 @@
 	<blurvalue>Unschärferadius (Global):</blurvalue>
 	<applyglobal>Überschreiben Sie den DWMAPI-Glimmereffekt (Win11)</applyglobal>
 	<extendborder>Effekte auf Ränder erweitern (Win10)</extendborder>
-	<reflection>Aero-Reflektionseffekt aktivieren (Win10)</reflection>
-	<reflectiontip>(Legacy-Unschärfemethode nur für Win10)</reflectiontip>
+	<reflection>Aero-Reflektionseffekt aktivieren</reflection>
+	<reflectiontip>(nur für Win10)</reflectiontip>
 	<oldBtnHeight>Reduzieren Sie die Höhe der Titelleistenschaltfläche (Win7-Stil)</oldBtnHeight>
 	<cmodelight>Farben im Hellen Modus</cmodelight>
 	<cmodedark>Farben im Dunklen Modus</cmodedark>
@@ -43,9 +43,9 @@
 	<preview>Vorschau</preview>
 	<sampletitle>Beispiel Titelleiste (aktiv)</sampletitle>
 	<blurmethod>Unschärfemethode:</blurmethod>
-	<methodcustom>[Empfohlen] Benutzerdefinierte Unschärfeimplementierung, die von CVisual (DWM) und Windows.UI.Composition (dcomp) geschrieben wurde, um benutzerdefinierte Hintergrundeffekte zu erzielen. Sie können die meisten Parameter anpassen und erhalten so nicht nur die höchste Effizienz, sondern auch das beste Aussehen und eine bessere Stabilität. Allerdings ist die Kompatibilität nicht so gut. \n(es kann nach einem größeren Windows-Update defekt sein, dann müssen Sie auf \n die nächste Version warten).</methodcustom>
-	<methodaccent>[Nicht empfohlen] Verwenden Sie die DWM-interne Unschärfeimplementierung, aber nicht die gelöschte Klasse \nAccentBlurBehind, um den Unschärfe-Effekt anzuwenden. Sie können einige der Parameter anpassen, aber es ist ineffizient und weniger stabil. Sie kann auf den meisten \n der Systeme normal funktionieren. \n(im Allgemeinen wird ein System-Update die Methode nicht funktionsunfähig machen).</methodaccent>
-	<methoddwmapi>Verwenden Sie die dokumentierte DWMAPI, um einen begrenzten SystemBackdrop-Effekt anzuwenden, wie z. B. den Acryl- oder Glimmereffekt. Sie können diese Parameter überhaupt nicht anpassen, aber sie hat eine hohe Effizienz und eine bessere Stabilität. Es kann jedoch das Erscheinungsbild einiger Programme beeinträchtigen und ist nur über Windows 11 22H2(+) verfügbar.</methoddwmapi>
+	<methodcustom>[Empfohlen] Benutzerdefinierte Unschärfeimplementierung, die von \nCVisual (DWM) und Windows.UI.Composition (dcomp) geschrieben wurde,\num benutzerdefinierte Hintergrundeffekte zu erzielen. Sie können die\nmeisten Parameter anpassen und erhalten so nicht nur die höchste Effizienz,\n sondern auch das beste Aussehen und eine bessere Stabilität. Allerdings ist\n die Kompatibilität nicht so gut. \n(es kann nach einem größeren Windows-Update defekt sein, dann müssen\nSie auf die nächste Version warten).</methodcustom>
+	<methodaccent>[Nicht empfohlen] Verwenden Sie die DWM-interne\nUnschärfeimplementierung, aber nicht die gelöschte Klasse \nAccentBlurBehind, um den Unschärfe-Effekt anzuwenden. Sie können einige\nder Parameter anpassen, aber es ist ineffizient und weniger stabil. Sie kann\nauf den meisten der Systeme normal funktionieren. \n(im Allgemeinen wird ein System-Update die Methode nicht\nfunktionsunfähig machen).</methodaccent>
+	<methoddwmapi>Verwenden Sie die dokumentierte DWMAPI, um einen begrenzten\nSystemBackdrop-Effekt anzuwenden, wie z. B. den Acryl- oder\nGlimmereffekt. Sie können diese Parameter überhaupt nicht anpassen, aber\nsie hat eine hohe Effizienz und eine bessere Stabilität. Es kann jedoch das\nErscheinungsbild einiger Programme beeinträchtigen und ist nur über\nWindows 11 22H2(+) verfügbar.</methoddwmapi>
 	<effecttype>Effekttyp:</effecttype>
 	<blurvaluetitle>Unschärferadius (nur Titelleiste):</blurvaluetitle>
 	<luminosity>Leuchtkraft undurchlässigkeit:</luminosity>
@@ -63,7 +63,7 @@
 	<restore>Standardeinstellungen wiederherstellen</restore>
 	<importwarn>Durch das Importieren einer Konfigurationsdatei wird Ihre vorhandene Konfiguration überschrieben, fortfahren?</importwarn>
 	<restorecfg>Sind Sie sicher, dass Sie die Standardkonfiguration wiederherstellen möchten?</restorecfg>
-	<aboutinfo>Dieses Programm basiert auf der kostenlosen Open-Source-Software der LGPLv3-Vereinbarung: </aboutinfo>
+	<aboutinfo>Dieses Programm basiert auf der kostenlosen Open-Source-Software\nder LGPLv3-Vereinbarung: </aboutinfo>
 	<curlang>Aktuelle Sprache:</curlang>
 	<langauthor>Mitwirkende an Übersetzungen:</langauthor>
 </lang>

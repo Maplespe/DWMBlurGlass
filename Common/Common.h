@@ -46,11 +46,14 @@ namespace MDWMBlurGlass
 		bool reflection = false;
 		bool oldBtnHeight = false;
 		bool customAmount = false;
+		bool crossFade = true;
+		bool useAccentColor = false;
 		
 		int extendRound = 10;
 		float blurAmount = 20.f;
 		float customBlurAmount = 20.f;
 		float luminosityOpacity = 0.65f;
+
 		COLORREF activeTextColor = 0xFF000000;
 		COLORREF inactiveTextColor = 0xFFB4B4B4;
 		COLORREF activeBlendColor = 0x64FFFFFF;

@@ -19,6 +19,7 @@
 #include "DefFunctionList.h"
 #include <ImageHlp.h>
 #include <winrt.h>
+#include <Psapi.h>
 #pragma comment(lib, "dbghelp.lib")
 
 namespace MDWMBlurGlassExt
@@ -212,6 +213,26 @@ namespace MDWMBlurGlassExt
 		result -= hookMap.size();
 
 		return result;
+	}
+
+	PVOID MemSafeSearch(LPCSTR moduleName, PVOID dst, size_t size)
+	{
+		HMODULE hModule = GetModuleHandleA(moduleName);
+		MODULEINFO moduleInfo;
+		if (hModule && K32GetModuleInformation(GetCurrentProcess(), hModule, &moduleInfo, sizeof(MODULEINFO)))
+		{
+			PVOID startAddress = hModule;
+			PVOID endAddress = PVOID((ULONG64)moduleInfo.lpBaseOfDll + moduleInfo.SizeOfImage);
+
+			while (memcmp(startAddress, dst, size) != 0)
+			{
+				startAddress = reinterpret_cast<PVOID>(reinterpret_cast<ULONG_PTR>(startAddress) + 1);
+				if (startAddress >= endAddress)
+					return nullptr;
+			}
+			return startAddress;
+		}
+		return nullptr;
 	}
 
 	MinHookImpl::MinHookImpl(LPCSTR pszProcName, void* detour) : m_detour(detour), m_targetName(pszProcName)

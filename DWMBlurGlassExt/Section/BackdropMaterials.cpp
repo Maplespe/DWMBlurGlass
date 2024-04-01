@@ -1060,16 +1060,8 @@ namespace MDWMBlurGlassExt
 			auto visual{ window->GetNCLegacySolidColorVisual() };
 			if (visual)
 			{
-				if (m_extendToBorders)
-				{
-					visual->GetVisualProxy()->SetClip(nullptr);
-					visual->Show(false);
-				}
-				else
-				{
-					visual->GetVisualProxy()->SetClip(m_borderGeometry);
-					visual->Show(true);
-				}
+				visual->GetVisualProxy()->SetClip(m_borderGeometry);
+				visual->Show(!m_extendToBorders);
 			}
 		}
 	}
@@ -1179,16 +1171,8 @@ namespace MDWMBlurGlassExt
 			auto borderGeometry{ window->GetBorderGeometry() };
 			if (visual && (m_borderGeometry != borderGeometry || m_extendToBorders != g_configData.extendBorder))
 			{
-				if (g_configData.extendBorder)
-				{
-					visual->GetVisualProxy()->SetClip(nullptr);
-					visual->Show(false);
-				}
-				else
-				{
-					visual->GetVisualProxy()->SetClip(borderGeometry);
-					visual->Show(true);
-				}
+				visual->GetVisualProxy()->SetClip(borderGeometry);
+				visual->Show(!g_configData.extendBorder);
 
 				m_borderGeometry = borderGeometry;
 				m_extendToBorders = g_configData.extendBorder;

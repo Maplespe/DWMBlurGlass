@@ -33,6 +33,8 @@ namespace MDWMBlurGlassExt
 	bool WriteMemory(PVOID memoryAddress, std::function<void()> callback);
 	size_t WriteIAT(PVOID baseAddress, std::string_view dllName, std::unordered_map<LPCSTR, PVOID> hookMap);
 
+	extern PVOID MemSafeSearch(LPCSTR moduleName, PVOID dst, size_t size);
+
 	__forceinline PVOID* GetObjectVTable(void* This)
 	{
 		return reinterpret_cast<PVOID*>(*reinterpret_cast<PVOID*>(This));

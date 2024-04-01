@@ -115,14 +115,25 @@ namespace MDWMBlurGlass
 		</UIControl>
 		<UIControl frame="0,5,100%,30" align="LinearH" name="customEffectGroup">
 		    <UILabel pos="5,0" text="#blurvaluetitle" />
-			<UILabel frame="20,0,30,20" name="titlebarAmountValue" text="50" autoSize="false" textAlign="2" />
-			<UISlider frame="5,0,10f,16" name="titlebarAmountSlider" maxValue="50" maxSize="200,16" />
+			<UIControl size="100%,100%" align="LinearHL">
+				<UISlider frame="10,0,35f,16" name="titlebarAmountSlider" maxValue="50" maxSize="230,16" />
+				<UILabel frame="5,0,30,20" name="titlebarAmountValue" text="50" autoSize="false" textAlign="2" />
+			</UIControl>
 		</UIControl>
 		<UIControl frame="0,5,100%,30" align="LinearH" name="customEffectGroup1">
 		    <UILabel pos="5,0" text="#luminosity" />
-			<UILabel frame="20,0,35,20" name="luminosityValue" text="50" autoSize="false" textAlign="2" />
-			<UISlider frame="5,0,10f,16" name="luminositySlider" maxValue="100" maxSize="200,16" />
+			<UIControl size="100%,100%" align="LinearHL">
+				<UISlider frame="10,0,40f,16" name="luminositySlider" maxValue="100" maxSize="230,16" />
+				<UILabel frame="5,0,35,20" name="luminosityValue" text="50" autoSize="false" textAlign="2" />
+			</UIControl>
 		</UIControl>
+	</UIControl>
+	<UIControl frame="15,5,15f,120" align="LinearV" prop="group" enable="true" name="miscSettings">
+		<UIControl autoSize="true">
+            <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_misc" />
+            <UILabel pos="10,2" text="#miscsettings" />
+		</UIControl>
+		<UICheckBox pos="0,11" text="#enablecrossfade" name="crossFade" />
 	</UIControl>
 </UIControl>
 <UIControl frame="0,50,485,100%" name="page2" visible="false" align="LinearV">
@@ -406,6 +417,11 @@ namespace MDWMBlurGlass
                     RefreshBlurPreview();
                     SetButtonEnable(true);
                 }
+                else if (_MNAME(L"crossFade"))
+                {
+                    m_cfgData.crossFade = static_cast<UICheckBox*>(control)->GetSel();
+                    SetButtonEnable(true);
+                }
                 else
                     ret = false;
 	        }
@@ -632,6 +648,7 @@ namespace MDWMBlurGlass
         m_page->Child<UICheckBox>(L"oldBtnHeight")->SetSel(m_cfgData.oldBtnHeight);
 
         m_page->Child<UICheckBox>(L"customAmount")->SetSel(m_cfgData.customAmount, false);
+        m_page->Child<UICheckBox>(L"crossFade")->SetSel(m_cfgData.crossFade, false);
 
         RefreshBlurPreview();
         SwitchColorModePreview(true);
@@ -744,6 +761,7 @@ namespace MDWMBlurGlass
         m_page->Child(L"effectgroup")->SetEnabled(index == blurMethod::CustomBlur || index == blurMethod::DWMAPIBlur, false);
         m_page->Child(L"customEffectGroup")->SetEnabled(index == blurMethod::CustomBlur, false);
         m_page->Child<UILabel>(L"functip")->SetAttribute(L"text", m_ui->GetStringValue(name), false);
+        m_page->Child(L"crossFade")->SetEnabled(index == blurMethod::CustomBlur);
         m_page->UpdateLayout();
     }
 }

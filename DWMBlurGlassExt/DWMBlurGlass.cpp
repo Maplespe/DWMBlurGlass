@@ -145,7 +145,7 @@ namespace MDWMBlurGlassExt
 
 	HRGN __stdcall MyCreateRoundRectRgn(int x1, int y1, int x2, int y2, int w, int h)
 	{
-		if(g_window && g_configData.extendBorder)
+		if(g_configData.extendBorder)
 		{
 			w = h = g_configData.extendRound;
 		}

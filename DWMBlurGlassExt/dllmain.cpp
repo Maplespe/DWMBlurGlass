@@ -11,8 +11,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
         DisableThreadLibraryCalls(hModule);
 
-        MDWMBlurGlassExt::CreateNotifyThread();
-
         std::thread([hModule] 
         {
         	if (!MDWMBlurGlassExt::Startup())
@@ -20,6 +18,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 				MDWMBlurGlassExt::CloseNotifyThread();
 				FreeLibrary(hModule);
 			}
+            MDWMBlurGlassExt::CreateNotifyThread();
         }).detach();
     }
     else if(ul_reason_for_call == DLL_PROCESS_DETACH)

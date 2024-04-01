@@ -170,12 +170,11 @@ namespace MDWMBlurGlassExt
 		return winrt::to_hresult();
 	}
 
-	winrt::com_ptr<ID2D1Bitmap1> CreateD2DBitmap(IWICImagingFactory2* factory, ID2D1DeviceContext* context,
-		std::wstring_view filename)
+	winrt::com_ptr<IWICBitmap> CreateWICBitmap(IWICImagingFactory2* factory, std::wstring_view filename)
 	{
 		using namespace winrt;
 
-		if (!context && !factory)
+		if (!factory)
 			return nullptr;
 
 		com_ptr<IWICBitmapDecoder> decoder = nullptr;
@@ -202,9 +201,19 @@ namespace MDWMBlurGlassExt
 			return nullptr;
 
 		com_ptr<IWICBitmap> wicbitmap = nullptr;
-		hr = factory->CreateBitmapFromSource(converter.get(), WICBitmapNoCache, wicbitmap.put());
+		factory->CreateBitmapFromSource(converter.get(), WICBitmapNoCache, wicbitmap.put());
 
-		if (FAILED(hr))
+		return wicbitmap;
+	}
+
+	winrt::com_ptr<ID2D1Bitmap1> CreateD2DBitmap(IWICImagingFactory2* factory, ID2D1DeviceContext* context,
+	                                             std::wstring_view filename)
+	{
+		using namespace winrt;
+
+		com_ptr<IWICBitmap> wicbitmap = CreateWICBitmap(factory, filename);
+
+		if (!wicbitmap)
 			return nullptr;
 
 		com_ptr<ID2D1Bitmap1> ret = nullptr;
