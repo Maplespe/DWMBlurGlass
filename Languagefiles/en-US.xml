@@ -3,8 +3,8 @@
 	<inituifail0>MiaoUI library Initialization failed! error code: </inituifail0>
 	<inituifail1>Failed to create window context!</inituifail1>
 	<inituifail2>Failed to initialize window!</inituifail2>
-	<initfail0>Note that due to DWM is running in a sandbox, this application must be placed in a non-user directory, and the path cannot be in "{path}" or its sub directories! Please place it in another directory.</initfail0>
-	<symloadfail>Loading symbol files failed! The program could not load the dll, please download the symbols again! (Symbols may also need to be re-downloaded after a system update)</symloadfail>
+	<initfail0>Note that because DWM is running in a sandbox, this application must be placed in a non-user directory, and the path cannot be in "{path}" or its sub directories! Please place it in another directory.</initfail0>
+	<symloadfail>Loading symbol files failed! The program could not load the DLL, please download the symbols again. (Symbols may also need to be re-downloaded after a system update)</symloadfail>
 	<colorpicker_dlg_sel>Select color:</colorpicker_dlg_sel>
 	<colorpicker_dlg_c>New color:</colorpicker_dlg_c>
 	<msgdlg_no>Cancel</msgdlg_no>
@@ -21,7 +21,7 @@
 	<install>Install</install>
 	<uninstall>Uninstall</uninstall>
 	<installsucs>Install successfully!</installsucs>
-	<installsucs1>Install successfully! But you haven't downloaded a valid symbol file yet, download it from the "Symbols" page to make DWMBlurGlass work!</installsucs1>
+	<installsucs1>Install successfully! But you haven't downloaded valid symbol files yet, download it from the "Symbols" page to make DWMBlurGlass work.</installsucs1>
 	<installfail>Install failed! Error message: </installfail>
 	<uninstallsucs>Uninstall successfully.</uninstallsucs>
 	<uninstallfail>Uninstall failed! Error message: </uninstallfail>
@@ -29,13 +29,13 @@
 	<saveconfig>Save</saveconfig>
 	<effectset>Effect Settings</effectset>
 	<blurvalue>Blur radius (global):</blurvalue>
-	<applyglobal>Override DWMAPI effect (win11)</applyglobal>
+	<applyglobal>Override DWMAPI effect (Windows 11)</applyglobal>
 	<extendborder>Effects extend to borders (win10)</extendborder>
 	<reflection>Enable Aero reflection effect</reflection>
-	<reflectiontip>(Legacy blur method for win10 only)</reflectiontip>
-	<oldBtnHeight>Decrease titlebar button height (win7 style)</oldBtnHeight>
+	<reflectiontip>(Legacy blur method for Windows 10 only)</reflectiontip>
+	<oldBtnHeight>Enable Windows 7 style caption buttons</oldBtnHeight>
 	<cmodelight>Light Mode colors</cmodelight>
-	<cmodedark>Dark Mode Colors</cmodedark>
+	<cmodedark>Dark Mode colors</cmodedark>
 	<blendcolor>Titlebar blend color (active):</blendcolor>
 	<inactiveblendcolor>Titlebar blend color (inactive):</inactiveblendcolor>
 	<activecolor>Active text color:</activecolor>
@@ -56,7 +56,7 @@
 	<symstatus1>Valid</symstatus1>
 	<symdowning>Downloading...</symdowning>
 	<symdownfail>Download failed! Unable to download symbol files from "msdl.microsoft.com".</symdownfail>
-	<syminvalid>Symbol files are invalid! Please go to the "Symbols" page of the DWMBlurGlass program to download new symbol files!</syminvalid>
+	<syminvalid>Symbol files are invalid, please go to the "Symbols" page of the DWMBlurGlass program to download new symbol files.</syminvalid>
 	<configfile>Configuration file</configfile>
 	<import>Import</import>
 	<export>Export</export>
