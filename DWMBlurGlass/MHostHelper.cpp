@@ -141,12 +141,19 @@ namespace MDWMBlurGlass
 			err = GetBaseLanguageString(L"symloadfail");
 			return false;
 		}
-		const bool ret = Inject(GetProcessId(L"dwm.exe"), Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err);
-		if(ret)
-		{
-			/*BOOL enable = TRUE;
-			SystemParametersInfoW(SPI_SETGRADIENTCAPTIONS, 0, &enable, SPIF_SENDCHANGE);*/
-			PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
+		bool success = true;
+		for (DWORD index = 0;; index++) {
+			DWORD pid = GetProcessId(L"dwm.exe", index);
+			if (pid == 0)
+			{
+				break
+			}
+			if(Inject(pid, Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err))
+			{
+				PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
+			} else {
+				success = false;
+			}
 		}
 		return ret;
 	}
@@ -158,13 +165,35 @@ namespace MDWMBlurGlass
 			err = ui->GetStringValue(L"symloadfail");
 			return false;
 		}
-		return Inject(GetProcessId(L"dwm.exe"), Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err);
+		bool success = true;
+		for (DWORD index = 0;; index++) {
+			DWORD pid = GetProcessId(L"dwm.exe", index);
+			if (pid == 0)
+			{
+				break
+			}
+			if (!Inject(pid, Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err)) {
+				success = false;
+			}
+		}
+		return sucesss;
 	}
 
 	bool ShutdownDWMExtension(std::wstring& err)
 	{
 		MHostNotify(MHostNotifyType::Shutdown);
-		return UnInject(GetProcessId(L"dwm.exe"), Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err);
+		bool success = true;
+		for (DWORD index = 0;; index++) {
+			DWORD pid = GetProcessId(L"dwm.exe", index);
+			if (pid == 0)
+			{
+				break
+			}
+			if (!UnInject(pid, Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err)) {
+				success = false;
+			}
+		}
+		return sucesss;
 	}
 
 	HWND FindMessageWnd(DWORD pid)
@@ -189,10 +218,17 @@ namespace MDWMBlurGlass
 
 	void MHostNotify(MHostNotifyType type)
 	{
-		HWND msgwnd = FindMessageWnd(GetProcessId(L"dwm.exe"));
-		if (!IsWindow(msgwnd)) return;
+		for (DWORD index = 0;; index++) {
+			DWORD pid = GetProcessId(L"dwm.exe", index);
+			if (pid == 0)
+			{
+				break
+			}
+			HWND msgwnd = FindMessageWnd(pid);
+			if (!IsWindow(msgwnd)) continue;
 
-		SendMessageW(msgwnd, WM_APP + 20, (WPARAM)type, 0);
+			SendMessageW(msgwnd, WM_APP + 20, (WPARAM)type, 0);
+		}
 	}
 }
 
