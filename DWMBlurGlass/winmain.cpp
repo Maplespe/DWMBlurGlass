@@ -70,6 +70,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		return 0;
 	}
 
+	if(lpCmdLine && _wcsicmp(lpCmdLine, L"reload") == 0)
+	{
+		MDWMBlurGlass::MHostNotify(MHostNotifyType::Refresh);
+		MDWMBlurGlass::RefreshSysConfig();
+		return 0;
+	}
+
 	HANDLE hObject = CreateMutexW(nullptr, FALSE, L"_DWMBlurGlass_");
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
