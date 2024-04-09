@@ -155,7 +155,7 @@ namespace MDWMBlurGlass
 				success = false;
 			}
 		}
-		return ret;
+		return sucesss;
 	}
 
 	bool LoadDWMExtension(std::wstring& err, Mui::XML::MuiXML* ui)
