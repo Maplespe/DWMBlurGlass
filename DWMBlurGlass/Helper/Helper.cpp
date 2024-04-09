@@ -459,9 +459,10 @@ namespace MDWMBlurGlass
 		return bResult;
 	}
 
-	DWORD GetProcessId(std::wstring_view name)
+	DWORD GetProcessId(std::wstring_view name, DWORD index = 0)
 	{
 		PROCESSENTRY32W pe;
+		DWORD currIndex = -1;
 		HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 		pe.dwSize = sizeof(PROCESSENTRY32W);
 		if (!Process32FirstW(hSnapshot, &pe))
@@ -471,7 +472,10 @@ namespace MDWMBlurGlass
 		{
 			if (_wcsicmp(pe.szExeFile, name.data()) == 0)
 			{
-				return pe.th32ProcessID;
+				if (++currIndex >= index)
+				{
+					return pe.th32ProcessID;
+				}
 			}
 		}
 		CloseHandle(hSnapshot);
