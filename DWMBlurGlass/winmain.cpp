@@ -70,6 +70,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		return 0;
 	}
 
+	if(lpCmdLine && _wcsicmp(lpCmdLine, L"loadwithsymbols") == 0)
+	{
+		std::wstring err;
+		MDWMBlurGlass::MHostDownloadSymbol();
+		if (!MDWMBlurGlass::LoadDWMExtensionBase(err))
+			MessageBoxW(nullptr, err.c_str(), L"DWMBlurGlass Error", MB_ICONERROR);
+		return 0;
+	}
+
 	HANDLE hObject = CreateMutexW(nullptr, FALSE, L"_DWMBlurGlass_");
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
