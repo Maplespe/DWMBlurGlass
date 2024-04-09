@@ -39,7 +39,7 @@ namespace MDWMBlurGlass
 	extern bool BrowseForFile(bool isOpen, bool multiple, const std::vector<COMDLG_FILTERSPEC>& filter,
 		HWND parentWnd, std::vector<std::wstring>& selectedFiles, std::wstring_view defExtName = L"");
 
-	extern DWORD GetProcessId(std::wstring_view name);
+	extern DWORD GetProcessId(std::wstring_view name, DWORD index = 0);
 
 	extern bool Inject(DWORD processId, std::wstring_view dllName, std::wstring& err);
 
