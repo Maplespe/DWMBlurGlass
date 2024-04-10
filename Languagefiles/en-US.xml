@@ -3,8 +3,8 @@
 	<inituifail0>MiaoUI library Initialization failed! error code: </inituifail0>
 	<inituifail1>Failed to create window context!</inituifail1>
 	<inituifail2>Failed to initialize window!</inituifail2>
-	<initfail0>Note that due to DWM is running in a sandbox, this application must be placed in a non-user directory, and the path cannot be in "{path}" or its sub directories! Please place it in another directory.</initfail0>
-	<symloadfail>Loading symbol files failed! The program could not load the dll, please download the symbols again! (Symbols may also need to be re-downloaded after a system update)</symloadfail>
+	<initfail0>Note that because DWM is running in a sandbox, this application must be placed in a non-user directory, and the path cannot be in "{path}" or its sub directories! Please place it in another directory.</initfail0>
+	<symloadfail>Loading symbol files failed! The program could not load the DLL, please download the symbols again. (Symbols may also need to be re-downloaded after a system update)</symloadfail>
 	<colorpicker_dlg_sel>Select color:</colorpicker_dlg_sel>
 	<colorpicker_dlg_c>New color:</colorpicker_dlg_c>
 	<msgdlg_no>Cancel</msgdlg_no>
@@ -20,8 +20,8 @@
 	<status1>Installed</status1>
 	<install>Install</install>
 	<uninstall>Uninstall</uninstall>
-	<installsucs>Install successfully!</installsucs>
-	<installsucs1>Install successfully! But you haven't downloaded a valid symbol file yet, download it from the "Symbols" page to make DWMBlurGlass work!</installsucs1>
+	<installsucs>Installed successfully!</installsucs>
+	<installsucs1>Installed successfully! But you haven't downloaded valid symbol files yet, download it from the "Symbols" page to make DWMBlurGlass work.</installsucs1>
 	<installfail>Install failed! Error message: </installfail>
 	<uninstallsucs>Uninstall successfully.</uninstallsucs>
 	<uninstallfail>Uninstall failed! Error message: </uninstallfail>
@@ -29,13 +29,13 @@
 	<saveconfig>Save</saveconfig>
 	<effectset>Effect Settings</effectset>
 	<blurvalue>Blur radius (global):</blurvalue>
-	<applyglobal>Override DWMAPI effect (win11)</applyglobal>
-	<extendborder>Effects extend to borders (win10)</extendborder>
+	<applyglobal>Override DWMAPI effect (Windows 11)</applyglobal>
+	<extendborder>Extend effects to borders (Windows 10)</extendborder>
 	<reflection>Enable Aero reflection effect</reflection>
-	<reflectiontip>(Legacy blur method for win10 only)</reflectiontip>
-	<oldBtnHeight>Decrease titlebar button height (win7 style)</oldBtnHeight>
+	<reflectiontip>(Legacy blur method for Windows 10 only)</reflectiontip>
+	<oldBtnHeight>Enable Windows 7 style caption buttons</oldBtnHeight>
 	<cmodelight>Light Mode colors</cmodelight>
-	<cmodedark>Dark Mode Colors</cmodedark>
+	<cmodedark>Dark Mode colors</cmodedark>
 	<blendcolor>Titlebar blend color (active):</blendcolor>
 	<inactiveblendcolor>Titlebar blend color (inactive):</inactiveblendcolor>
 	<activecolor>Active text color:</activecolor>
@@ -43,27 +43,27 @@
 	<preview>Preview</preview>
 	<sampletitle>Example window title (active)</sampletitle>
 	<blurmethod>Blur Method:</blurmethod>
-	<methodcustom>[Recommended] Custom blur implementation written by CVisual (DWM)\nand Windows.UI.Composition (dcomp) to achieve custom backdrop effects, \nyou can customize most of the parameters, not only you can get the highest \nefficiency, but also the best appearance and better stability. However, the \ncompatibility is not that good. \n(it may be broken after a major Windows update, then you have to wait for \nthe next release).</methodcustom>
-	<methodaccent>[Not Recommended] Use DWM internal blur implementation but not deleted \nAccentBlurBehind class to apply blur effect, you can customize some of the \nparameters, but it is inefficient and less stable. It can work normally on most \nof the systems. \n(generally, a system update will not break it).</methodaccent>
-	<methoddwmapi>Use documented DWMAPI to apply limited SystemBackdrop effect, such as \nAcrylic, Mica effect, you cannot customize these parameters at all, but it has \nhigh efficiency, better stability. However, it may break the appearance of \nsome programs, and it is only available above Windows 11 22H2(+).</methoddwmapi>
+	<methodcustom>[Recommended] Custom blur implementation written by CVisual (DWM)\nand Windows.UI.Composition (dcomp) to achieve custom backdrop effects, \nyou can customize most of the parameters. Not only you can get the highest \nefficiency, but also the best appearance and better stability. However, the \ncompatibility is not that good. \nIt may be broken after a major Windows update, then you have to wait for \nthe next release.</methodcustom>
+	<methodaccent>[Not Recommended] Use DWM internal \nAccentBlurBehind class to apply blur effect. You can customize some of the \nparameters, but it is inefficient and less stable. It can work normally on most \nsystems. \n(generally, a system update will not break it).</methodaccent>
+	<methoddwmapi>Use documented DWMAPI in Windows 11 to apply limited SystemBackdrop effect, such as \nAcrylic and Mica effect, you cannot customize these parameters at all, but it has \nhigh efficiency and better stability. However, it may break the appearance of \nsome programs, and it is only available on Windows 11 22H2 and newer.</methoddwmapi>
 	<effecttype>Effect Type:</effecttype>
 	<blurvaluetitle>Blur radius (titlebar only):</blurvaluetitle>
-	<luminosity>Luminosity Opacity:</luminosity>
+	<luminosity>Luminosity opacity:</luminosity>
 	<symbolfile>Symbol files:</symbolfile>
 	<download>Download</download>
-	<symtip>Symbol files (pdb) are files that record debugging information about a\nprogram. Since systems vary from version to version, you need to\ndownload symbol files from the Microsoft server. If you update your\nsystem, you may need to download the symbol files again.</symtip>
+	<symtip>Symbol files (pdb) are files that record debugging information about a\nprogram. Since systems vary from version to version, you need to\ndownload symbol files from the Microsoft servers. If you update your\nsystem, you may need to download the symbol files again.</symtip>
 	<symstatus0>Invalid</symstatus0>
 	<symstatus1>Valid</symstatus1>
 	<symdowning>Downloading...</symdowning>
 	<symdownfail>Download failed! Unable to download symbol files from "msdl.microsoft.com".</symdownfail>
-	<syminvalid>Symbol files are invalid! Please go to the "Symbols" page of the DWMBlurGlass program to download new symbol files!</syminvalid>
+	<syminvalid>Symbol files are invalid, please go to the "Symbols" page of the DWMBlurGlass program to download new symbol files.</syminvalid>
 	<configfile>Configuration file</configfile>
 	<import>Import</import>
 	<export>Export</export>
 	<restore>Restore to default settings</restore>
 	<importwarn>Importing a configuration file will overwrite your existing configuration, continue anyway?</importwarn>
 	<restorecfg>Are you sure you want to restore the default configuration?</restorecfg>
-	<aboutinfo>This program is based on the LGPLv3 agreement free open source software:</aboutinfo>
+	<aboutinfo>This program is based on the LGPLv3 license:</aboutinfo>
 	<curlang>Current language:</curlang>
 	<langauthor>Translation Contributors:</langauthor>
 </lang>
