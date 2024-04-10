@@ -1,5 +1,5 @@
 # DWMBlurGlass
-Add custom effect to global system title bar, support win10 and win11.
+Add custom effects to the global system title bar, supports Windows 10 and Windows 11.
 
 给全局系统标题栏添加自定义效果，支持win10和win11
 #
@@ -39,11 +39,11 @@ Other languages:
 * Customizable global blur radius or title bar blur radius only.
 * Customizable title bar blend colors.
 * Customizable title bar text color.
-* Aero reflections and parallax effects can be added.
-* Restore Win7 style title bar button height.
-* Support to enable blur effect for programs using old win7 API DwmEnableBlurBehindWindow.
-* Support `Blur`, `Aero`, `Acrylic`, `Mica (Win11 only)` effects.
-* Individually customizable Light/Dark Color Mode Color Automatic switching.
+* Aero reflections and parallax effects are available.
+* Restore Windows 7 style title bar button height.
+* Support to enable blur effect for programs using old Windows 7 API DwmEnableBlurBehindWindow.
+* Supports `Blur`, `Aero`, `Acrylic`, and `Mica (Win11 only)` effects.
+* Individually customizable Light/Dark color mode automatic switching.
 * `CustomBlur`, `AccentBlur` and `SystemBackdrop` blurring methods are available.
 * Third-party theme support.
 
@@ -51,13 +51,13 @@ Other languages:
 ![image](/Screenshot/10307.png)
 
 ## Compatibility
-Supported as low as **Windows 10 2004** and as high as the **latest version of Windows 11** (Some blurring methods are not supported in the preview version).
+Supported as low as **Windows 10 2004** and as high as the **latest version of Windows 11** (Some blurring methods are not supported in Windows Insider versions).
 
 Can be used with third party themes to further customize DWM.
 
 We do not modify the rendering logic of the application itself, which is completely different from the logic of MicaForEveryone and therefore maximizes compatibility with third-party programs.
 
-We reverse-analyze the dwm and code a custom blur method to bring stunning visual effects, but if you choose the "`SystemBackdrop`" blur method, it uses the system's publicly available interfaces and has the same effect as MicaForEveryone.
+We reverse-analyzed DWM and created a custom blur method to bring stunning visual effects, but if you choose the "`SystemBackdrop`" blur method, it uses the system's publicly available interfaces and has the same effect as MicaForEveryone.
 
 Not recommended for use with MicaForEveryone, we do not guarantee compatibility with it.
 
@@ -102,26 +102,26 @@ Using third-party themes
 ![image](/Screenshot/blur.png)
 
 ### Aero
-> Windows 7's glass effect, with saturation and exposure effects on the background when it loses focus.
+> Windows 7's glass effect, with saturation and exposure effects on the background when a window is inactive.
 
 ![image](/Screenshot/aero.png)
 
 ![image](/Screenshot/aero_inactive.png)
 
 ### Acrylic
-> The acrylic recipe: background, blur, exclusion blend, saturation, color/tint overlay, noise
+> The acrylic recipe: background, blur, exclusion blend, saturation, color/tint overlay and noise.
 
 ![image](/Screenshot/acrylic.png)
 
 ### Mica
-> The mica recipe: blurred wallpaper, saturation, color/tint overlay
+> The Mica recipe: blurred wallpaper, saturation and color/tint overlay.
 
 ![image](/Screenshot/mica.png)
 
 ### MicaAlt
 All of the above effects can be customized to blend colors.
 
-MicaAlt is Mica with grayish tone, you can modify the blend color by yourself to get the MicaAlt effect.
+MicaAlt is Mica with a grayish tone, you can modify the blend color by yourself to get the MicaAlt effect.
 
 ## How to use
 
@@ -132,9 +132,9 @@ MicaAlt is Mica with grayish tone, you can modify the blend color by yourself to
 
 ![image](/Screenshot/012746.png)
 
->If the prompt "Installation was successful! But you have not yet downloaded a valid symbol file, please download it from the "Symbols" page before you can use it!" then you need to click on the Symbols page and click Download before you can use it.
+>If nothing happens when you click Install, then you need to click on the Symbols page and click Download.
 
->**Note that you may receive similar notifications in the future, especially after system updates.**
+>**You may receive a notification about missing symbols in the future, especially after system updates.**
 
 ![image](/Screenshot/012924.png)
 
@@ -145,7 +145,7 @@ MicaAlt is Mica with grayish tone, you can modify the blend color by yourself to
 2. Delete relevant files
 
 ## Language files
-We offer basic languages English and Simplified Chinese.
+We offer several languages, such as English, Simplified Chinese, Spanish, Portuguese and more.
 If you would like to help us translate into other languages, please see below for language file formats.
 
 1. First, you need to fork this repository and clone it locally.
@@ -156,7 +156,7 @@ If you would like to help us translate into other languages, please see below fo
 6. Next, please translate the field values in the xml format (be careful not to translate the field names) The correct format is:`<config>Config</config>` to `<config>xxxx</config>`.
 7. Save your file when finished and copy it to the "data\lang" directory in the folder where the DWMBlurGlass.exe program is located.
 8. Next, open DWMBlurGlass.exe and test the language file to see if it works correctly. If it doesn't, check the language code settings and check that the file conforms to the xml format specification.
-9. Finally, commit the file to your own forked repository and send pull requests to the main branch of the project.
+9. Finally, commit the file to your own forked repository and send a pull request to the main branch of the project.
 10. After the request is approved, your file will be released with a future software update.
    
 
