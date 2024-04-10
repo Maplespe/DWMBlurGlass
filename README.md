@@ -39,7 +39,7 @@ Other languages:
 * Customizable global blur radius or title bar blur radius only.
 * Customizable title bar blend colors.
 * Customizable title bar text color.
-* Aero reflections and parallax effects can be added.
+* Aero reflections and parallax effects are available.
 * Restore Windows 7 style title bar button height.
 * Support to enable blur effect for programs using old Windows 7 API DwmEnableBlurBehindWindow.
 * Supports `Blur`, `Aero`, `Acrylic`, and `Mica (Win11 only)` effects.
@@ -51,13 +51,13 @@ Other languages:
 ![image](/Screenshot/10307.png)
 
 ## Compatibility
-Supported as low as **Windows 10 2004** and as high as the **latest version of Windows 11** (Some blurring methods are not supported in the preview version).
+Supported as low as **Windows 10 2004** and as high as the **latest version of Windows 11** (Some blurring methods are not supported in Windows Insider versions).
 
 Can be used with third party themes to further customize DWM.
 
 We do not modify the rendering logic of the application itself, which is completely different from the logic of MicaForEveryone and therefore maximizes compatibility with third-party programs.
 
-We reverse-analyze DWM and code a custom blur method to bring stunning visual effects, but if you choose the "`SystemBackdrop`" blur method, it uses the system's publicly available interfaces and has the same effect as MicaForEveryone.
+We reverse-analyzed DWM and created a custom blur method to bring stunning visual effects, but if you choose the "`SystemBackdrop`" blur method, it uses the system's publicly available interfaces and has the same effect as MicaForEveryone.
 
 Not recommended for use with MicaForEveryone, we do not guarantee compatibility with it.
 
@@ -102,26 +102,26 @@ Using third-party themes
 ![image](/Screenshot/blur.png)
 
 ### Aero
-> Windows 7's glass effect, with saturation and exposure effects on the background when it loses focus.
+> Windows 7's glass effect, with saturation and exposure effects on the background when a window is inactive.
 
 ![image](/Screenshot/aero.png)
 
 ![image](/Screenshot/aero_inactive.png)
 
 ### Acrylic
-> The acrylic recipe: background, blur, exclusion blend, saturation, color/tint overlay, noise
+> The acrylic recipe: background, blur, exclusion blend, saturation, color/tint overlay and noise.
 
 ![image](/Screenshot/acrylic.png)
 
 ### Mica
-> The Mica recipe: blurred wallpaper, saturation, color/tint overlay
+> The Mica recipe: blurred wallpaper, saturation and color/tint overlay.
 
 ![image](/Screenshot/mica.png)
 
 ### MicaAlt
 All of the above effects can be customized to blend colors.
 
-MicaAlt is Mica with grayish tone, you can modify the blend color by yourself to get the MicaAlt effect.
+MicaAlt is Mica with a grayish tone, you can modify the blend color by yourself to get the MicaAlt effect.
 
 ## How to use
 
@@ -134,7 +134,7 @@ MicaAlt is Mica with grayish tone, you can modify the blend color by yourself to
 
 >If nothing happens when you click Install, then you need to click on the Symbols page and click Download.
 
->**Note that you may receive similar notifications in the future, especially after system updates.**
+>**You may receive a notification about missing symbols in the future, especially after system updates.**
 
 ![image](/Screenshot/012924.png)
 
