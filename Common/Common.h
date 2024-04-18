@@ -59,10 +59,9 @@ namespace MDWMBlurGlass
 
 		// these settings are optimal for the default Sky color from Windows 7
 		// newly added params since 2.1.0
-		float activeColorBalance = 0.08f;
-		float inactiveColorBalance = 0.032f;
-		float activeBlurBalance = -0.125f;
-		float inactiveBlurBalance = 0.365f;
+		float ColorizationColorBalance = 8.0f;
+		float ColorizationAfterglowBalance = 43.0f;
+		float ColorizationBlurBalance = 49.0f;
 
 		COLORREF activeTextColor = 0xFF000000;
 		COLORREF inactiveTextColor = 0xFFB4B4B4;
