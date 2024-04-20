@@ -11,6 +11,7 @@
 	<msgdlg_yes>Onayla</msgdlg_yes>
 	<colorpicker_dlg_alpha>Saydamlık:</colorpicker_dlg_alpha>
 	<general>Genel</general>
+	<advanced>Gelişmiş</advanced>
 	<symbol>Sembol</symbol>
 	<config>Yapılandırma</config>
 	<about>Hakkında</about>
@@ -20,39 +21,49 @@
 	<install>Kur</install>
 	<uninstall>Kaldır</uninstall>
 	<installsucs>Kurulum başarılı!</installsucs>
-	<installsucs1>Kurulum başarılı, fakat daha geçerli bir sembol dosyası indirmediniz! "Semboller" sayfasından indirerek çalışmasını sağlayabilirsiniz.</installsucs1>
+	<installsucs1>Kurulum başarılı! Fakat daha geçerli bir sembol dosyası indirmediniz, "Semboller" sayfasından indirerek DWMBlurGlass'ın çalışmasını sağlayabilirsiniz.</installsucs1>
 	<installfail>Kurulum başarısız! Hata iletisi: </installfail>
 	<uninstallsucs>Başarıyla kaldırıldı.</uninstallsucs>
 	<uninstallfail>Kaldırma başarısız! Hata iletisi: </uninstallfail>
 	<loadfail>Bileşen yüklemesi başarısız! Hata iletisi: </loadfail>
-	<saveconfig>Yapılandırmayı Kaydet</saveconfig>
+	<saveconfig>Kaydet</saveconfig>
 	<effectset>Etki Ayarları</effectset>
-	<blurvalue>Buğu Değeri:</blurvalue>
-	<applyglobal>DWMAPI mica etkisini geçersiz kıl (win11)</applyglobal>
-	<extendborder>Etkiyi kenarlara genişlet (win10)</extendborder>
-	<reflection>Aero yansıma etkisini etkinleştir (win10)</reflection>
-	<oldBtnHeight>Başlık çubuğu buton yüksekliğini azalt (win7 biçemi)</oldBtnHeight>
-	<blendcolor>Başlık çubuğu karışım rengi (Etkin):</blendcolor>
-	<inactiveblendcolor>Başlık çubuğu karışım rengi (Etkin olmayan):</inactiveblendcolor>
+	<blurvalue>Buğu yarıçapı (küresel):</blurvalue>
+	<applyglobal>DWMAPI etkisini geçersiz kıl (Windows 11)</applyglobal>
+	<extendborder>Etkiyi kenarlara genişlet (Windows 10)</extendborder>
+	<reflection>Aero yansıma etkisini etkinleştir</reflection>
+	<reflectiontip>(Eskiden kalan buğu yöntemi yalnızca Windows 10 için)</reflectiontip>
+	<oldBtnHeight>Windows 7 biçeminde başlık çubuğu butonlarını etkinleştir</oldBtnHeight>
+	<cmodelight>Açık Mod renkleri</cmodelight>
+	<cmodedark>Koyu Mod renkleri</cmodedark>
+	<blendcolor>Başlık çubuğu karışım rengi (etkin):</blendcolor>
+	<inactiveblendcolor>Başlık çubuğu karışım rengi (etkin olmayan):</inactiveblendcolor>
 	<activecolor>Etkin yazı rengi:</activecolor>
 	<inactivecolor>Etkin olmayan yazı rengi:</inactivecolor>
 	<preview>Önizleme</preview>
 	<sampletitle>Örnek pencere başlığı (etkin)</sampletitle>
-	<configfile>Yapılandırma dosyası</configfile>
-	<symbolfile>Sembol dosyası:</symbolfile>
+	<blurmethod>Buğu Yöntemi:</blurmethod>
+	<methodcustom>[Önerilir] CVisual (DWM) ve Windows.UI.Composition (dcomp) tarafından \nyazılan özel buğu gerçeklemesi, özel arka plan etkileri elde etmenizi\nsağlar. Çoğu parametreyi özelleştirebilirsiniz. Sadece en yüksek verimliliği değil,\naynı zamanda en iyi görünümü ve daha iyi kararlılığı de elde edebilirsiniz. Ancak\nuyumluluk pek iyi değildir.\nBüyük bir Windows güncellemesinden sonra bozulabilir ve bir sonraki \nsürümü beklemeniz gerekebilir.</methodcustom>
+	<methodaccent>[Önerilmez] DWM'nin dahili \nAccentBlurBehind sınıfını kullanarak buğu etkisi uygulayın. Bazı parametreleri\nözelleştirebilirsiniz, ancak bu yöntem verimsiz ve daha az kararlıdır. Çoğu sistemde normal çalışır.\n(genellikle, bir sistem güncellemesi bunu bozmaz).</methodaccent>
+	<methoddwmapi>Windows 11'de belgelenmiş DWMAPI'yi kullanarak, Acrylic ve Mica etkisi gibi sınırlı\nSystemBackdrop efektleri uygulayın. Bu parametreleri hiç özelleştiremezsiniz,\nancak yüksek verimlilik ve daha iyi kararlılık sunar. Ancak, bazı programların\ngörünümünü bozabilir ve sadece Windows 11 22H2 ve daha yenilerinde kullanılabilir.</methoddwmapi>
+	<effecttype>Etki Türü:</effecttype>
+	<blurvaluetitle>Buğu yarıçağı (yalnızca başlık çubuğunda):</blurvaluetitle>
+	<luminosity>Işıklılık saydamlığı:</luminosity>
+	<symbolfile>Sembol dosyaları:</symbolfile>
 	<download>İndir</download>
 	<symtip>Sembol dosyaları (pdb) bir programın hata giderme bilgilerini kaydeder.\nBu sistemler sürümden sürüme değiştiğinden, sembol dosyalarını bir\nMicrosoft sunucusundan indirmeniz gerekir. Eğer sisteminizi güncellerseniz,\nyeniden yeni dosyayı indirmeniz gerekebilir.</symtip>
 	<symstatus0>Geçersiz</symstatus0>
 	<symstatus1>Geçerli</symstatus1>
 	<symdowning>İndiriliyor...</symdowning>
-	<symdownfail>İndirme başarısız! "msdl.microsoft.com"dan dosya indirilemiyor.</symdownfail>
-	<syminvalid>Sembol dosyası geçersiz! Lütfen DWMBlurGlass programının "Semboller" sayfasından yeni bir sembol dosyası indirin!</syminvalid>
+	<symdownfail>İndirme başarısız! "msdl.microsoft.com" adresinden sembol dosyaları indirilemiyor.</symdownfail>
+	<syminvalid>Sembol dosyası geçersiz, Lütfen DWMBlurGlass programının "Semboller" sayfasından yeni bir sembol dosyası indirin!</syminvalid>
+	<configfile>Yapılandırma dosyası</configfile>
 	<import>İçe aktar</import>
 	<export>Dışa aktar</export>
 	<restore>Varsayılanları geri yükle</restore>
-	<importwarn>Bir yapılandırma dosyasını içe aktarmak var olan yapılandırmanızın üstüne yazacaktır, ilerlemek istiyor musunuz?</importwarn>
+	<importwarn>Bir yapılandırma dosyasını içe aktarmak var olan yapılandırmanızın üstüne yazacaktır, yine de ilerlemek istiyor musunuz?</importwarn>
 	<restorecfg>Varsayılan yapılandırmayı geri yüklemek istediğinizden emin misiniz?</restorecfg>
-	<aboutinfo>Bu program LGPLv3 anlaşmalı açık kaynak yazılımı tabanlıdır.</aboutinfo>
+	<aboutinfo>Bu program LGPLv3 lisansı tabanlıdır:</aboutinfo>
 	<curlang>Şu anki dil:</curlang>
 	<langauthor>Çeviriye Katkıda Bulunanlar:</langauthor>
 </lang>
