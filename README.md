@@ -3,7 +3,7 @@ Add custom effects to the global system title bar, supports Windows 10 and Windo
 
 给全局系统标题栏添加自定义效果，支持win10和win11
 #
-| [中文](/README_ZH.md) | [English](/README.md) | [Italian](/README_IT.md) | [French](/README_FR.md)
+| [中文](/README_ZH.md) | [English](/README.md) | [Italian](/README_IT.md) | [French](/README_FR.md) | [Türkçe](/README_TR.md)
 This project uses [LGNU V3 license](/COPYING.LESSER).
 
 Other languages:
