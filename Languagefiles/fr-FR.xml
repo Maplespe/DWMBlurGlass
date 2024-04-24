@@ -11,6 +11,7 @@
 	<msgdlg_yes>Confirmer</msgdlg_yes>
 	<colorpicker_dlg_alpha>Opacity:</colorpicker_dlg_alpha>
 	<general>General</general>
+	<advanced>Avancé</advanced>
 	<symbol>Symboles</symbol>
 	<config>Configuration</config>
 	<about>À propos</about>
@@ -30,15 +31,24 @@
 	<blurvalue>Rayon de flou :</blurvalue>
 	<applyglobal>Outrepasser l'effet MICA du DWMAPI (Win11)</applyglobal>
 	<extendborder>Étendre les effets aux bordures (Win10)</extendborder>
-	<reflection>Activer l'effect de refléction d'Aero (Win10)</reflection>
+	<reflection>Activer l'effect de réflection d'Aero (Win10)</reflection>
+	<reflectiontip>(Ancienne méthode de flou uniquement pour Windows 10)</reflectiontip>
 	<oldBtnHeight>Réduire la taille des boutons de la barre de titre (Win7 style)</oldBtnHeight>
+	<cmodelight>Couleurs en mode clair</cmodelight>
+	<cmodedark>Couleurs en mode foncé</cmodedark>
 	<blendcolor>Couleur de fusion de la barre de titre (Actif):</blendcolor>
 	<inactiveblendcolor>Couleur de fusion de la barre de titre (Inactif):</inactiveblendcolor>
 	<activecolor>Couleur du text actif :</activecolor>
 	<inactivecolor>Couleur du text inactif :</inactivecolor>
 	<preview>Aperçu</preview>
 	<sampletitle>Exemple de titre de fenêtre (active)</sampletitle>
-	<configfile>Fichier de configuration</configfile>
+	<blurmethod>Méthode de flou :</blurmethod>
+	<methodcustom>[Recommendé] Implémentation de flou customisée écrite par CVisual (DWM)\et Windows.UI.Composition (dcomp) pour obtenir des effets de fond customisés, \nvous pouvez customiser la plupart des paramètres. Non seulement vosu obtenez la meilleure \nefficience mais aussi les meilleures apparence et stabilité. Cependant, la \ncompatibilité n'est pas si bonne. \nCa peut être casssé après une mise à jour majeure de Windows, et vous devez atendre pour \nla prochaine version.</methodcustom>
+	<methodaccent>[Non recommendé] Utilise la classe interne \nAccentBlurBehind de DWM pour appliquer l'effet de flou. Vous pouvez customiser certains des \nparamètres, mais ce n'est pas très efficient et moins stable. Celà fonctionnera sur la plupart des  \nsystèmes. \n(normalement une mise à jour du système ne le cassera pas).</methodaccent>
+	<methoddwmapi>Utilise DWMAPI documenté dans Windows 11 pour appliquer un effet SystemBackdrop limité, tels que\n les effets Acrylic et Mica, vous ne pouvez pas customiser ces paramètres du tout, mais c'est \ntrès efficient et a une meilleure stabilité. Cependant, ça peut casser l'apparence de \nscertaines applications, et c'est uniquement disponible sur Windows 11 22H2 et plus récent.</methoddwmapi>
+	<effecttype>Type d'effet :</effecttype>
+	<blurvaluetitle>Rayon de flou (barre de titre) :</blurvaluetitle>
+	<luminosity>Opacité de la luminosité :</luminosity>	
 	<symbolfile>Fichier de symboles :</symbolfile>
 	<download>Télécharger</download>
 	<symtip>Les fichiers de symboles (pdb) sont des fichiers qui enregistrent des\ninformations de débogage sur un programme. Étant donné que les\nsystèmes varient d’une version à l’autre, vous devrez télécharger les\nfichiers de symboles à partir d’un serveur Microsoft. Si vous mettez à\njour votre système, vous devrez peut-être télécharger à nouveau le\nnouveau fichier.</symtip>
@@ -47,6 +57,7 @@
 	<symdowning>Téléchargement...</symdowning>
 	<symdownfail>Téléchargement échoué ! Impossible de télécharger le fichier dans "msdl.microsoft.com".</symdownfail>
 	<syminvalid>Le fichier de symboles n’est pas valide ! Veuillez vous rendre sur la page "Symboles" du programme DWMBlurGlass pour télécharger un nouveau fichier de symboles !</syminvalid>
+	<configfile>Fichier de configuration</configfile>
 	<import>Importer</import>
 	<export>Exporter</export>
 	<restore>Par défaut</restore>
