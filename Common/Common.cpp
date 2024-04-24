@@ -154,20 +154,19 @@ namespace MDWMBlurGlass
 		ret = Utils::GetIniString(path, L"config", L"glassIntensity");
 		if (!ret.empty())
 			cfgData.glassIntensity = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
-		ret = Utils::GetIniString(path, L"config.aero", L"activeColorBalance");
+		ret = Utils::GetIniString(path, L"config.aero", L"ColorizationColorBalance");
 		if (!ret.empty())
-			cfgData.activeColorBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
-		ret = Utils::GetIniString(path, L"config.aero", L"inactiveColorBalance");
-		if (!ret.empty())
-			cfgData.inactiveColorBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
+			cfgData.ColorizationColorBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 100.0);
 
-		ret = Utils::GetIniString(path, L"config.aero", L"activeBlurBalance");
+		ret = Utils::GetIniString(path, L"config.aero", L"ColorizationAfterglowBalance");
 		if (!ret.empty())
-			cfgData.activeBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
-		ret = Utils::GetIniString(path, L"config.aero", L"inactiveBlurBalance");
+			cfgData.ColorizationAfterglowBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 100.0);
+
+		ret = Utils::GetIniString(path, L"config.aero", L"ColorizationBlurBalance");
 		if (!ret.empty())
-			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
-		//
+			cfgData.ColorizationBlurBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 100.0);
+
+		
 
 		ret = Utils::GetIniString(path, L"config", L"effectType");
 		if (!ret.empty())
@@ -203,10 +202,9 @@ namespace MDWMBlurGlass
 
 		// newly added params since 2.1.0
 		Utils::SetIniString(path, L"config", L"glassIntensity", std::to_wstring(cfg.glassIntensity));
-		Utils::SetIniString(path, L"config.aero", L"activeColorBalance", std::to_wstring(cfg.activeColorBalance));
-		Utils::SetIniString(path, L"config.aero", L"inactiveColorBalance", std::to_wstring(cfg.inactiveColorBalance));
-		Utils::SetIniString(path, L"config.aero", L"activeBlurBalance", std::to_wstring(cfg.activeBlurBalance));
-		Utils::SetIniString(path, L"config.aero", L"inactiveBlurBalance", std::to_wstring(cfg.inactiveBlurBalance));
+		Utils::SetIniString(path, L"config.aero", L"ColorizationColorBalance", std::to_wstring(cfg.ColorizationColorBalance));
+		Utils::SetIniString(path, L"config.aero", L"ColorizationAfterglowBalance", std::to_wstring(cfg.ColorizationAfterglowBalance));
+		Utils::SetIniString(path, L"config.aero", L"BlurBalance", std::to_wstring(cfg.ColorizationBlurBalance));
 
 		Utils::SetIniString(path, L"config", L"activeTextColor", std::to_wstring(cfg.activeTextColor));
 		Utils::SetIniString(path, L"config", L"inactiveTextColor", std::to_wstring(cfg.inactiveTextColor));
