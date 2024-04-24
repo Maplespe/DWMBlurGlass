@@ -1,16 +1,17 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <lang local="ru-RU" author="MattMeijer">
 	<inituifail0>Не получилось подготовить библиотеку MiaoUI. Код ошибки: </inituifail0>
 	<inituifail1>Не получилось создать контекст окна.</inituifail1>
 	<inituifail2>Не получилось активировать окно.</inituifail2>
 	<initfail0>Из-за ограничений менеджера окон DWM приложение должно быть запущено вне папки пользователя, и путь к нему должен быть вне "{path}" или его подпапок. Смените папку установки.</initfail0>
 	<symloadfail>Не получилось загрузить файл символов. Библиотека не может быть загружена, требуется её повторная загрузка. (Возможно, вы недавно обновили систему)</symloadfail>
-	<colorpicker_dlg_sel>Выберите:</colorpicker_dlg_sel>
+	<colorpicker_dlg_sel>Выберите цвет:</colorpicker_dlg_sel>
 	<colorpicker_dlg_c>Новый цвет:</colorpicker_dlg_c>
 	<msgdlg_no>Отмена</msgdlg_no>
 	<msgdlg_yes>Подтвердить</msgdlg_yes>
 	<colorpicker_dlg_alpha>Непрозрачность:</colorpicker_dlg_alpha>
 	<general>Общие</general>
+	<advanced>Продвинутые</advanced>
 	<symbol>Символы</symbol>
 	<config>Настройка</config>
 	<about>Обо мне</about>
@@ -27,18 +28,27 @@
 	<loadfail>Компонент не загружен. Код ошибки: </loadfail>
 	<saveconfig>Сохранить конфигурацию</saveconfig>
 	<effectset>Настройки эффектов</effectset>
-	<blurvalue>Радиус размытия:</blurvalue>
-	<applyglobal>Перезаписать эффект DWMAPI (win11)</applyglobal>
-	<extendborder>Применить эффект к краям окон (win10)</extendborder>
-	<reflection>Отражения в стиле Aero (win10)</reflection>
-	<oldBtnHeight>Уменьшить высоту кнопок в заголовке (win7 style)</oldBtnHeight>
+	<blurvalue>Радиус размытия (общий):</blurvalue>
+	<applyglobal>Перезаписать эффект DWMAPI (Windows 11)</applyglobal>
+	<extendborder>Применить эффект к краям окон (Windows 10)</extendborder>
+	<reflection>Включить эффект отражения Aero</reflection>
+	<reflectiontip>(Устаревший метод размытия только для Windows 10)</reflectiontip>
+	<oldBtnHeight>Включить кнопки в стиле Windows 7 в заголовке</oldBtnHeight>
+	<cmodelight>Цвета светлого режима</cmodelight>
+	<cmodedark>Цвета темного режима</cmodedark>
 	<blendcolor>Цвет смешивания в заголовке (Включено):</blendcolor>
 	<inactiveblendcolor>Цвет смешивания в заголовке (Отключено):</inactiveblendcolor>
 	<activecolor>Цвет активного текста:</activecolor>
 	<inactivecolor>Цвет неактивного текста:</inactivecolor>
 	<preview>Предпросмотр</preview>
 	<sampletitle>Заголовок активного окна</sampletitle>
-	<configfile>Файл настройки</configfile>
+	<blurmethod>Метод размытия:</blurmethod>
+	<methodcustom>[Рекомендуется] Пользовательская реализация размытия, написанная \nCVisual (DWM) и Windows.UI.Composition (dcomp) для достижения \nпользовательских эффектов фона. Вы можете настроить большинство \nпараметров. Вы можете получить не только высочайшую эффективность, \nно также лучший внешний вид и лучшую стабильность. Однако \nсовместимость не так хороша. Он может сломаться после серьезного \nобновления Windows, тогда вам придется подождать следующего \nвыпуска.</methodcustom>
+	<methodaccent>[Не рекомендуется] Используется внутренний класс \nAccentBlurBehind DWM, чтобы применить эффект размытия. \nВы можете настроить некоторые параметры, но это неэффективно \nи менее стабильно. Он может нормально работать в большинстве \nсистем. \n(как правило, обновление системы не нарушает работу системы).</methodaccent>
+	<methoddwmapi>Используется документированный DWMAPI в Windows 11 \nдля применения ограниченного эффекта SystemBackdrop, такого как \nэффект Acrylic и Mica. Вы вообще не можете настраивать эти параметры, \nно он имеет высокую эффективность и лучшую стабильность. Однако \nэто может нарушить внешний вид некоторых программ и доступно \nтолько в Windows 11 22H2 и новее.</methoddwmapi>
+	<effecttype>Тип эффекта:</effecttype>
+	<blurvaluetitle>Радиус размытия (только заголовок):</blurvaluetitle>
+	<luminosity>Прозрачность свечения:</luminosity>
 	<symbolfile>Файл символов:</symbolfile>
 	<download>Скачать</download>
 	<symtip>Файлы символов записывают информацию приложения об отладке.\nПоскольку они отличаются от системы к системе, вам необходимо\nскачать актуальную версию с сервера Microsoft. После обновления\nсистемы, возможно, потребуется сделать это снова.</symtip>
@@ -46,7 +56,8 @@
 	<symstatus1>Корректный</symstatus1>
 	<symdowning>Загрузка...</symdowning>
 	<symdownfail>Не удалось скачать файл с сервера "msdl.microsoft.com".</symdownfail>
-	<syminvalid>Неверный формат файла символов. Скачайте его снова на вкладке "Символы".</syminvalid>
+	<syminvalid>Файлы символов недействительны. Чтобы загрузить новые файлы символов, перейдите на страницу "Символы" программы DWMBlurGlass.</syminvalid>
+	<configfile>Файл настройки</configfile>
 	<import>Импорт</import>
 	<export>Экспорт</export>
 	<restore>Восстановить по умолчанию</restore>
