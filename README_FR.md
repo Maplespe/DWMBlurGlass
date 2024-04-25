@@ -3,13 +3,13 @@ Ajoute un effet personnalisé à la barre de titre du système global, prend en 
 
 给全局系统标题栏添加自定义效果，支持win10和win11
 #
-| [中文](/README_ZH.md) | [Anglais](/README.md) | [Italien](/README_IT.md) | [Français](/README_FR.md)
+| [中文](/README_ZH.md) | [English](/README.md) | [Italiano](/README_IT.md) | [Français](/README_FR.md) | [Türkçe](/README_TR.md)
 Ce projet utilise la [licence LGNU V3](/COPYING.LESSER).
 
 Autres langues :
 > La documentation suivante peut être obsolète, veuillez vous référer à la documentation actuelle.
 >
-> [Allemand](/README_DE.md)
+> [Deutsch](/README_DE.md)
 
 
 [![licence](https://img.shields.io/github/license/Maplespe/DWMBlurGlass.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)

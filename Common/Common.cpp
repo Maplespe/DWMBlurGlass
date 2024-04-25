@@ -201,6 +201,10 @@ namespace MDWMBlurGlass
 		{
 			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(value.data()), -1.0, 1.0);
 		});
+			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
+		//
+			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
+		//
 
 		GetCfgValueInternal(L"effectType",
 		{
@@ -227,10 +231,6 @@ namespace MDWMBlurGlass
 	std::wstring make_wstring(bool value)
 	{
 		return value ? L"true" : L"false";
-	}
-
-	void ConfigData::SaveToFile(std::wstring_view path, const ConfigData& cfg)
-	{
 		for (const auto regkeyList = std::to_array<std::pair<LPCWSTR, std::wstring>>
 		({
 			 { L"applyglobal", make_wstring(cfg.applyglobal) },
@@ -261,6 +261,11 @@ namespace MDWMBlurGlass
 			 { L"crossfadeTime", make_wstring(cfg.crossfadeTime) }
 		}); const auto& [key, value] : regkeyList)
 		{
+			Utils::SetIniString(path, L"config", key, value);
+		}
+
+		// newly added params since 2.1.0
+		Utils::SetIniString(path, L"config", L"crossfadeTime", std::to_wstring(cfg.crossfadeTime));
 			Utils::SetIniString(path, L"config", key, value);
 		}
 	}
