@@ -94,7 +94,7 @@ namespace MDWMBlurGlass
     </UIControl>
 </UIControl>)";
 
-        xml += LR"(
+            xml += LR"(
 <UIControl frame="0,50,485,100%" name="page1" visible="false" align="LinearV">
 	<UIControl frame="15,5,15f,115" align="LinearV" prop="group" autoSize="true" maxSize="455,180" minSize="455,90">
 		<UIControl frame="0,0,10f,30">
@@ -113,27 +113,58 @@ namespace MDWMBlurGlass
 				<UIComBox frame="10,0,120,26" name="effecttype" fontSize="12" menuHeight="150" />
 			</UIControl>
 		</UIControl>
-		<UIControl frame="0,5,100%,30" align="LinearH" name="customEffectGroup">
+		<UIControl frame="0,5,100%,20" align="LinearH" name="customEffectGroup">
 		    <UILabel pos="5,0" text="#blurvaluetitle" />
 			<UIControl size="100%,100%" align="LinearHL">
 				<UISlider frame="10,0,35f,16" name="titlebarAmountSlider" maxValue="50" maxSize="230,16" />
-				<UILabel frame="5,0,30,20" name="titlebarAmountValue" text="50" autoSize="false" textAlign="2" />
+				<UILabel frame="5,0,30,16" name="titlebarAmountValue" text="50" autoSize="false" textAlign="2" />
 			</UIControl>
 		</UIControl>
-		<UIControl frame="0,5,100%,30" align="LinearH" name="customEffectGroup1">
-		    <UILabel pos="5,0" text="#luminosity" />
+		<UIControl frame="0,5,100%,20" align="LinearH" name="customEffectGroup1">
+		    <UILabel pos="5,0" text="#luminosity" name="luminosityText" />
 			<UIControl size="100%,100%" align="LinearHL">
 				<UISlider frame="10,0,40f,16" name="luminositySlider" maxValue="100" maxSize="230,16" />
-				<UILabel frame="5,0,35,20" name="luminosityValue" text="50" autoSize="false" textAlign="2" />
+				<UILabel frame="5,0,35,16" name="luminosityValue" text="50" autoSize="false" textAlign="2" />
 			</UIControl>
 		</UIControl>
-	</UIControl>
+		<UIControl size="100%,100%" name="customEffectGroup2" align="LinearV">
+		    <UIControl frame="0,5,100%,20" align="LinearH">
+		        <UILabel pos="5,0" text="#inactiveColorBalance" />
+		    	<UIControl size="100%,100%" align="LinearHL">
+		    		<UISlider frame="10,0,40f,16" name="colorBalanceSlider" maxValue="100" maxSize="230,16" />
+		    		<UILabel frame="5,0,35,16" name="colorBalanceValue" text="50" autoSize="false" textAlign="2" />
+		    	</UIControl>
+		    </UIControl>
+			<UIControl frame="0,5,100%,20" align="LinearH">
+		        <UILabel pos="5,0" text="#activeBlurBalance" />
+		    	<UIControl size="100%,100%" align="LinearHL">
+		    		<UISlider frame="10,0,40f,16" name="activeBlurBalanceSlider" maxValue="200" maxSize="230,16" />
+		    		<UILabel frame="5,0,35,16" name="activeBlurBalanceValue" text="50" autoSize="false" textAlign="2" />
+		    	</UIControl>
+		    </UIControl>
+			<UIControl frame="0,5,100%,20" align="LinearH">
+		        <UILabel pos="5,0" text="#inactiveBlurBalance" />
+		    	<UIControl size="100%,100%" align="LinearHL">
+		    		<UISlider frame="10,0,40f,16" name="inactiveBlurBalanceSlider" maxValue="200" maxSize="230,16" />
+		    		<UILabel frame="5,0,35,16" name="inactiveBlurBalanceValue" text="50" autoSize="false" textAlign="2" />
+		    	</UIControl>
+		    </UIControl>
+		</UIControl>
+	</UIControl>)";
+
+        xml += LR"(
 	<UIControl frame="15,5,15f,120" align="LinearV" prop="group" enable="true" name="miscSettings">
 		<UIControl autoSize="true">
             <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_misc" />
             <UILabel pos="10,2" text="#miscsettings" />
 		</UIControl>
 		<UICheckBox pos="0,11" text="#enablecrossfade" name="crossFade" />
+		<UIControl pos="25,5" autoSize="true" align="LinearH" name="crossFadeGroup">
+			<UILabel pos="0,3" text="#crossfadeTime" />
+			<UIEditBox frame="5,1,50,20" number="true" inset="3,2,1,1" wordAutoSel="true" name="crossfadeTimeValue" text="180" limitText="4" />
+			<UILabel pos="3,3" text="ms" />
+		</UIControl>
+		<UICheckBox pos="0,5" text="#useaccentcolor" name="useaccentcolor" />
 	</UIControl>
 </UIControl>
 <UIControl frame="0,50,485,100%" name="page2" visible="false" align="LinearV">
@@ -228,6 +259,15 @@ namespace MDWMBlurGlass
 
         m_luminosityValue = m_page->Child<UISlider>(L"luminositySlider");
         m_luminosityValueLabel = m_page->Child<UILabel>(L"luminosityValue");
+
+        m_colorBalanceValue = m_page->Child<UISlider>(L"colorBalanceSlider");
+        m_colorBalanceLabel = m_page->Child<UILabel>(L"colorBalanceValue");
+
+        m_blurBalanceValue[0] = m_page->Child<UISlider>(L"activeBlurBalanceSlider");
+        m_blurBalanceLabel[0] = m_page->Child<UILabel>(L"activeBlurBalanceValue");
+
+        m_blurBalanceValue[1] = m_page->Child<UISlider>(L"inactiveBlurBalanceSlider");
+        m_blurBalanceLabel[1] = m_page->Child<UILabel>(L"inactiveBlurBalanceValue");
 
         RefreshStatus();
         RefreshSymStatus();
@@ -420,6 +460,12 @@ namespace MDWMBlurGlass
                 else if (_MNAME(L"crossFade"))
                 {
                     m_cfgData.crossFade = static_cast<UICheckBox*>(control)->GetSel();
+                    m_page->Child(L"crossFadeGroup")->SetEnabled(m_cfgData.crossFade);
+                    SetButtonEnable(true);
+                }
+                else if(_MNAME(L"useaccentcolor"))
+                {
+                    m_cfgData.useAccentColor = static_cast<UICheckBox*>(control)->GetSel();
                     SetButtonEnable(true);
                 }
                 else
@@ -446,10 +492,40 @@ namespace MDWMBlurGlass
                 }
                 else if (_MNAME(L"luminositySlider"))
                 {
-                    m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring((int)param) + L"%", false);
-                    m_cfgData.luminosityOpacity = (float)param / 100.f;
+                    if(m_cfgData.effectType == effectType::Aero)
+                    {
+                        m_cfgData.activeColorBalance = (float)param / 100.f;
+                        m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.activeColorBalance).substr(0, 4), false);
+                    }
+                    else
+                    {
+                        m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring((int)param) + L"%", false);
+                        m_cfgData.luminosityOpacity = (float)param / 100.f;
+                    }
                     SetButtonEnable(true);
                     m_page->UpdateLayout();
+                }
+                else if (_MNAME(L"colorBalanceSlider"))
+                {
+                	m_cfgData.inactiveColorBalance = (float)param / 100.f;
+                	m_colorBalanceLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.inactiveColorBalance).substr(0, 4), false);
+                    SetButtonEnable(true);
+                }
+                else if (_MNAME(L"activeBlurBalanceSlider"))
+                {
+                    m_cfgData.activeBlurBalance = (float)param / 100.f - 1.f;
+                    std::wstring value = std::to_wstring(m_cfgData.activeBlurBalance);
+                    value = value.substr(0, value.find('-') != std::wstring::npos ? 5 : 4);
+                    m_blurBalanceLabel[0]->SetAttribute(L"text", value, false);
+                    SetButtonEnable(true);
+                }
+                else if (_MNAME(L"inactiveBlurBalanceSlider"))
+                {
+                    m_cfgData.inactiveBlurBalance = (float)param / 100.f - 1.f;
+                    std::wstring value = std::to_wstring(m_cfgData.inactiveBlurBalance);
+                    value = value.substr(0, value.find('-') != std::wstring::npos ? 5 : 4);
+                    m_blurBalanceLabel[1]->SetAttribute(L"text", value, false);
+                    SetButtonEnable(true);
                 }
                 else
                     ret = false;
@@ -505,28 +581,48 @@ namespace MDWMBlurGlass
 			}
         case Event_ListBox_ItemChanged:
 	        {
-		        if(_MNAME(L"blurmethod"))
-		        {
-                    m_cfgData.blurmethod = (blurMethod)param;
+                if (_MNAME(L"blurmethod"))
+                {
                     m_cfgData.effectType = effectType::Blur;
+                    if (m_cfgData.blurmethod == blurMethod::CustomBlur)
+                        SwitchBlurType(effectType::Blur, true, true);
+                    m_cfgData.blurmethod = (blurMethod)param;
                     SwitchBlurMethod((blurMethod)param);
                     SetButtonEnable(true);
-		        }
+                }
                 else if (_MNAME(L"effecttype"))
                 {
                     m_cfgData.effectType = (effectType)param;
-                    if (m_cfgData.blurmethod == blurMethod::CustomBlur)
-                    {
-                        m_page->Child(L"customEffectGroup")->SetEnabled(param != 3, false);
-                        m_page->Child(L"effectgroup")->SetSize(15,
-                            (m_cfgData.effectType == effectType::Acrylic || m_cfgData.effectType == effectType::Mica) ? 120 : 80, false);
-                        //m_page->Child(L"customEffectGroup1")->SetVisible(m_cfgData.effectType == effectType::Acrylic, false);
-                        m_page->UpdateLayout();
-                    }
+                    SwitchBlurType(m_cfgData.effectType);
                     RefreshBlurPreview();
                     SetButtonEnable(true);
+                    m_page->UpdateLayout();
                 }
+                else
+                ret = false;
 	        }
+        case Event_Focus_False:
+        {
+            auto textFormat = [](UIEditBox* edit, int max)
+            {
+                auto text = edit->GetCurText();
+                if (text.empty()) edit->SetCurText(L"0");
+                int value = _wtoi(text.c_str());
+
+                if (value > max)
+                    edit->SetCurText(std::to_wstring(max));
+                else if (value < 0)
+                    edit->SetCurText(L"0");
+            };
+            if (_MNAME(L"crossfadeTimeValue"))
+            {
+                auto edit = static_cast<UIEditBox*>(control);
+                textFormat(edit, 2000);
+                m_cfgData.crossfadeTime = _wtoi(edit->GetCurText().data());
+            }
+            else
+                ret = false;
+        }
         default:
             ret = false;
             break;
@@ -660,16 +756,43 @@ namespace MDWMBlurGlass
         m_customBlurValue->SetCurValue((int)m_cfgData.customBlurAmount, false);
         m_customBlurValueLabel->SetAttribute(L"text", std::to_wstring((int)m_cfgData.customBlurAmount), false);
 
-        m_luminosityValue->SetCurValue((int)(m_cfgData.luminosityOpacity * 100.f), false);
-        m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_luminosityValue->GetCurValue()) + L"%", false);
+        if(m_cfgData.effectType == effectType::Aero)
+        {
+            m_luminosityValue->SetCurValue((int)(m_cfgData.activeColorBalance * 100.f), false);
+            m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.activeColorBalance).substr(0, 4), false);
+        }
+        else
+        {
+            m_luminosityValue->SetCurValue((int)(m_cfgData.luminosityOpacity * 100.f), false);
+            m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_luminosityValue->GetCurValue()) + L"%", false);
+        }
+
+        m_colorBalanceValue->SetCurValue((int)(m_cfgData.inactiveColorBalance * 100.f), false);
+        m_colorBalanceLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.inactiveColorBalance).substr(0, 4), false);
+
+        m_blurBalanceValue[0]->SetCurValue((int)((m_cfgData.activeBlurBalance + 1.f) * 100.f), false);
+        m_blurBalanceValue[1]->SetCurValue((int)((m_cfgData.inactiveBlurBalance + 1.f) * 100.f), false);
+        {
+            std::wstring value = std::to_wstring(m_cfgData.activeBlurBalance);
+            value = value.substr(0, value.find('-') != std::wstring::npos ? 5 : 4);
+            m_blurBalanceLabel[0]->SetAttribute(L"text", value, false);
+
+            value = std::to_wstring(m_cfgData.inactiveBlurBalance);
+            value = value.substr(0, value.find('-') != std::wstring::npos ? 5 : 4);
+            m_blurBalanceLabel[1]->SetAttribute(L"text", value, false);
+        }
 
         SwitchBlurMethod(m_cfgData.blurmethod);
         m_page->Child<UIComBox>(L"blurmethod")->SetCurSelItem((int)m_cfgData.blurmethod, false);
         m_page->Child<UIComBox>(L"effecttype")->SetCurSelItem((int)m_cfgData.effectType, false);
-        bool enableLuminosity = (m_cfgData.effectType == effectType::Acrylic || m_cfgData.effectType == effectType::Mica)
-            && m_cfgData.blurmethod == blurMethod::CustomBlur;
-        m_page->Child(L"effectgroup")->SetSize(15, enableLuminosity ? 120 : 80, false);
+        if(m_cfgData.blurmethod != blurMethod::CustomBlur)
+            SwitchBlurType(effectType::Blur, false, true);
+        else
+			SwitchBlurType(m_cfgData.effectType, false);
         //m_page->Child(L"customEffectGroup1")->SetVisible(enableLuminosity, false);
+
+        m_page->Child<UICheckBox>(L"useaccentcolor")->SetSel(m_cfgData.useAccentColor, false);
+        m_page->Child<UIEditBox>(L"crossfadeTimeValue")->SetCurText(std::to_wstring(m_cfgData.crossfadeTime));
 
         m_page->UpdateLayout();
     }
@@ -757,13 +880,92 @@ namespace MDWMBlurGlass
         reflectionCheckbox->SetAttribute(L"text", index == blurMethod::AccentBlur ? text + L" " + m_ui->GetStringValue(L"reflectiontip") : text, false);
         reflectionCheckbox->SetAttribute(L"fontColor", index == blurMethod::AccentBlur ? L"236,82,74,255" : L"0,0,0,255", false);
 
-        m_page->Child(L"effectgroup")->SetSize(15, 80, false);
-        //m_page->Child(L"customEffectGroup1")->SetVisible(false, false);
         m_page->Child(L"generalGroup")->SetEnabled(index != blurMethod::DWMAPIBlur, false);
         m_page->Child(L"effectgroup")->SetEnabled(index == blurMethod::CustomBlur || index == blurMethod::DWMAPIBlur, false);
         m_page->Child(L"customEffectGroup")->SetEnabled(index == blurMethod::CustomBlur, false);
         m_page->Child<UILabel>(L"functip")->SetAttribute(L"text", m_ui->GetStringValue(name), false);
         m_page->Child(L"crossFade")->SetEnabled(index == blurMethod::CustomBlur);
+        m_page->Child(L"crossFadeGroup")->SetEnabled(index == blurMethod::CustomBlur && m_cfgData.crossFade);
         m_page->UpdateLayout();
+    }
+
+    void MainWindowPage::SwitchBlurType(effectType type, bool enableani, bool skip)
+    {
+        if (m_cfgData.blurmethod == blurMethod::CustomBlur || skip)
+        {
+			MAnimation ani(m_page->GetParentWin());
+
+            int dstHeight;
+
+            m_page->Child(L"customEffectGroup")->SetEnabled(type != effectType::Mica, false);
+            bool enableLuminosity = (m_cfgData.effectType == effectType::Acrylic || m_cfgData.effectType == effectType::Mica)
+                && m_cfgData.blurmethod == blurMethod::CustomBlur;
+            if (!enableLuminosity && m_cfgData.effectType == effectType::Aero)
+            {
+                dstHeight = 180;
+                m_page->Child(L"luminosityText")->SetAttribute(L"text", m_ui->GetStringValue(L"activeColorBalance"), false);
+                m_luminosityValue->SetCurValue((int)(m_cfgData.activeColorBalance * 100.f), false);
+                m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.activeColorBalance).substr(0, 4), false);
+            }
+            else
+            {
+                m_luminosityValue->SetCurValue((int)(m_cfgData.luminosityOpacity * 100.f), false);
+                m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_luminosityValue->GetCurValue()) + L"%", false);
+                if(enableLuminosity)
+					m_page->Child(L"luminosityText")->SetAttribute(L"text", m_ui->GetStringValue(L"luminosity"), false);
+                dstHeight = enableLuminosity ? 110 : 80;
+            }
+
+            auto group = m_page->Child(L"effectgroup");
+            auto effgroup1 = m_page->Child(L"customEffectGroup1");
+            auto effgroup2 = m_page->Child(L"customEffectGroup2");
+            bool visablegroup1 = enableLuminosity || m_cfgData.effectType == effectType::Aero;
+            bool visablegroup2 = !enableLuminosity && m_cfgData.effectType == effectType::Aero;
+            if(enableani)
+            {
+                if (effgroup1->IsVisible() == visablegroup1)
+                    effgroup1 = nullptr;
+                else if(visablegroup1)
+                {
+                    effgroup1->SetAlpha(0, false);
+                    effgroup1->SetVisible(true, false);
+                }
+
+                if (effgroup2->IsVisible() == visablegroup2)
+                    effgroup2 = nullptr;
+                else if (visablegroup2)
+                {
+                    effgroup2->SetAlpha(0, false);
+                    effgroup2->SetVisible(true, false);
+                }
+
+                auto aniproc = [=](const MAnimation::MathsCalc* calc, float percent)
+                {
+                    auto size = group->GetSize();
+                    group->SetSize(size.width, calc->calc(MAnimation::Exponential_In, size.height, dstHeight), false);
+
+                    auto alpha = _m_byte(percent / 100.f * 255.f);
+
+                    if (effgroup1)
+                        effgroup1->SetAlpha(visablegroup1 ? alpha : 255 - alpha, false);
+
+                    if (effgroup2)
+                        effgroup2->SetAlpha(visablegroup2 ? alpha : 255 - alpha, false);
+
+                    m_page->UpdateLayout();
+                    return true;
+                };
+                ani.WaitTask(ani.CreateTask(aniproc, 200));
+            }
+            else
+            {
+                group->SetSize(15, dstHeight, false);
+                effgroup1->SetVisible(visablegroup1, false);
+                effgroup2->SetVisible(visablegroup2, false);
+            }
+
+            m_page->Child(L"customEffectGroup1")->SetVisible(enableLuminosity || m_cfgData.effectType == effectType::Aero, false);
+            m_page->Child(L"customEffectGroup2")->SetVisible(!enableLuminosity && m_cfgData.effectType == effectType::Aero, false);
+        }
     }
 }

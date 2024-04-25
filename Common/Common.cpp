@@ -18,6 +18,7 @@
 #include "Common.h"
 #include <array>
 #include <algorithm>
+#include <functional>
 #include <Shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
 
@@ -76,121 +77,146 @@ namespace MDWMBlurGlass
 		}
 	}
 
+#define GetCfgValueInternal(keyName, fun) GetConfigValue(keyName, [&](std::wstring value) fun);
+#pragma push_macro("GetCfgValueInternal")
+
 	ConfigData ConfigData::LoadFromFile(std::wstring_view path)
 	{
+		auto GetConfigBool = [&path](std::wstring_view keyName, bool defaultValue = false)
+		{
+			if (const auto value = Utils::GetIniString(path, L"config", keyName); !value.empty())
+				return value == L"true";
+			return defaultValue;
+		};
+
+		auto GetConfigValue = [&path](std::wstring_view keyName,
+			const std::function<void(std::wstring)>& setfun)
+		{
+			const auto value = Utils::GetIniString(path, L"config", keyName);
+			if (value.empty() || !setfun)
+				return;
+			setfun(value);
+		};
+
 		ConfigData cfgData;
-		cfgData.applyglobal = Utils::GetIniString(path, L"config", L"applyglobal") == L"true";
-		cfgData.extendBorder = Utils::GetIniString(path, L"config", L"extendBorder") == L"true";
-		cfgData.reflection = Utils::GetIniString(path, L"config", L"reflection") == L"true";
-		cfgData.oldBtnHeight = Utils::GetIniString(path, L"config", L"oldBtnHeight") == L"true";
-		cfgData.customAmount = Utils::GetIniString(path, L"config", L"customAmount") == L"true";
-		// newly added params since 2.1.0
-		cfgData.overrideAccent = Utils::GetIniString(path, L"config", L"overrideAccent") == L"true";
-		cfgData.useAccentColor = Utils::GetIniString(path, L"config", L"useAccentColor") == L"true";
+		cfgData.applyglobal = GetConfigBool(L"applyglobal");
+		cfgData.extendBorder = GetConfigBool(L"extendBorder");
+		cfgData.reflection = GetConfigBool(L"reflection");
+		cfgData.oldBtnHeight = GetConfigBool(L"oldBtnHeight");
+		cfgData.customAmount = GetConfigBool(L"customAmount");
+		cfgData.useAccentColor = GetConfigBool(L"useAccentColor");
+		cfgData.crossFade = GetConfigBool(L"crossFade", true);
+		cfgData.overrideAccent = GetConfigBool(L"overrideAccent");
 
-		auto ret = Utils::GetIniString(path, L"config", L"crossFade");
-		if (!ret.empty())
-			cfgData.crossFade = ret == L"true";
-
-		ret = Utils::GetIniString(path, L"config", L"extendRound");
-		if (!ret.empty())
-			cfgData.extendRound = (float)std::clamp(_wtoi(ret.data()), 0, 16);
-
-		ret = Utils::GetIniString(path, L"config", L"blurAmount");
-		if (!ret.empty())
-			cfgData.blurAmount = (float)std::clamp(_wtof(ret.data()), 0.0, 50.0);
-
-		ret = Utils::GetIniString(path, L"config", L"customBlurAmount");
-		if (!ret.empty())
-			cfgData.customBlurAmount = (float)std::clamp(_wtof(ret.data()), 0.0, 50.0);
-
-		ret = Utils::GetIniString(path, L"config", L"luminosityOpacity");
-		if (!ret.empty())
-			cfgData.luminosityOpacity = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
-
-		ret = Utils::GetIniString(path, L"config", L"activeTextColor");
-		if (!ret.empty())
+		GetCfgValueInternal(L"extendRound",
 		{
-			cfgData.activeTextColor = (COLORREF)_wtoll(ret.data());
+			cfgData.extendRound = std::clamp(_wtoi(value.data()), 0, 16);
+		});
+
+		GetCfgValueInternal(L"blurAmount",
+		{
+			cfgData.blurAmount = (float)std::clamp(_wtof(value.data()), 0.0, 50.0);
+		});
+
+		GetCfgValueInternal(L"customBlurAmount",
+		{
+			cfgData.customBlurAmount = (float)std::clamp(_wtof(value.data()), 0.0, 50.0);
+		});
+
+		GetCfgValueInternal(L"luminosityOpacity",
+		{
+			cfgData.luminosityOpacity = (float)std::clamp(_wtof(value.data()), 0.0, 1.0);
+		});
+
+		GetCfgValueInternal(L"activeTextColor",
+		{
+			cfgData.activeTextColor = (COLORREF)_wtoll(value.data());
 			cfgData.activeTextColor = (cfgData.activeTextColor & 0x00FFFFFF) | 0xFF000000;
-		}
+		});
 
-		ret = Utils::GetIniString(path, L"config", L"inactiveTextColor");
-		if (!ret.empty())
+		GetCfgValueInternal(L"inactiveTextColor",
 		{
-			cfgData.inactiveTextColor = (COLORREF)_wtoll(ret.data());
+			cfgData.inactiveTextColor = (COLORREF)_wtoll(value.data());
 			cfgData.inactiveTextColor = (cfgData.inactiveTextColor & 0x00FFFFFF) | 0xFF000000;
-		}
+		});
 
-		ret = Utils::GetIniString(path, L"config", L"activeTextColorDark");
-		if (!ret.empty())
+		GetCfgValueInternal(L"activeTextColorDark",
 		{
-			cfgData.activeTextColorDark = (COLORREF)_wtoll(ret.data());
+			cfgData.activeTextColorDark = (COLORREF)_wtoll(value.data());
 			cfgData.activeTextColorDark = (cfgData.activeTextColorDark & 0x00FFFFFF) | 0xFF000000;
-		}
-
-		ret = Utils::GetIniString(path, L"config", L"inactiveTextColorDark");
-		if (!ret.empty())
+		});
+		
+		GetCfgValueInternal(L"inactiveTextColorDark",
 		{
-			cfgData.inactiveTextColorDark = (COLORREF)_wtoll(ret.data());
+			cfgData.inactiveTextColorDark = (COLORREF)_wtoll(value.data());
 			cfgData.inactiveTextColorDark = (cfgData.inactiveTextColorDark & 0x00FFFFFF) | 0xFF000000;
-		}
+		});
 
-		ret = Utils::GetIniString(path, L"config", L"activeBlendColor");
-		if (!ret.empty())
-			cfgData.activeBlendColor = (COLORREF)_wtoll(ret.data());
-
-		ret = Utils::GetIniString(path, L"config", L"inactiveBlendColor");
-		if (!ret.empty())
-			cfgData.inactiveBlendColor = (COLORREF)_wtoll(ret.data());
-
-		ret = Utils::GetIniString(path, L"config", L"activeBlendColorDark");
-		if (!ret.empty())
-			cfgData.activeBlendColorDark = (COLORREF)_wtoll(ret.data());
-
-		ret = Utils::GetIniString(path, L"config", L"inactiveBlendColorDark");
-		if (!ret.empty())
-			cfgData.inactiveBlendColorDark = (COLORREF)_wtoll(ret.data());
-
-		ret = Utils::GetIniString(path, L"config", L"blurMethod");
-		if (!ret.empty())
-			cfgData.blurmethod = (blurMethod)std::clamp(_wtoi(ret.data()), 0, 2);
-
-		// newly added params since 2.1.0
-		ret = Utils::GetIniString(path, L"config", L"glassIntensity");
-		if (!ret.empty())
-			cfgData.glassIntensity = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
-		ret = Utils::GetIniString(path, L"config.aero", L"activeColorBalance");
-		if (!ret.empty())
-			cfgData.activeColorBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
-		ret = Utils::GetIniString(path, L"config.aero", L"inactiveColorBalance");
-		if (!ret.empty())
-			cfgData.inactiveColorBalance = (float)std::clamp(_wtof(ret.data()), 0.0, 1.0);
-
-		ret = Utils::GetIniString(path, L"config.aero", L"activeBlurBalance");
-		if (!ret.empty())
-			cfgData.activeBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
-		ret = Utils::GetIniString(path, L"config.aero", L"inactiveBlurBalance");
-		if (!ret.empty())
-			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
-		//
-
-		ret = Utils::GetIniString(path, L"config", L"effectType");
-		if (!ret.empty())
+		GetCfgValueInternal(L"activeBlendColor",
 		{
-			cfgData.effectType = (MDWMBlurGlass::effectType)std::clamp(_wtoi(ret.data()), 0, 3);
+			cfgData.activeBlendColor = (COLORREF)_wtoll(value.data());
+		});
+
+		GetCfgValueInternal(L"inactiveBlendColor",
+		{
+			cfgData.inactiveBlendColor = (COLORREF)_wtoll(value.data());
+		});
+
+		GetCfgValueInternal(L"activeBlendColorDark",
+		{
+			cfgData.activeBlendColorDark = (COLORREF)_wtoll(value.data());
+		});
+
+		GetCfgValueInternal(L"inactiveBlendColorDark",
+		{
+			cfgData.inactiveBlendColorDark = (COLORREF)_wtoll(value.data());
+		});
+
+		GetCfgValueInternal(L"blurMethod",
+		{
+			cfgData.blurmethod = (blurMethod)std::clamp(_wtoi(value.data()), 0, 2);
+		});
+
+		GetCfgValueInternal(L"glassIntensity",
+		{
+			cfgData.glassIntensity = (float)std::clamp(_wtof(value.data()), 0.0, 1.0);
+		});
+
+		GetCfgValueInternal(L"activeColorBalance",
+		{
+			cfgData.activeColorBalance = (float)std::clamp(_wtof(value.data()), 0.0, 1.0);
+		});
+
+		GetCfgValueInternal(L"inactiveColorBalance",
+		{
+			cfgData.inactiveColorBalance = (float)std::clamp(_wtof(value.data()), 0.0, 1.0);
+		});
+
+		GetCfgValueInternal(L"activeBlurBalance",
+		{
+			cfgData.activeBlurBalance = (float)std::clamp(_wtof(value.data()), -1.0, 1.0);
+		});
+
+		GetCfgValueInternal(L"inactiveBlurBalance",
+		{
+			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(value.data()), -1.0, 1.0);
+		});
+
+		GetCfgValueInternal(L"effectType",
+		{
+			cfgData.effectType = (MDWMBlurGlass::effectType)std::clamp(_wtoi(value.data()), -1, 3);
 			if (cfgData.blurmethod != blurMethod::CustomBlur && cfgData.effectType > effectType::Acrylic)
 				cfgData.effectType = effectType::Acrylic;
-		}
+		});
 
-		// newly added params since 2.1.0
-		ret = Utils::GetIniString(path, L"config", L"crossfadeTime");
-		if (!ret.empty())
+		GetCfgValueInternal(L"crossfadeTime",
 		{
-			cfgData.crossfadeTime = (UINT)_wtoll(ret.data());
-		}
+			cfgData.crossfadeTime = (UINT)std::clamp(_wtoi(value.data()), 0, 2000);
+		});
 		return cfgData;
 	}
+
+#pragma pop_macro("GetCfgValueInternal")
 
 	template<typename T>
 	std::wstring make_wstring(T&& value)
@@ -225,8 +251,14 @@ namespace MDWMBlurGlass
 			 { L"inactiveBlendColor", make_wstring(cfg.inactiveBlendColor) },
 			 { L"activeBlendColorDark", make_wstring(cfg.activeBlendColorDark) },
 			 { L"inactiveBlendColorDark", make_wstring(cfg.inactiveBlendColorDark) },
+			 { L"glassIntensity", make_wstring(cfg.glassIntensity) },
+			 { L"activeColorBalance", make_wstring(cfg.activeColorBalance) },
+			 { L"inactiveColorBalance", make_wstring(cfg.inactiveColorBalance) },
+			 { L"activeBlurBalance", make_wstring(cfg.activeBlurBalance) },
+			 { L"inactiveBlurBalance", make_wstring(cfg.inactiveBlurBalance) },
 			 { L"blurMethod", make_wstring((int)cfg.blurmethod) },
-			 { L"effectType", make_wstring((int)cfg.effectType) }
+			 { L"effectType", make_wstring((int)cfg.effectType) },
+			 { L"crossfadeTime", make_wstring(cfg.crossfadeTime) }
 		}); const auto& [key, value] : regkeyList)
 		{
 			Utils::SetIniString(path, L"config", key, value);

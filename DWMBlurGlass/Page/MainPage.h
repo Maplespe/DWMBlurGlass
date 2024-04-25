@@ -48,6 +48,7 @@ namespace MDWMBlurGlass
 
         void SwitchColorModePreview(bool light);
         void SwitchBlurMethod(blurMethod index);
+        void SwitchBlurType(effectType type, bool enableani = true, bool skip = false);
 
         Ctrl::UINavBar* m_cmodeNavbar = nullptr;
 
@@ -60,6 +61,13 @@ namespace MDWMBlurGlass
 
         Ctrl::UISlider* m_luminosityValue = nullptr;
         Ctrl::UILabel* m_luminosityValueLabel = nullptr;
+
+        //inactiveColorBalance
+        Ctrl::UISlider* m_colorBalanceValue = nullptr;
+        Ctrl::UILabel* m_colorBalanceLabel = nullptr;
+
+        Ctrl::UISlider* m_blurBalanceValue[2] = { nullptr };
+        Ctrl::UILabel* m_blurBalanceLabel[2] = { nullptr };
 
         Ctrl::UIButton* m_saveBtn[2] = { nullptr };
         Ctrl::UIButton* m_restBtn = nullptr;
