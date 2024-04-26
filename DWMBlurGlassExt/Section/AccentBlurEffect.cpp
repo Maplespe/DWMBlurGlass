@@ -129,9 +129,9 @@ namespace MDWMBlurGlassExt::AccentBlur
 		if (g_aeroPeekBmp)
 			g_aeroPeekBmp = nullptr;
 
-		if (g_configData.blurmethod == blurMethod::AccentBlur && !g_startup)
+		if (g_configData.blurmethod == blurMethod::AccentBlur && !g_startup && !g_configData.powerSavingMode)
 			Attach();
-		else if (g_configData.blurmethod != blurMethod::AccentBlur && g_startup)
+		else if ((g_configData.blurmethod != blurMethod::AccentBlur || g_configData.powerSavingMode) && g_startup)
 			Detach();
 	}
 
@@ -291,6 +291,11 @@ namespace MDWMBlurGlassExt::AccentBlur
 		else
 			color = isLight ? g_configData.inactiveBlendColor : g_configData.inactiveBlendColorDark;
 
+		if (g_configData.useAccentColor)
+		{
+			color = g_accentColor;
+		}
+
 		a1->a = 255;
 		a1->r = GetRValue(color);
 		a1->g = GetGValue(color);
@@ -316,6 +321,12 @@ namespace MDWMBlurGlassExt::AccentBlur
 			color = isLight ? g_configData.inactiveBlendColor : g_configData.inactiveBlendColorDark;
 
 		a1->a = (color >> 24) & 0xff;
+
+		if (g_configData.useAccentColor)
+		{
+			color = g_accentColor;
+		}
+
 		a1->r = GetRValue(color);
 		a1->g = GetGValue(color);
 		a1->b = GetBValue(color);

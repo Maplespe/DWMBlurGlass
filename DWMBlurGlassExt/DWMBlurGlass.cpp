@@ -30,6 +30,7 @@ namespace MDWMBlurGlassExt
 		ConfigData g_configData;
 		CWindowList* g_windowList = nullptr;
 		thread_local HWND g_window = nullptr;
+		COLORREF g_accentColor = 0;
 		IWICImagingFactory2* g_wicImageFactory = nullptr;
 	}
 
@@ -121,22 +122,54 @@ namespace MDWMBlurGlassExt
 		PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
 	}
 
-	void Refresh()
+	void Refresh(bool reload)
 	{
 		if (!g_startup) return;
 
 		static std::mutex lock;
 		std::lock_guard _lock(lock);
 
-		auto path = Utils::GetCurrentDir() + L"\\data\\config.ini";
-		g_configData = ConfigData::LoadFromFile(path);
+		if (reload)
+		{
+			auto path = Utils::GetCurrentDir() + L"\\data\\config.ini";
+			g_configData = ConfigData::LoadFromFile(path);
+		}
 		DwmAPIEffect::Refresh();
 		CustomBackdrop::Refresh();
 		AccentBlur::Refresh();
 		BlurRadiusTweaker::Refresh();
 		CustomButton::Refresh();
 
-		PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
+		if (g_configData.useAccentColor)
+			RefreshAccentColor(0);
+		else
+			PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
+	}
+
+	void RefreshAccentColor(COLORREF color)
+	{
+		static COLORREF lastColor = 0;
+		if(color == 0)
+		{
+			BOOL blend = TRUE;
+			DwmGetColorizationColor(&color, &blend);
+		}
+
+		BYTE blue = GetRValue(color);
+		BYTE green = GetGValue(color);
+		BYTE red = GetBValue(color);
+		color = RGB(red, green, blue);
+
+		if(lastColor != color && g_configData.useAccentColor)
+		{
+			CustomBackdrop::Refresh();
+			AccentBlur::Refresh();
+
+			g_accentColor = color;
+			lastColor = color;
+
+			PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
+		}
 	}
 
 	namespace Common

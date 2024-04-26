@@ -137,7 +137,7 @@ namespace MDWMBlurGlassExt::DWM
 
 		void SetInsetFromParent(MARGINS* margins);
 
-		void SetInsetFromParentTop(int top);
+		void SetInsetFromParentRight(int right);
 
 		HRESULT SetSize(const SIZE& size);
 
@@ -229,6 +229,8 @@ namespace MDWMBlurGlassExt::DWM
 		bool HasNonClientBackground();
 
 		bool IsSystemBackdropApplied();
+
+		HRESULT UpdateNCAreaButton(int index, int height, int top, DWORD* right);
 
 		//仅限Windows 11 22H2之前
 		CText* GetCText();

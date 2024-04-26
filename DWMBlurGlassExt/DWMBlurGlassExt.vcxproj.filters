@@ -180,6 +180,9 @@
     <ClInclude Include="Section\VisualManager.hpp">
       <Filter>头文件\Section</Filter>
     </ClInclude>
+    <ClInclude Include="Effects\TintEffect.hpp">
+      <Filter>头文件\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

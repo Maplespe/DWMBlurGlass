@@ -33,7 +33,7 @@
 	<extendborder>Extend effects to borders (Windows 10)</extendborder>
 	<reflection>Enable Aero reflection effect</reflection>
 	<reflectiontip>(Legacy blur method for Windows 10 only)</reflectiontip>
-	<oldBtnHeight>Enable Windows 7 style caption buttons</oldBtnHeight>
+	<oldBtnSize>Restore Win7 style title bar button size</oldBtnSize>
 	<cmodelight>Light Mode colors</cmodelight>
 	<cmodedark>Dark Mode colors</cmodedark>
 	<blendcolor>Titlebar blend color (active):</blendcolor>
@@ -49,6 +49,15 @@
 	<effecttype>Effect Type:</effecttype>
 	<blurvaluetitle>Blur radius (titlebar only):</blurvaluetitle>
 	<luminosity>Luminosity opacity:</luminosity>
+	<colorBalance>ColorBalance:</colorBalance>
+	<blurBalance>BlurBalance:</blurBalance>
+	<afterglowBalance>AfterglowBalance:</afterglowBalance>
+	<miscsettings>Misc:</miscsettings>
+	<enablecrossfade>Enable crossfade animation effect</enablecrossfade>
+	<crossfadeTime>Animation duration:</crossfadeTime>
+	<useaccentcolor>Use Accent color to override color settings RGB</useaccentcolor>
+	<glassIntensity>Aero reflection texture opacity:</glassIntensity>
+	<overrideAccent>Override AccentBlur effect</overrideAccent>
 	<symbolfile>Symbol files:</symbolfile>
 	<download>Download</download>
 	<symtip>Symbol files (pdb) are files that record debugging information about a\nprogram. Since systems vary from version to version, you need to\ndownload symbol files from the Microsoft servers. If you update your\nsystem, you may need to download the symbol files again.</symtip>

@@ -34,18 +34,12 @@ namespace MDWMBlurGlassExt::CustomButton
 		"CButton::UpdateLayout", CButton_UpdateLayout
 	};
 
-	MinHook g_funCButton_DrawStateW
-	{
-		"CButton::DrawStateW", CButton_DrawStateW
-	};
-
 	void Attach()
 	{
 		if (g_startup) return;
 		g_startup = true;
 
 		g_funCButton_UpdateLayout.Attach();
-		g_funCButton_DrawStateW.Attach();
 		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<1, true>();
 
 	}
@@ -56,7 +50,6 @@ namespace MDWMBlurGlassExt::CustomButton
 
 		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<1, false>();
 		g_funCButton_UpdateLayout.Detach();
-		g_funCButton_DrawStateW.Detach();
 		g_cbuttonList.clear();
 
 		g_startup = false;
@@ -94,7 +87,13 @@ namespace MDWMBlurGlassExt::CustomButton
 			if (button && *button)
 			{
 				g_cbuttonList[*button] = { x, 0, width, height };
-				CButton_UpdateLayout(*button);
+				if (os::buildNumber < 22000)
+				{
+					DWORD right = x;
+					This->UpdateNCAreaButton(index, height, (*button)->GetPoint()->y, &right);
+				}
+				else
+					((CVisual*)(*button))->SetInsetFromParentRight(x);
 				return true;
 			}
 
@@ -107,6 +106,8 @@ namespace MDWMBlurGlassExt::CustomButton
 		UINT dpi = 96;// CDesktopManager::s_pDesktopManagerInstance->MonitorDpiFromPoint({ rect.left, rect.top });
 		GetDpiForMonitor(monitor, MDT_EFFECTIVE_DPI, &dpi, &dpi);
 
+		const float scale = (float)dpi / 96.f;
+
 		RECT client;
 		This->GetActualWindowRect(&client, 0, 0, true);
 
@@ -116,49 +117,51 @@ namespace MDWMBlurGlassExt::CustomButton
 		int frameY = 20;
 		int borderW = ((rect.right - rect.left) - (client.right - client.left)) / 2;
 
-		if(os::buildNumber < 22000 && borderW == 0)
+		if (scale != 1.f)
+			borderW -= (int)ceil(1.1f * scale);
+
+		if(os::buildNumber < 22000 && borderW <= 0)
 		{
-			MARGINS margins{ 0 };
-			This->GetBorderMargins(&margins);
-			borderW = margins.cxRightWidth;
-		}
-		if (IsZoomed(g_window))
-		{
-			MARGINS margins{ 0 };
-			This->GetBorderMargins(&margins);
-			monitor = MonitorFromPoint({ rect.left + margins.cxLeftWidth, rect.top + margins.cyTopHeight }, 0);
-			GetDpiForMonitor(monitor, MDT_EFFECTIVE_DPI, &dpi, &dpi);
+			borderW = 6;
+			if (IsZoomed(g_window))
+				borderW = 10;
 		}
 
 		OffsetRect(&rect, -rect.left, -rect.top);
 
-		const float scale = (float)dpi / 96.f;
+		if (g_configData.titlebtnOffsetX != -1)
+			borderW = g_configData.titlebtnOffsetX;
 
-		if (borderW != 0)
-			borderW += (int)round(1.f * scale);
-		else if(!IsZoomed(g_window))
-		{
-			borderW = GetSystemMetrics(SM_CXPADDEDBORDER) + GetSystemMetrics(SM_CXFRAME);
-			if (os::buildNumber >= 22000)
-				borderW = -borderW;
-		}
-
-		const int width = int(28.f * scale);
-		const int normalW = int(48.f * scale);
+		borderW = int((float)borderW * scale);
+		const int minbtn_width = int(29.f * scale);
+		const int maxbtn_width = int(27.f * scale);
+		const int closebtn_width = int(49.f * scale);
 		const int height = int((float)frameY * scale);
+
+		bool maxbtn = false;
+		bool minbtn = false;
 
 		int offset = rect.right - borderW;
 		//关闭按钮
-		if (PushButtonPtr(3, rect.right - normalW - borderW, normalW, height))
-			offset -= normalW + width;
+		if (PushButtonPtr(3, rect.right - closebtn_width - borderW, closebtn_width, height))
+			offset -= closebtn_width + maxbtn_width;
 		//最大化按钮
-		if (PushButtonPtr(2, offset, width, height))
-			offset -= width;
+		if (PushButtonPtr(2, offset, maxbtn_width, height))
+		{
+			offset -= minbtn_width;
+			maxbtn = true;
+		}
 		//最小化按钮
-		if (PushButtonPtr(1, offset, width, height))
-			offset -= width;
+		if (PushButtonPtr(1, offset, minbtn_width, height))
+		{
+			offset -= minbtn_width;
+			minbtn = true;
+		}
 		//帮助按钮
-		PushButtonPtr(0, offset, width, height);
+		if (!maxbtn && !minbtn)
+			offset -= int(2.f * scale);
+		PushButtonPtr(0, offset, minbtn_width, height);
+
 
 		return S_OK;
 	}
@@ -186,14 +189,5 @@ namespace MDWMBlurGlassExt::CustomButton
 
 		}
 		return g_funCButton_UpdateLayout.call_org(This);
-	}
-
-	HRESULT CButton_DrawStateW(CButton* This, DWM::CButton* a2, unsigned a3)
-	{
-		if (a3 - 1 <= 1)
-		{
-			
-		}
-		return g_funCButton_DrawStateW.call_org(This, a2, a3);
 	}
 }

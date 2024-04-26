@@ -51,21 +51,25 @@ namespace MDWMBlurGlass
 		bool crossFade = true;
 
 		bool overrideAccent = false;
-		
+		bool powerSavingMode = false;
+
+		//Options without GUI
 		int extendRound = 10;
+		int titlebtnOffsetX = -1;
+		//
+
 		float blurAmount = 20.f;
 		float customBlurAmount = 20.f;
 		float luminosityOpacity = 0.65f;
-		// newly added params since 2.1.0
 		float glassIntensity = 1.f;
 
-		UINT crossfadeTime = 87;
+		UINT crossfadeTime = 160;
 
 		// these settings are optimal for the default Sky color from Windows 7
 		// newly added params since 2.1.0
-		float ColorizationColorBalance = 8.0f;
-		float ColorizationAfterglowBalance = 43.0f;
-		float ColorizationBlurBalance = 49.0f;
+		float aeroColorBalance = 0.08f;
+		float aeroAfterglowBalance = 0.43f;
+		float aeroBlurBalance = 0.49f;
 
 		COLORREF activeTextColor = 0xFF000000;
 		COLORREF inactiveTextColor = 0xFFB4B4B4;
@@ -94,7 +98,13 @@ namespace MDWMBlurGlass
 	enum class MHostNotifyType
 	{
 		Refresh,
-		Shutdown
+		Shutdown,
+		EnableTransparency
+	};
+	enum class MClientNotifyType
+	{
+		Shutdown = 1,
+		QueryTransparency
 	};
 
 	enum MHostModuleType
@@ -104,6 +114,7 @@ namespace MDWMBlurGlass
 	};
 
 	auto constexpr DWMBlurGlassNotifyClassName = L"MDWMBlurGlassExtNotify";
+	auto constexpr DWMBlurGlassHostNotifyClassName = L"MDWMBlurGlassHostNotify";
 
 	namespace RAIIHelper
 	{

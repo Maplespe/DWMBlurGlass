@@ -22,7 +22,8 @@ namespace MDWMBlurGlassExt
 {
 	bool Startup();
 	void Shutdown();
-	void Refresh();
+	void Refresh(bool reload = true);
+	void RefreshAccentColor(COLORREF color);
 
 	void CreateNotifyThread();
 	void CloseNotifyThread();

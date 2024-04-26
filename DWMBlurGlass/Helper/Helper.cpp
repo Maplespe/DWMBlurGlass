@@ -241,7 +241,7 @@ namespace MDWMBlurGlass
 		
 		//设置程序路径和参数
 		pExecAction->put_Path((BSTR)(Utils::GetCurrentDir() + L"\\DWMBlurGlass.exe").c_str());
-		pExecAction->put_Arguments((BSTR)L"loaddll");
+		pExecAction->put_Arguments((BSTR)L"runhost");
 		
 		//设置触发器信息，包括用户登录时触发
 		com_ptr<ITriggerCollection> triggercoll = nullptr;
@@ -471,6 +471,8 @@ namespace MDWMBlurGlass
 		{
 			if (_wcsicmp(pe.szExeFile, name.data()) == 0)
 			{
+				if (name == L"dwmblurglass.exe" && pe.th32ProcessID == GetCurrentProcessId())
+					continue;
 				return pe.th32ProcessID;
 			}
 		}

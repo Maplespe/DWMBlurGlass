@@ -7,7 +7,8 @@
 namespace MDWMBlurGlassExt
 {
 	using namespace CommonDef;
-	winrt::Windows::UI::Color MakeWinrtColor(COLORREF color, bool rgb = true)
+
+	inline winrt::Windows::UI::Color MakeWinrtColor(COLORREF color, bool rgb = true)
 	{
 		return
 		{
@@ -17,7 +18,8 @@ namespace MDWMBlurGlassExt
 			GetBValue(color),
 		};
 	}
-	float GetFloatAlpha(COLORREF color)
+
+	inline float GetFloatAlpha(COLORREF color)
 	{
 		return float(BYTE((color >> 24) & 0xff)) / 255.f;
 	}

@@ -23,4 +23,5 @@ namespace MDWMBlurGlassExt::CommonDef
 	extern MDWMBlurGlass::ConfigData g_configData;
 	extern DWM::CWindowList* g_windowList;
 	extern thread_local HWND g_window;
+	extern COLORREF g_accentColor;
 }

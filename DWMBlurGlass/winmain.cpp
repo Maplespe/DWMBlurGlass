@@ -62,11 +62,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 	}
 
-	if(lpCmdLine && _wcsicmp(lpCmdLine, L"loaddll") == 0)
+	if(lpCmdLine && _wcsicmp(lpCmdLine, L"runhost") == 0)
 	{
-		std::wstring err;
-		if (!MDWMBlurGlass::LoadDWMExtensionBase(err))
-			MessageBoxW(nullptr, err.c_str(), L"DWMBlurGlass Error", MB_ICONERROR);
+		HANDLE hObject = CreateMutexW(nullptr, FALSE, L"_DWMBlurGlass_host_");
+		if (GetLastError() == ERROR_ALREADY_EXISTS)
+		{
+			CloseHandle(hObject);
+			return 0;
+		}
+		if (hObject)
+			ReleaseMutex(hObject);
+
+		MDWMBlurGlass::MHostStartProcess();
+
 		return 0;
 	}
 

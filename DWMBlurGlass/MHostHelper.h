@@ -25,11 +25,13 @@ namespace MDWMBlurGlass
 
 	bool MHostDownloadSymbol();
 
-	bool LoadDWMExtensionBase(std::wstring& err);
+	void MHostStartProcess();
 
-	bool LoadDWMExtension(std::wstring& err, Mui::XML::MuiXML* ui);
+	void RunMHostProcess();
 
-	bool ShutdownDWMExtension(std::wstring& err);
+	void StopMHostProcess();
 
-	void MHostNotify(MHostNotifyType type);
+	bool LoadDWMExtensionBase(std::wstring& err, DWORD pid);
+
+	void MHostNotify(MHostNotifyType type, LPARAM param = 0);
 }

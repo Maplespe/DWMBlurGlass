@@ -188,6 +188,7 @@
     <ClInclude Include="Effects\GaussianBlurEffect.hpp" />
     <ClInclude Include="Effects\OpacityEffect.hpp" />
     <ClInclude Include="Effects\SaturationEffect.hpp" />
+    <ClInclude Include="Effects\TintEffect.hpp" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Helper\Helper.h" />
     <ClInclude Include="Helper\HookHelper.h" />

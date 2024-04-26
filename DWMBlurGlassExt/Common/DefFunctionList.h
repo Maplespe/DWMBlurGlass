@@ -50,6 +50,7 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CTopLevelWindow::s_ChooseWindowFrameFromStyle" },
 		{ udwm, "CTopLevelWindow::ValidateVisual" },
 		{ udwm, "CTopLevelWindow::UpdateWindowVisuals" },
+		{ udwm, "CTopLevelWindow::UpdateNCAreaButton" },
 		{ udwm, "CTopLevelWindow::GetActualWindowRect" },
 		{ udwm, "CTopLevelWindow::GetBorderMargins" },
 		{ udwm, "CTopLevelWindow::UpdateText" },
@@ -70,7 +71,6 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CWindowList::GetSyncedWindowData" },
 
 		{ udwm, "CButton::UpdateLayout" },
-		{ udwm, "CButton::DrawStateW" },
 
 		{ udwm, "VisualCollection::Remove" },
 		{ udwm, "VisualCollection::RemoveAll" },
@@ -83,7 +83,7 @@ namespace MDWMBlurGlassExt
 
 		{ udwm, "CVisual::Create" },
 		{ udwm, "CVisual::SetInsetFromParent" },
-		{ udwm, "CVisual::SetInsetFromParentTop" },
+		{ udwm, "CVisual::SetInsetFromParentRight" },
 		{ udwm, "CVisual::SetSize" },
 		{ udwm, "CVisual::SetOffset" },
 		{ udwm, "CVisual::InitializeVisualTreeClone" },

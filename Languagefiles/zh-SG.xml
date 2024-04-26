@@ -33,7 +33,7 @@
 	<extendborder>扩展效果到边框 (win10)</extendborder>
 	<reflection>启用Aero反射效果</reflection>
 	<reflectiontip>(使用OldBlur仅限win10有效)</reflectiontip>
-	<oldBtnHeight>减少标题栏按钮高度 (win7样式)</oldBtnHeight>
+	<oldBtnSize>还原win7样式标题栏按钮尺寸</oldBtnSize>
 	<cmodelight>浅色模式颜色</cmodelight>
 	<cmodedark>深色模式颜色</cmodedark>
 	<blendcolor>标题栏混合颜色 (活动状态):</blendcolor>
@@ -49,6 +49,15 @@
 	<effecttype>效果类型:</effecttype>
 	<blurvaluetitle>模糊半径(仅标题栏):</blurvaluetitle>
 	<luminosity>材质亮度不透明度:</luminosity>
+	<colorBalance>色彩平衡:</colorBalance>
+	<blurBalance>亮度平衡:</blurBalance>
+	<afterglowBalance>饱和度平衡:</afterglowBalance>
+	<miscsettings>杂项设置:</miscsettings>
+	<enablecrossfade>启用标题栏混合色交叉淡出动画效果</enablecrossfade>
+	<crossfadeTime>动画时长:</crossfadeTime>
+	<useaccentcolor>使用系统主题色RGB取代颜色设置RGB</useaccentcolor>
+	<glassIntensity>Aero反射纹理不透明度:</glassIntensity>
+	<overrideAccent>覆盖Accent模糊效果</overrideAccent>
 	<symbolfile>符号文件:</symbolfile>
 	<download>下载</download>
 	<symtip>符号文件(pdb)是记录程序调试信息的一种文件，由于各版本系统各不相同所以\n需要从微软服务器下载符号文件。如果您更新系统 可能需要重新下载新的文件。</symtip>

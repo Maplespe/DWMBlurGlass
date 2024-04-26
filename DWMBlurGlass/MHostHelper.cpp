@@ -21,6 +21,7 @@
 #include "UIManager.h"
 #include "Common.h"
 #include "../DWMBlurGlassExt/Common/DefFunctionList.h"
+#include <TlHelp32.h>
 
 #pragma data_seg(".DWMBlurGlassShared")
 
@@ -29,12 +30,69 @@ DWORD64 g_hookFunOffsetList[MDWMBlurGlassExt::g_hookFunList.size()] = { 0 };
 size_t g_dwmcoreFunCount = 0;
 size_t g_udwmFunCount = 0;
 
+HWND g_hostMsgWnd = nullptr;
+
 #pragma data_seg()
 #pragma comment(linker,"/SECTION:.DWMBlurGlassShared,RWS")
 
 namespace MDWMBlurGlass
 {
     SymbolResolver g_symResolver;
+
+	std::vector<DWORD> g_proclist;
+	UINT_PTR g_timerID = 0;
+
+	extern void OnProcessStart(DWORD id);
+
+	void RefreshProcessList()
+	{
+		PROCESSENTRY32W pe;
+		HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+		pe.dwSize = sizeof(PROCESSENTRY32W);
+		if (!Process32FirstW(hSnapshot, &pe))
+			return;
+
+		std::vector<DWORD> list;
+
+		while (Process32NextW(hSnapshot, &pe) != FALSE)
+		{
+			std::wstring exe = pe.szExeFile;
+			std::ranges::transform(exe, exe.begin(), ::tolower);
+
+			if(exe == L"dwm.exe")
+				list.push_back(pe.th32ProcessID);
+		}
+		CloseHandle(hSnapshot);
+
+		for (const auto& id : list)
+		{
+			if (auto iter = std::ranges::find(g_proclist, id); iter != g_proclist.end())
+				continue;
+
+			OnProcessStart(id);
+		}
+		g_proclist = list;
+	}
+
+	HWND FindMessageWnd(DWORD pid)
+	{
+		if (!pid)
+			return nullptr;
+
+		HWND hwnd = nullptr;
+		do
+		{
+			hwnd = FindWindowExW(HWND_MESSAGE, hwnd, DWMBlurGlassNotifyClassName, nullptr);
+			if (hwnd != nullptr)
+			{
+				DWORD ProcessId = NULL;
+				GetWindowThreadProcessId(hwnd, &ProcessId);
+				if (ProcessId == pid)
+					return hwnd;
+			}
+		} while (hwnd != nullptr);
+		return nullptr;
+	}
 
 	void ParsingSymbol(PSYMBOL_INFO symInfo, std::string& funName, std::string& fullName, DWORD64& offset)
 	{
@@ -120,6 +178,138 @@ namespace MDWMBlurGlass
 		return SUCCEEDED(hr);
 	}
 
+	void OnProcessStart(DWORD id)
+	{
+		//单独记录每个用户dwm进程的启动间隔状态
+		using namespace std::chrono;
+		struct sessionData
+		{
+			steady_clock::duration times = steady_clock::now().time_since_epoch();
+			bool init = true;
+		};
+		static std::unordered_map<DWORD, sessionData> sessionList;
+
+		DWORD sessionId = 0;
+		ProcessIdToSessionId(GetCurrentProcessId(), &sessionId);
+
+		if(auto iter = sessionList.find(sessionId); iter != sessionList.end())
+		{
+			//dwm进程不应启动这么频繁 这有可能是频繁崩溃 停止自动加载
+			if (!iter->second.init && steady_clock::now().time_since_epoch() - iter->second.times < 10s)
+			{
+				KillTimer(g_hostMsgWnd, g_timerID);
+				MessageBoxW(0, L"Checked that the process is suspected to have crashed abnormally and has stopped autoloading.",
+					L"DWMBlurGlass Error", MB_ICONERROR);
+
+				iter->second.times = steady_clock::now().time_since_epoch();
+				return;
+			}
+			iter->second.times = steady_clock::now().time_since_epoch();
+			iter->second.init = false;
+		}
+		else
+			sessionList.insert(std::make_pair(sessionId, sessionData()));
+
+		std::wstring err;
+		if(!LoadDWMExtensionBase(err, id))
+		{
+			MessageBoxW(0, err.c_str(), L"DWMBlurGlass Error", MB_ICONERROR);
+		}
+	}
+
+	LRESULT CALLBACK MsgWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+	{
+		if(message == WM_APP + 20 && MClientNotifyType::Shutdown == (MClientNotifyType)wParam)
+		{
+			for(auto& id : g_proclist)
+			{
+				HWND msgwnd = FindMessageWnd(GetProcessId(L"dwm.exe"));
+				if (IsWindow(msgwnd))
+					SendMessageW(msgwnd, WM_APP + 20, (WPARAM)MHostNotifyType::Shutdown, 0);
+
+				std::wstring err;
+				UnInject(id, Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err);
+			}
+		}
+		else if(message == WM_APP + 20 && MClientNotifyType::QueryTransparency == (MClientNotifyType)wParam)
+		{
+			HKEY hKey = nullptr;
+			DWORD dwValue = 1;
+			static DWORD lastValue = dwValue;
+			if (RegOpenKeyExW(HKEY_CURRENT_USER, LR"(SOFTWARE\Microsoft\Windows\CurrentVersion\themes\personalize)", 0, KEY_READ, &hKey) == ERROR_SUCCESS)
+			{
+				DWORD dwType = REG_DWORD;
+				DWORD dwDataSize = sizeof(DWORD);
+
+				RegQueryValueExW(hKey, L"EnableTransparency", nullptr, &dwType, (LPBYTE)&dwValue, &dwDataSize);
+
+				RegCloseKey(hKey);
+			}
+			if(dwValue != lastValue)
+			{
+				MHostNotify(MHostNotifyType::EnableTransparency, dwValue);
+				lastValue = dwValue;
+			}
+		}
+		return DefWindowProcW(hWnd, message, wParam, lParam);
+	}
+
+	void MHostStartProcess()
+	{
+		WNDCLASSEXW wx = {};
+		wx.cbSize = sizeof(WNDCLASSEX);
+		wx.lpfnWndProc = MsgWndProc;
+		wx.hInstance = GetModuleHandleW(nullptr);
+		wx.lpszClassName = DWMBlurGlassHostNotifyClassName;
+		if (!RegisterClassExW(&wx))
+			return;
+
+		g_hostMsgWnd = CreateWindowExW(0, wx.lpszClassName, L"", 0, 0, 0, 0, 0, HWND_MESSAGE, nullptr, nullptr, nullptr);
+
+		g_timerID = SetTimer(g_hostMsgWnd, 1000, 500, [](HWND, UINT, UINT_PTR, DWORD)
+		{
+			RefreshProcessList();
+		});
+
+		MSG msg;
+		while (GetMessageW(&msg, nullptr, 0, 0))
+		{
+			TranslateMessage(&msg);
+			DispatchMessageW(&msg);
+		}
+
+		KillTimer(g_hostMsgWnd, g_timerID);
+		UnregisterClassW(wx.lpszClassName, wx.hInstance);
+	}
+
+	void RunMHostProcess()
+	{
+		STARTUPINFO startupInfo = { 0 };
+		PROCESS_INFORMATION processInformation = { nullptr };
+
+		wchar_t param[] = { L" runhost" };
+		if (CreateProcessW((Utils::GetCurrentDir() + L"\\DWMBlurGlass.exe").c_str(), param, nullptr,
+			nullptr, FALSE, NULL, nullptr, nullptr, &startupInfo, &processInformation))
+		{
+			CloseHandle(processInformation.hProcess);
+			CloseHandle(processInformation.hThread);
+		}
+	}
+
+	void StopMHostProcess()
+	{
+		SendMessageW(g_hostMsgWnd, WM_APP + 20, (WPARAM)1, 0);
+
+		if (auto pid = GetProcessId(L"dwmblurglass.exe"))
+		{
+			HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
+			if (!hProcess)
+				return;
+			TerminateProcess(hProcess, 0);
+			CloseHandle(hProcess);
+		}
+	}
+
 	bool LoadSymbolOffset()
 	{
 		g_dwmcoreFunCount = g_udwmFunCount = 0;
@@ -139,7 +329,7 @@ namespace MDWMBlurGlass
 		return SUCCEEDED(hr);
 	}
 
-	bool LoadDWMExtensionBase(std::wstring& err)
+	bool LoadDWMExtensionBase(std::wstring& err, DWORD pid)
 	{
 		if(!LoadSymbolOffset())
 		{
@@ -149,55 +339,30 @@ namespace MDWMBlurGlass
 		const bool ret = Inject(GetProcessId(L"dwm.exe"), Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err);
 		if(ret)
 		{
-			/*BOOL enable = TRUE;
-			SystemParametersInfoW(SPI_SETGRADIENTCAPTIONS, 0, &enable, SPIF_SENDCHANGE);*/
-			PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
+			auto enumproc = [](HWND hWnd, LPARAM _pid) -> BOOL
+			{
+				DWORD dwPid = 0;
+				GetWindowThreadProcessId(hWnd, &dwPid);
+				if(_pid == dwPid)
+				{
+					PostMessageW(hWnd, WM_THEMECHANGED, 0, 0);
+					return FALSE;
+				}
+				return TRUE;
+			};
+			EnumWindows(enumproc, pid);
+
+			//PostMessageW(FindWindowW(L"Dwm", nullptr), WM_THEMECHANGED, 0, 0);
 		}
 		return ret;
 	}
 
-	bool LoadDWMExtension(std::wstring& err, Mui::XML::MuiXML* ui)
-	{
-		if (!LoadSymbolOffset())
-		{
-			err = ui->GetStringValue(L"symloadfail");
-			return false;
-		}
-		return Inject(GetProcessId(L"dwm.exe"), Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err);
-	}
-
-	bool ShutdownDWMExtension(std::wstring& err)
-	{
-		MHostNotify(MHostNotifyType::Shutdown);
-		return UnInject(GetProcessId(L"dwm.exe"), Utils::GetCurrentDir() + L"\\DWMBlurGlassExt.dll", err);
-	}
-
-	HWND FindMessageWnd(DWORD pid)
-	{
-		if (!pid)
-			return nullptr;
-
-		HWND hwnd = nullptr;
-		do
-		{
-			hwnd = FindWindowExW(HWND_MESSAGE, hwnd, DWMBlurGlassNotifyClassName, nullptr);
-			if (hwnd != nullptr)
-			{
-				DWORD ProcessId = NULL;
-				GetWindowThreadProcessId(hwnd, &ProcessId);
-				if (ProcessId == pid)
-					return hwnd;
-			}
-		} while (hwnd != nullptr);
-		return nullptr;
-	}
-
-	void MHostNotify(MHostNotifyType type)
+	void MHostNotify(MHostNotifyType type, LPARAM lParam)
 	{
 		HWND msgwnd = FindMessageWnd(GetProcessId(L"dwm.exe"));
 		if (!IsWindow(msgwnd)) return;
 
-		SendMessageW(msgwnd, WM_APP + 20, (WPARAM)type, 0);
+		SendMessageW(msgwnd, WM_APP + 20, (WPARAM)type, lParam);
 	}
 }
 

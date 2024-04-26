@@ -71,10 +71,20 @@ namespace MDWMBlurGlassExt
 		{
 			crossfadeTime = std::chrono::milliseconds{ g_configData.crossfadeTime };
 
-			darkMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColorDark);
-			darkMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColorDark);
-			lightMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColor);
-			lightMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColor);
+			if (g_configData.useAccentColor)
+			{
+				darkMode_Active_Color = MakeWinrtColor(g_accentColor);
+				darkMode_Inactive_Color = darkMode_Active_Color;
+				lightMode_Active_Color = darkMode_Inactive_Color;
+				lightMode_Inactive_Color = lightMode_Active_Color;
+			}
+			else
+			{
+				darkMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColorDark);
+				darkMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColorDark);
+				lightMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColor);
+				lightMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColor);
+			}
 
 			lightMode_Active_TintOpacity = GetFloatAlpha(g_configData.activeBlendColor);
 			lightMode_Inactive_TintOpacity = GetFloatAlpha(g_configData.inactiveBlendColor);

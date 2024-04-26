@@ -182,29 +182,20 @@ namespace MDWMBlurGlass
 			cfgData.glassIntensity = (float)std::clamp(_wtof(value.data()), 0.0, 1.0);
 		});
 
-		GetCfgValueInternal(L"activeColorBalance",
+		GetCfgValueInternal(L"aeroColorBalance",
 		{
-			cfgData.activeColorBalance = (float)std::clamp(_wtof(value.data()), 0.0, 1.0);
+			cfgData.aeroColorBalance = (float)std::clamp(_wtof(value.data()), 0.0, 1.0);
 		});
 
-		GetCfgValueInternal(L"inactiveColorBalance",
+		GetCfgValueInternal(L"aeroBlurBalance",
 		{
-			cfgData.inactiveColorBalance = (float)std::clamp(_wtof(value.data()), 0.0, 1.0);
+			cfgData.aeroBlurBalance = (float)std::clamp(_wtof(value.data()), 0.0, 1.0);
 		});
 
-		GetCfgValueInternal(L"activeBlurBalance",
+		GetCfgValueInternal(L"aeroAfterglowBalance",
 		{
-			cfgData.activeBlurBalance = (float)std::clamp(_wtof(value.data()), -1.0, 1.0);
+			cfgData.aeroAfterglowBalance = (float)std::clamp(_wtof(value.data()), 0.0, 1.0);
 		});
-
-		GetCfgValueInternal(L"inactiveBlurBalance",
-		{
-			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(value.data()), -1.0, 1.0);
-		});
-			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
-		//
-			cfgData.inactiveBlurBalance = (float)std::clamp(_wtof(ret.data()), -1.0, 1.0);
-		//
 
 		GetCfgValueInternal(L"effectType",
 		{
@@ -215,8 +206,16 @@ namespace MDWMBlurGlass
 
 		GetCfgValueInternal(L"crossfadeTime",
 		{
-			cfgData.crossfadeTime = (UINT)std::clamp(_wtoi(value.data()), 0, 2000);
+			cfgData.crossfadeTime = (UINT)std::clamp(_wtoi(value.data()), 0, 500);
+			if (!cfgData.crossFade)
+				cfgData.crossfadeTime = 0;
 		});
+
+		GetCfgValueInternal(L"titlebtnOffsetX",
+		{
+			cfgData.titlebtnOffsetX = (UINT)std::clamp(_wtoi(value.data()), -1, 1000);
+		});
+
 		return cfgData;
 	}
 
@@ -231,41 +230,40 @@ namespace MDWMBlurGlass
 	std::wstring make_wstring(bool value)
 	{
 		return value ? L"true" : L"false";
-		for (const auto regkeyList = std::to_array<std::pair<LPCWSTR, std::wstring>>
-		({
-			 { L"applyglobal", make_wstring(cfg.applyglobal) },
-			 { L"extendBorder", make_wstring(cfg.extendBorder) },
-			 { L"reflection", make_wstring(cfg.reflection) },
-			 { L"oldBtnHeight", make_wstring(cfg.oldBtnHeight) },
-			 { L"customAmount", make_wstring(cfg.customAmount) },
-			 { L"crossFade", make_wstring(cfg.crossFade) },
-			 { L"useAccentColor", make_wstring(cfg.useAccentColor) },
-			 { L"blurAmount", make_wstring(cfg.blurAmount) },
-			 { L"customBlurAmount", make_wstring(cfg.customBlurAmount) },
-			 { L"luminosityOpacity", make_wstring(cfg.luminosityOpacity) },
-			 { L"activeTextColor", make_wstring(cfg.activeTextColor) },
-			 { L"inactiveTextColor", make_wstring(cfg.inactiveTextColor) },
-			 { L"activeTextColorDark", make_wstring(cfg.activeTextColorDark) },
-			 { L"inactiveTextColorDark", make_wstring(cfg.inactiveTextColorDark) },
-			 { L"activeBlendColor", make_wstring(cfg.activeBlendColor) },
-			 { L"inactiveBlendColor", make_wstring(cfg.inactiveBlendColor) },
-			 { L"activeBlendColorDark", make_wstring(cfg.activeBlendColorDark) },
-			 { L"inactiveBlendColorDark", make_wstring(cfg.inactiveBlendColorDark) },
-			 { L"glassIntensity", make_wstring(cfg.glassIntensity) },
-			 { L"activeColorBalance", make_wstring(cfg.activeColorBalance) },
-			 { L"inactiveColorBalance", make_wstring(cfg.inactiveColorBalance) },
-			 { L"activeBlurBalance", make_wstring(cfg.activeBlurBalance) },
-			 { L"inactiveBlurBalance", make_wstring(cfg.inactiveBlurBalance) },
-			 { L"blurMethod", make_wstring((int)cfg.blurmethod) },
-			 { L"effectType", make_wstring((int)cfg.effectType) },
-			 { L"crossfadeTime", make_wstring(cfg.crossfadeTime) }
-		}); const auto& [key, value] : regkeyList)
-		{
-			Utils::SetIniString(path, L"config", key, value);
-		}
+	}
 
-		// newly added params since 2.1.0
-		Utils::SetIniString(path, L"config", L"crossfadeTime", std::to_wstring(cfg.crossfadeTime));
+	void ConfigData::SaveToFile(std::wstring_view path, const ConfigData& cfg)
+	{
+		for (const auto regkeyList = std::to_array<std::pair<LPCWSTR, std::wstring>>
+			({
+				 { L"applyglobal", make_wstring(cfg.applyglobal) },
+				 { L"extendBorder", make_wstring(cfg.extendBorder) },
+				 { L"reflection", make_wstring(cfg.reflection) },
+				 { L"oldBtnHeight", make_wstring(cfg.oldBtnHeight) },
+				 { L"customAmount", make_wstring(cfg.customAmount) },
+				 { L"crossFade", make_wstring(cfg.crossFade) },
+				 { L"useAccentColor", make_wstring(cfg.useAccentColor) },
+				 { L"blurAmount", make_wstring(cfg.blurAmount) },
+				 { L"customBlurAmount", make_wstring(cfg.customBlurAmount) },
+				 { L"luminosityOpacity", make_wstring(cfg.luminosityOpacity) },
+				 { L"activeTextColor", make_wstring(cfg.activeTextColor) },
+				 { L"inactiveTextColor", make_wstring(cfg.inactiveTextColor) },
+				 { L"activeTextColorDark", make_wstring(cfg.activeTextColorDark) },
+				 { L"inactiveTextColorDark", make_wstring(cfg.inactiveTextColorDark) },
+				 { L"activeBlendColor", make_wstring(cfg.activeBlendColor) },
+				 { L"inactiveBlendColor", make_wstring(cfg.inactiveBlendColor) },
+				 { L"activeBlendColorDark", make_wstring(cfg.activeBlendColorDark) },
+				 { L"inactiveBlendColorDark", make_wstring(cfg.inactiveBlendColorDark) },
+				 { L"glassIntensity", make_wstring(cfg.glassIntensity) },
+				 { L"aeroColorBalance", make_wstring(cfg.aeroColorBalance) },
+				 { L"aeroAfterglowBalance", make_wstring(cfg.aeroAfterglowBalance) },
+				 { L"aeroBlurBalance", make_wstring(cfg.aeroBlurBalance) },
+				 { L"blurMethod", make_wstring((int)cfg.blurmethod) },
+				 { L"effectType", make_wstring((int)cfg.effectType) },
+				 { L"crossfadeTime", make_wstring(cfg.crossfadeTime) },
+				 { L"overrideAccent", make_wstring(cfg.overrideAccent) }
+				}); const auto & [key, value] : regkeyList)
+		{
 			Utils::SetIniString(path, L"config", key, value);
 		}
 	}

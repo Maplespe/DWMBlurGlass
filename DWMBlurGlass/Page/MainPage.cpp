@@ -56,7 +56,7 @@ namespace MDWMBlurGlass
 		<UICheckBox pos="0,11" text="#applyglobal" name="applyglobal" />
 		<UICheckBox pos="0,11" text="#extendborder" name="extendBorder" />
 		<UICheckBox pos="0,11" text="#reflection" name="reflection" />
-		<UICheckBox pos="0,11" text="#oldBtnHeight" name="oldBtnHeight" />
+		<UICheckBox pos="0,11" text="#oldBtnSize" name="oldBtnHeight" />
         <UIControl frame="0,10,100,100" autoSize="true">
             <UICheckBox frame="0,1,60,20" text="#blurvalue" name="customAmount" />
             <UISlider frame="10,0,200,16" name="blurslider" maxValue="50" />
@@ -129,31 +129,24 @@ namespace MDWMBlurGlass
 		</UIControl>
 		<UIControl size="100%,100%" name="customEffectGroup2" align="LinearV">
 		    <UIControl frame="0,5,100%,20" align="LinearH">
-		        <UILabel pos="5,0" text="#inactiveColorBalance" />
+		        <UILabel pos="5,0" text="#blurBalance" />
 		    	<UIControl size="100%,100%" align="LinearHL">
-		    		<UISlider frame="10,0,40f,16" name="colorBalanceSlider" maxValue="100" maxSize="230,16" />
-		    		<UILabel frame="5,0,35,16" name="colorBalanceValue" text="50" autoSize="false" textAlign="2" />
+		    		<UISlider frame="10,0,40f,16" name="blurBalanceSlider" maxValue="100" maxSize="230,16" />
+		    		<UILabel frame="5,0,35,16" name="blurBalanceValue" text="50" autoSize="false" textAlign="2" />
 		    	</UIControl>
 		    </UIControl>
 			<UIControl frame="0,5,100%,20" align="LinearH">
-		        <UILabel pos="5,0" text="#activeBlurBalance" />
+		        <UILabel pos="5,0" text="#afterglowBalance" />
 		    	<UIControl size="100%,100%" align="LinearHL">
-		    		<UISlider frame="10,0,40f,16" name="activeBlurBalanceSlider" maxValue="200" maxSize="230,16" />
-		    		<UILabel frame="5,0,35,16" name="activeBlurBalanceValue" text="50" autoSize="false" textAlign="2" />
-		    	</UIControl>
-		    </UIControl>
-			<UIControl frame="0,5,100%,20" align="LinearH">
-		        <UILabel pos="5,0" text="#inactiveBlurBalance" />
-		    	<UIControl size="100%,100%" align="LinearHL">
-		    		<UISlider frame="10,0,40f,16" name="inactiveBlurBalanceSlider" maxValue="200" maxSize="230,16" />
-		    		<UILabel frame="5,0,35,16" name="inactiveBlurBalanceValue" text="50" autoSize="false" textAlign="2" />
+		    		<UISlider frame="10,0,40f,16" name="glowBalanceSlider" maxValue="100" maxSize="230,16" />
+		    		<UILabel frame="5,0,35,16" name="glowBalanceValue" text="50" autoSize="false" textAlign="2" />
 		    	</UIControl>
 		    </UIControl>
 		</UIControl>
 	</UIControl>)";
 
         xml += LR"(
-	<UIControl frame="15,5,15f,120" align="LinearV" prop="group" enable="true" name="miscSettings">
+	<UIControl frame="15,5,15f,190" align="LinearV" prop="group" enable="true" name="miscSettings">
 		<UIControl autoSize="true">
             <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_misc" />
             <UILabel pos="10,2" text="#miscsettings" />
@@ -164,7 +157,16 @@ namespace MDWMBlurGlass
 			<UIEditBox frame="5,1,50,20" number="true" inset="3,2,1,1" wordAutoSel="true" name="crossfadeTimeValue" text="180" limitText="4" />
 			<UILabel pos="3,3" text="ms" />
 		</UIControl>
-		<UICheckBox pos="0,5" text="#useaccentcolor" name="useaccentcolor" />
+		<UICheckBox pos="0,11" text="#useaccentcolor" name="useaccentcolor" />
+		<UICheckBox pos="0,11" text="#overrideAccent" name="overrideAccent" />
+		<UIControl frame="0,15,10f,1" bgColor="222,222,222,255" />
+		<UIControl frame="0,10,100%,20" align="LinearH">
+		    <UILabel pos="0,0" text="#glassIntensity" />
+		    <UIControl size="100%,100%" align="LinearHL">
+		    	<UISlider frame="10,0,40f,16" name="glassIntensitySlider" maxValue="100" maxSize="230,16" />
+		    	<UILabel frame="5,0,35,16" name="glassIntensityValue" text="100" autoSize="false" textAlign="2" />
+		    </UIControl>
+		</UIControl>
 	</UIControl>
 </UIControl>
 <UIControl frame="0,50,485,100%" name="page2" visible="false" align="LinearV">
@@ -260,14 +262,14 @@ namespace MDWMBlurGlass
         m_luminosityValue = m_page->Child<UISlider>(L"luminositySlider");
         m_luminosityValueLabel = m_page->Child<UILabel>(L"luminosityValue");
 
-        m_colorBalanceValue = m_page->Child<UISlider>(L"colorBalanceSlider");
-        m_colorBalanceLabel = m_page->Child<UILabel>(L"colorBalanceValue");
+        m_blurBalanceValue = m_page->Child<UISlider>(L"blurBalanceSlider");
+        m_blurBalanceLabel = m_page->Child<UILabel>(L"blurBalanceValue");
 
-        m_blurBalanceValue[0] = m_page->Child<UISlider>(L"activeBlurBalanceSlider");
-        m_blurBalanceLabel[0] = m_page->Child<UILabel>(L"activeBlurBalanceValue");
+        m_glowBalanceValue = m_page->Child<UISlider>(L"glowBalanceSlider");
+        m_glowBalanceLabel = m_page->Child<UILabel>(L"glowBalanceValue");
 
-        m_blurBalanceValue[1] = m_page->Child<UISlider>(L"inactiveBlurBalanceSlider");
-        m_blurBalanceLabel[1] = m_page->Child<UILabel>(L"inactiveBlurBalanceValue");
+        m_glassIntensityValue = m_page->Child<UISlider>(L"glassIntensitySlider");
+        m_glassIntensityLabel = m_page->Child<UILabel>(L"glassIntensityValue");
 
         RefreshStatus();
         RefreshSymStatus();
@@ -307,13 +309,11 @@ namespace MDWMBlurGlass
                     std::wstring errinfo;
                     if (InstallScheduledTasks(errinfo))
                     {
-                        std::wstring err;
-                        bool symbolState = MHostGetSymbolState();
-                        if (symbolState && !LoadDWMExtension(err, m_ui))
+	                    if (MHostGetSymbolState())
                         {
-                            MessageBoxW(hWnd, (m_ui->GetStringValue(L"loadfail") + err).c_str(), L"Error", MB_ICONERROR);
-                            return false;
+                            RunMHostProcess();
                         }
+
                        // if (symbolState)
                             //RefreshSysConfig();
                            /* MessageBoxW(hWnd,
@@ -333,7 +333,7 @@ namespace MDWMBlurGlass
                 else if (_MNAME(L"uninstall"))
                 {
                     std::wstring errinfo;
-                    ShutdownDWMExtension(errinfo);
+                    StopMHostProcess();
                     if (DeleteScheduledTasks(errinfo))
                     {
                         //RefreshSysConfig();
@@ -374,11 +374,8 @@ namespace MDWMBlurGlass
                         
                         if (IsInstallTasks())
                         {
-                            std::wstring err;
-                            if (!LoadDWMExtension(err, m_ui))
-                                MessageBoxW(hWnd, (m_ui->GetStringValue(L"loadfail") + err).c_str(), L"Error", MB_ICONERROR);
-                            else
-                                RefreshSysConfig();
+                            RunMHostProcess();
+                        	RefreshSysConfig();
                         }
                     }).detach();
                 }
@@ -468,6 +465,11 @@ namespace MDWMBlurGlass
                     m_cfgData.useAccentColor = static_cast<UICheckBox*>(control)->GetSel();
                     SetButtonEnable(true);
                 }
+                else if (_MNAME(L"overrideAccent"))
+                {
+                    m_cfgData.overrideAccent = static_cast<UICheckBox*>(control)->GetSel();
+                    SetButtonEnable(true);
+                }
                 else
                     ret = false;
 	        }
@@ -494,8 +496,8 @@ namespace MDWMBlurGlass
                 {
                     if(m_cfgData.effectType == effectType::Aero)
                     {
-                        m_cfgData.activeColorBalance = (float)param / 100.f;
-                        m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.activeColorBalance).substr(0, 4), false);
+                        m_cfgData.aeroColorBalance = (float)param / 100.f;
+                        m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.aeroColorBalance).substr(0, 4), false);
                     }
                     else
                     {
@@ -505,26 +507,22 @@ namespace MDWMBlurGlass
                     SetButtonEnable(true);
                     m_page->UpdateLayout();
                 }
-                else if (_MNAME(L"colorBalanceSlider"))
+                else if (_MNAME(L"blurBalanceSlider"))
                 {
-                	m_cfgData.inactiveColorBalance = (float)param / 100.f;
-                	m_colorBalanceLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.inactiveColorBalance).substr(0, 4), false);
+                	m_cfgData.aeroBlurBalance = (float)param / 100.f;
+                	m_blurBalanceLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.aeroBlurBalance).substr(0, 4), false);
                     SetButtonEnable(true);
                 }
-                else if (_MNAME(L"activeBlurBalanceSlider"))
+                else if (_MNAME(L"glowBalanceSlider"))
                 {
-                    m_cfgData.activeBlurBalance = (float)param / 100.f - 1.f;
-                    std::wstring value = std::to_wstring(m_cfgData.activeBlurBalance);
-                    value = value.substr(0, value.find('-') != std::wstring::npos ? 5 : 4);
-                    m_blurBalanceLabel[0]->SetAttribute(L"text", value, false);
+                    m_cfgData.aeroAfterglowBalance = (float)param / 100.f;
+                    m_glowBalanceLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.aeroAfterglowBalance).substr(0, 4), false);
                     SetButtonEnable(true);
                 }
-                else if (_MNAME(L"inactiveBlurBalanceSlider"))
+                else if (_MNAME(L"glassIntensitySlider"))
                 {
-                    m_cfgData.inactiveBlurBalance = (float)param / 100.f - 1.f;
-                    std::wstring value = std::to_wstring(m_cfgData.inactiveBlurBalance);
-                    value = value.substr(0, value.find('-') != std::wstring::npos ? 5 : 4);
-                    m_blurBalanceLabel[1]->SetAttribute(L"text", value, false);
+                    m_glassIntensityLabel->SetAttribute(L"text", std::to_wstring((int)param) + L"%", false);
+                    m_cfgData.glassIntensity = (float)param / 100.f;
                     SetButtonEnable(true);
                 }
                 else
@@ -617,8 +615,9 @@ namespace MDWMBlurGlass
             if (_MNAME(L"crossfadeTimeValue"))
             {
                 auto edit = static_cast<UIEditBox*>(control);
-                textFormat(edit, 2000);
+                textFormat(edit, 500);
                 m_cfgData.crossfadeTime = _wtoi(edit->GetCurText().data());
+                SetButtonEnable(true);
             }
             else
                 ret = false;
@@ -758,8 +757,8 @@ namespace MDWMBlurGlass
 
         if(m_cfgData.effectType == effectType::Aero)
         {
-            m_luminosityValue->SetCurValue((int)(m_cfgData.activeColorBalance * 100.f), false);
-            m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.activeColorBalance).substr(0, 4), false);
+            m_luminosityValue->SetCurValue((int)(m_cfgData.aeroColorBalance * 100.f), false);
+            m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.aeroColorBalance).substr(0, 4), false);
         }
         else
         {
@@ -767,20 +766,14 @@ namespace MDWMBlurGlass
             m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_luminosityValue->GetCurValue()) + L"%", false);
         }
 
-        m_colorBalanceValue->SetCurValue((int)(m_cfgData.inactiveColorBalance * 100.f), false);
-        m_colorBalanceLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.inactiveColorBalance).substr(0, 4), false);
+        m_blurBalanceValue->SetCurValue((int)(m_cfgData.aeroBlurBalance * 100.f), false);
+        m_blurBalanceLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.aeroBlurBalance).substr(0, 4), false);
 
-        m_blurBalanceValue[0]->SetCurValue((int)((m_cfgData.activeBlurBalance + 1.f) * 100.f), false);
-        m_blurBalanceValue[1]->SetCurValue((int)((m_cfgData.inactiveBlurBalance + 1.f) * 100.f), false);
-        {
-            std::wstring value = std::to_wstring(m_cfgData.activeBlurBalance);
-            value = value.substr(0, value.find('-') != std::wstring::npos ? 5 : 4);
-            m_blurBalanceLabel[0]->SetAttribute(L"text", value, false);
+        m_glowBalanceValue->SetCurValue((int)(m_cfgData.aeroAfterglowBalance * 100.f), false);
+        m_glowBalanceLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.aeroAfterglowBalance).substr(0, 4), false);
 
-            value = std::to_wstring(m_cfgData.inactiveBlurBalance);
-            value = value.substr(0, value.find('-') != std::wstring::npos ? 5 : 4);
-            m_blurBalanceLabel[1]->SetAttribute(L"text", value, false);
-        }
+        m_glassIntensityValue->SetCurValue((int)(m_cfgData.glassIntensity * 100.f), false);
+        m_glassIntensityLabel->SetAttribute(L"text", std::to_wstring(m_glassIntensityValue->GetCurValue()) + L"%", false);
 
         SwitchBlurMethod(m_cfgData.blurmethod);
         m_page->Child<UIComBox>(L"blurmethod")->SetCurSelItem((int)m_cfgData.blurmethod, false);
@@ -792,6 +785,7 @@ namespace MDWMBlurGlass
         //m_page->Child(L"customEffectGroup1")->SetVisible(enableLuminosity, false);
 
         m_page->Child<UICheckBox>(L"useaccentcolor")->SetSel(m_cfgData.useAccentColor, false);
+        m_page->Child<UICheckBox>(L"overrideAccent")->SetSel(m_cfgData.overrideAccent, false);
         m_page->Child<UIEditBox>(L"crossfadeTimeValue")->SetCurText(std::to_wstring(m_cfgData.crossfadeTime));
 
         m_page->UpdateLayout();
@@ -885,7 +879,21 @@ namespace MDWMBlurGlass
         m_page->Child(L"customEffectGroup")->SetEnabled(index == blurMethod::CustomBlur, false);
         m_page->Child<UILabel>(L"functip")->SetAttribute(L"text", m_ui->GetStringValue(name), false);
         m_page->Child(L"crossFade")->SetEnabled(index == blurMethod::CustomBlur);
+
+        if (index != blurMethod::CustomBlur)
+            m_page->Child<UICheckBox>(L"crossFade")->SetSel(false, false);
+        else
+            m_page->Child<UICheckBox>(L"crossFade")->SetSel(m_cfgData.crossFade, false);
+
         m_page->Child(L"crossFadeGroup")->SetEnabled(index == blurMethod::CustomBlur && m_cfgData.crossFade);
+        m_page->Child(L"useaccentcolor")->SetEnabled(index == blurMethod::CustomBlur || index == blurMethod::AccentBlur);
+        m_page->Child(L"overrideAccent")->SetEnabled(index == blurMethod::CustomBlur);
+        if(index == blurMethod::AccentBlur)
+            m_page->Child<UICheckBox>(L"overrideAccent")->SetSel(true, false);
+        else
+            m_page->Child<UICheckBox>(L"overrideAccent")->SetSel(m_cfgData.overrideAccent, false);
+
+        m_page->Child(L"glassIntensitySlider")->SetEnabled(index == blurMethod::CustomBlur);
         m_page->UpdateLayout();
     }
 
@@ -902,10 +910,10 @@ namespace MDWMBlurGlass
                 && m_cfgData.blurmethod == blurMethod::CustomBlur;
             if (!enableLuminosity && m_cfgData.effectType == effectType::Aero)
             {
-                dstHeight = 180;
-                m_page->Child(L"luminosityText")->SetAttribute(L"text", m_ui->GetStringValue(L"activeColorBalance"), false);
-                m_luminosityValue->SetCurValue((int)(m_cfgData.activeColorBalance * 100.f), false);
-                m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.activeColorBalance).substr(0, 4), false);
+                dstHeight = 155;
+                m_page->Child(L"luminosityText")->SetAttribute(L"text", m_ui->GetStringValue(L"colorBalance"), false);
+                m_luminosityValue->SetCurValue((int)(m_cfgData.aeroColorBalance * 100.f), false);
+                m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_cfgData.aeroColorBalance).substr(0, 4), false);
             }
             else
             {
@@ -913,7 +921,7 @@ namespace MDWMBlurGlass
                 m_luminosityValueLabel->SetAttribute(L"text", std::to_wstring(m_luminosityValue->GetCurValue()) + L"%", false);
                 if(enableLuminosity)
 					m_page->Child(L"luminosityText")->SetAttribute(L"text", m_ui->GetStringValue(L"luminosity"), false);
-                dstHeight = enableLuminosity ? 110 : 80;
+                dstHeight = enableLuminosity ? 105 : 75;
             }
 
             auto group = m_page->Child(L"effectgroup");

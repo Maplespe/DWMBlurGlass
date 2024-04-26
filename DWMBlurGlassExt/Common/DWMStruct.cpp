@@ -267,9 +267,9 @@ namespace MDWMBlurGlassExt::DWM
 		DEFCALL_MHOST_METHOD(CVisual::SetInsetFromParent, margins);
 	}
 
-	void CVisual::SetInsetFromParentTop(int top)
+	void CVisual::SetInsetFromParentRight(int right)
 	{
-		DEFCALL_MHOST_METHOD(CVisual::SetInsetFromParentTop, top);
+		DEFCALL_MHOST_METHOD(CVisual::SetInsetFromParentRight, right);
 	}
 
 	HRESULT CVisual::SetSize(const SIZE& size)
@@ -761,6 +761,11 @@ namespace MDWMBlurGlassExt::DWM
 		}
 
 		return systemBackdropApplied;
+	}
+
+	HRESULT CTopLevelWindow::UpdateNCAreaButton(int index, int height, int top, DWORD* right)
+	{
+		return DEFCALL_MHOST_METHOD(CTopLevelWindow::UpdateNCAreaButton, index, height, top, right);
 	}
 
 	CText* CTopLevelWindow::GetCText()

@@ -8,6 +8,7 @@
 #include "../Effects/ExposureEffect.hpp"
 #include "../Effects/CompositeEffect.hpp"
 #include "../Effects/SaturationEffect.hpp"
+#include "../Effects/TintEffect.hpp"
 
 namespace MDWMBlurGlassExt
 {
@@ -45,127 +46,101 @@ namespace MDWMBlurGlassExt
 			bool hostBackdrop
 		) try
 		{
-			// New Aero backdrop recive v2, thx 2 @aubymori and @wackyideas for some help
+			// the current recipe is modified from @kfh83, @TorutheRedFox, @aubymori
+			auto fallbackTintSource{ winrt::make_self<ColorSourceEffect>() };
+			fallbackTintSource->SetColor(winrt::Windows::UI::Color
+				{
+					255,
+					static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
+					static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
+					static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
+				});
 
-			// define the colors used
+			auto blackOrTransparentSource{ winrt::make_self<TintEffect>() };
+			blackOrTransparentSource->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
+			blackOrTransparentSource->SetColor(D2D1::ColorF(D2D1::ColorF::Black));
 
-			// before you ask why i have 3 of the color black, ask Direct2D first why i can't just reuse this color
+			auto colorEffect{ winrt::make_self<ColorSourceEffect>() };
+			colorEffect->SetName(L"MainColor");
+			colorEffect->SetColor(mainColor);
 
-			winrt::Windows::UI::Color black{ 255,0,0,0 }; 
-			winrt::Windows::UI::Color black2{ 255,0,0,0 }; 
-			winrt::Windows::UI::Color black3{ 255,0,0,0 }; 
+			auto colorOpacityEffect{ winrt::make_self<OpacityEffect>() };
+			colorOpacityEffect->SetName(L"MainColorOpacity");
+			colorOpacityEffect->SetInput(*colorEffect);
+			colorOpacityEffect->SetOpacity(colorBalance);
 
-			auto ColorizationColor{ winrt::make_self<ColorSourceEffect>() };
-			ColorizationColor->SetName(L"MainColor");
-			ColorizationColor->SetColor(mainColor);
+			auto gaussianBlurEffect{ winrt::make_self<GaussianBlurEffect>() };
+			gaussianBlurEffect->SetName(L"Blur");
+			gaussianBlurEffect->SetBorderMode(D2D1_BORDER_MODE_HARD);
+			gaussianBlurEffect->SetBlurAmount(blurAmount);
+			gaussianBlurEffect->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
 
-			auto ColorizationAfterglow{ winrt::make_self<ColorSourceEffect>() };
-			ColorizationAfterglow->SetName(L"GlowColor");
-			ColorizationAfterglow->SetColor(glowColor);
+			auto blurredBackdropBalanceEffect{ winrt::make_self<OpacityEffect>() };
+			blurredBackdropBalanceEffect->SetName(L"BlurBalance");
+			blurredBackdropBalanceEffect->SetOpacity(blurBalance);
+			blurredBackdropBalanceEffect->SetInput(*gaussianBlurEffect);
 
-			// again this is disgusting and i hate that i have to use it, but Direct2D will NOT let me use brushes & colors
+			auto actualBackdropEffect{ winrt::make_self<CompositeStepEffect>() };
+			actualBackdropEffect->SetCompositeMode(D2D1_COMPOSITE_MODE_PLUS);
+			actualBackdropEffect->SetDestination(*blackOrTransparentSource);
+			actualBackdropEffect->SetSource(*blurredBackdropBalanceEffect);
 
-			auto BalanceBackdrop{ winrt::make_self<ColorSourceEffect>() }; // used to blend against the layers thus acting as the balance
-			BalanceBackdrop->SetColor(black);
+			auto gaussianBlurEffect2{ winrt::make_self<GaussianBlurEffect>() };
+			gaussianBlurEffect2->SetBorderMode(D2D1_BORDER_MODE_HARD);
+			gaussianBlurEffect2->SetBlurAmount(blurAmount);
+			gaussianBlurEffect2->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
 
-			auto BalanceBackdrop2{ winrt::make_self<ColorSourceEffect>() }; // used to blend against the layers thus acting as the balance
-			BalanceBackdrop2->SetColor(black2);
+			auto desaturatedBlurredBackdrop{ winrt::make_self<SaturationEffect>() };
+			desaturatedBlurredBackdrop->SetSaturation(0.f);
+			desaturatedBlurredBackdrop->SetInput(*gaussianBlurEffect2);
 
-			auto BalanceBackdrop3{ winrt::make_self<ColorSourceEffect>() }; // used to blend against the layers thus acting as the balance
-			BalanceBackdrop3->SetColor(black3);
+			// make animation feel better...
+			auto backdropNotTransparentPromised{ winrt::make_self<CompositeStepEffect>() };
+			backdropNotTransparentPromised->SetCompositeMode(D2D1_COMPOSITE_MODE_SOURCE_OVER);
+			backdropNotTransparentPromised->SetDestination(*fallbackTintSource);
+			backdropNotTransparentPromised->SetSource(*desaturatedBlurredBackdrop);
 
-			// gaussian blur backdrop
+			// if the glowColor is black, then it will produce a completely transparent surface
+			auto tintEffect{ winrt::make_self<TintEffect>() };
+			tintEffect->SetInput(*backdropNotTransparentPromised);
+			tintEffect->SetColor(winrt::Windows::UI::Color{ static_cast<UCHAR>(static_cast<float>(glowColor.A) * glowBalance), glowColor.R, glowColor.G, glowColor.B });
 
-			// apparently i CANNOT REUSE brushes... so here goes 2 gaussian blur brushes !!!
+			auto backdropWithAfterGlow{ winrt::make_self<CompositeStepEffect>() };
+			backdropWithAfterGlow->SetCompositeMode(D2D1_COMPOSITE_MODE_PLUS);
+			backdropWithAfterGlow->SetDestination(*actualBackdropEffect);
+			backdropWithAfterGlow->SetSource(*tintEffect);
 
-			auto AfterglowBlur{ winrt::make_self<GaussianBlurEffect>() };
-			AfterglowBlur->SetBorderMode(D2D1_BORDER_MODE_HARD);
-			AfterglowBlur->SetBlurAmount(blurAmount);
-			AfterglowBlur->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
+			auto compositeEffect{ winrt::make_self<CompositeStepEffect>() };
+			compositeEffect->SetCompositeMode(D2D1_COMPOSITE_MODE_PLUS);
+			compositeEffect->SetDestination(*backdropWithAfterGlow);
+			compositeEffect->SetSource(*colorOpacityEffect);
 
-			auto RegularBlur{ winrt::make_self<GaussianBlurEffect>() };
-			RegularBlur->SetBorderMode(D2D1_BORDER_MODE_HARD);
-			RegularBlur->SetBlurAmount(blurAmount);
-			RegularBlur->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
 
-			// ColorizationColor -- render semi-transparent color over black bg
-
-			auto ColorizationColorBalance{ winrt::make_self<OpacityEffect>() };
-			ColorizationColorBalance->SetInput(*ColorizationColor);
-			ColorizationColorBalance->SetOpacity(colorBalance);
-
-			auto ColorizationColorRender{ winrt::make_self<CompositeStepEffect>() };
-			ColorizationColorRender->SetCompositeMode(D2D1_COMPOSITE_MODE_SOURCE_OVER);
-			ColorizationColorRender->SetDestination(*BalanceBackdrop);
-			ColorizationColorRender->SetSource(*ColorizationColorBalance);
-
-			// ColorizationAfterglow -- multiply over b&w bg, over black bg
-
-			auto CAGSetSaturation{ winrt::make_self<SaturationEffect>() }; 
-			CAGSetSaturation->SetInput(*AfterglowBlur);
-			CAGSetSaturation->SetSaturation(0);
-
-			auto ColorizationAfterglowBlend{ winrt::make_self<BlendEffect>() };
-			ColorizationAfterglowBlend->SetBlendMode(D2D1_BLEND_MODE_MULTIPLY);
-			ColorizationAfterglowBlend->SetBackground(*CAGSetSaturation);
-			ColorizationAfterglowBlend->SetForeground(*ColorizationAfterglow);
-
-			auto ColorizationAfterglowBalance{ winrt::make_self<OpacityEffect>() };
-			ColorizationAfterglowBalance->SetInput(*ColorizationAfterglowBlend);
-			ColorizationAfterglowBalance->SetOpacity(glowBalance);
-
-			auto ColorizationAfterglowRender{ winrt::make_self<CompositeStepEffect>() };
-			ColorizationAfterglowRender->SetCompositeMode(D2D1_COMPOSITE_MODE_SOURCE_OVER);
-			ColorizationAfterglowRender->SetDestination(*BalanceBackdrop2);
-			ColorizationAfterglowRender->SetSource(*ColorizationAfterglowBalance); 
-
-			// ColorizationBlurBalance -- gaussian blur over black bg
-
-			auto ColorizationBlurBalance{ winrt::make_self<OpacityEffect>() };
-			ColorizationBlurBalance->SetName(L"gaussianBlurEffect");
-			ColorizationBlurBalance->SetInput(*RegularBlur);
-			ColorizationBlurBalance->SetOpacity(blurBalance);
-
-			auto ColorizationBlurBalanceRender{ winrt::make_self<CompositeStepEffect>() };
-			ColorizationBlurBalanceRender->SetCompositeMode(D2D1_COMPOSITE_MODE_SOURCE_OVER);
-			ColorizationBlurBalanceRender->SetName(L"ColorizationBlurBalanceRender");
-			ColorizationBlurBalanceRender->SetDestination(*BalanceBackdrop3);
-			ColorizationBlurBalanceRender->SetSource(*ColorizationBlurBalance); 
-
-			// blend everything together with ADDITIVE BLENDING... it's not color dodge folks!!!
-
-			auto ColorOverBlur{ winrt::make_self<CompositeStepEffect>() };
-			ColorOverBlur->SetCompositeMode(D2D1_COMPOSITE_MODE_PLUS);
-			ColorOverBlur->SetDestination(*ColorizationAfterglowRender);
-			ColorOverBlur->SetSource(*ColorizationColorRender);
-
-			auto BlendOverBlur{ winrt::make_self<CompositeStepEffect>() };
-			BlendOverBlur->SetCompositeMode(D2D1_COMPOSITE_MODE_PLUS);
-			BlendOverBlur->SetDestination(*ColorizationBlurBalanceRender);
-			BlendOverBlur->SetSource(*ColorOverBlur);
-
-			auto effectBrush{ compositor.CreateEffectFactory(*BlendOverBlur).CreateBrush() };
-			if (hostBackdrop)
-			{
-				effectBrush.SetSourceParameter(L"Backdrop", compositor.CreateHostBackdropBrush());
-			}
-			else
-			{
-				effectBrush.SetSourceParameter(L"Backdrop", compositor.CreateBackdropBrush());
-			}
+			auto effectBrush{ compositor.CreateEffectFactory(*compositeEffect).CreateBrush() };
+			effectBrush.SetSourceParameter(L"Backdrop", compositor.CreateBackdropBrush());
 
 			return effectBrush;
 		}
 		catch (...) { return nullptr; }
 
-		void STDMETHODCALLTYPE ReloadParameters()
+		void STDMETHODCALLTYPE ReloadParameters() override
 		{
 			crossfadeTime = std::chrono::milliseconds{ g_configData.crossfadeTime };
 
-			darkMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColorDark);
-			darkMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColorDark);
-			lightMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColor);
-			lightMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColor);
+			if (g_configData.useAccentColor)
+			{
+				darkMode_Active_Color = MakeWinrtColor(g_accentColor);
+				darkMode_Inactive_Color = darkMode_Active_Color;
+				lightMode_Active_Color = darkMode_Inactive_Color;
+				lightMode_Inactive_Color = lightMode_Active_Color;
+			}
+			else
+			{
+				darkMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColorDark);
+				darkMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColorDark);
+				lightMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColor);
+				lightMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColor);
+			}
 
 			darkMode_Active_GlowColor = darkMode_Active_Color;
 			darkMode_Inactive_GlowColor = darkMode_Inactive_Color;
@@ -174,21 +149,22 @@ namespace MDWMBlurGlassExt
 
 			// please altalex keep this as is or atleast try to keep this behavior
 
-			lightMode_Active_ColorBalance = g_configData.ColorizationColorBalance / 100.0f;
+			lightMode_Active_ColorBalance = g_configData.aeroColorBalance;
 			lightMode_Inactive_ColorBalance = lightMode_Active_ColorBalance * 0.4f;
-			darkMode_Active_ColorBalance = g_configData.ColorizationColorBalance / 100.0f;
+			darkMode_Active_ColorBalance = g_configData.aeroColorBalance;
 			darkMode_Inactive_ColorBalance = darkMode_Active_ColorBalance * 0.4f;
 
-			lightMode_Active_GlowBalance = g_configData.ColorizationAfterglowBalance / 100.0f;
-			lightMode_Inactive_GlowBalance = g_configData.ColorizationAfterglowBalance / 100.0f;
-			darkMode_Active_GlowBalance = g_configData.ColorizationAfterglowBalance / 100.0f;
-			darkMode_Inactive_GlowBalance = g_configData.ColorizationAfterglowBalance / 100.0f;
+			lightMode_Active_GlowBalance = g_configData.aeroAfterglowBalance;
+			lightMode_Inactive_GlowBalance = g_configData.aeroAfterglowBalance;
+			darkMode_Active_GlowBalance = g_configData.aeroAfterglowBalance;
+			darkMode_Inactive_GlowBalance = g_configData.aeroAfterglowBalance;
 
-			Active_BlurBalance = g_configData.ColorizationBlurBalance / 100.0f;
-			Inactive_BlurBalance = (Active_BlurBalance * 0.4) + 0.60;
+			Active_BlurBalance = g_configData.aeroBlurBalance;
+			Inactive_BlurBalance = (Active_BlurBalance * 0.4f) + 0.6f;
 
 			blurAmount = g_configData.customBlurAmount;
 		}
+
 		winrt::Windows::UI::Composition::CompositionBrush STDMETHODCALLTYPE GetBrush(bool useDarkMode, bool windowActivated) override try
 		{
 			auto is_device_valid = [&]()
@@ -281,10 +257,11 @@ namespace MDWMBlurGlassExt
 
 			return S_OK;
 		}
+
 		HRESULT STDMETHODCALLTYPE Update(
 			bool useDarkMode,
 			bool windowActivated
-		) try
+		) override try
 		{
 			THROW_IF_FAILED(UpdateColorizationColor(useDarkMode, windowActivated));
 			THROW_IF_FAILED(

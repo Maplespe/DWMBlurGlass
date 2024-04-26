@@ -48,7 +48,7 @@ namespace MDWMBlurGlassExt::DwmAPIEffect
 			return;
 		if (g_configData.blurmethod == blurMethod::DWMAPIBlur && !g_startup)
 			Attach();
-		else if (g_configData.blurmethod != blurMethod::DWMAPIBlur && g_startup)
+		else if ((g_configData.blurmethod != blurMethod::DWMAPIBlur || g_configData.powerSavingMode) && g_startup)
 			Detach();
 	}
 

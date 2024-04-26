@@ -115,14 +115,17 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	{
 		if (g_startup)
 			g_visualManager.RefreshEffectConfig();
-		if (g_configData.blurmethod == blurMethod::CustomBlur && !g_startup)
+
+		bool nosupport = os::buildNumber < 22000 && g_configData.effectType == effectType::Mica;
+
+		if (g_configData.blurmethod == blurMethod::CustomBlur && !g_startup && !nosupport && !g_configData.powerSavingMode)
 			Attach();
-		else if (g_configData.blurmethod != blurMethod::CustomBlur && g_startup)
+		else if ((g_configData.blurmethod != blurMethod::CustomBlur || g_configData.powerSavingMode || nosupport) && g_startup)
 			Detach();
 	}
 
 	HRESULT CTopLevelWindow_InitializeVisualTreeClone(CTopLevelWindow* This,
-		CTopLevelWindow* topLevelWindow, UINT cloneOptions)
+	                                                  CTopLevelWindow* topLevelWindow, UINT cloneOptions)
 	{
 		HRESULT hr{ S_OK };
 

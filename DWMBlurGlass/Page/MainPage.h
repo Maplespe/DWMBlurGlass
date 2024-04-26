@@ -62,12 +62,14 @@ namespace MDWMBlurGlass
         Ctrl::UISlider* m_luminosityValue = nullptr;
         Ctrl::UILabel* m_luminosityValueLabel = nullptr;
 
-        //inactiveColorBalance
-        Ctrl::UISlider* m_colorBalanceValue = nullptr;
-        Ctrl::UILabel* m_colorBalanceLabel = nullptr;
+        Ctrl::UISlider* m_blurBalanceValue = { nullptr };
+        Ctrl::UILabel* m_blurBalanceLabel = { nullptr };
 
-        Ctrl::UISlider* m_blurBalanceValue[2] = { nullptr };
-        Ctrl::UILabel* m_blurBalanceLabel[2] = { nullptr };
+        Ctrl::UISlider* m_glowBalanceValue = { nullptr };
+        Ctrl::UILabel* m_glowBalanceLabel = { nullptr };
+
+        Ctrl::UISlider* m_glassIntensityValue = { nullptr };
+        Ctrl::UILabel* m_glassIntensityLabel = { nullptr };
 
         Ctrl::UIButton* m_saveBtn[2] = { nullptr };
         Ctrl::UIButton* m_restBtn = nullptr;
