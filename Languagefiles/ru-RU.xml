@@ -9,7 +9,7 @@
 	<colorpicker_dlg_c>Новый цвет:</colorpicker_dlg_c>
 	<msgdlg_no>Отмена</msgdlg_no>
 	<msgdlg_yes>Подтвердить</msgdlg_yes>
-	<colorpicker_dlg_alpha>Непрозрачность:</colorpicker_dlg_alpha>
+	<colorpicker_dlg_alpha>Прозрачность:</colorpicker_dlg_alpha>
 	<general>Общие</general>
 	<advanced>Продвинутые</advanced>
 	<symbol>Символы</symbol>
@@ -33,7 +33,7 @@
 	<extendborder>Применить эффект к краям окон (Windows 10)</extendborder>
 	<reflection>Включить эффект отражения Aero</reflection>
 	<reflectiontip>(Устаревший метод размытия только для Windows 10)</reflectiontip>
-	<oldBtnHeight>Включить кнопки в стиле Windows 7 в заголовке</oldBtnHeight>
+	<oldBtnSize>Восстановить размер кнопок заголовка в стиле Windows 7</oldBtnSize>
 	<cmodelight>Цвета светлого режима</cmodelight>
 	<cmodedark>Цвета темного режима</cmodedark>
 	<blendcolor>Цвет смешивания в заголовке (Включено):</blendcolor>
@@ -48,7 +48,16 @@
 	<methoddwmapi>Используется документированный DWMAPI в Windows 11 \nдля применения ограниченного эффекта SystemBackdrop, такого как \nэффект Acrylic и Mica. Вы вообще не можете настраивать эти параметры, \nно он имеет высокую эффективность и лучшую стабильность. Однако \nэто может нарушить внешний вид некоторых программ и доступно \nтолько в Windows 11 22H2 и новее.</methoddwmapi>
 	<effecttype>Тип эффекта:</effecttype>
 	<blurvaluetitle>Радиус размытия (только заголовок):</blurvaluetitle>
-	<luminosity>Прозрачность свечения:</luminosity>
+	<luminosity>Прозрачность просвечивания:</luminosity>
+	<colorBalance>Баланс цвета:</colorBalance>
+	<blurBalance>Баланс размытия:</blurBalance>
+	<afterglowBalance>AfterglowBalance:</afterglowBalance>
+	<miscsettings>Остальное:</miscsettings>
+	<enablecrossfade>Включить эффект плавной анимации</enablecrossfade>
+	<crossfadeTime>Продолжительность анимации:</crossfadeTime>
+	<useaccentcolor>Использовать цвет акцента, чтобы переопределить настройки цвета</useaccentcolor>
+	<glassIntensity>Прозрачность текстуры отражения аэро:</glassIntensity>
+	<overrideAccent>Переопределить эффект «Размытие акцента»</overrideAccent>
 	<symbolfile>Файл символов:</symbolfile>
 	<download>Скачать</download>
 	<symtip>Файлы символов записывают информацию приложения об отладке.\nПоскольку они отличаются от системы к системе, вам необходимо\nскачать актуальную версию с сервера Microsoft. После обновления\nсистемы, возможно, потребуется сделать это снова.</symtip>
