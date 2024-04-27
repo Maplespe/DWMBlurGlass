@@ -39,7 +39,7 @@ Otros idiomas:
 * Colores fusión de la barra de título personalizables.
 * Color de texto de la barra de título personalizable.
 * Permite usar reflejos Aero y efectos de paralaje.
-* Permite restaurar el tamaño del botón de la barra de título al estilo de Windows 7.
+* Permite restaurar el tamaño de los botones de la barra de título al estilo de Windows 7.
 * Soporte para habilitar el efecto de desenfoque para programas que usan la antigua API de Windows 7 DwmEnableBlurBehindWindow.
 * Soporta efectos `Blur (desenfocado)`, `Aero`, `Acrylic` y `Mica (sólo para Windows 11)`.
 * Colores de modo claro y oscuro personalizables individualmente y con cambio automático.
@@ -152,9 +152,9 @@ Si desea ayudarnos a traducir a otros idiomas, consulte a continuación los form
 3. Cambie el nombre del archivo al nombre del [idioma objetivo](https://learn.microsoft.com/es-es/windows/win32/intl/locale-names) y ábralo en su editor de texto favorito.
 4. En la segunda línea, en el campo "`local`", cámbielo por el código de idioma objetivo, que debería ser el mismo que el nombre del archivo (sin la extensión .xml).
 5. Puede poner su nombre en el campo "`author`".
-6. A continuación, traduzca los valores de los campos en el formato xml (tenga cuidado de no traducir los nombres de los campos). El formato correcto es: `<config>Config</config>` a `<config>xxxx</config>`.
+6. A continuación, traduzca los valores de los campos en el formato XML (tenga cuidado de no traducir los nombres de los campos). El formato correcto es: `<config>Config</config>` a `<config>xxxx</config>`.
 7. Guarde el archivo cuando haya terminado y cópielo en el directorio "data\lang" en la carpeta donde se encuentra el programa DWMBlurGlass.exe.
-8. A continuación, abra DWMBlurGlass.exe y pruebe el archivo de idioma para ver si funciona correctamente. Si no lo hace, verifique la configuración del código de idioma y asegúrese de que el archivo cumpla con la especificación del formato xml.
+8. A continuación, abra DWMBlurGlass.exe y pruebe el archivo de idioma para ver si funciona correctamente. Si no lo hace, verifique la configuración del código de idioma y asegúrese de que el archivo cumpla con la especificación del formato XML.
 9. Por último, haga un *commit* (o confirme los cambios) del archivo en su propio repositorio bifurcado y envíe un *pull request* (o solicitud de extracción) a la rama principal del proyecto.
 10. Después de que se apruebe la solicitud, su archivo se lanzará con una futura actualización del software.
 
