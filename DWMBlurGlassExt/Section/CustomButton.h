@@ -26,6 +26,12 @@ namespace MDWMBlurGlassExt::CustomButton
 
 	HRESULT WINAPI CTopLevelWindow_ValidateVisual(DWM::CTopLevelWindow* This);
 
+	HRESULT WINAPI CTopLevelWindow_InitializeVisualTreeClone(DWM::CTopLevelWindow* This, DWM::CTopLevelWindow* topLevelWindow, UINT cloneOptions);
+
+	void WINAPI CTopLevelWindow_Destructor(DWM::CTopLevelWindow* This);
+
+	void WINAPI CButton_Destructor(DWM::CButton* This);
+
 	HRESULT WINAPI CButton_UpdateLayout(DWM::CButton* This);
 
 	HRESULT WINAPI CButton_DrawStateW(DWM::CButton* This, DWM::CButton* a2, unsigned int a3);
