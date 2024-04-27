@@ -3,7 +3,7 @@ Küresel sistem başlık çubuğuna özel etkiler ekler, Windows 10 ve Windows 1
 
 给全局系统标题栏添加自定义效果，支持win10和win11
 #
-| [中文](/README_ZH.md) | [English](/README.md) | [Italiano](/README_IT.md) | [Français](/README_FR.md) | [Türkçe](/README_TR.md)
+| [中文](/README_ZH.md) | [English](/README.md) | [italiano](/README_IT.md) | [français](/README_FR.md) | [Türkçe](/README_TR.md) | [español](/README_ES.md)
 Bu proje [LGNU V3 lisansı](/COPYING.LESSER) kullanır.
 
 Diğer diller:
