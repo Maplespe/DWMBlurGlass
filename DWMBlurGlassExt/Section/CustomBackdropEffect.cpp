@@ -37,21 +37,12 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	wil::unique_hrgn g_titlebarRgn = nullptr;
 	CVisualManager g_visualManager{};
 
-	MinHook g_funCTopLevelWindow_InitializeVisualTreeClone
-	{
-		"CTopLevelWindow::InitializeVisualTreeClone",
-		CTopLevelWindow_InitializeVisualTreeClone
-	};
 	MinHook g_funCTopLevelWindow_UpdateNCAreaBackground
 	{
 		"CTopLevelWindow::UpdateNCAreaBackground",
 		CTopLevelWindow_UpdateNCAreaBackground
 	};
-	MinHook g_funCTopLevelWindow_Destructor
-	{
-		"CTopLevelWindow::~CTopLevelWindow",
-		CTopLevelWindow_Destructor
-	};
+
 	MinHook g_funResourceHelper_CreateGeometryFromHRGN
 	{
 		"ResourceHelper::CreateGeometryFromHRGN",
@@ -63,11 +54,13 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 		"CTopLevelWindow::OnClipUpdated",
 		CTopLevelWindow_OnClipUpdated
 	};
+
 	MinHook g_funCTopLevelWindow_OnAccentPolicyUpdated
 	{
 		"CTopLevelWindow::OnAccentPolicyUpdated",
 		CTopLevelWindow_OnAccentPolicyUpdated
 	};
+
 	MinHook g_funCWindowList_UpdateAccentBlurRect
 	{
 		"CWindowList::UpdateAccentBlurRect",
@@ -79,8 +72,8 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 		if (g_startup) return;
 		g_startup = true;
 
-		g_funCTopLevelWindow_Destructor.Attach();
-		g_funCTopLevelWindow_InitializeVisualTreeClone.Attach();
+		g_CTopLevelWindow_CTopLevelWindow_Destructor_HookDispatcher.enable_hook_routine<0, true>();
+		g_CTopLevelWindow_InitializeVisualTreeClone_HookDispatcher.enable_hook_routine<0, true>();
 		g_funCTopLevelWindow_UpdateNCAreaBackground.Attach();
 		g_funResourceHelper_CreateGeometryFromHRGN.Attach();
 		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<2, true>();
@@ -98,8 +91,8 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 		g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<2, false>();
 		g_funResourceHelper_CreateGeometryFromHRGN.Detach();
 		g_funCTopLevelWindow_UpdateNCAreaBackground.Detach();
-		g_funCTopLevelWindow_InitializeVisualTreeClone.Detach();
-		g_funCTopLevelWindow_Destructor.Detach();
+		g_CTopLevelWindow_InitializeVisualTreeClone_HookDispatcher.enable_hook_routine<0, false>();
+		g_CTopLevelWindow_CTopLevelWindow_Destructor_HookDispatcher.enable_hook_routine<0, false>();
 
 		// accent overrider
 		g_funCTopLevelWindow_OnClipUpdated.Detach();
@@ -127,9 +120,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	HRESULT CTopLevelWindow_InitializeVisualTreeClone(CTopLevelWindow* This,
 	                                                  CTopLevelWindow* topLevelWindow, UINT cloneOptions)
 	{
-		HRESULT hr{ S_OK };
-
-		hr = g_funCTopLevelWindow_InitializeVisualTreeClone.call_org(This, topLevelWindow, cloneOptions);
+		HRESULT hr = g_CTopLevelWindow_InitializeVisualTreeClone_HookDispatcher.return_value();
 
 		if (SUCCEEDED(hr))
 		{
@@ -250,11 +241,12 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 
 		return S_OK;
 	}
+
 	void CTopLevelWindow_Destructor(CTopLevelWindow* This)
 	{
 		g_visualManager.Remove(This);
-		g_funCTopLevelWindow_Destructor.call_org(This);
 	}
+
 	HRESULT ResourceHelper_CreateGeometryFromHRGN(HRGN hrgn, CRgnGeometryProxy** geometry)
 	{
 		if (g_windowOfInterest)
@@ -314,6 +306,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 
 		return hr;
 	}
+
 	HRESULT STDMETHODCALLTYPE CTopLevelWindow_OnAccentPolicyUpdated(DWM::CTopLevelWindow* This)
 	{
 		HRESULT hr{ S_OK };
@@ -349,6 +342,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 
 		return hr;
 	}
+
 	HRESULT STDMETHODCALLTYPE CWindowList_UpdateAccentBlurRect(DWM::CWindowList* This, const MILCMD_DWM_REDIRECTION_ACCENTBLURRECTUPDATE* milCmd)
 	{
 		HRESULT hr{ S_OK };

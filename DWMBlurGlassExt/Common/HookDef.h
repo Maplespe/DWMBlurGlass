@@ -54,6 +54,26 @@ namespace MDWMBlurGlassExt
 		}
 	};
 
+	inline MiniHookDispatcher g_CTopLevelWindow_InitializeVisualTreeClone_HookDispatcher =
+	{
+		"CTopLevelWindow::InitializeVisualTreeClone",
+		std::array
+		{
+			detour_info(CustomBackdrop::CTopLevelWindow_InitializeVisualTreeClone, call_type::after),
+			detour_info(CustomButton::CTopLevelWindow_InitializeVisualTreeClone, call_type::after)
+		}
+	};
+
+	inline MiniHookDispatcher g_CTopLevelWindow_CTopLevelWindow_Destructor_HookDispatcher =
+	{
+		"CTopLevelWindow::~CTopLevelWindow",
+		std::array
+		{
+			detour_info(CustomBackdrop::CTopLevelWindow_Destructor, call_type::before),
+			detour_info(CustomButton::CTopLevelWindow_Destructor, call_type::before)
+		}
+	};
+
 	HRGN WINAPI MyCreateRoundRectRgn(
 		int x1,
 		int y1,

@@ -46,7 +46,7 @@ namespace MDWMBlurGlassExt::DwmAPIEffect
 	{
 		if (os::buildNumber < 22621)
 			return;
-		if (g_configData.blurmethod == blurMethod::DWMAPIBlur && !g_startup)
+		if (g_configData.blurmethod == blurMethod::DWMAPIBlur && !g_startup && !g_configData.powerSavingMode)
 			Attach();
 		else if ((g_configData.blurmethod != blurMethod::DWMAPIBlur || g_configData.powerSavingMode) && g_startup)
 			Detach();

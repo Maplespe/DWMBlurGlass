@@ -183,6 +183,9 @@
     <ClInclude Include="Effects\TintEffect.hpp">
       <Filter>头文件\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Backdrops\ButtonGlowBackdrop.hpp">
+      <Filter>头文件\Backdrops</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

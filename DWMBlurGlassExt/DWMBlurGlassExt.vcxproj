@@ -166,6 +166,7 @@
     <ClInclude Include="Backdrops\AcrylicBackdrop.hpp" />
     <ClInclude Include="Backdrops\AeroBackdrop.hpp" />
     <ClInclude Include="Backdrops\BlurBackdrop.hpp" />
+    <ClInclude Include="Backdrops\ButtonGlowBackdrop.hpp" />
     <ClInclude Include="Backdrops\DCompBackdrop.hpp" />
     <ClInclude Include="Backdrops\GlassReflectionBackdrop.hpp" />
     <ClInclude Include="Backdrops\MicaBackdrop.hpp" />

@@ -71,6 +71,8 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CWindowList::GetSyncedWindowData" },
 
 		{ udwm, "CButton::UpdateLayout" },
+		{ udwm, "CButton::DrawStateW"},
+		{ udwm, "CButton::~CButton" },
 
 		{ udwm, "VisualCollection::Remove" },
 		{ udwm, "VisualCollection::RemoveAll" },
