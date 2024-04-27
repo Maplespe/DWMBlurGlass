@@ -30,10 +30,10 @@
 	<effectset>Configuración de efectos</effectset>
 	<blurvalue>Radio de desenfoque (global):</blurvalue>
 	<applyglobal>Redefinir efecto Mica establecido mediante DWMAPI (Win 11)</applyglobal>
-	<extendborder>Extender efecto a bordes (Win 10)</extendborder>
+	<extendborder>Extender efectos a bordes (Win 10)</extendborder>
 	<reflection>Habilitar efecto de reflejo Aero</reflection>
 	<reflectiontip>(OldBlur sólo para Win 10)</reflectiontip>
-	<oldBtnHeight>Reducir altura de botones de barra de título (estilo de Win 7)</oldBtnHeight>
+	<oldBtnSize>Restaurar tamaño de botones de barra de título (estilo de Win 7)</oldBtnSize>
 	<cmodelight>Colores de modo claro</cmodelight>
 	<cmodedark>Colores de modo oscuro</cmodedark>
 	<blendcolor>Color fusión de barra de título (activa):</blendcolor>
@@ -49,6 +49,15 @@
 	<effecttype>Tipo de efecto:</effecttype>
 	<blurvaluetitle>Radio de desenfoque (sólo barra de título):</blurvaluetitle>
 	<luminosity>Opacidad de luminosidad:</luminosity>
+	<colorBalance>ColorBalance:</colorBalance>
+	<blurBalance>BlurBalance:</blurBalance>
+	<afterglowBalance>AfterglowBalance:</afterglowBalance>
+	<miscsettings>Otros:</miscsettings>
+	<enablecrossfade>Habilitar efecto de animación de desvanecimiento</enablecrossfade>
+	<crossfadeTime>Duración de animación:</crossfadeTime>
+	<useaccentcolor>Usar color de énfasis para redefinir configuración de color</useaccentcolor>
+	<glassIntensity>Opacidad de textura de reflejo Aero:</glassIntensity>
+	<overrideAccent>Redefinir efecto AccentBlur</overrideAccent>
 	<symbolfile>Archivos de símbolos:</symbolfile>
 	<download>Descargar</download>
 	<symtip>Los archivos de símbolos (pdb) son archivos que registran información \nde depuración sobre un programa. Dado que los sistemas varían de una \nversión a otra, debe descargar los archivos de símbolos desde el servidor \nde Microsoft. Si actualiza su sistema, es posible que deba descargar los \narchivos de símbolos nuevamente.</symtip>
@@ -63,7 +72,7 @@
 	<restore>Restablecer</restore>
 	<importwarn>Al importar un archivo de configuración se sobrescribirá la configuración existente\n¿Desea continuar?</importwarn>
 	<restorecfg>¿Desea restablecer la configuración predeterminada?</restorecfg>
-	<aboutinfo>Este programa es gratuito y de código abierto bajo licencia LGPL v3:</aboutinfo>
+	<aboutinfo>Este programa está bajo la licencia LGPL v3:</aboutinfo>
 	<curlang>Idioma actual:</curlang>
 	<langauthor>Traducido por:</langauthor>
 </lang>
