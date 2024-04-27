@@ -215,4 +215,85 @@ namespace MDWMBlurGlassExt
 			return false;
 		}
 	};
+
+	template <bool insertAtBack>
+	class CSpriteVisualBase : public winrt::implements<CSpriteVisualBase<insertAtBack>, IUnknown>
+	{
+	protected:
+		DWM::CVisual* m_parentVisual{ nullptr };
+		winrt::com_ptr<DWM::CVisual> m_udwmVisual{ nullptr };
+		winrt::com_ptr<IDCompositionVisual2> m_dcompVisual{ nullptr };
+		winrt::com_ptr<DCompPrivate::InteropCompositionTarget> m_dcompTarget{ nullptr };
+		winrt::com_ptr<DCompPrivate::IDCompositionDesktopDevicePartner> m_dcompDevice{ nullptr };
+		winrt::Windows::UI::Composition::VisualCollection m_visualCollection{ nullptr };
+
+		virtual HRESULT InitializeVisual()
+		{
+			m_dcompDevice.copy_from(DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice());
+			RETURN_IF_FAILED(
+				m_dcompDevice->CreateSharedResource(
+					IID_PPV_ARGS(m_dcompTarget.put())
+				)
+			);
+			RETURN_IF_FAILED(m_dcompDevice->CreateVisual(m_dcompVisual.put()));
+			RETURN_IF_FAILED(m_dcompVisual->SetBorderMode(DCOMPOSITION_BORDER_MODE_SOFT));
+#ifdef _DEBUG
+			//m_dcompVisual.as<IDCompositionVisualDebug>()->EnableRedrawRegions();
+#endif
+			RETURN_IF_FAILED(m_dcompTarget->SetRoot(m_dcompVisual.get()));
+			RETURN_IF_FAILED(m_dcompDevice->Commit());
+			m_visualCollection = m_dcompVisual.as<DCompPrivate::IDCompositionVisualPartnerWinRTInterop>()->GetVisualCollection();
+
+			wil::unique_handle resourceHandle{ nullptr };
+			RETURN_IF_FAILED(
+				m_dcompDevice->OpenSharedResourceHandle(m_dcompTarget.get(), resourceHandle.put())
+			);
+			RETURN_IF_FAILED(DWM::CVisual::CreateFromSharedHandle(resourceHandle.get(), m_udwmVisual.put()));
+			m_udwmVisual->AllowVisualTreeClone(false);
+			if (m_parentVisual)
+			{
+				RETURN_IF_FAILED(
+					m_parentVisual->GetVisualCollection()->InsertRelative(
+						m_udwmVisual.get(),
+						nullptr,
+						insertAtBack,
+						true
+					)
+				);
+			}
+
+			return S_OK;
+		}
+
+		virtual void UninitializeVisual()
+		{
+			if (m_udwmVisual)
+			{
+				if (m_parentVisual)
+				{
+					m_parentVisual->GetVisualCollection()->Remove(
+						m_udwmVisual.get()
+					);
+				}
+				m_udwmVisual = nullptr;
+			}
+			if (m_dcompVisual)
+			{
+#ifdef _DEBUG
+				//m_dcompVisual.as<IDCompositionVisualDebug>()->DisableRedrawRegions();
+#endif
+				m_visualCollection.RemoveAll();
+				m_dcompVisual = nullptr;
+			}
+			if (m_dcompTarget)
+			{
+				m_dcompTarget->SetRoot(nullptr);
+				m_dcompTarget = nullptr;
+			}
+		}
+
+		CSpriteVisualBase(DWM::CVisual* parentVisual) : m_parentVisual{ parentVisual } {}
+		virtual ~CSpriteVisualBase() { CSpriteVisualBase::UninitializeVisual(); }
+	};
+
 }
