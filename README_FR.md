@@ -3,7 +3,7 @@ Ajoute un effet personnalisé à la barre de titre du système global, prend en 
 
 给全局系统标题栏添加自定义效果，支持win10和win11
 #
-| [中文](/README_ZH.md) | [English](/README.md) | [Italiano](/README_IT.md) | [Français](/README_FR.md) | [Türkçe](/README_TR.md)
+| [中文](/README_ZH.md) | [English](/README.md) | [Italiano](/README_IT.md) | [Français](/README_FR.md) | [Türkçe](/README_TR.md) | [español](/README_ES.md)
 Ce projet utilise la [licence LGNU V3](/COPYING.LESSER).
 
 Autres langues :
