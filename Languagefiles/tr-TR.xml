@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<lang local="tr-TR" author="Dekamir">
+<lang local="tr-TR" author="Dekamir, baglayan">
 	<inituifail0>MiaoUI kütüphanesini başlatma başarısız! Hata kodu: </inituifail0>
 	<inituifail1>Pencere bağlamını oluşturma başarısız!</inituifail1>
 	<inituifail2>Pencere oluşturma başarısız!</inituifail2>
@@ -43,9 +43,9 @@
 	<preview>Önizleme</preview>
 	<sampletitle>Örnek pencere başlığı (etkin)</sampletitle>
 	<blurmethod>Buğu Yöntemi:</blurmethod>
-	<methodcustom>[Önerilir] CVisual (DWM) ve Windows.UI.Composition (dcomp) tarafından \nyazılan özel buğu gerçeklemesi, özel arka plan etkileri elde etmenizi\nsağlar. Çoğu parametreyi özelleştirebilirsiniz. Sadece en yüksek verimliliği değil,\naynı zamanda en iyi görünümü ve daha iyi kararlılığı de elde edebilirsiniz. Ancak\nuyumluluk pek iyi değildir.\nBüyük bir Windows güncellemesinden sonra bozulabilir ve bir sonraki \nsürümü beklemeniz gerekebilir.</methodcustom>
-	<methodaccent>[Önerilmez] DWM'nin dahili \nAccentBlurBehind sınıfını kullanarak buğu etkisi uygulayın. Bazı parametreleri\nözelleştirebilirsiniz, ancak bu yöntem verimsiz ve daha az kararlıdır. Çoğu sistemde normal çalışır.\n(genellikle, bir sistem güncellemesi bunu bozmaz).</methodaccent>
-	<methoddwmapi>Windows 11'de belgelenmiş DWMAPI'yi kullanarak, Acrylic ve Mica etkisi gibi sınırlı\nSystemBackdrop efektleri uygulayın. Bu parametreleri hiç özelleştiremezsiniz,\nancak yüksek verimlilik ve daha iyi kararlılık sunar. Ancak, bazı programların\ngörünümünü bozabilir ve sadece Windows 11 22H2 ve daha yenilerinde kullanılabilir.</methoddwmapi>
+	<methodcustom>[Önerilir] CVisual (DWM) ve Windows.UI.Composition (dcomp) tarafından \nyazılan özel buğu gerçeklemesi, özel arka plan etkileri elde etmenizi sağlar.\nÇoğu parametreyi özelleştirebilirsiniz. Sadece en yüksek verimliliği değil,\naynı zamanda en iyi görünümü ve daha iyi kararlılığı de elde edebilirsiniz.\nAncakuyumluluk pek iyi değildir.\nBüyük bir Windows güncellemesinden sonra bozulabilir ve bir sonraki \nsürümü beklemeniz gerekebilir.</methodcustom>
+	<methodaccent>[Önerilmez] DWM'nin dahili AccentBlurBehind sınıfını kullanarak buğu etkisi\nuygulayın. Bazı parametreleri özelleştirebilirsiniz, ancak bu yöntem verimsiz ve\ndaha az kararlıdır. Çoğu sistemde normal çalışır.\n(genellikle, bir sistem güncellemesi bunu bozmaz).</methodaccent>
+	<methoddwmapi>Windows 11'de belgelenmiş DWMAPI'yi kullanarak, Acrylic ve Mica etkisi gibi\nsınırlı SystemBackdrop etkileri uygulayın. Bu parametreleri hiç\nözelleştiremezsiniz, ancak yüksek verimlilik ve daha iyi kararlılık sunar. Ancak,\nbazı programların görünümünü bozabilir ve sadece Windows 11 22H2 ve daha\nyenilerinde kullanılabilir.</methoddwmapi>
 	<effecttype>Etki Türü:</effecttype>
 	<blurvaluetitle>Buğu yarıçapı (yalnızca başlık çubuğunda):</blurvaluetitle>
 	<luminosity>Işıklılık opaklığı:</luminosity>
