@@ -85,9 +85,9 @@ namespace MDWMBlurGlassExt::OcclusionCulling
 		{
 			g_funCOcclusionContext_PostSubgraph.Attach();
 			g_funCVisual_GetWindowBackgroundTreatmentInternal.Attach();
-			g_funCArrayBasedCoverageSet_AddAntiOccluderRect.Attach();
+		g_funCArrayBasedCoverageSet_AddAntiOccluderRect.Attach();
 			g_funCArrayBasedCoverageSet_IsCovered.Attach();
-		}
+	}
 	}
 
 	void Detach()
@@ -97,7 +97,7 @@ namespace MDWMBlurGlassExt::OcclusionCulling
 		if (os::buildNumber < 22000)
 		{
 			g_funCVisual_GetWindowBackgroundTreatmentInternal.Detach();
-			g_funCArrayBasedCoverageSet_AddAntiOccluderRect.Detach();
+		g_funCArrayBasedCoverageSet_AddAntiOccluderRect.Detach();
 			g_funCArrayBasedCoverageSet_IsCovered.Detach();
 			g_funCOcclusionContext_PostSubgraph.Detach();
 		}
@@ -123,17 +123,31 @@ namespace MDWMBlurGlassExt::OcclusionCulling
 		{
 			g_frameId = currentFrameId;
 			g_validAntiOccluderList.Clear();
-		}
+					}
+				}
+				// much faster one...
+				else
+				{
+					RECT windowRect{};
+					window->GetActualWindowRect(&windowRect, false, true, true);
+					backdropRegion.reset(CreateRectRgnIndirect(&windowRect));
 
-		if (
+					if (
 			g_visual->GetOwningProcessId() != GetCurrentProcessId() /* actually this is useless, GetOwningProcessId only returns the process id of dwm, idk why */ ||
 			g_hasWindowBackgroundTreatment
-			)
-		{
+						)
+					{
 			Core::CZOrderedRect zorderedRect{ lprc, depth, lprc };
 			zorderedRect.UpdateDeviceRect(matrix);
 			g_validAntiOccluderList.Add(zorderedRect);
-		}
+						}
+						if (IsZoomed(hwnd))
+						{
+							CombineRgn(occlusionRegion.get(), occlusionRegion.get(), backdropRegion.get(), RGN_OR);
+							continue;
+						}
+					}
+				}
 
 		return g_funCArrayBasedCoverageSet_AddAntiOccluderRect.call_org(This, lprc, depth, matrix);
 	}
@@ -153,7 +167,7 @@ namespace MDWMBlurGlassExt::OcclusionCulling
 
 	HRESULT COcclusionContext_PostSubgraph(Core::COcclusionContext* This, Core::CVisualTree* visualTree,
 		bool* unknown)
-	{
+		{
 		g_visual = This->GetVisual();
 		g_hasWindowBackgroundTreatment = false;
 		HRESULT hr{ g_funCOcclusionContext_PostSubgraph.call_org(This, visualTree, unknown) };
@@ -161,5 +175,13 @@ namespace MDWMBlurGlassExt::OcclusionCulling
 		g_hasWindowBackgroundTreatment = false;
 
 		return hr;
+	}
+
+	HRESULT CArrayBasedCoverageSet_AddAntiOccluderRect(void* This,
+		MilRectF* a2,
+		int a3,
+		const struct CMILMatrix* a4)
+	{
+		return S_OK;
 	}
 }

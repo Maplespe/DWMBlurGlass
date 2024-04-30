@@ -1514,5 +1514,10 @@ namespace MDWMBlurGlassExt::DWM
 			return DEFCALL_MHOST_METHOD(CChannel::MatrixTransformUpdate, handleIndex, matrix);
 		}
 	}
+
+	PRLIST_ENTRY CWindowList::GetWindowListForDesktop(ULONG_PTR desktopID)
+	{
+		return DEFCALL_MHOST_METHOD(CWindowList::GetWindowListForDesktop, desktopID);
+	}
 }
 #pragma pop_macro("DEFCALL_MHOST_METHOD")

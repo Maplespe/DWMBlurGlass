@@ -59,9 +59,12 @@ namespace MDWMBlurGlass
 
 		bool disableFramerateLimit = false;
 
+		bool occlusionCulling = false;
+
 		//Options without GUI
 		int extendRound = 10;
 		int titlebtnOffsetX = -1;
+		int cullingLevel = 0;
 		//
 
 		float blurAmount = 20.f;
