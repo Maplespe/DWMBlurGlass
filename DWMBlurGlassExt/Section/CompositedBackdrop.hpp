@@ -100,6 +100,9 @@ namespace MDWMBlurGlassExt
 		bool m_enableGlassReflection{ false };
 		bool m_enableBorders{ false };
 
+		bool m_occluded{ false };
+		bool m_cloned{ false };
+
 		winrt::Windows::Foundation::Numerics::float3 m_offset{ 0.f, 0.f, 1.f };
 		winrt::Windows::Foundation::Numerics::float2 m_size{ 0.f, 0.f };
 		wil::unique_hrgn m_clipRgn{ nullptr };
@@ -125,6 +128,7 @@ namespace MDWMBlurGlassExt
 		{
 			return m_window;
 		}
+
 		void InitializeVisualConnection(bool disconnectPrevious)
 		{
 			THROW_IF_FAILED(
@@ -181,6 +185,20 @@ namespace MDWMBlurGlassExt
 			}
 		}
 	public:
+		void MarkAsOccluded(bool occluded)
+		{
+			if (m_cloned) { return; }
+			if (m_occluded != occluded)
+			{
+				m_occluded = occluded;
+
+				m_sharedVisual.dcompVisual.as<IDCompositionVisual3>()->SetVisible(!occluded);
+			}
+		}
+		HRGN GetCompositedRegion() const
+		{
+			return m_clipRgn.get();
+		}
 		const CSharedVisual& GetSharedVisual() const
 		{
 			return m_sharedVisual;
@@ -204,6 +222,7 @@ namespace MDWMBlurGlassExt
 			DWM::CTopLevelWindow* dest
 		) : 
 			m_window{ dest },
+			m_cloned{true},
 			m_sourceWindow{ backdrop->m_window },
 			m_windowData{ backdrop->m_windowData }, 
 			m_sharedVisual{}

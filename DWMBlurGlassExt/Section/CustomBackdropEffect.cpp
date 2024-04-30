@@ -35,7 +35,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	wil::unique_hrgn g_borderRgn = nullptr;
 	CRgnGeometryProxy* const* g_titlebarGeometry = nullptr;
 	wil::unique_hrgn g_titlebarRgn = nullptr;
-	CVisualManager g_visualManager{};
+	MDWMBlurGlassExt::CVisualManager g_visualManager{};
 
 	MinHook g_funCTopLevelWindow_UpdateNCAreaBackground
 	{
@@ -115,6 +115,11 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 			Attach();
 		else if ((g_configData.blurmethod != blurMethod::CustomBlur || g_configData.powerSavingMode || nosupport) && g_startup)
 			Detach();
+	}
+
+	CVisualManager* GetCVisualManager()
+	{
+		return &g_visualManager;
 	}
 
 	HRESULT CTopLevelWindow_InitializeVisualTreeClone(CTopLevelWindow* This,

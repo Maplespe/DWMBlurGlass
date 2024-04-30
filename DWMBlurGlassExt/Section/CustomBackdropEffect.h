@@ -18,11 +18,19 @@
 #pragma once
 #include "DWMStruct.h"
 
+namespace MDWMBlurGlassExt
+{
+	class CVisualManager;
+}
+
 namespace MDWMBlurGlassExt::CustomBackdrop
 {
 	void Attach();
 	void Detach();
 	void Refresh();
+
+
+	CVisualManager* GetCVisualManager();
 
 	HRESULT WINAPI CTopLevelWindow_InitializeVisualTreeClone(
 		DWM::CTopLevelWindow* This,

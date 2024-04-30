@@ -107,6 +107,7 @@ namespace MDWMBlurGlass
 		cfgData.useAccentColor = GetConfigBool(L"useAccentColor");
 		cfgData.crossFade = GetConfigBool(L"crossFade", true);
 		cfgData.overrideAccent = GetConfigBool(L"overrideAccent");
+		cfgData.occlusionCulling = GetConfigBool(L"occlusionCulling");
 
 		GetCfgValueInternal(L"extendRound",
 		{
@@ -216,6 +217,11 @@ namespace MDWMBlurGlass
 			cfgData.titlebtnOffsetX = (UINT)std::clamp(_wtoi(value.data()), -1, 1000);
 		});
 
+		GetCfgValueInternal(L"cullingLevel",
+		{
+			cfgData.cullingLevel = (UINT)std::clamp(_wtoi(value.data()), 0, 1);
+		});
+
 		return cfgData;
 	}
 
@@ -236,32 +242,34 @@ namespace MDWMBlurGlass
 	{
 		for (const auto regkeyList = std::to_array<std::pair<LPCWSTR, std::wstring>>
 			({
-				 { L"applyglobal", make_wstring(cfg.applyglobal) },
-				 { L"extendBorder", make_wstring(cfg.extendBorder) },
-				 { L"reflection", make_wstring(cfg.reflection) },
-				 { L"oldBtnHeight", make_wstring(cfg.oldBtnHeight) },
-				 { L"customAmount", make_wstring(cfg.customAmount) },
-				 { L"crossFade", make_wstring(cfg.crossFade) },
-				 { L"useAccentColor", make_wstring(cfg.useAccentColor) },
-				 { L"blurAmount", make_wstring(cfg.blurAmount) },
-				 { L"customBlurAmount", make_wstring(cfg.customBlurAmount) },
-				 { L"luminosityOpacity", make_wstring(cfg.luminosityOpacity) },
-				 { L"activeTextColor", make_wstring(cfg.activeTextColor) },
-				 { L"inactiveTextColor", make_wstring(cfg.inactiveTextColor) },
-				 { L"activeTextColorDark", make_wstring(cfg.activeTextColorDark) },
-				 { L"inactiveTextColorDark", make_wstring(cfg.inactiveTextColorDark) },
-				 { L"activeBlendColor", make_wstring(cfg.activeBlendColor) },
-				 { L"inactiveBlendColor", make_wstring(cfg.inactiveBlendColor) },
-				 { L"activeBlendColorDark", make_wstring(cfg.activeBlendColorDark) },
-				 { L"inactiveBlendColorDark", make_wstring(cfg.inactiveBlendColorDark) },
-				 { L"glassIntensity", make_wstring(cfg.glassIntensity) },
-				 { L"aeroColorBalance", make_wstring(cfg.aeroColorBalance) },
-				 { L"aeroAfterglowBalance", make_wstring(cfg.aeroAfterglowBalance) },
-				 { L"aeroBlurBalance", make_wstring(cfg.aeroBlurBalance) },
-				 { L"blurMethod", make_wstring((int)cfg.blurmethod) },
-				 { L"effectType", make_wstring((int)cfg.effectType) },
-				 { L"crossfadeTime", make_wstring(cfg.crossfadeTime) },
-				 { L"overrideAccent", make_wstring(cfg.overrideAccent) }
+				{ L"applyglobal", make_wstring(cfg.applyglobal) },
+				{ L"extendBorder", make_wstring(cfg.extendBorder) },
+				{ L"reflection", make_wstring(cfg.reflection) },
+				{ L"oldBtnHeight", make_wstring(cfg.oldBtnHeight) },
+				{ L"customAmount", make_wstring(cfg.customAmount) },
+				{ L"crossFade", make_wstring(cfg.crossFade) },
+				{ L"useAccentColor", make_wstring(cfg.useAccentColor) },
+				{ L"blurAmount", make_wstring(cfg.blurAmount) },
+				{ L"customBlurAmount", make_wstring(cfg.customBlurAmount) },
+				{ L"luminosityOpacity", make_wstring(cfg.luminosityOpacity) },
+				{ L"activeTextColor", make_wstring(cfg.activeTextColor) },
+				{ L"inactiveTextColor", make_wstring(cfg.inactiveTextColor) },
+				{ L"activeTextColorDark", make_wstring(cfg.activeTextColorDark) },
+				{ L"inactiveTextColorDark", make_wstring(cfg.inactiveTextColorDark) },
+				{ L"activeBlendColor", make_wstring(cfg.activeBlendColor) },
+				{ L"inactiveBlendColor", make_wstring(cfg.inactiveBlendColor) },
+				{ L"activeBlendColorDark", make_wstring(cfg.activeBlendColorDark) },
+				{ L"inactiveBlendColorDark", make_wstring(cfg.inactiveBlendColorDark) },
+				{ L"glassIntensity", make_wstring(cfg.glassIntensity) },
+				{ L"aeroColorBalance", make_wstring(cfg.aeroColorBalance) },
+				{ L"aeroAfterglowBalance", make_wstring(cfg.aeroAfterglowBalance) },
+				{ L"aeroBlurBalance", make_wstring(cfg.aeroBlurBalance) },
+				{ L"blurMethod", make_wstring((int)cfg.blurmethod) },
+				{ L"effectType", make_wstring((int)cfg.effectType) },
+				{ L"crossfadeTime", make_wstring(cfg.crossfadeTime) },
+				{ L"overrideAccent", make_wstring(cfg.overrideAccent) },
+				{ L"occlusionCulling", make_wstring(cfg.occlusionCulling) }
+				/*{ L"cullingLevel", make_wstring(cfg.cullingLevel) }*/
 				}); const auto & [key, value] : regkeyList)
 		{
 			Utils::SetIniString(path, L"config", key, value);

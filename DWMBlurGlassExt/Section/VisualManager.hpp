@@ -9,6 +9,11 @@ namespace MDWMBlurGlassExt
 	class CVisualManager
 	{
 	public:
+		size_t GetBackdropCount()
+		{
+			return m_backdropMap.size();
+		}
+
 		winrt::com_ptr<CCompositedBackdrop> GetOrCreateBackdrop(DWM::CTopLevelWindow* target, bool createIfNecessary = false)
 		{
 			auto it{ m_backdropMap.find(target) };

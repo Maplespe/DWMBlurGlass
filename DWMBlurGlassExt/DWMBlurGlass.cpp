@@ -17,6 +17,7 @@
 */
 #include "DefFunctionList.h"
 #include "DWMBlurGlass.h"
+#include "Section/OcclusionCulling.h"
 #include "HookDef.h"
 #include <mutex>
 
@@ -105,6 +106,7 @@ namespace MDWMBlurGlassExt
 		}
 
 		CustomButton::Detach();
+		OcclusionCulling::Detach();
 		TitleTextTweaker::Detach();
 		BlurRadiusTweaker::Detach();
 		AccentBlur::Detach();
@@ -136,6 +138,7 @@ namespace MDWMBlurGlassExt
 		}
 		DwmAPIEffect::Refresh();
 		CustomBackdrop::Refresh();
+		OcclusionCulling::Refresh();
 		AccentBlur::Refresh();
 		BlurRadiusTweaker::Refresh();
 		CustomButton::Refresh();

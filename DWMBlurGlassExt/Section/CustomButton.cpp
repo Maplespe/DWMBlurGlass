@@ -302,11 +302,9 @@ namespace MDWMBlurGlassExt::CustomButton
 			auto& data = iter->second.buttonList[This];
 
 			int state = *(int*)((char*)This + 376);
-			OutputDebugStringW((L"state:" + std::to_wstring(state) + L"\n").c_str());
+			//OutputDebugStringW((L"state:" + std::to_wstring(state) + L"\n").c_str());
 			backdrop->Update(data.first, *This->GetPoint(), { data.second.right, data.second.bottom }, scale, state == 2 || state == 1);
 		}
-
-		//OutputDebugStringW((L"state:" + std::to_wstring(index) + L"\n").c_str());
 
 		return hr;
 	}
