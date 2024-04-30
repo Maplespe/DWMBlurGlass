@@ -131,6 +131,11 @@ namespace MDWMBlurGlassExt::DWM
 		return DEFCALL_MHOST_METHOD(CWindowData::IsImmersiveWindow);
 	}
 
+	bool CWindowData::IsWindowVisibleAndUncloaked() const
+	{
+		return DEFCALL_MHOST_METHOD(CWindowData::IsWindowVisibleAndUncloaked);
+	}
+
 	ACCENT_POLICY* CWindowData::GetAccentPolicy()
 	{
 		ACCENT_POLICY* accentpolicy;
@@ -1058,6 +1063,11 @@ namespace MDWMBlurGlassExt::DWM
 	HRESULT STDMETHODCALLTYPE CWindowList::GetSyncedWindowDataByHwnd(HWND hwnd, CWindowData** windowData)
 	{
 		return DEFCALL_MHOST_METHOD(CWindowList::GetSyncedWindowDataByHwnd, hwnd, windowData);
+	}
+
+	PRLIST_ENTRY CWindowList::GetWindowListForDesktop(ULONG_PTR desktopID)
+	{
+		return DEFCALL_MHOST_METHOD(CWindowList::GetWindowListForDesktop, desktopID);
 	}
 }
 #pragma pop_macro("DEFCALL_MHOST_METHOD")

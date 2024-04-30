@@ -1,7 +1,7 @@
 ﻿/**
- * FileName: CustomButton.h
+ * FileName: OcclusionCulling.h
  *
- * Copyright (C) 2024 Maplespe
+ * Copyright (C) 2024 ALTaleX、Maplespe
  *
  * This file is part of MToolBox and DWMBlurGlass.
  * DWMBlurGlass is free software: you can redistribute it and/or modify it under the terms of the
@@ -18,21 +18,19 @@
 #pragma once
 #include "DWMStruct.h"
 
-namespace MDWMBlurGlassExt::CustomButton
+namespace MDWMBlurGlassExt::OcclusionCulling
 {
 	void Attach();
 	void Detach();
 	void Refresh();
 
-	HRESULT WINAPI CTopLevelWindow_ValidateVisual(DWM::CTopLevelWindow* This);
+	HRESULT WINAPI CWindowList_StyleChange(DWM::CWindowList* This, DWM::IDwmWindow* windowContext);
+	HRESULT WINAPI CWindowList_CloakChange(DWM::CWindowList* This, DWM::IDwmWindow* windowContext1,  DWM::IDwmWindow* windowContext2, bool cloaked);
+	HRESULT WINAPI CWindowList_CheckForMaximizedChange(DWM::CWindowList* This, DWM::CWindowData* data);
 
-	HRESULT WINAPI CTopLevelWindow_InitializeVisualTreeClone(DWM::CTopLevelWindow* This, DWM::CTopLevelWindow* topLevelWindow, UINT cloneOptions);
-
-	void WINAPI CTopLevelWindow_Destructor(DWM::CTopLevelWindow* This);
-
-	void WINAPI CButton_Destructor(DWM::CButton* This);
-
-	HRESULT WINAPI CButton_UpdateLayout(DWM::CButton* This);
-
-	HRESULT WINAPI CButton_DrawStateW(DWM::CButton* This, DWM::CButton* a2, unsigned int oldstate);
+	HRESULT WINAPI CArrayBasedCoverageSet_AddAntiOccluderRect(
+		void* This,
+		DWM::MilRectF* a2,
+		int a3,
+		const struct CMILMatrix* a4);
 }

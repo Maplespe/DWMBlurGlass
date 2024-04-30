@@ -270,4 +270,16 @@ namespace MDWMBlurGlassExt
 		return rect1.left <= rect2.left && rect1.top <= rect2.top
 			&& rect1.right >= rect2.left && rect1.bottom >= rect2.top;
 	}
+
+	bool GetDesktopID(ULONG_PTR type, ULONG_PTR* desktopID)
+	{
+		if (static const auto pfnGetDesktopID
+		{
+			reinterpret_cast<decltype(&GetDesktopID)>(GetProcAddress(GetModuleHandleW(L"user32.dll"), "GetDesktopID"))
+		})
+		{
+			return pfnGetDesktopID(type, desktopID);
+		}
+		return false;
+	}
 }

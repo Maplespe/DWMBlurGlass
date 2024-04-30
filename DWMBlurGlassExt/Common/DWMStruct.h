@@ -94,6 +94,7 @@ namespace MDWMBlurGlassExt::DWM
 		bool IsUsingDarkMode() const;
 		DWORD GetNonClientAttribute() const;
 		bool IsImmersiveWindow() const;
+		bool IsWindowVisibleAndUncloaked() const;
 
 		ACCENT_POLICY* GetAccentPolicy();
 	};
@@ -203,7 +204,8 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		HRESULT GetExtendedFrameBounds(HWND hWnd, RECT* rect);
 		HRESULT GetSyncedWindowData(IDwmWindow* dwmWindow, bool shared, CWindowData** pWindowData);
-		HRESULT STDMETHODCALLTYPE GetSyncedWindowDataByHwnd(HWND hwnd, CWindowData** windowData);
+		HRESULT GetSyncedWindowDataByHwnd(HWND hwnd, CWindowData** windowData);
+		PRLIST_ENTRY GetWindowListForDesktop(ULONG_PTR desktopID);
 	};
 
 	struct CTopLevelWindow : CVisual

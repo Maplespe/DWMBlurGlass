@@ -146,7 +146,7 @@ namespace MDWMBlurGlass
 	</UIControl>)";
 
         xml += LR"(
-	<UIControl frame="15,5,15f,190" align="LinearV" prop="group" enable="true" name="miscSettings">
+	<UIControl frame="15,5,15f,210" align="LinearV" prop="group" enable="true" name="miscSettings">
 		<UIControl autoSize="true">
             <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_misc" />
             <UILabel pos="10,2" text="#miscsettings" />
@@ -159,6 +159,7 @@ namespace MDWMBlurGlass
 		</UIControl>
 		<UICheckBox pos="0,11" text="#useaccentcolor" name="useaccentcolor" />
 		<UICheckBox pos="0,11" text="#overrideAccent" name="overrideAccent" />
+		<UICheckBox pos="0,11" text="#occlusionCulling" name="occlusionCulling" />
 		<UIControl frame="0,15,10f,1" bgColor="222,222,222,255" />
 		<UIControl frame="0,10,100%,20" align="LinearH">
 		    <UILabel pos="0,0" text="#glassIntensity" />
@@ -468,6 +469,11 @@ namespace MDWMBlurGlass
                 else if (_MNAME(L"overrideAccent"))
                 {
                     m_cfgData.overrideAccent = static_cast<UICheckBox*>(control)->GetSel();
+                    SetButtonEnable(true);
+                }
+                else if (_MNAME(L"occlusionCulling"))
+                {
+                    m_cfgData.occlusionCulling = static_cast<UICheckBox*>(control)->GetSel();
                     SetButtonEnable(true);
                 }
                 else
@@ -786,6 +792,7 @@ namespace MDWMBlurGlass
 
         m_page->Child<UICheckBox>(L"useaccentcolor")->SetSel(m_cfgData.useAccentColor, false);
         m_page->Child<UICheckBox>(L"overrideAccent")->SetSel(m_cfgData.overrideAccent, false);
+        m_page->Child<UICheckBox>(L"occlusionCulling")->SetSel(m_cfgData.occlusionCulling, false);
         m_page->Child<UIEditBox>(L"crossfadeTimeValue")->SetCurText(std::to_wstring(m_cfgData.crossfadeTime));
 
         m_page->UpdateLayout();

@@ -186,6 +186,9 @@
     <ClInclude Include="Backdrops\ButtonGlowBackdrop.hpp">
       <Filter>头文件\Backdrops</Filter>
     </ClInclude>
+    <ClInclude Include="Section\OcclusionCulling.h">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="Common\ColorConversion.cpp">
       <Filter>源文件\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\OcclusionCulling.cpp">
+      <Filter>源文件\Section</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

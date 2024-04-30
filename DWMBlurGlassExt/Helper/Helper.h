@@ -85,6 +85,13 @@ namespace MDWMBlurGlassExt
 
 	bool IsRectInside(const RECT& rect1, const RECT& rect2);
 
+	// type = 1, input desktop (grpdeskRitInput)
+	// type = 2, default desktop? (grpdeskIODefault)
+	// type = 3, unknown
+	// type = 4, winlogon desktop (grpdeskLogon)
+	// type = ..., desktop created by CreateDesktop?
+	bool GetDesktopID(ULONG_PTR type, ULONG_PTR* desktopID);
+
 	namespace Vtbl
 	{
 		struct IWICImagingFactory2Vtbl

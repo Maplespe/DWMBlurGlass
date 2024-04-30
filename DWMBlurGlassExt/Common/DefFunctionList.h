@@ -31,6 +31,7 @@ namespace MDWMBlurGlassExt
 		{ dwmcore, "CDrawingContext::DrawVisualTree" },
 		{ dwmcore, "CRenderData::DrawImageResource_FillMode" },
 		{ dwmcore, "CFilterEffect::CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive" },
+		{ dwmcore, "CArrayBasedCoverageSet::AddAntiOccluderRect" },
 
 		{ udwm, "CDesktopManager::s_pDesktopManagerInstance" },
 		{ udwm, "CDesktopManager::MonitorDpiFromPoint"},
@@ -39,6 +40,10 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CWindowList::GetExtendedFrameBounds" },
 		{ udwm, "CWindowList::UpdateAccentBlurRect" },
 		{ udwm, "CWindowList::GetSyncedWindowDataByHwnd" },
+		{ udwm, "CWindowList::StyleChange" },
+		{ udwm, "CWindowList::CloakChange" },
+		{ udwm, "CWindowList::CheckForMaximizedChange" },
+		{ udwm, "CWindowList::GetWindowListForDesktop" },
 		{ udwm, "ResourceHelper::CreateGeometryFromHRGN" },
 		{ udwm, "HrgnFromRects" },
 
@@ -112,6 +117,7 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CCanvasVisual::Create" },
 
 		{ udwm, "CWindowData::IsImmersiveWindow" },
+		{ udwm, "CWindowData::IsWindowVisibleAndUncloaked" },
 
 		{ udwm, "CMatrixTransformProxy::Update" }
 	});
