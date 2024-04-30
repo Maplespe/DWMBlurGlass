@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<lang local="tr-TR" author="Dekamir">
+<lang local="tr-TR" author="Dekamir, baglayan">
 	<inituifail0>MiaoUI kütüphanesini başlatma başarısız! Hata kodu: </inituifail0>
 	<inituifail1>Pencere bağlamını oluşturma başarısız!</inituifail1>
 	<inituifail2>Pencere oluşturma başarısız!</inituifail2>
@@ -9,7 +9,7 @@
 	<colorpicker_dlg_c>Yeni renk:</colorpicker_dlg_c>
 	<msgdlg_no>Vazgeç</msgdlg_no>
 	<msgdlg_yes>Onayla</msgdlg_yes>
-	<colorpicker_dlg_alpha>Saydamlık:</colorpicker_dlg_alpha>
+	<colorpicker_dlg_alpha>Opaklık:</colorpicker_dlg_alpha>
 	<general>Genel</general>
 	<advanced>Gelişmiş</advanced>
 	<symbol>Sembol</symbol>
@@ -33,7 +33,7 @@
 	<extendborder>Etkiyi kenarlara genişlet (Windows 10)</extendborder>
 	<reflection>Aero yansıma etkisini etkinleştir</reflection>
 	<reflectiontip>(Eskiden kalan buğu yöntemi yalnızca Windows 10 için)</reflectiontip>
-	<oldBtnHeight>Windows 7 biçeminde başlık çubuğu butonlarını etkinleştir</oldBtnHeight>
+	<oldBtnSize>Windows 7 biçeminde başlık çubuğu buton boyutu</oldBtnSize>
 	<cmodelight>Açık Mod renkleri</cmodelight>
 	<cmodedark>Koyu Mod renkleri</cmodedark>
 	<blendcolor>Başlık çubuğu karışım rengi (etkin):</blendcolor>
@@ -43,12 +43,21 @@
 	<preview>Önizleme</preview>
 	<sampletitle>Örnek pencere başlığı (etkin)</sampletitle>
 	<blurmethod>Buğu Yöntemi:</blurmethod>
-	<methodcustom>[Önerilir] CVisual (DWM) ve Windows.UI.Composition (dcomp) tarafından \nyazılan özel buğu gerçeklemesi, özel arka plan etkileri elde etmenizi\nsağlar. Çoğu parametreyi özelleştirebilirsiniz. Sadece en yüksek verimliliği değil,\naynı zamanda en iyi görünümü ve daha iyi kararlılığı de elde edebilirsiniz. Ancak\nuyumluluk pek iyi değildir.\nBüyük bir Windows güncellemesinden sonra bozulabilir ve bir sonraki \nsürümü beklemeniz gerekebilir.</methodcustom>
-	<methodaccent>[Önerilmez] DWM'nin dahili \nAccentBlurBehind sınıfını kullanarak buğu etkisi uygulayın. Bazı parametreleri\nözelleştirebilirsiniz, ancak bu yöntem verimsiz ve daha az kararlıdır. Çoğu sistemde normal çalışır.\n(genellikle, bir sistem güncellemesi bunu bozmaz).</methodaccent>
-	<methoddwmapi>Windows 11'de belgelenmiş DWMAPI'yi kullanarak, Acrylic ve Mica etkisi gibi sınırlı\nSystemBackdrop efektleri uygulayın. Bu parametreleri hiç özelleştiremezsiniz,\nancak yüksek verimlilik ve daha iyi kararlılık sunar. Ancak, bazı programların\ngörünümünü bozabilir ve sadece Windows 11 22H2 ve daha yenilerinde kullanılabilir.</methoddwmapi>
+	<methodcustom>[Önerilir] CVisual (DWM) ve Windows.UI.Composition (dcomp) tarafından \nyazılan özel buğu gerçeklemesi, özel arka plan etkileri elde etmenizi sağlar.\nÇoğu parametreyi özelleştirebilirsiniz. Sadece en yüksek verimliliği değil,\naynı zamanda en iyi görünümü ve daha iyi kararlılığı de elde edebilirsiniz.\nAncakuyumluluk pek iyi değildir.\nBüyük bir Windows güncellemesinden sonra bozulabilir ve bir sonraki \nsürümü beklemeniz gerekebilir.</methodcustom>
+	<methodaccent>[Önerilmez] DWM'nin dahili AccentBlurBehind sınıfını kullanarak buğu etkisi\nuygulayın. Bazı parametreleri özelleştirebilirsiniz, ancak bu yöntem verimsiz ve\ndaha az kararlıdır. Çoğu sistemde normal çalışır.\n(genellikle, bir sistem güncellemesi bunu bozmaz).</methodaccent>
+	<methoddwmapi>Windows 11'de belgelenmiş DWMAPI'yi kullanarak, Acrylic ve Mica etkisi gibi\nsınırlı SystemBackdrop etkileri uygulayın. Bu parametreleri hiç\nözelleştiremezsiniz, ancak yüksek verimlilik ve daha iyi kararlılık sunar. Ancak,\nbazı programların görünümünü bozabilir ve sadece Windows 11 22H2 ve daha\nyenilerinde kullanılabilir.</methoddwmapi>
 	<effecttype>Etki Türü:</effecttype>
-	<blurvaluetitle>Buğu yarıçağı (yalnızca başlık çubuğunda):</blurvaluetitle>
-	<luminosity>Işıklılık saydamlığı:</luminosity>
+	<blurvaluetitle>Buğu yarıçapı (yalnızca başlık çubuğunda):</blurvaluetitle>
+	<luminosity>Işıklılık opaklığı:</luminosity>
+	<colorBalance>RenkDengesi:</colorBalance>
+	<blurBalance>BuğuDengesi:</blurBalance>
+	<afterglowBalance>SonParıltıDengesi:</afterglowBalance>
+	<miscsettings>Diğer:</miscsettings>
+	<enablecrossfade>Çapraz sönümleme animasyon etkisini etkinleştir</enablecrossfade>
+	<crossfadeTime>Animasyon süresi:</crossfadeTime>
+	<useaccentcolor>RGB renk ayarlarının üzerine yazmak için Aksan rengi kullan</useaccentcolor>
+	<glassIntensity>Aero yansıma dokusu opaklığı:</glassIntensity>
+	<overrideAccent>AccentBlur etkisinin üzerine yaz</overrideAccent>
 	<symbolfile>Sembol dosyaları:</symbolfile>
 	<download>İndir</download>
 	<symtip>Sembol dosyaları (pdb) bir programın hata giderme bilgilerini kaydeder.\nBu sistemler sürümden sürüme değiştiğinden, sembol dosyalarını bir\nMicrosoft sunucusundan indirmeniz gerekir. Eğer sisteminizi güncellerseniz,\nyeniden yeni dosyayı indirmeniz gerekebilir.</symtip>
@@ -56,7 +65,7 @@
 	<symstatus1>Geçerli</symstatus1>
 	<symdowning>İndiriliyor...</symdowning>
 	<symdownfail>İndirme başarısız! "msdl.microsoft.com" adresinden sembol dosyaları indirilemiyor.</symdownfail>
-	<syminvalid>Sembol dosyası geçersiz, Lütfen DWMBlurGlass programının "Semboller" sayfasından yeni bir sembol dosyası indirin!</syminvalid>
+	<syminvalid>Sembol dosyası geçersiz! Lütfen DWMBlurGlass programının "Semboller" sayfasından yeni bir sembol dosyası indirin.</syminvalid>
 	<configfile>Yapılandırma dosyası</configfile>
 	<import>İçe aktar</import>
 	<export>Dışa aktar</export>
