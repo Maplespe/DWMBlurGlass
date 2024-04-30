@@ -32,7 +32,8 @@
 	<applyglobal>Sostituisci l'effetto mica DWMAPI (win11)</applyglobal>
 	<extendborder>Estendi gli effetti ai bordi (win10)</extendborder>
 	<reflection>Abilita l'effetto riflesso Aero (win10)</reflection>
-	<oldBtnHeight>Riduci l'altezza del pulsante della barra del titolo (stile Win7)</oldBtnHeight>
+	<reflectiontip>(Metodo di sfocatura precedente solo per Windows 10)</reflectiontip>
+	<oldBtnSize>Ripristina le dimensioni del pulsante della barra del titolo in stile Win7</oldBtnSize>
 	<cmodelight>Colori Modalità Chiara</cmodelight>
 	<cmodedark>Colori Modalità Scura</cmodedark>
 	<blendcolor>Colore di fusione della barra del titolo (attivo):</blendcolor>
@@ -46,9 +47,17 @@
 	<methodaccent>[Non consigliato] Utilizza l'implementazione di sfocatura interna DWM ma \nnon elimina la classe AccentBlurBehind per applicare l'effetto di sfocatura, \npuoi personalizzare alcuni parametri, ma è inefficiente e \nmeno stabile. Può funzionare normalmente sulla maggior parte dei sistemi. \n(generalmente, un aggiornamento del sistema non lo interromperà).</methodaccent>
 	<methoddwmapi>Utilizza DWMAPI documentata per applicare effetti SystemBackdrop limitati,\ncome Acrylic, effetto Mica, non puoi personalizzare affatto questi parametri, \nma ha alta efficienza, migliore stabilità. Tuttavia, potrebbe compromettere \nl'aspetto di alcuni programmi ed è disponibile solo sopra \nWindows 11 22H2(+).</methoddwmapi>
 	<effecttype>Tipo di effetto:</effecttype>
-        <blurvaluetitle>Raggio di blur (solo barra del titolo):</blurvaluetitle>
+                  <blurvaluetitle>Raggio di blur (solo barra del titolo):</blurvaluetitle>
 	<luminosity>Opacità di luminosità:</luminosity>
-	<configfile>File di configurazione</configfile>
+	<colorBalance>Bilanciamento del colore:</colorBalance>
+	<blurBalance>Bilanciamento della sfocatura:</blurBalance>
+	<afterglowBalance>Bilanciamento del bagliore residuo:</afterglowBalance>
+	<miscsettings>Varie:</miscsettings>
+	<enablecrossfade>Abilita l'effetto di animazione dissolvenza incrociata</enablecrossfade>
+	<crossfadeTime>Durata Animazione:</crossfadeTime>
+	<useaccentcolor>Utilizza il colore principale per sovrascrivere le impostazioni colore RGB</useaccentcolor>
+	<glassIntensity>Opacità texture riflessione Aero:</glassIntensity>
+	<overrideAccent>Sostituisci l'effetto AccentBlur</overrideAccent>
 	<symbolfile>File di simboli:</symbolfile>
 	<download>Scarica</download>
 	<symtip>I file di simboli (pdb) sono file che registrano informazioni di debug su un\nprogramma. Poiché i sistemi variano da versione a versione, dovrai\nscaricare i file dei simboli da un server Microsoft. Se aggiorni il tuo\nsistema, potrebbe essere necessario scaricare nuovamente il nuovo file.</symtip>
@@ -57,6 +66,7 @@
 	<symdowning>Download in corso...</symdowning>
 	<symdownfail>Download fallito! Impossibile scaricare il file da "msdl.microsoft.com".</symdownfail>
 	<syminvalid>Il file dei simboli non è valido! Vai alla pagina "Simboli" del programma DWMBlurGlass per scaricare un nuovo file di simboli!</syminvalid>
+	<configfile>File di configurazione</configfile>
 	<import>Importa</import>
 	<export>Esporta</export>
 	<restore>Ripristina i valori predefiniti</restore>
