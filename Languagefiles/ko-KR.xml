@@ -66,4 +66,14 @@
 	<aboutinfo>이 프로그램은 LGPLv3 계약 무료 오픈 소스 소프트웨어를 기반으로 합니다:</aboutinfo>
 	<curlang>현재 언어:</curlang>
 	<langauthor>번역 기여자:</langauthor>
+	<oldBtnSize>Win7 스타일 제목 표시줄 단추 크기 복원</oldBtnSize>
+	<miscsettings>미스크:</miscsettings>
+	<enablecrossfade>크로스페이드 애니메이션 효과 사용</enablecrossfade>
+	<overrideAccent>AccentBlur 효과 재정의</overrideAccent>
+	<glassIntensity>에어로 반사 텍스처 불투명도:</glassIntensity>
+		<colorBalance>색상 균형:</colorBalance>
+	<blurBalance>블러 밸런스:</blurBalance>
+	<afterglowBalance>잔광 밸런스:</afterglowBalance>
+	<useaccentcolor>액센트 색상을 사용하여 색상 설정 무시 RGB</useaccentcolor>
+	<crossfadeTime>애니메이션 지속 시간:</crossfadeTime>
 </lang>
