@@ -41,9 +41,20 @@ namespace MDWMBlurGlassExt::AeroBackdrop
 			} (compositor, blurAmount)
 		};
 
-		// the current recipe is modified from @kfh83, @TorutheRedFox, @aubymori
-		auto fallbackTintSource{ winrt::make_self<ColorSourceEffect>() };
-		fallbackTintSource->SetColor(wu::Color
+		static winrt::Windows::UI::Composition::CompositionBrush CreateBrush(
+			const winrt::Windows::UI::Composition::Compositor& compositor,
+			const winrt::Windows::UI::Color& mainColor,
+			const winrt::Windows::UI::Color& glowColor,
+			float colorBalance,
+			float glowBalance,
+			float blurAmount,
+			float blurBalance,
+			bool hostBackdrop
+		) try
+		{
+			// the current recipe is modified from @kfh83, @TorutheRedFox, @aubymori
+			auto fallbackTintSource{ winrt::make_self<ColorSourceEffect>() };
+			fallbackTintSource->SetColor(winrt::Windows::UI::Color
 			{
 				255,
 				static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
@@ -64,25 +75,25 @@ namespace MDWMBlurGlassExt::AeroBackdrop
 		colorOpacityEffect->SetInput(*colorEffect);
 		colorOpacityEffect->SetOpacity(colorBalance);
 
-		auto blurredBackdropBalanceEffect{ winrt::make_self<OpacityEffect>() };
-		blurredBackdropBalanceEffect->SetName(L"BlurBalance");
-		blurredBackdropBalanceEffect->SetOpacity(blurBalance);
-		blurredBackdropBalanceEffect->SetInput(wuc::CompositionEffectSourceParameter{ L"BlurredBackdrop" });
+			auto backdropBalanceEffect{ winrt::make_self<OpacityEffect>() };
+			backdropBalanceEffect->SetName(L"BlurBalance");
+			backdropBalanceEffect->SetOpacity(blurBalance);
+			backdropBalanceEffect->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
 
-		auto actualBackdropEffect{ winrt::make_self<CompositeStepEffect>() };
-		actualBackdropEffect->SetCompositeMode(D2D1_COMPOSITE_MODE_PLUS);
-		actualBackdropEffect->SetDestination(*blackOrTransparentSource);
-		actualBackdropEffect->SetSource(*blurredBackdropBalanceEffect);
+			auto actualBackdropEffect{ winrt::make_self<CompositeStepEffect>() };
+			actualBackdropEffect->SetCompositeMode(D2D1_COMPOSITE_MODE_PLUS);
+			actualBackdropEffect->SetDestination(*blackOrTransparentSource);
+			actualBackdropEffect->SetSource(*backdropBalanceEffect);
 
-		auto desaturatedBlurredBackdrop{ winrt::make_self<SaturationEffect>() };
-		desaturatedBlurredBackdrop->SetSaturation(0.f);
-		desaturatedBlurredBackdrop->SetInput(wuc::CompositionEffectSourceParameter{ L"BlurredBackdrop" });
+			auto desaturatedBackdrop{ winrt::make_self<SaturationEffect>() };
+			desaturatedBackdrop->SetSaturation(0.f);
+			desaturatedBackdrop->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
 
-		// make animation feel better...
-		auto backdropNotTransparentPromised{ winrt::make_self<CompositeStepEffect>() };
-		backdropNotTransparentPromised->SetCompositeMode(D2D1_COMPOSITE_MODE_SOURCE_OVER);
-		backdropNotTransparentPromised->SetDestination(*fallbackTintSource);
-		backdropNotTransparentPromised->SetSource(*desaturatedBlurredBackdrop);
+			// make animation feel better...
+			auto backdropNotTransparentPromised{ winrt::make_self<CompositeStepEffect>() };
+			backdropNotTransparentPromised->SetCompositeMode(D2D1_COMPOSITE_MODE_SOURCE_OVER);
+			backdropNotTransparentPromised->SetDestination(*fallbackTintSource);
+			backdropNotTransparentPromised->SetSource(*desaturatedBackdrop);
 
 		// if the afterglowColor is black, then it will produce a completely transparent surface
 		auto tintEffect{ winrt::make_self<TintEffect>() };
@@ -99,9 +110,222 @@ namespace MDWMBlurGlassExt::AeroBackdrop
 		compositeEffect->SetDestination(*backdropWithAfterGlow);
 		compositeEffect->SetSource(*colorOpacityEffect);
 
-		auto effectBrush{ compositor.CreateEffectFactory(*compositeEffect).CreateBrush() };
-		effectBrush.SetSourceParameter(L"BlurredBackdrop", blurredBackdropBrush);
+			auto gaussianBlurEffect{ winrt::make_self<GaussianBlurEffect>() };
+			gaussianBlurEffect->SetName(L"Blur");
+			gaussianBlurEffect->SetBorderMode(D2D1_BORDER_MODE_HARD);
+			gaussianBlurEffect->SetBlurAmount(blurAmount);
+			gaussianBlurEffect->SetInput(*compositeEffect);
 
-		return effectBrush;
-	}
+			auto effectBrush{ compositor.CreateEffectFactory(*gaussianBlurEffect).CreateBrush() };
+			effectBrush.SetSourceParameter(L"Backdrop", compositor.CreateBackdropBrush());
+
+			return effectBrush;
+		}
+		catch (...) { return nullptr; }
+
+		void STDMETHODCALLTYPE ReloadParameters() override
+		{
+			crossfadeTime = std::chrono::milliseconds{ g_configData.crossfadeTime };
+
+			if (g_configData.useAccentColor)
+			{
+				darkMode_Active_Color = MakeWinrtColor(g_accentColor);
+				darkMode_Inactive_Color = darkMode_Active_Color;
+				lightMode_Active_Color = darkMode_Inactive_Color;
+				lightMode_Inactive_Color = lightMode_Active_Color;
+			}
+			else
+			{
+				darkMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColorDark);
+				darkMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColorDark);
+				lightMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColor);
+				lightMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColor);
+			}
+
+			darkMode_Active_GlowColor = darkMode_Active_Color;
+			darkMode_Inactive_GlowColor = darkMode_Inactive_Color;
+			lightMode_Active_GlowColor = lightMode_Active_Color;
+			lightMode_Inactive_GlowColor = lightMode_Inactive_Color;
+
+			// please altalex keep this as is or atleast try to keep this behavior
+
+			lightMode_Active_ColorBalance = g_configData.aeroColorBalance;
+			lightMode_Inactive_ColorBalance = lightMode_Active_ColorBalance * 0.4f;
+			darkMode_Active_ColorBalance = g_configData.aeroColorBalance;
+			darkMode_Inactive_ColorBalance = darkMode_Active_ColorBalance * 0.4f;
+
+			lightMode_Active_GlowBalance = g_configData.aeroAfterglowBalance;
+			lightMode_Inactive_GlowBalance = g_configData.aeroAfterglowBalance;
+			darkMode_Active_GlowBalance = g_configData.aeroAfterglowBalance;
+			darkMode_Inactive_GlowBalance = g_configData.aeroAfterglowBalance;
+
+			Active_BlurBalance = g_configData.aeroBlurBalance;
+			Inactive_BlurBalance = (Active_BlurBalance * 0.4f) + 0.6f;
+
+			blurAmount = g_configData.customBlurAmount;
+		}
+
+		winrt::Windows::UI::Composition::CompositionBrush STDMETHODCALLTYPE GetBrush(bool useDarkMode, bool windowActivated) override try
+		{
+			auto is_device_valid = [&]()
+			{
+				if (!interopDCompDevice) return false;
+
+				BOOL valid{ FALSE };
+				THROW_IF_FAILED(
+					interopDCompDevice.as<IDCompositionDevice>()->CheckDeviceState(
+						&valid
+					)
+				);
+
+				return valid == TRUE;
+			};
+			if (!is_device_valid())
+			{
+				interopDCompDevice.copy_from(
+					DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice()
+				);
+				ReloadParameters();
+				auto compositor{ interopDCompDevice.as<winrt::Windows::UI::Composition::Compositor>() };
+
+				lightMode_Active_Brush = CreateBrush(
+					compositor,
+					lightMode_Active_Color,
+					lightMode_Active_GlowColor,
+					lightMode_Active_ColorBalance,
+					lightMode_Active_GlowBalance,
+					blurAmount,
+					Active_BlurBalance,
+					hostBackdrop
+				);
+				lightMode_Inactive_Brush = CreateBrush(
+					compositor,
+					lightMode_Inactive_Color,
+					lightMode_Inactive_GlowColor,
+					lightMode_Inactive_ColorBalance,
+					lightMode_Inactive_GlowBalance,
+					blurAmount,
+					Inactive_BlurBalance,
+					hostBackdrop
+				);
+				darkMode_Active_Brush = CreateBrush(
+					compositor,
+					darkMode_Active_Color,
+					darkMode_Active_GlowColor,
+					darkMode_Active_ColorBalance,
+					darkMode_Active_GlowBalance,
+					blurAmount,
+					Active_BlurBalance,
+					hostBackdrop
+				);
+				darkMode_Inactive_Brush = CreateBrush(
+					compositor,
+					darkMode_Inactive_Color,
+					darkMode_Inactive_GlowColor,
+					darkMode_Inactive_ColorBalance,
+					darkMode_Inactive_GlowBalance,
+					blurAmount,
+					Inactive_BlurBalance,
+					hostBackdrop
+				);
+			}
+
+			return CDCompResources::GetBrush(useDarkMode, windowActivated);
+		}
+		catch (...) { return nullptr; }
+	};
+
+	struct CAeroBackdrop : CDCompBackdrop
+	{
+		inline static CAeroResources s_sharedResources{};
+
+		STDMETHOD(UpdateColorizationColor)(
+			bool useDarkMode,
+			bool windowActivated
+			) override
+		{
+			if (useDarkMode)
+			{
+				if (windowActivated) { currentColor = s_sharedResources.darkMode_Active_Color; }
+				else { currentColor = s_sharedResources.darkMode_Inactive_Color; }
+			}
+			else
+			{
+				if (windowActivated) { currentColor = s_sharedResources.lightMode_Active_Color; }
+				else { currentColor = s_sharedResources.lightMode_Inactive_Color; }
+			}
+
+			return S_OK;
+		}
+
+		HRESULT STDMETHODCALLTYPE Update(
+			bool useDarkMode,
+			bool windowActivated
+		) override try
+		{
+			THROW_IF_FAILED(UpdateColorizationColor(useDarkMode, windowActivated));
+			THROW_IF_FAILED(
+				TryCrossFadeToNewBrush(
+					spriteVisual.Compositor(),
+					s_sharedResources.GetBrush(useDarkMode, windowActivated),
+					s_sharedResources.crossfadeTime
+				)
+			);
+
+			return S_OK;
+		}
+		CATCH_RETURN()
+	};
+
+	struct CAccentAeroResources : CDCompResourcesBase
+	{
+
+	};
+	struct CAccentAeroBackdrop : CAccentDCompBackdrop
+	{
+		inline static CAccentAeroResources s_sharedResources{};
+		winrt::Windows::UI::Color currenGlowColor{};
+
+		HRESULT STDMETHODCALLTYPE UpdateBrush(const DWM::ACCENT_POLICY& policy) try
+		{
+			s_sharedResources.ReloadParameters();
+			s_sharedResources.interopDCompDevice.copy_from(
+				DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice()
+			);
+			auto compositor{ spriteVisual.Compositor() };
+			auto glowColor{ FromAbgr(policy.nColor) };
+			if (
+				currenGlowColor != glowColor ||
+				interopDCompDevice != s_sharedResources.interopDCompDevice
+			)
+			{
+				interopDCompDevice = s_sharedResources.interopDCompDevice;
+				currenGlowColor = glowColor;
+
+				spriteVisual.Brush(
+					CAeroResources::CreateBrush(
+						compositor,
+						CAeroBackdrop::s_sharedResources.lightMode_Active_Color,
+						{ 255, currenGlowColor.R, currenGlowColor.G, currenGlowColor.B },
+						CAeroBackdrop::s_sharedResources.lightMode_Active_ColorBalance,
+						CAeroBackdrop::s_sharedResources.lightMode_Active_GlowBalance,
+						CAeroBackdrop::s_sharedResources.blurAmount,
+						CAeroBackdrop::s_sharedResources.Active_BlurBalance,
+						CAeroBackdrop::s_sharedResources.hostBackdrop
+					)
+				);
+			}
+
+			return S_OK;
+		}
+		CATCH_RETURN()
+
+		HRESULT STDMETHODCALLTYPE Update(const DWM::ACCENT_POLICY& policy) override try
+		{
+			THROW_IF_FAILED(UpdateBrush(policy));
+
+			return S_OK;
+		}
+		CATCH_RETURN()
+	};
 }
