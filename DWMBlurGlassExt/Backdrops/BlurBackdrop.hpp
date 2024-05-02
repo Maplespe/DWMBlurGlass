@@ -206,6 +206,7 @@ namespace MDWMBlurGlassExt
 
 		HRESULT STDMETHODCALLTYPE UpdateBrush(const DWM::ACCENT_POLICY& policy) try
 		{
+			s_sharedResources.ReloadParameters();
 			s_sharedResources.interopDCompDevice.copy_from(
 				DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice()
 			);

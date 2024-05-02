@@ -49,12 +49,12 @@ namespace MDWMBlurGlassExt
 			// the current recipe is modified from @kfh83, @TorutheRedFox, @aubymori
 			auto fallbackTintSource{ winrt::make_self<ColorSourceEffect>() };
 			fallbackTintSource->SetColor(winrt::Windows::UI::Color
-				{
-					255,
-					static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
-					static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
-					static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
-				});
+			{
+				255,
+				static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
+				static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
+				static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
+			});
 
 			auto blackOrTransparentSource{ winrt::make_self<TintEffect>() };
 			blackOrTransparentSource->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
@@ -69,36 +69,25 @@ namespace MDWMBlurGlassExt
 			colorOpacityEffect->SetInput(*colorEffect);
 			colorOpacityEffect->SetOpacity(colorBalance);
 
-			auto gaussianBlurEffect{ winrt::make_self<GaussianBlurEffect>() };
-			gaussianBlurEffect->SetName(L"Blur");
-			gaussianBlurEffect->SetBorderMode(D2D1_BORDER_MODE_HARD);
-			gaussianBlurEffect->SetBlurAmount(blurAmount);
-			gaussianBlurEffect->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
-
-			auto blurredBackdropBalanceEffect{ winrt::make_self<OpacityEffect>() };
-			blurredBackdropBalanceEffect->SetName(L"BlurBalance");
-			blurredBackdropBalanceEffect->SetOpacity(blurBalance);
-			blurredBackdropBalanceEffect->SetInput(*gaussianBlurEffect);
+			auto backdropBalanceEffect{ winrt::make_self<OpacityEffect>() };
+			backdropBalanceEffect->SetName(L"BlurBalance");
+			backdropBalanceEffect->SetOpacity(blurBalance);
+			backdropBalanceEffect->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
 
 			auto actualBackdropEffect{ winrt::make_self<CompositeStepEffect>() };
 			actualBackdropEffect->SetCompositeMode(D2D1_COMPOSITE_MODE_PLUS);
 			actualBackdropEffect->SetDestination(*blackOrTransparentSource);
-			actualBackdropEffect->SetSource(*blurredBackdropBalanceEffect);
+			actualBackdropEffect->SetSource(*backdropBalanceEffect);
 
-			auto gaussianBlurEffect2{ winrt::make_self<GaussianBlurEffect>() };
-			gaussianBlurEffect2->SetBorderMode(D2D1_BORDER_MODE_HARD);
-			gaussianBlurEffect2->SetBlurAmount(blurAmount);
-			gaussianBlurEffect2->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
-
-			auto desaturatedBlurredBackdrop{ winrt::make_self<SaturationEffect>() };
-			desaturatedBlurredBackdrop->SetSaturation(0.f);
-			desaturatedBlurredBackdrop->SetInput(*gaussianBlurEffect2);
+			auto desaturatedBackdrop{ winrt::make_self<SaturationEffect>() };
+			desaturatedBackdrop->SetSaturation(0.f);
+			desaturatedBackdrop->SetInput(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"Backdrop" });
 
 			// make animation feel better...
 			auto backdropNotTransparentPromised{ winrt::make_self<CompositeStepEffect>() };
 			backdropNotTransparentPromised->SetCompositeMode(D2D1_COMPOSITE_MODE_SOURCE_OVER);
 			backdropNotTransparentPromised->SetDestination(*fallbackTintSource);
-			backdropNotTransparentPromised->SetSource(*desaturatedBlurredBackdrop);
+			backdropNotTransparentPromised->SetSource(*desaturatedBackdrop);
 
 			// if the glowColor is black, then it will produce a completely transparent surface
 			auto tintEffect{ winrt::make_self<TintEffect>() };
@@ -115,8 +104,13 @@ namespace MDWMBlurGlassExt
 			compositeEffect->SetDestination(*backdropWithAfterGlow);
 			compositeEffect->SetSource(*colorOpacityEffect);
 
+			auto gaussianBlurEffect{ winrt::make_self<GaussianBlurEffect>() };
+			gaussianBlurEffect->SetName(L"Blur");
+			gaussianBlurEffect->SetBorderMode(D2D1_BORDER_MODE_HARD);
+			gaussianBlurEffect->SetBlurAmount(blurAmount);
+			gaussianBlurEffect->SetInput(*compositeEffect);
 
-			auto effectBrush{ compositor.CreateEffectFactory(*compositeEffect).CreateBrush() };
+			auto effectBrush{ compositor.CreateEffectFactory(*gaussianBlurEffect).CreateBrush() };
 			effectBrush.SetSourceParameter(L"Backdrop", compositor.CreateBackdropBrush());
 
 			return effectBrush;
@@ -288,6 +282,7 @@ namespace MDWMBlurGlassExt
 
 		HRESULT STDMETHODCALLTYPE UpdateBrush(const DWM::ACCENT_POLICY& policy) try
 		{
+			s_sharedResources.ReloadParameters();
 			s_sharedResources.interopDCompDevice.copy_from(
 				DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice()
 			);
@@ -307,7 +302,7 @@ namespace MDWMBlurGlassExt
 						CAeroBackdrop::s_sharedResources.lightMode_Active_Color,
 						{ 255, currenGlowColor.R, currenGlowColor.G, currenGlowColor.B },
 						CAeroBackdrop::s_sharedResources.lightMode_Active_ColorBalance,
-						static_cast<float>(currenGlowColor.A) / 255.f,
+						CAeroBackdrop::s_sharedResources.lightMode_Active_GlowBalance,
 						CAeroBackdrop::s_sharedResources.blurAmount,
 						CAeroBackdrop::s_sharedResources.Active_BlurBalance,
 						CAeroBackdrop::s_sharedResources.hostBackdrop

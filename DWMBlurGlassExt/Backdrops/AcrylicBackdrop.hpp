@@ -487,6 +487,7 @@ namespace MDWMBlurGlassExt
 
 		HRESULT STDMETHODCALLTYPE UpdateBrush(const DWM::ACCENT_POLICY& policy) try
 		{
+			s_sharedResources.ReloadParameters();
 			THROW_IF_FAILED(s_sharedResources.EnsureNoiceSurfaceBrush());
 
 			auto compositor{ spriteVisual.Compositor() };
