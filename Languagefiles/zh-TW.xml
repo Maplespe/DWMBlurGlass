@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <lang local="zh-TW" author="railyinu">
 	<inituifail0>MiaoUI 初始化失敗！錯誤資訊：</inituifail0>
 	<inituifail1>建立視窗上下文失敗！</inituifail1>
@@ -29,29 +29,38 @@
 	<saveconfig>套用設定</saveconfig>
 	<effectset>效果設定</effectset>
 	<blurvalue>模糊半徑（全域）：</blurvalue>
-	<applyglobal>覆寫使用 DWMAPI 設定的 Mica 效果 (Windows 11)</applyglobal>
+	<applyglobal>覆寫 DWMAPI 設定的 Mica 效果 (Windows 11)</applyglobal>
 	<extendborder>將效果延伸到邊框 (Windows 10)</extendborder>
 	<reflection>啟用 Aero 反射效果</reflection>
 	<reflectiontip>(OldBlur 僅在 Windows 10 上有效)</reflectiontip>
-	<oldBtnHeight>減少標題列按鈕高度 (Windows 7 樣式)</oldBtnHeight>
+	<oldBtnSize>將標題列按鈕大小還原為 Windows 7 樣式</oldBtnSize>
 	<cmodelight>淺色模式色彩</cmodelight>
 	<cmodedark>深色模式色彩</cmodedark>
-	<blendcolor>使用中視窗標題列混合色彩</blendcolor>
-	<inactiveblendcolor>非使用中視窗標題列混合色彩</inactiveblendcolor>
-	<activecolor>使用中視窗文本色彩</activecolor>
-	<inactivecolor>非使用中視窗文本色彩</inactivecolor>
+	<blendcolor>使用中視窗標題列</blendcolor>
+	<inactiveblendcolor>非使用中視窗標題列</inactiveblendcolor>
+	<activecolor>使用中視窗文本</activecolor>
+	<inactivecolor>非使用中視窗文本</inactivecolor>
 	<preview>預覽</preview>
 	<sampletitle>使用中視窗</sampletitle>
 	<blurmethod>模糊方法：</blurmethod>
 	<methodcustom>[建議] 透過本程式編寫的模糊方法，以 CVisual(DWM) 和 IComposition(dcomp)\n實現自訂背景效果，此選項可自訂大部分參數，且效能最高、效果最好、穩定性較\n好，但是系統相容性一般。\n\n若作業系統大更新發行時可能會失效，需等待程式更新。</methodcustom>
-	<methodaccent>[不建議] 透過 DWM 未公開，但未移除的 AccentBlurBehind 方法實現模糊效果，\n此選項可自訂小部分參數，系統相容性較好，但是效能較低、穩定性較差。\n\n作業系統的一般更新通常不會使本功能失效。</methodaccent>
-	<methoddwmapi>透過公開的 DWMAPI 方法設定 SystemBackdrop 效果，允許選取預設的壓克力、\nMica 效果，此選項效能高、穩定性較好，但是無法自訂參數，某些程式的渲染也可\n能會因此遭到破壞。\n\n僅與 Windows 11 22H2(+) 相容。</methoddwmapi>
+	<methodaccent>[不建議] 透過 DWM 未公開，但未移除的 AccentBlurBehind 方法實現模糊效果，\n此選項可自訂小部分參數，系統相容性較好，但是效能較低、穩定性較差。\n\nOS 的一般更新通常不會使本功能失效。</methodaccent>
+	<methoddwmapi>透過公開的 DWMAPI 方法設定 SystemBackdrop 效果，允許選取預設的 Acrylic、\nMica 效果，此選項效能高、穩定性較好，但是無法自訂參數，某些程式的渲染也可\n能會因此遭到破壞。\n\n僅與 Windows 11 22H2(+) 相容。</methoddwmapi>
 	<effecttype>效果類型：</effecttype>
 	<blurvaluetitle>模糊半徑（僅標題列）：</blurvaluetitle>
 	<luminosity>材質亮度不透明度：</luminosity>
+	<colorBalance>色彩平衡:</colorBalance>
+	<blurBalance>亮度平衡:</blurBalance>
+	<afterglowBalance>飽和度平衡:</afterglowBalance>
+	<miscsettings>參數設定:</miscsettings>
+	<enablecrossfade>啟用交叉淡入淡出動畫效果</enablecrossfade>
+	<crossfadeTime>動畫時長:</crossfadeTime>
+	<useaccentcolor>透過 OS 輔色覆寫色彩設定 RGB</useaccentcolor>
+	<glassIntensity>Aero 反射紋理不透明度:</glassIntensity>
+	<overrideAccent>覆寫 AccentBlur 效果</overrideAccent>
 	<symbolfile>符號檔案：</symbolfile>
 	<download>下載</download>
-	<symtip>符號檔案(.pdb)為記錄程式偵錯資訊的一種檔案，由於各版本作業系統皆有不同，\n因此需要自 Microsoft 伺服器下載符號檔案。\n\n若作業系統安裝了更新，你可能需要重新下載符號檔案。</symtip>
+	<symtip>符號檔案(.pdb)為記錄程式偵錯資訊的檔案。\n由於各版本作業系統皆有不同，你需要自 Microsoft 伺服器下載符號檔案使得本\n軟體之變更生效。\n\n若作業系統安裝了更新，你可能需要重新下載符號檔案。</symtip>
 	<symstatus0>無效</symstatus0>
 	<symstatus1>有效</symstatus1>
 	<symdowning>下載中...</symdowning>
@@ -63,7 +72,7 @@
 	<restore>還原為預設值</restore>
 	<importwarn>匯入設定檔將覆寫現有的設定，確定要繼續嗎？</importwarn>
 	<restorecfg>確定要將設定還原為預設值嗎？</restorecfg>
-	<aboutinfo>本程式為遵循 LGPLv3 協議的自由開源軟體。</aboutinfo>
+	<aboutinfo>\n本應用程式為遵循 LGPL-3.0 協議之自由開源軟體。</aboutinfo>
 	<curlang>\n當前語言：</curlang>
-	<langauthor>譯者：</langauthor>
+	<langauthor>譯者 :</langauthor>
 </lang>
