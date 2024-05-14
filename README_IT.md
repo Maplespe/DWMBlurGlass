@@ -11,6 +11,17 @@ Altre lingue:
 >
 > [Deutsch](/README_DE.md)
 
+## !!! Non scaricare DWMBlurGlass da nessun'altra parte!!!!
+> [!WARNING]
+> Abbiamo scoperto che qualcuno finge di essere noi e pubblica DWMBlurGlass con un codice dannoso impiantato.
+> 
+> Per evitare che questo tipo di problemi si ripetano, non scaricare il software da indirizzi non ufficiali!
+> 
+> **Inoltre non abbiamo Discord ufficiale.**
+> 
+> Distribuiamo software solo su [Github](https://github.com/Maplespe/DWMBlurGlass/releases), [Bilibili](https://space.bilibili.com/87195798) e [winmoes](https://winmoes.com).
+> 
+> Inoltre, qualsiasi nuova versione da testare viene prima inviata al ramo test, anziché rilasciare i binari in anticipo.
 
 [![licenza](https://img.shields.io/github/license/Maplespe/DWMBlurGlass.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 [![Github Tutti i Releases](https://img.shields.io/github/downloads/Maplespe/DWMBlurGlass/total.svg)](https://github.com/Maplespe/DWMBlurGlass/releases)
