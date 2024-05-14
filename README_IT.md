@@ -12,7 +12,7 @@ Altre lingue:
 > [Deutsch](/README_DE.md)
 
 ## !!! Non scaricare DWMBlurGlass da nessun'altra parte!!!!
-> [!ATTENZIONE]
+> [!WARNING]
 > Abbiamo scoperto che qualcuno finge di essere noi e pubblica DWMBlurGlass con un codice dannoso impiantato.
 > 
 > Per evitare che questo tipo di problemi si ripetano, non scaricare il software da indirizzi non ufficiali!
