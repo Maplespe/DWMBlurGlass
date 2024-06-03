@@ -156,7 +156,7 @@ MicaAlt là Mica với tone màu xám, bạn có thể tự chỉnh màu blend �
 2. Xoá các tập tin liên quan
 
 ## Tập tin ngôn ngữ
-Chúng tôi cung cấp một vài ngôn ngữ, chẳng hạn Tiếng Anh, Tiếng Trung Giản thểe, Tiếng Tây Ban Nha, Tiếng Bồ Đào Nha và hơn nữa.
+Chúng tôi cung cấp một vài ngôn ngữ, chẳng hạn Tiếng Anh, Tiếng Trung Giản thể, Tiếng Tây Ban Nha, Tiếng Bồ Đào Nha và hơn nữa.
 Nếu bạn muốn giúp chúng tôi phiên dịch sang các ngôn ngữ khác, vui lòng xem bên dưới về định dạng tập tin ngôn ngữ.
 
 1. Đầu tiên, bạn cần fork kho lưu trữ này và sao chép (clone) nó xuống thiết bị cục bộ.
