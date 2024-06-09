@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<lang local="vi-VN" author="Reggyxt">
+	<inituifail0>Khởi tạo thư viện MiaoUI thất bại! mã lỗi: </inituifail0>
+	<inituifail1>Tạo bối cảnh cửa sổ thất bại!</inituifail1>
+	<inituifail2>Khởi tạo cửa sổ thất bại!</inituifail2>
+	<initfail0>Lưu ý rằng vì DWM đang chạy trong sandbox, ứng dụng này phải được đặt ở một thư mục không phải user, và đường dẫn không được nằm ở "{path}" hay các thư mục con của nó! Vui lòng đặt nó ở một thư mục khác.</initfail0>
+	<symloadfail>Tải tập tin symbol thất bại! Chương trình không thể tải DLL, vui lòng tải lại symbol. (Symbol cũng có thể cần được tải lại sau khi cập nhật hệ thống)</symloadfail>
+	<colorpicker_dlg_sel>Chọn màu:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Màu mới:</colorpicker_dlg_c>
+	<msgdlg_no>Huỷ bỏ</msgdlg_no>
+	<msgdlg_yes>Xác nhận</msgdlg_yes>
+	<colorpicker_dlg_alpha>Độ trong suốt:</colorpicker_dlg_alpha>
+	<general>Chung</general>
+	<advanced>Nâng cao</advanced>
+	<symbol>Symbol</symbol>
+	<config>Cấu hình</config>
+	<about>Giới thiệu</about>
+	<status>Trạng thái:</status>
+	<status0>Đã gỡ cài đặt</status0>
+	<status1>Đã cài đặt</status1>
+	<install>Cài đặt</install>
+	<uninstall>Gỡ cài đặt</uninstall>
+	<installsucs>Đã cài đặt thành công!</installsucs>
+	<installsucs1>Đã cài đặt thành công! Nhưng bạn chưa tải các tập tin symbol hợp lệ, tải nó từ thẻ "Symbol" để làm cho DWMBlurGlass hoạt động.</installsucs1>
+	<installfail>Cài đặt thất bại! Thông báo lỗi: </installfail>
+	<uninstallsucs>Gỡ cài đặt thành công.</uninstallsucs>
+	<uninstallfail>Gỡ cài đặt thất bại! Thông báo lỗi: </uninstallfail>
+	<loadfail>Tải thành phần thất bại! Thông báo lỗi: </loadfail>
+	<saveconfig>Lưu</saveconfig>
+	<effectset>Cài đặt hiệu ứng</effectset>
+	<blurvalue>Bán kính làm mờ (chung):</blurvalue>
+	<applyglobal>Ghi đè hiệu ứng DWMAPI (Windows 11)</applyglobal>
+	<extendborder>Mở rộng hiệu ứng ra viền cửa sổ (Windows 10)</extendborder>
+	<reflection>Bật hiệu ứng phản chiếu Aero</reflection>
+	<reflectiontip>(Phương thức cũ chỉ cho Windows 10)</reflectiontip>
+	<oldBtnSize>Khôi phục kích thước nút trên thanh tiêu đề kiểu Win7</oldBtnSize>
+	<cmodelight>Màu chế độ sáng</cmodelight>
+	<cmodedark>Màu chế độ tối</cmodedark>
+	<blendcolor>Màu blend thanh tiêu đề (hoạt động):</blendcolor>
+	<inactiveblendcolor>Màu blend thanh tiêu đề (không hoạt động):</inactiveblendcolor>
+	<activecolor>Màu chữ hoạt động:</activecolor>
+	<inactivecolor>Màu chữ không hoạt động:</inactivecolor>
+	<preview>Xem trước</preview>
+	<sampletitle>Tiêu đề cửa sổ ví dụ(hoạt động)</sampletitle>
+	<blurmethod>Phương thức làm mờ:</blurmethod>
+	<methodcustom>[Khuyến nghị] Phương thức làm mờ tùy chỉnh viết bằng CVisual (DWM)\nvà Windows.UI.Composition (dcomp) để thu được hiệu ứng nền tùy chỉnh, \nbạn có thể cá nhân hoá đa số thông số. Bạn không chỉ thu được hiệu quả \ncao nhất, mà còn trông đẹp nhất và độ ổn định cao nhất. Tuy nhiên, khả \nnăng tương thích không tốt đến thế. \nNó có thể bị hỏng sau một bản cập nhật Windows lớn, khi đó bạn phải chờ \nbản cập nhật tiếp theo.</methodcustom>
+	<methodaccent>[Không khuyến nghị] Dùng class AccentBlurBehind DWM ngầm để áp dụng \nhiệu ứng làm mờ. Bạn có thể cá nhân hoá vài thông số, nhưng độ hiệu quả \nkhông cao và kém ổn định hơn. Nó có thể hoạt động bình thường trên đa số \nhệ thống. \n(thường thì một bản cập nhật hệ thống sẽ không làm hỏng nó).</methodaccent>
+	<methoddwmapi>Dùng DWMAPI được ghi trong tài liệu trên Windows 11 để áp dụng hiệu ứng \nSystemBackdrop giới hạn, ví dụ như Acrylic và Mica, bạn không thể tùy chỉnh \nbất kỳ thông số nào, nhưng nó cho hiệu quả cao và độ ổn định tốt hơn. Tuy \nnhiên, nó có thể làm hỏng giao diện của vài chương trình, và nó chỉ có trên \nWindows 11 22H2 trở đi.</methoddwmapi>
+	<effecttype>Loại hiệu ứng:</effecttype>
+	<blurvaluetitle>Bán kính làm mờ (chỉ thanh tiêu đề):</blurvaluetitle>
+	<luminosity>Độ mờ sáng:</luminosity>
+	<colorBalance>Cân bằng màu:</colorBalance>
+	<blurBalance>Cân bằng làm mờ:</blurBalance>
+	<afterglowBalance>Cân bằng ánh dạ:</afterglowBalance>
+	<miscsettings>Khác:</miscsettings>
+	<enablecrossfade>Kích hoạt hiệu ứng chuyển mờ</enablecrossfade>
+	<crossfadeTime>Thời lượng hoạt ảnh:</crossfadeTime>
+	<useaccentcolor>Dùng màu chủ đề ghi đè thiết lập màu RGB</useaccentcolor>
+	<glassIntensity>Độ mờ kết cấu phản chiếu Aero:</glassIntensity>
+	<overrideAccent>Ghi đè hiệu ứng AccentBlur</overrideAccent>
+	<symbolfile>Tập tin symbol:</symbolfile>
+	<download>Tải về</download>
+	<symtip>Các tập tin symbol (pdb) dùng để ghi lại thông tin gỡ lỗi của một chương \ntrình. Vì hệ thống thay đổi từ phiên bản này đến phiên bản khác, bạn cần \nphải tải tập tin symbol từ máy chủ Microsoft. Nếu bạn cập nhật hệ thống, bạn \ncó thể phải tải lại các tập tin symbol.</symtip>
+	<symstatus0>Không hợp lệ</symstatus0>
+	<symstatus1>Hợp lệ</symstatus1>
+	<symdowning>Đang tải về...</symdowning>
+	<symdownfail>Tải về thất bại! Không thể tải các tập tin symbol từ "msdl.microsoft.com".</symdownfail>
+	<syminvalid>Tập tin symbol không hợp lệ, vui lòng sang thẻ "Symbol" của chương trình DWMBlurGlass để tải các tập tin symbol mới.</syminvalid>
+	<configfile>Tập tin cấu hình</configfile>
+	<import>Nhập</import>
+	<export>Xuất</export>
+	<restore>Khôi phục cài đặt gốc</restore>
+	<importwarn>Nhập một tập tin cấu hình sẽ ghi đè cấu hình hiện tại của bạn, vẫn tiếp tục chứ?</importwarn>
+	<restorecfg>Bạn có chắc muốn khôi phục cấu hình mặc định không?</restorecfg>
+	<aboutinfo>Chương trình này dựa trên giấy phép LGPLv3:</aboutinfo>
+	<curlang>Ngôn ngữ hiện tại:</curlang>
+	<langauthor>Những người đóng góp bản dịch:</langauthor>
+</lang>
