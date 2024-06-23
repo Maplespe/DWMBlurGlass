@@ -129,7 +129,7 @@ Alle oben genannten Effekte können angepasst werden, um Farben zu mischen.
 
 MicaAlt ist Glimmer mit einem gräulichen Farbton. Sie können die Mischfarbe selbst ändern, um den MicaAlt-Effekt zu erzielen.
 
-## Wie benutzt man
+## Verwendung
 
 ### Installieren
 1. Laden Sie das kompilierte Programmarchiv von herunter [Release](https://github.com/Maplespe/DWMBlurGlass/releases) Seite.
