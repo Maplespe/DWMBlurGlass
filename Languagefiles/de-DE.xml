@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<lang local="da-DE" author="Akey.Dev">
+<lang local="de-DE" author="Akey.Dev">
 	<inituifail0>Die Initialisierung der MiaoUI-Bibliothek ist fehlgeschlagen! Fehlercode: </inituifail0>
 	<inituifail1>Fensterelement konnte nicht erstellt werden!</inituifail1>
 	<inituifail2>Das Fenster konnte nicht initialisiert werden!</inituifail2>
