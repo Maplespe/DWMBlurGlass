@@ -33,7 +33,7 @@
 	<extendborder>Effekte auf Ränder erweitern (Win10)</extendborder>
 	<reflection>Aero-Reflektionseffekt aktivieren</reflection>
 	<reflectiontip>(Altcode-Unschärfemethode nur für Windows 10)</reflectiontip>
-	<oldBtnHeight>Reduzieren Sie die Höhe der Titelleistenschaltfläche (Win7-Stil)</oldBtnHeight>
+	<oldBtnSize>Reduzieren Sie die Höhe der Titelleistenschaltfläche (Win7-Stil)</oldBtnSize>
 	<cmodelight>Farben im Hellen Modus</cmodelight>
 	<cmodedark>Farben im Dunklen Modus</cmodedark>
 	<blendcolor>Titelleiste Blendfarbe (Aktiv):</blendcolor>
