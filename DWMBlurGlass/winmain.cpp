@@ -57,7 +57,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		{
 			MessageBoxW(nullptr,
 				Helper::M_ReplaceString(MDWMBlurGlass::GetBaseLanguageString(L"initfail0"), L"{path}", curpath).c_str(),
-				L"waring", MB_ICONWARNING | MB_TOPMOST);
+				L"Warning", MB_ICONWARNING | MB_TOPMOST);
 			return false;
 		}
 	}
