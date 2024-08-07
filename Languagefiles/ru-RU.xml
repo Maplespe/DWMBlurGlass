@@ -36,8 +36,8 @@
 	<oldBtnSize>Восстановить размер кнопок заголовка в стиле Windows 7</oldBtnSize>
 	<cmodelight>Цвета светлого режима</cmodelight>
 	<cmodedark>Цвета темного режима</cmodedark>
-	<blendcolor>Цвет смешивания в заголовке (Активный):</blendcolor>
-	<inactiveblendcolor>Цвет смешивания в заголовке (Не активный):</inactiveblendcolor>
+	<blendcolor>Цвет смешивания в заголовке (активный):</blendcolor>
+	<inactiveblendcolor>Цвет смешивания в заголовке (не активный):</inactiveblendcolor>
 	<activecolor>Цвет активного текста:</activecolor>
 	<inactivecolor>Цвет неактивного текста:</inactivecolor>
 	<preview>Предпросмотр</preview>
