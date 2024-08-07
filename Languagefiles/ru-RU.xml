@@ -31,13 +31,13 @@
 	<blurvalue>Радиус размытия (общий):</blurvalue>
 	<applyglobal>Перезаписать эффект DWMAPI (Windows 11)</applyglobal>
 	<extendborder>Применить эффект к краям окон (Windows 10)</extendborder>
-	<reflection>Включить эффект отражения Aero</reflection>
+	<reflection>Включить эффект отражения "Аэро"</reflection>
 	<reflectiontip>(Устаревший метод размытия только для Windows 10)</reflectiontip>
 	<oldBtnSize>Восстановить размер кнопок заголовка в стиле Windows 7</oldBtnSize>
 	<cmodelight>Цвета светлого режима</cmodelight>
 	<cmodedark>Цвета темного режима</cmodedark>
-	<blendcolor>Цвет смешивания в заголовке (Включено):</blendcolor>
-	<inactiveblendcolor>Цвет смешивания в заголовке (Отключено):</inactiveblendcolor>
+	<blendcolor>Цвет смешивания в заголовке (Активный):</blendcolor>
+	<inactiveblendcolor>Цвет смешивания в заголовке (Не активный):</inactiveblendcolor>
 	<activecolor>Цвет активного текста:</activecolor>
 	<inactivecolor>Цвет неактивного текста:</inactivecolor>
 	<preview>Предпросмотр</preview>
@@ -56,8 +56,8 @@
 	<enablecrossfade>Включить эффект плавной анимации</enablecrossfade>
 	<crossfadeTime>Продолжительность анимации:</crossfadeTime>
 	<useaccentcolor>Использовать цвет акцента, чтобы переопределить настройки цвета</useaccentcolor>
-	<glassIntensity>Прозрачность текстуры отражения аэро:</glassIntensity>
-	<overrideAccent>Переопределить эффект «Размытие акцента»</overrideAccent>
+	<glassIntensity>Прозрачность текстуры отражения "Аэро":</glassIntensity>
+	<overrideAccent>Переопределить эффект "Размытие акцента"</overrideAccent>
 	<symbolfile>Файл символов:</symbolfile>
 	<download>Скачать</download>
 	<symtip>Файлы символов записывают информацию приложения об отладке.\nПоскольку они отличаются от системы к системе, вам необходимо\nскачать актуальную версию с сервера Microsoft. После обновления\nсистемы, возможно, потребуется сделать это снова.</symtip>
