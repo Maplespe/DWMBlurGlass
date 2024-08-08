@@ -1,58 +1,78 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<lang local="ja-JP" author="KimChampil">
-	<inituifail0>MiaoUI libraryの初期化に失敗しました エラーコード: </inituifail0>
-	<inituifail1>ウィンドウの生成に失敗しました</inituifail1>
+<lang local="ja-JP" author="KimChampil, FreshP-0325">
+	<inituifail0>MiaoUI library の初期化に失敗しました。エラー：</inituifail0>
+	<inituifail1>ウィンドウのコンテストの生成に失敗しました</inituifail1>
 	<inituifail2>ウィンドウの初期化に失敗しました</inituifail2>
-	<initfail0>DWMの認証制限により本アプリケーションはユーザーディレクトリ（"{path}"）内で起動することができません。非ユーザーディレクトリに設置して起動してください。</initfail0>
-	<symloadfail>Symbolの読み込みに失敗しました。Symbolを再ダウンロードしてください。（システムアップデート後はSymbolを更新する必要があります）</symloadfail>
-	<colorpicker_dlg_sel>色の選択:</colorpicker_dlg_sel>
-	<colorpicker_dlg_c>新しい色:</colorpicker_dlg_c>
+    <initfail0>DWM がサンドボックスで実行されているため、このアプリケーションはユーザーディレクトリ以外に配置する必要があり、パスは '{path}' またはそのサブディレクトリには配置できません。別のディレクトリに配置してください。</initfail0>
+	<symloadfail>シンボルファイルの読み込みに失敗しました。プログラムが DLL を読み込めませんでした。シンボルを再ダウンロードしてください。（システムの更新後にシンボルを再ダウンロードする必要がある場合があります）</symloadfail>
+    <colorpicker_dlg_sel>色の選択</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>新しい色</colorpicker_dlg_c>
 	<msgdlg_no>キャンセル</msgdlg_no>
-	<msgdlg_yes>確認</msgdlg_yes>
-	<colorpicker_dlg_alpha>透明度:</colorpicker_dlg_alpha>
-	<general>一般</general>
-	<symbol>Symbol</symbol>
-	<config>設定</config>
-	<about>ヘルプ</about>
+	<msgdlg_yes>OK</msgdlg_yes>
+	<colorpicker_dlg_alpha>不透明度:</colorpicker_dlg_alpha>
+	<general>全般</general>
+	<advanced>詳細設定</advanced>
+	<symbol>シンボル</symbol>
+	<config>構成ファイル</config>
+	<about>情報</about>
 	<status>ステータス:</status>
 	<status0>未インストール</status0>
 	<status1>インストール済</status1>
 	<install>インストール</install>
 	<uninstall>アンインストール</uninstall>
 	<installsucs>インストールに成功しました</installsucs>
-	<installsucs1>インストールに成功しました。"Symbol"ページよりSymbolを有効化してください。</installsucs1>
-	<installfail>インストールに失敗しました エラーコード: </installfail>
-	<uninstallsucs>アンインストール成功</uninstallsucs>
-	<uninstallfail>アンインストールに失敗しました エラー: </uninstallfail>
-	<loadfail>コンポーネントの読み込みに失敗しました エラー: </loadfail>
-	<saveconfig>設定を保存</saveconfig>
+    <installsucs1>インストールに成功しました。ただし、有効なシンボルファイルをまだダウンロードしていません。DWMBlurGlass を動作させるには、「シンボル」ページからダウンロードしてください。</installsucs1>
+	<installfail>インストールに失敗しました。エラー: </installfail>
+	<uninstallsucs>アンインストールに成功成功しました</uninstallsucs>
+	<uninstallfail>アンインストールに失敗しました。エラー: </uninstallfail>
+	<loadfail>コンポーネントの読み込みに失敗しました。エラー: </loadfail>
+	<saveconfig>設定を適用</saveconfig>
 	<effectset>効果の設定</effectset>
-	<blurvalue>ぼかし効果の濃度:</blurvalue>
-	<applyglobal>DWMAPIのMica効果に適用(Win11)</applyglobal>
-	<extendborder>ボーダーに効果を拡張(Win10)</extendborder>
-	<reflection>ウィンドウの反射オーバーレイ(Win10)</reflection>
-	<oldBtnHeight>ウィンドウボタンを縦方向に短くする(Win7風)</oldBtnHeight>
-	<blendcolor>ウィンドウの色(アクティブ時):</blendcolor>
-	<inactiveblendcolor>ウィンドウの色(非アクティブ時):</inactiveblendcolor>
-	<activecolor>テキストの色(アクティブ時):</activecolor>
-	<inactivecolor>テキストの色(非アクティブ時):</inactivecolor>
+    <blurvalue>ぼかしの半径 (グローバル):</blurvalue>
+    <applyglobal>DWMAPI の効果をオーバーライドする (Windows 11)</applyglobal>
+    <extendborder>エフェクトを境界まで拡張する (Windows 10)</extendborder>
+    <reflection>Aero 反射効果を有効にする</reflection>
+	<reflectiontip>(OldBlur を使用時には Win10 のみ)</reflectiontip>
+    <oldBtnSize>Windows 7 スタイルのタイトルバーボタンサイズを復元する</oldBtnSize>
+	<cmodelight>ライトモード</cmodelight>
+	<cmodedark>ダークモード</cmodedark>
+	<blendcolor>アクティブタイトルバー:</blendcolor>
+	<inactiveblendcolor>非アクティブタイトルバー:</inactiveblendcolor>
+	<activecolor>アクティブタイトル:</activecolor>
+	<inactivecolor>非アクティブタイトル:</inactivecolor>
 	<preview>プレビュー</preview>
-	<sampletitle>サンプル ウィンドウタイトル(アクティブ時)</sampletitle>
-	<configfile>Configファイル</configfile>
-	<symbolfile>Symbolファイル:</symbolfile>
+    <sampletitle>アクティブウィンドウの例</sampletitle>
+	<blurmethod>ぼかしのモード:</blurmethod>
+	<methodcustom>[おすすめ] CVisual (DWM) と IComposition (dcomp) を使用してカスタム背景\n効果を実現します。ほとんどのパラメータをカスタマイズでき、効率が最も高く、\n効果が最も良く、安定性が比較的高いです。ただし、システムの適応範囲は一般\n的です。システムが大幅に更新されると失敗する可能性があるため、新しいバー\nジョンを待つ必要があります。</methodcustom>
+	<methodaccent>[お勧めしません] DWM の未公開のクラス AccentBlurBehind を使用して、一部\nのパラメータをカスタマイズできますが、効率が低く、安定性が低く、システム\nの適応範囲が広いです。通常、システムの更新で失敗することはありません。</methodaccent>
+	<methoddwmapi>公開済みの DWMAPI で SystemBackdrop 効果を調整します、Acrylic、Mica の\n効果を選択できますが、パラメータをカスタマイズできません、効率が高く、安\n定性が高いですが、一部のプログラムのレンダリングが壊れる可能性があります。\nシステムの適応範囲は Windows 11 22H2 以上に限定されます。</methoddwmapi>
+	<effecttype>効果のタイプ:</effecttype>
+	<blurvaluetitle>タイトルバーのぼかしの半径:</blurvaluetitle>
+	<luminosity>明るさ / 不透明度:</luminosity>
+	<colorBalance>カラーバランス:</colorBalance>
+	<blurBalance>明るさ:</blurBalance>
+	<afterglowBalance>コントラスト:</afterglowBalance>
+	<miscsettings>その他</miscsettings>
+	<enablecrossfade>タイトルバーのクロスフェード効果を有効にする</enablecrossfade>
+	<crossfadeTime>長さ:</crossfadeTime>
+	<useaccentcolor>システムのアクセントカラーを使用する</useaccentcolor>
+	<glassIntensity>Aero 反射テクスチャの不透明度:</glassIntensity>
+	<overrideAccent>AccentBlur の効果をオーバーライドする</overrideAccent>
+	<configfile>構成ファイル</configfile>
+	<symbolfile>シンボルファイル:</symbolfile>
 	<download>ダウンロード</download>
-	<symtip>Symbolファイル(pdb)はプログラムのデバッグ情報を記録するファイルです。\nシステムごとにバージョンが異なるため、Microsoftのサーバーから直接ダウン\nロードする必要があります。システムアップデート後にはSymbolファイルの\n更新が必要になることがあります。</symtip>
+	<symtip>シンボルファイル (pdb) はプログラムのデバッグ情報を記録するファイルです。\nシステムごとにバージョンが異なるため、Microsoft のサーバーから直接ダウン\nロードする必要があります。システムアップデート後にはシンボルファイルの更\n新が必要になることがあります。</symtip>
 	<symstatus0>無効</symstatus0>
 	<symstatus1>有効</symstatus1>
 	<symdowning>ダウンロード中…</symdowning>
-	<symdownfail>ダウンロードに失敗しました。"msdl.microsoft.com"からファイルをダウンロードできませんでした。</symdownfail>
-	<syminvalid>Symbolファイルが無効です！"Symbol"ページでSymbolを有効化してください。</syminvalid>
+	<symdownfail>ダウンロードに失敗しました。「msdl.microsoft.com」 からファイルをダウンロードできませんでした。</symdownfail>
+	<syminvalid>シンボルファイルが無効です。「シンボル」ページで新しいシンボルファイルをダウンロードしてください。</syminvalid>
 	<import>インポート</import>
 	<export>エクスポート</export>
-	<restore>設定を初期化</restore>
-	<importwarn>Configファイルをインポートすると、現在の設定は上書きされます。続行しますか？</importwarn>
-	<restorecfg>設定を初期化します。</restorecfg>
-	<aboutinfo>このプログラムはLGPLv3に準拠する無料のオープンソースソフトウェアです:</aboutinfo>
+	<restore>設定をリセット</restore>
+	<importwarn>構成ファイルをインポートすると、現在の設定は上書きされます。続行しますか？</importwarn>
+	<restorecfg>設定をリセットしますか？</restorecfg>
+	<aboutinfo>このプログラムは LGPLv3 に準拠する無料のオープンソースソフトウェアです:</aboutinfo>
 	<curlang>現在の言語:</curlang>
 	<langauthor>翻訳:</langauthor>
 </lang>
