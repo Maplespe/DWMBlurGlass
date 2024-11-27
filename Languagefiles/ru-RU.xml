@@ -29,11 +29,12 @@
 	<saveconfig>Сохранить конфигурацию</saveconfig>
 	<effectset>Настройки эффектов</effectset>
 	<blurvalue>Радиус размытия (общий):</blurvalue>
-	<applyglobal>Перезаписать эффект DWMAPI (Windows 11)</applyglobal>
+	<overrideDwmapi>Переопределить эффект DWMAPI (Windows 11)</overrideDwmapi>
 	<extendborder>Применить эффект к краям окон (Windows 10)</extendborder>
 	<reflection>Включить эффект отражения "Аэро"</reflection>
 	<reflectiontip>(Устаревший метод размытия только для Windows 10)</reflectiontip>
 	<oldBtnSize>Восстановить размер кнопок заголовка в стиле Windows 7</oldBtnSize>
+	<titlebtnGlow>Включить свечение кнопок заголовка в стиле Windows 7</titlebtnGlow>
 	<cmodelight>Цвета светлого режима</cmodelight>
 	<cmodedark>Цвета темного режима</cmodedark>
 	<blendcolor>Цвет смешивания в заголовке (активный):</blendcolor>
@@ -51,13 +52,15 @@
 	<luminosity>Прозрачность просвечивания:</luminosity>
 	<colorBalance>Баланс цвета:</colorBalance>
 	<blurBalance>Баланс размытия:</blurBalance>
-	<afterglowBalance>AfterglowBalance:</afterglowBalance>
+	<afterglowBalance>Баланс послесвечения:</afterglowBalance>
 	<miscsettings>Остальное:</miscsettings>
 	<enablecrossfade>Включить эффект плавной анимации</enablecrossfade>
 	<crossfadeTime>Продолжительность анимации:</crossfadeTime>
-	<useaccentcolor>Использовать цвет акцента, чтобы переопределить настройки цвета</useaccentcolor>
+	<useaccentcolor>Использовать цвет акцента, чтобы переопределить настройки цвета RGB.</useaccentcolor>
 	<glassIntensity>Прозрачность текстуры отражения "Аэро":</glassIntensity>
 	<overrideAccent>Переопределить эффект "Размытие акцента"</overrideAccent>
+	<scaleOptimizer>Включить оптимизацию рендеринга размытия</scaleOptimizer>
+	<disableOnBattery>Отключить эффект в режиме энергосбережения</disableOnBattery>
 	<symbolfile>Файл символов:</symbolfile>
 	<download>Скачать</download>
 	<symtip>Файлы символов записывают информацию приложения об отладке.\nПоскольку они отличаются от системы к системе, вам необходимо\nскачать актуальную версию с сервера Microsoft. После обновления\nсистемы, возможно, потребуется сделать это снова.</symtip>
