@@ -97,6 +97,8 @@ namespace MDWMBlurGlassExt
 	// type = ..., desktop created by CreateDesktop?
 	bool GetDesktopID(ULONG_PTR type, ULONG_PTR* desktopID);
 
+	bool IsBatterySaverEnabled();
+
 	namespace Vtbl
 	{
 		struct IWICImagingFactory2Vtbl
