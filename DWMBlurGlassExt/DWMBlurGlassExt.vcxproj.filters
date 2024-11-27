@@ -43,6 +43,9 @@
     <Filter Include="头文件\Backdrops">
       <UniqueIdentifier>{84028c5e-ea88-4c4c-8025-bcd2770a0c2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Backdrops">
+      <UniqueIdentifier>{d7922253-ea57-45f5-900b-291082f33f84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -189,6 +192,18 @@
     <ClInclude Include="Section\OcclusionCulling.h">
       <Filter>头文件\Section</Filter>
     </ClInclude>
+    <ClInclude Include="Backdrops\BackdropFactory.hpp">
+      <Filter>头文件\Backdrops</Filter>
+    </ClInclude>
+    <ClInclude Include="Section\GeometryRecorder.h">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper\CanvasGeometry.hpp">
+      <Filter>头文件\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Section\ScaleOptimizer.h">
+      <Filter>头文件\Section</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -246,6 +261,21 @@
       <Filter>源文件\Common</Filter>
     </ClCompile>
     <ClCompile Include="Section\OcclusionCulling.cpp">
+      <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\VisualManager.cpp">
+      <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\CompositedBackdrop.cpp">
+      <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Backdrops\BackdropFactory.cpp">
+      <Filter>源文件\Backdrops</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\GeometryRecorder.cpp">
+      <Filter>源文件\Section</Filter>
+    </ClCompile>
+    <ClCompile Include="Section\ScaleOptimizer.cpp">
       <Filter>源文件\Section</Filter>
     </ClCompile>
   </ItemGroup>

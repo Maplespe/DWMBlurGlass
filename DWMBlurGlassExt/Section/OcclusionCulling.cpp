@@ -29,24 +29,51 @@ namespace MDWMBlurGlassExt::OcclusionCulling
 
 	std::atomic_bool g_startup = false;
 
-	MinHook g_funCWindowList_StyleChange
+	ULONGLONG g_frameId{ 0ull };
+	bool g_hasWindowBackgroundTreatment{ false };
+	Core::CVisual* g_visual{ nullptr };
+	Core::MyDynArrayImpl<Core::CZOrderedRect> g_validAntiOccluderList{};
+
+	enum D2D1_DIRECTIONALBLURKERNEL_PROP
 	{
-		"CWindowList::StyleChange", CWindowList_StyleChange
+		D2D1_DIRECTIONALBLURKERNEL_PROP_STANDARD_DEVIATION,
+		D2D1_DIRECTIONALBLURKERNEL_PROP_DIRECTION,
+		D2D1_DIRECTIONALBLURKERNEL_PROP_KERNEL_RANGE_FACTOR,
+		D2D1_DIRECTIONALBLURKERNEL_PROP_OPTIMIZATION_TRANSFORM
+	};
+	enum D2D1_DIRECTIONALBLURKERNEL_DIRECTION
+	{
+		D2D1_DIRECTIONALBLURKERNEL_DIRECTION_X,
+		D2D1_DIRECTIONALBLURKERNEL_DIRECTION_Y
+	};
+	enum D2D1_DIRECTIONALBLURKERNEL_OPTIMIZATION_TRANSFORM
+	{
+		D2D1_DIRECTIONALBLURKERNEL_OPTIMIZATION_TRANSFORM_IDENDITY,
+		D2D1_DIRECTIONALBLURKERNEL_OPTIMIZATION_TRANSFORM_SCALE
 	};
 
-	MinHook g_funCWindowList_CloakChange
+	MinHook g_funCVisual_GetWindowBackgroundTreatmentInternal
 	{
-		"CWindowList::CloakChange", CWindowList_CloakChange
-	};
-
-	MinHook g_funCWindowList_CheckForMaximizedChange
-	{
-		"CWindowList::CheckForMaximizedChange", CWindowList_CheckForMaximizedChange
+		"CVisual::GetWindowBackgroundTreatmentInternal", 
+		CVisual_GetWindowBackgroundTreatmentInternal
 	};
 
 	MinHook g_funCArrayBasedCoverageSet_AddAntiOccluderRect
 	{
-		"CArrayBasedCoverageSet::AddAntiOccluderRect", CArrayBasedCoverageSet_AddAntiOccluderRect
+		"CArrayBasedCoverageSet::AddAntiOccluderRect",
+		CArrayBasedCoverageSet_AddAntiOccluderRect
+	};
+
+	MinHook g_funCArrayBasedCoverageSet_IsCovered
+	{
+		"CArrayBasedCoverageSet::IsCovered",
+		CArrayBasedCoverageSet_IsCovered
+	};
+
+	MinHook g_funCOcclusionContext_PostSubgraph
+	{
+		"COcclusionContext::PostSubgraph",
+		COcclusionContext_PostSubgraph
 	};
 
 	void Attach()
@@ -54,228 +81,85 @@ namespace MDWMBlurGlassExt::OcclusionCulling
 		if (g_startup) return;
 		g_startup = true;
 
-		/*g_funCWindowList_CloakChange.Attach();
-		g_funCWindowList_StyleChange.Attach();
-		g_funCWindowList_CheckForMaximizedChange.Attach();*/
-		g_funCArrayBasedCoverageSet_AddAntiOccluderRect.Attach();
+		if (os::buildNumber < 22000)
+		{
+			g_funCVisual_GetWindowBackgroundTreatmentInternal.Attach();
+			g_funCArrayBasedCoverageSet_AddAntiOccluderRect.Attach();
+			g_funCArrayBasedCoverageSet_IsCovered.Attach();
+			g_funCOcclusionContext_PostSubgraph.Attach();
+		}
 	}
 
 	void Detach()
 	{
 		if (!g_startup) return;
 
-		/*g_funCWindowList_CloakChange.Detach();
-		g_funCWindowList_StyleChange.Detach();
-		g_funCWindowList_CheckForMaximizedChange.Detach();*/
-		g_funCArrayBasedCoverageSet_AddAntiOccluderRect.Detach();
-
+		if (os::buildNumber < 22000)
+		{
+			g_funCVisual_GetWindowBackgroundTreatmentInternal.Detach();
+			g_funCArrayBasedCoverageSet_AddAntiOccluderRect.Detach();
+			g_funCArrayBasedCoverageSet_IsCovered.Detach();
+			g_funCOcclusionContext_PostSubgraph.Detach();
+		}
 		g_startup = false;
 	}
 
-	void Refresh()
+	Core::CWindowBackgroundTreatment* CVisual_GetWindowBackgroundTreatmentInternal(Core::CVisual* This)
 	{
-		if (g_configData.blurmethod == blurMethod::CustomBlur && g_configData.occlusionCulling && !g_startup)
-			Attach();
-		else if ((!g_configData.occlusionCulling || g_configData.blurmethod != blurMethod::CustomBlur) && g_startup)
-			Detach();
-	}
-
-	bool IsSubRegion(HRGN child, HRGN parent)
-	{
-		static wil::unique_hrgn region{ CreateRectRgn(0, 0, 0, 0) };
-		auto result{ CombineRgn(region.get(), child, parent, g_configData.cullingLevel > 0 ? RGN_OR : RGN_AND) };
-
-		if (g_configData.cullingLevel > 0)
+		auto result{ g_funCVisual_GetWindowBackgroundTreatmentInternal.call_org(This) };
+		if (g_visual)
 		{
-			return static_cast<bool>(EqualRgn(region.get(), parent));
-		}
-		return result != NULLREGION;
-
-	}
-
-	bool IsRegionIntersect(HRGN region1, HRGN region2)
-	{
-		static wil::unique_hrgn region{ CreateRectRgn(0, 0, 0, 0) };
-		return CombineRgn(region.get(), region1, region2, RGN_AND) != NULLREGION;
-	}
-
-	void CalculateOcclusionRegionForWindow(
-		wil::unique_hrgn& occlusionRegion,
-		HWND hwnd,
-		CWindowData* data,
-		CTopLevelWindow* window,
-		wil::unique_hrgn& windowOcclusionRegion,
-		wil::unique_hrgn& backdropRegion
-	)
-	{
-		RECT windowRect{};
-		//if (
-		//	/*data->IsWindowVisibleAndUncloaked() &&*/
-		//	!IsMinimized(hwnd) &&
-		//	!(GetWindowLongPtrW(hwnd, GWL_EXSTYLE) & WS_EX_LAYERED) &&
-		//	GetClassWord(hwnd, GCW_ATOM) != RegisterWindowMessageW(L"#32769")
-		//	)
-		//{
-		//	window->GetActualWindowRect(&windowRect, false, true, true);
-		//	windowOcclusionRegion.reset(CreateRectRgnIndirect(&windowRect));
-		//}
-
-		auto backdrop{ CustomBackdrop::GetCVisualManager()->GetOrCreateBackdrop(window) };
-		if (backdrop)
-		{
-			CopyRgn(backdropRegion.get(), backdrop->GetCompositedRegion());
-			OffsetRgn(backdropRegion.get(), windowRect.left, windowRect.top);
-			//CombineRgn(windowOcclusionRegion.get(), windowOcclusionRegion.get(), backdropRegion.get(), RGN_DIFF);
+			g_hasWindowBackgroundTreatment = true;
 		}
 
-		//CombineRgn(occlusionRegion.get(), occlusionRegion.get(), windowOcclusionRegion.get(), RGN_OR);
+		return result;
 	}
 
-	void UpdateOcclusionInfo(CWindowList* This)
+	HRESULT CArrayBasedCoverageSet_AddAntiOccluderRect(Core::CArrayBasedCoverageSet* This, const D2D1_RECT_F& lprc,
+		int depth, const MilMatrix3x2D* matrix)
 	{
-		ULONG_PTR desktopID{ 0 };
-		GetDesktopID(1, &desktopID);
-
-		bool fullyOccluded{ false };
-		auto visualManager{ CustomBackdrop::GetCVisualManager() };
-		auto backdropCount{ visualManager->GetBackdropCount() };
-
-		RECT fullOcclusionRect
+		auto currentFrameId{ Core::GetCurrentFrameId() };
+		if (g_frameId != currentFrameId)
 		{
-			GetSystemMetrics(SM_XVIRTUALSCREEN),
-			GetSystemMetrics(SM_YVIRTUALSCREEN),
-			GetSystemMetrics(SM_XVIRTUALSCREEN) + GetSystemMetrics(SM_CXVIRTUALSCREEN),
-			GetSystemMetrics(SM_YVIRTUALSCREEN) + GetSystemMetrics(SM_CYVIRTUALSCREEN)
-		};
-		wil::unique_hrgn fullOcclusionRegion
-		{
-			CreateRectRgnIndirect(
-				&fullOcclusionRect
+			g_frameId = currentFrameId;
+			g_validAntiOccluderList.Clear();
+		}
+
+		if (
+			g_visual->GetOwningProcessId() != GetCurrentProcessId() /* actually this is useless, GetOwningProcessId only returns the process id of dwm, idk why */ ||
+			g_hasWindowBackgroundTreatment
 			)
-		};
-		wil::unique_hrgn occlusionRegion{ CreateRectRgn(0, 0, 0, 0) };
-		auto windowList{ This->GetWindowListForDesktop(desktopID) };
-		for (auto i{ windowList->Blink }; i != windowList; i = i->Blink)
 		{
-			auto data{ reinterpret_cast<CWindowData*>(i) };
-			auto hwnd{ data->GetHWND() };
-			if (!hwnd || !IsWindow(hwnd)) { continue; }
-			auto window{ data->GetWindow() };
-			if (!window) { continue; }
-
-			if (!IsWindowVisible(hwnd)) continue;
-
-			auto backdrop{ CustomBackdrop::GetCVisualManager()->GetOrCreateBackdrop(window) };
-
-			if (!fullyOccluded)
-			{
-				static wil::unique_hrgn backdropRegion{ CreateRectRgn(0, 0, 0, 0) };
-
-				// more accurate but more time-consuming implementation
-				if (g_configData.cullingLevel > 0)
-				{
-					wil::unique_hrgn windowOcclusionRegion{ CreateRectRgn(0, 0, 0, 0) };
-
-					CalculateOcclusionRegionForWindow(occlusionRegion, hwnd, data, window, windowOcclusionRegion, backdropRegion);
-
-					if (EqualRgn(occlusionRegion.get(), fullOcclusionRegion.get()))
-					{
-						fullyOccluded = true;
-					}
-				}
-				// much faster one...
-				else
-				{
-					RECT windowRect{};
-					window->GetActualWindowRect(&windowRect, false, true, true);
-					backdropRegion.reset(CreateRectRgnIndirect(&windowRect));
-
-					if (
-						data->IsWindowVisibleAndUncloaked() &&
-						!(GetWindowLongPtrW(hwnd, GWL_EXSTYLE) & WS_EX_LAYERED)
-						)
-					{
-						if (
-							EqualRect(&windowRect, &fullOcclusionRect) &&
-							GetClassWord(hwnd, GCW_ATOM) != RegisterWindowMessageW(L"#32769")
-							)
-						{
-							fullyOccluded = true;
-						}
-						if (IsZoomed(hwnd))
-						{
-							CombineRgn(occlusionRegion.get(), occlusionRegion.get(), backdropRegion.get(), RGN_OR);
-							continue;
-						}
-					}
-				}
-
-				if (backdrop)
-				{
-					backdrop->MarkAsOccluded(IsSubRegion(backdropRegion.get(), occlusionRegion.get()) ? true : false);
-					backdropCount -= 1;
-				}
-			}
-			else if (backdrop)
-			{
-				backdrop->MarkAsOccluded(true);
-				backdropCount -= 1;
-			}
-
-			if (!backdropCount)
-			{
-				break;
-			}
+			Core::CZOrderedRect zorderedRect{ lprc, depth, lprc };
+			zorderedRect.UpdateDeviceRect(matrix);
+			g_validAntiOccluderList.Add(zorderedRect);
 		}
 
-		if (backdropCount != visualManager->GetBackdropCount())
-		{
-			CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice()->Commit();
-		}
+		return g_funCArrayBasedCoverageSet_AddAntiOccluderRect.call_org(This, lprc, depth, matrix);
 	}
 
-	HRESULT CWindowList_StyleChange(CWindowList* This, IDwmWindow* windowContext)
+	bool CArrayBasedCoverageSet_IsCovered(Core::CArrayBasedCoverageSet* This, const D2D1_RECT_F& lprc, int depth,
+		bool deprecated)
 	{
-		HRESULT hr = g_funCWindowList_StyleChange.call_org(This, windowContext);
+		auto array{ This->GetAntiOccluderArray() };
+		auto arrayBackup{ *array };
+		*array = g_validAntiOccluderList;
 
-		if (g_configData.cullingLevel >= 0)
-		{
-			UpdateOcclusionInfo(This);
-		}
+		bool result{ g_funCArrayBasedCoverageSet_IsCovered.call_org(This, lprc, depth, deprecated) };
+
+		*array = arrayBackup;
+		return result;
+	}
+
+	HRESULT COcclusionContext_PostSubgraph(Core::COcclusionContext* This, Core::CVisualTree* visualTree,
+		bool* unknown)
+	{
+		g_visual = This->GetVisual();
+		g_hasWindowBackgroundTreatment = false;
+		HRESULT hr{ g_funCOcclusionContext_PostSubgraph.call_org(This, visualTree, unknown) };
+		g_visual = nullptr;
+		g_hasWindowBackgroundTreatment = false;
 
 		return hr;
-	}
-
-	HRESULT CWindowList_CloakChange(CWindowList* This, IDwmWindow* windowContext1,
-		IDwmWindow* windowContext2, bool cloaked)
-	{
-		HRESULT hr = g_funCWindowList_CloakChange.call_org(This, windowContext1, windowContext2, cloaked);
-
-		if (g_configData.cullingLevel >= 0)
-		{
-			UpdateOcclusionInfo(This);
-		}
-
-		return hr;
-	}
-
-	HRESULT CWindowList_CheckForMaximizedChange(CWindowList* This, CWindowData* data)
-	{
-		HRESULT hr = g_funCWindowList_CheckForMaximizedChange.call_org(This, data);
-
-		if (g_configData.cullingLevel > 0)
-		{
-			UpdateOcclusionInfo(This);
-		}
-
-		return hr;
-	}
-
-	HRESULT CArrayBasedCoverageSet_AddAntiOccluderRect(void* This,
-		MilRectF* a2,
-		int a3,
-		const struct CMILMatrix* a4)
-	{
-		return S_OK;
 	}
 }

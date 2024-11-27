@@ -45,6 +45,12 @@ namespace MDWMBlurGlassExt::DCompPrivate
 		}
 	};
 
+	DECLARE_INTERFACE_IID_(IVisualTargetPartner, IUnknown, "DBA1813C-60C5-4A42-A4D2-3380CDDCE8A1")
+	{
+		IFACEMETHOD(GetRoot)(ABI::Windows::UI::Composition::IVisual * *rootVisual) PURE;
+		IFACEMETHOD(SetRoot)(ABI::Windows::UI::Composition::IVisual * rootVisual) PURE;
+	};
+
 	MIDL_INTERFACE("fe93b735-e574-4a5d-a21a-f705c21945fa")
 	IDCompositionVisualPartnerWinRTInterop : IDCompositionVisual3
 	{
@@ -73,5 +79,19 @@ namespace MDWMBlurGlassExt::DCompPrivate
 
 			return collection;
 		}
+	};
+
+	// [Guid("B1FDFCD4-F35C-44FD-8BF0-C2E7E6571461")]
+	DECLARE_INTERFACE_IID_(ICompositedBackdropVisual, IUnknown, "B1FDFCD4-F35C-44FD-8BF0-C2E7E6571461")
+	{
+		virtual void SetClientBlurRegion(HRGN region) = 0;
+		virtual void SetCaptionRegion(HRGN region) = 0;
+		virtual void SetBorderRegion(HRGN region) = 0;
+		virtual void SetAccentRect(LPCRECT lprc) = 0;
+		virtual void SetGdiWindowRegion(HRGN region) = 0;
+
+		virtual void ValidateVisual() = 0;
+		virtual void UpdateNCBackground() = 0;
+		virtual bool CanBeTrimmed() = 0;
 	};
 }

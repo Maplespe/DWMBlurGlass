@@ -19,9 +19,226 @@
 #include "../Helper/HookHelper.h"
 #include "../Helper/Helper.h"
 #include "DcompPrivate.h"
+#include <wil.h>
 
 namespace MDWMBlurGlassExt::DWM
 {
+	namespace Core
+	{
+		struct CResource : IUnknown
+		{
+			UINT STDMETHODCALLTYPE GetOwningProcessId();
+		};
+
+		struct CChannel
+		{
+			HRESULT STDMETHODCALLTYPE DuplicateSharedResource(HANDLE handle, UINT type, UINT* handleIndex);
+
+			HRESULT STDMETHODCALLTYPE MatrixTransformUpdate(UINT handleIndex, MilMatrix3x2D* matrix);
+		};
+
+		template <typename T>
+		struct DynArray
+		{
+			T* data;
+			T* buffer;
+			UINT bufferCapacity;
+			UINT capacity;
+			UINT size;
+		};
+		template <typename T>
+		struct MyDynArrayImpl : DynArray<T>
+		{
+			[[nodiscard]] void* operator new[](
+				size_t size
+				)
+			{
+				auto memory{ HeapAlloc(GetProcessHeap(), 0, size) };
+				THROW_LAST_ERROR_IF_NULL(memory);
+				return memory;
+			}
+			void operator delete[](
+				void* ptr
+				) noexcept
+			{
+				FAIL_FAST_IF_NULL(ptr);
+				HeapFree(GetProcessHeap(), 0, ptr);
+				ptr = nullptr;
+			}
+
+			MyDynArrayImpl()
+			{
+				this->capacity = 8;
+				this->data = new T[this->capacity];
+				this->size = 0;
+			}
+			~MyDynArrayImpl()
+			{
+				delete[] this->data;
+				this->data = nullptr;
+				this->capacity = this->size = 0;
+			}
+
+			void Clear()
+			{
+				if (this->size != 0)
+				{
+					this->capacity = 8;
+					delete[] this->data;
+					this->data = new T[this->capacity];
+					this->size = 0;
+				}
+			}
+			void Add(const T& object)
+			{
+				auto newSize{ this->size + 1u };
+				if (newSize < this->size)
+				{
+					FAIL_FAST_HR(static_cast<HRESULT>(0x80070216ul));
+				}
+				else
+				{
+					auto bufferSize{ this->size * sizeof(T) };
+					if (newSize > this->capacity)
+					{
+						auto tmp{ std::unique_ptr<T[]>(this->data) };
+
+						this->capacity *= 2;
+						this->data = new T[this->capacity];
+						memcpy_s(this->data, bufferSize, tmp.get(), bufferSize);
+					}
+
+					*reinterpret_cast<T*>(reinterpret_cast<ULONG_PTR>(this->data) + bufferSize) = object;
+					this->size = newSize;
+				}
+			}
+		};
+
+		struct CVisual;
+		struct CWindowBackgroundTreatment : CResource {};
+		struct CVisualTree : CResource
+		{
+			CVisual* GetVisual() const
+			{
+				return reinterpret_cast<CVisual* const*>(this)[7];
+			}
+		};
+
+		struct CVisual : CResource
+		{
+			HRESULT STDMETHODCALLTYPE GetVisualTree(CVisualTree** visualTree, bool value) const;
+
+			const D2D1_RECT_F& STDMETHODCALLTYPE GetBounds(CVisualTree* visualTree) const;
+
+			HWND STDMETHODCALLTYPE GetHwnd() const;
+
+			HWND STDMETHODCALLTYPE GetTopLevelWindow() const;
+		};
+
+		struct CZOrderedRect
+		{
+			D2D1_RECT_F transformedRect;
+			int depth;
+			D2D1_RECT_F originalRect;
+
+			HRESULT STDMETHODCALLTYPE UpdateDeviceRect(const MilMatrix3x2D* matrix);
+		};
+
+		struct CArrayBasedCoverageSet : CResource
+		{
+			HRESULT STDMETHODCALLTYPE Add(
+				const D2D1_RECT_F& lprc,
+				int depth,
+				const MilMatrix3x2D* matrix
+			);
+
+			DynArray<CZOrderedRect>* GetAntiOccluderArray() const;
+
+			DynArray<CZOrderedRect>* GetOccluderArray() const
+			{
+				return reinterpret_cast<DynArray<CZOrderedRect>*>(const_cast<CArrayBasedCoverageSet*>(this));
+			}
+		};
+
+		struct COcclusionContext : CResource
+		{
+			CVisual* GetVisual() const;
+
+			HRESULT STDMETHODCALLTYPE PostSubgraph(CVisualTree* visualTree, bool* unknown);
+		};
+
+		struct EffectInput : CResource {};
+		struct ID2DContextOwner : CResource {};
+
+		struct CD2DContext : CResource
+		{
+			ID2D1DeviceContext* GetDeviceContext() const
+			{
+				return reinterpret_cast<ID2D1DeviceContext* const*>(this)[30];
+			}
+			HRESULT STDMETHODCALLTYPE FillEffect(
+				const ID2DContextOwner* contextOwner,
+				ID2D1Effect* effect,
+				const D2D_RECT_F* lprc,
+				const D2D_POINT_2F* point,
+				D2D1_INTERPOLATION_MODE interpolationMode,
+				D2D1_COMPOSITE_MODE compositeMode
+			);
+		};
+
+		struct CDrawingContext : CResource
+		{
+			CD2DContext* GetD2DContext() const;
+
+			ID2DContextOwner* GetD2DContextOwner() const;
+
+			bool STDMETHODCALLTYPE IsOccluded(const D2D1_RECT_F& lprc, int flag) const;
+
+			CVisual* STDMETHODCALLTYPE GetCurrentVisual() const;
+
+			HRESULT STDMETHODCALLTYPE GetClipBoundsWorld(D2D1_RECT_F& lprc) const;
+		};
+
+		struct CCustomBlur : CResource
+		{
+			ID2D1DeviceContext* GetDeviceContext() const
+			{
+				return reinterpret_cast<ID2D1DeviceContext* const*>(this)[2];
+			}
+			ID2D1Effect* GetCropEffect() const
+			{
+				return reinterpret_cast<ID2D1Effect* const*>(this)[3];
+			}
+			ID2D1Effect* GetBorderEffect() const
+			{
+				return reinterpret_cast<ID2D1Effect* const*>(this)[4];
+			}
+			ID2D1Effect* GetScaleEffect() const
+			{
+				return reinterpret_cast<ID2D1Effect* const*>(this)[5];
+			}
+			ID2D1Effect* GetDirectionalBlurXEffect() const
+			{
+				return reinterpret_cast<ID2D1Effect* const*>(this)[6];
+			}
+			ID2D1Effect* GetDirectionalBlurYEffect() const
+			{
+				return reinterpret_cast<ID2D1Effect* const*>(this)[7];
+			}
+			void STDMETHODCALLTYPE Reset();
+
+			static HRESULT STDMETHODCALLTYPE Create(ID2D1DeviceContext* deviceContext, CCustomBlur** customBlur);
+
+			static float STDMETHODCALLTYPE DetermineOutputScale(
+				float size,
+				float blurAmount,
+				D2D1_GAUSSIANBLUR_OPTIMIZATION optimization
+			);
+		};
+
+		ULONGLONG GetCurrentFrameId();
+	}
+
 	struct CBaseObject
 	{
 		void* operator new(size_t size);
@@ -80,9 +297,17 @@ namespace MDWMBlurGlassExt::DWM
 		uint32_t nColor;
 		int32_t	nAnimationId;
 
-		inline bool IsAccentBlurEnabled() const
+		bool IsActive() const
 		{
-			return (DWORD)nAccentState > 2 && (DWORD)nAccentState < 5;
+			return nAccentState >= 1 && nAccentState <= 4;
+		}
+		bool IsAccentBlurRectEnabled() const
+		{
+			return (nFlags & (1 << 9)) != 0;
+		}
+		bool IsGdiRegionRespected() const
+		{
+			return (nFlags & (1 << 4)) != 0;
 		}
 	};
 
@@ -97,21 +322,16 @@ namespace MDWMBlurGlassExt::DWM
 		bool IsWindowVisibleAndUncloaked() const;
 
 		ACCENT_POLICY* GetAccentPolicy();
+
+		const MARGINS* GetExtendedFrameMargins() const;
+
+		bool IsFrameExtendedIntoClientAreaLRB() const;
 	};
 
 	struct VisualCollection;
 	struct CBaseGeometryProxy : CBaseObject {};
 	struct CRgnGeometryProxy : CBaseGeometryProxy {};
-
-	struct MilMatrix3x2D
-	{
-		DOUBLE S_11;
-		DOUBLE S_12;
-		DOUBLE S_21;
-		DOUBLE S_22;
-		DOUBLE DX;
-		DOUBLE DY;
-	};
+	struct CCombinedGeometryProxy : CBaseGeometryProxy {};
 
 	struct CMatrixTransformProxy
 	{
@@ -140,6 +360,8 @@ namespace MDWMBlurGlassExt::DWM
 
 		void SetInsetFromParentRight(int right);
 
+		void SetInsetFromParentLeft(int left);
+
 		HRESULT SetSize(const SIZE& size);
 
 		void SetOffset(const POINT& pt);
@@ -163,6 +385,10 @@ namespace MDWMBlurGlassExt::DWM
 
 		void SetDirtyChildren();
 
+		static HRESULT WrapExistingResource(UINT handleIndex, CVisual** visual);
+
+		static HRESULT WrapExistingResource(Core::CChannel* channel, UINT handleIndex, CVisual** visual);
+
 		static HRESULT CreateFromSharedHandle(HANDLE handle, CVisual** visual);
 
 		HRESULT InitializeFromSharedHandle(HANDLE handle);
@@ -170,6 +396,10 @@ namespace MDWMBlurGlassExt::DWM
 		HRESULT MoveToFront(bool unknown);
 
 		HRESULT Initialize();
+
+		LONG GetWidth() const;
+		LONG GetHeight() const;
+		MARGINS* GetMargins();
 	};
 
 	struct CContainerVisual : CBaseObject
@@ -193,6 +423,7 @@ namespace MDWMBlurGlassExt::DWM
 		HRESULT SetSize(SIZE* size);
 		LPCWSTR GetText();
 
+		bool IsRTL() const;
 		CMatrixTransformProxy* GetMatrixProxy();
 	};
 
@@ -206,6 +437,40 @@ namespace MDWMBlurGlassExt::DWM
 		HRESULT GetSyncedWindowData(IDwmWindow* dwmWindow, bool shared, CWindowData** pWindowData);
 		HRESULT GetSyncedWindowDataByHwnd(HWND hwnd, CWindowData** windowData);
 		PRLIST_ENTRY GetWindowListForDesktop(ULONG_PTR desktopID);
+		HWND GetShellWindowForDesktop(ULONG_PTR desktopID);
+	};
+
+	struct IRenderDataBuilder : IUnknown
+	{
+		STDMETHOD(DrawBitmap)(UINT bitmapHandleTableIndex) PURE;
+		STDMETHOD(DrawGeometry)(UINT geometryHandleTableIndex, UINT brushHandleTableIndex) PURE;
+		STDMETHOD(DrawImage)(const D2D1_RECT_F& rect, UINT imageHandleTableIndex) PURE;
+		STDMETHOD(DrawMesh2D)(UINT meshHandleTableIndex, UINT brushHandleTableIndex) PURE;
+		STDMETHOD(DrawRectangle)(const D2D1_RECT_F* rect, UINT brushHandleTableIndex) PURE;
+		STDMETHOD(DrawTileImage)(UINT imageHandleTableIndex, const D2D1_RECT_F& rect, float opacity, const D2D1_POINT_2F& point) PURE;
+		STDMETHOD(DrawVisual)(UINT visualHandleTableIndex) PURE;
+		STDMETHOD(Pop)() PURE;
+		STDMETHOD(PushTransform)(UINT transformHandleTableInfex) PURE;
+		STDMETHOD(DrawSolidRectangle)(const D2D1_RECT_F& rect, const D2D1_COLOR_F& color) PURE;
+	};
+
+	struct CRenderDataInstruction : CBaseObject
+	{
+		STDMETHOD(WriteInstruction)(
+			IRenderDataBuilder* builder,
+			const struct CVisual* visual
+			) PURE;
+	};
+
+	struct CRenderDataVisual : CVisual
+	{
+		HRESULT STDMETHODCALLTYPE AddInstruction(CRenderDataInstruction* instruction);
+		HRESULT STDMETHODCALLTYPE ClearInstructions();
+	};
+
+	struct CCanvasVisual : CRenderDataVisual
+	{
+		static HRESULT STDMETHODCALLTYPE Create(CCanvasVisual** visual);
 	};
 
 	struct CTopLevelWindow : CVisual
@@ -214,13 +479,14 @@ namespace MDWMBlurGlassExt::DWM
 
 		CWindowData* GetData();
 		VisualCollection* GetNCAreaVisualCollection();
-		CVisual* GetVisual() const;
+		CCanvasVisual* GetVisual() const;
 
 		struct CAccent* GetAccent() const;
-		CVisual* GetLegacyVisual() const;
+		CCanvasVisual* GetLegacyVisual() const;
 		CVisual* GetClientBlurVisual() const;
 		CVisual* GetSystemBackdropVisual() const;
-		CVisual* GetAccentColorVisual() const;
+		CCanvasVisual* GetAccentColorVisual() const;
+		CVisual* GetClientAreaContainerParentVisual() const;
 		std::vector<winrt::com_ptr<CVisual>> GetNCBackgroundVisuals() const;
 		bool IsNCBackgroundVisualsCloneAllAllowed();
 		CSolidColorLegacyMilBrushProxy* const* GetBorderMilBrush() const;
@@ -228,7 +494,7 @@ namespace MDWMBlurGlassExt::DWM
 		CRgnGeometryProxy* const& GetBorderGeometry() const;
 		CRgnGeometryProxy* const& GetTitlebarGeometry() const;
 
-		bool HasNonClientBackground();
+		bool HasNonClientBackground(CWindowData* data = nullptr);
 
 		bool IsSystemBackdropApplied();
 
@@ -244,6 +510,25 @@ namespace MDWMBlurGlassExt::DWM
 		RECT* GetActualWindowRect(RECT* rect, char eraseOffset, char includeNonClient, bool excludeBorderMargins);
 
 		void GetBorderMargins(MARGINS* margins) const;
+
+		bool IsTrullyMinimized();
+
+		void SetDirtyFlags(int flags);
+
+		HRESULT OnSystemBackdropUpdated();
+		HRESULT OnClipUpdated();
+		HRESULT OnBlurBehindUpdated();
+		HRESULT OnAccentPolicyUpdated();
+
+		bool IsRTLMirrored() const;
+
+		DWORD GetSolidColorCaptionColor() const;
+
+		DWORD GetWindowColorizationColor(BYTE flags) const;
+
+		DWORD* GetCurrentDefaultColorizationFlags(DWORD* flags) const;
+
+		DWORD GetCurrentColorizationColor() const;
 
 		//Windows 10
 		static WindowFrame* s_ChooseWindowFrameFromStyle(char a1, bool a2, bool a3);
@@ -267,41 +552,11 @@ namespace MDWMBlurGlassExt::DWM
 		CBaseGeometryProxy* const& GetClipGeometry() const;
 	};
 
-	struct IRenderDataBuilder : IUnknown
-	{
-		STDMETHOD(DrawBitmap)(UINT bitmapHandleTableIndex) PURE;
-		STDMETHOD(DrawGeometry)(UINT geometryHandleTableIndex, UINT brushHandleTableIndex) PURE;
-		STDMETHOD(DrawImage)(const D2D1_RECT_F& rect, UINT imageHandleTableIndex) PURE;
-		STDMETHOD(DrawMesh2D)(UINT meshHandleTableIndex, UINT brushHandleTableIndex) PURE;
-		STDMETHOD(DrawRectangle)(const D2D1_RECT_F* rect, UINT brushHandleTableIndex) PURE;
-		STDMETHOD(DrawTileImage)(UINT imageHandleTableIndex, const D2D1_RECT_F& rect, float opacity, const D2D1_POINT_2F& point) PURE;
-		STDMETHOD(DrawVisual)(UINT visualHandleTableIndex) PURE;
-		STDMETHOD(Pop)() PURE;
-		STDMETHOD(PushTransform)(UINT transformHandleTableInfex) PURE;
-		STDMETHOD(DrawSolidRectangle)(const D2D1_RECT_F& rect, const D2D1_COLOR_F& color) PURE;
-	};
-	struct CRenderDataInstruction : CBaseObject
-	{
-		STDMETHOD(WriteInstruction)(
-			IRenderDataBuilder* builder,
-			const struct CVisual* visual
-			) PURE;
-	};
 	struct CDrawGeometryInstruction : CRenderDataInstruction
 	{
 		static HRESULT STDMETHODCALLTYPE Create(CBaseLegacyMilBrushProxy* brush, CBaseGeometryProxy* geometry, CDrawGeometryInstruction** instruction);
 	};
-	struct CRenderDataVisual : CVisual
-	{
-		HRESULT STDMETHODCALLTYPE AddInstruction(CRenderDataInstruction* instruction);
-		HRESULT STDMETHODCALLTYPE ClearInstructions();
-	};
-	struct CCanvasVisual : CRenderDataVisual
-	{
-		static HRESULT STDMETHODCALLTYPE Create(CCanvasVisual** visual);
-	};
 
-	struct COcclusionContext {};
 	struct CFilterEffect {};
 
 	struct CButton
@@ -310,9 +565,17 @@ namespace MDWMBlurGlassExt::DWM
 		SIZE* GetSize();
 	};
 
+	struct CCompositor
+	{
+		HRESULT CreateVisualProxyFromSharedHandle(HANDLE handle, CVisualProxy** visualProxy);
+
+		Core::CChannel* GetChannel() const;
+	};
+
 	struct CDesktopManager
 	{
 		inline static CDesktopManager* s_pDesktopManagerInstance{ nullptr };
+		inline static LPCRITICAL_SECTION s_csDwmInstance{ nullptr };
 
 		bool IsVanillaTheme() const
 		{
@@ -326,7 +589,14 @@ namespace MDWMBlurGlassExt::DWM
 
 		DCompPrivate::IDCompositionDesktopDevicePartner* GetDCompositionInteropDevice() const;
 
+		CCompositor* GetCompositor() const;
+
 		UINT MonitorDpiFromPoint(POINT pt) const;
+	};
+
+	struct CWindowNode : IUnknown
+	{
+		HWND STDMETHODCALLTYPE GetHwnd() const;
 	};
 
 	union GpCC
@@ -432,4 +702,12 @@ namespace MDWMBlurGlassExt::DWM
 			};
 		}
 	};
+
+	FORCEINLINE HWND GetShellWindowForCurrentDesktop()
+	{
+		ULONG_PTR desktopID{ 0 };
+		GetDesktopID(1, &desktopID);
+
+		return CDesktopManager::s_pDesktopManagerInstance->GetWindowList()->GetShellWindowForDesktop(desktopID);
+	}
 }

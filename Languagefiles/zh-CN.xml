@@ -29,11 +29,12 @@
 	<saveconfig>保存配置</saveconfig>
 	<effectset>效果设置</effectset>
 	<blurvalue>模糊半径(全局):</blurvalue>
-	<applyglobal>覆盖使用DWMAPI设置的云母效果(win11)</applyglobal>
+	<overrideDwmapi>覆盖使用DWMAPI设置的背景效果(win11)</overrideDwmapi>
 	<extendborder>扩展效果到边框 (win10)</extendborder>
 	<reflection>启用Aero反射效果</reflection>
 	<reflectiontip>(使用OldBlur仅限win10有效)</reflectiontip>
 	<oldBtnSize>还原win7样式标题栏按钮尺寸</oldBtnSize>
+	<titlebtnGlow>启用win7样式标题栏按钮发光效果</titlebtnGlow>
 	<cmodelight>浅色模式颜色</cmodelight>
 	<cmodedark>深色模式颜色</cmodedark>
 	<blendcolor>标题栏混合颜色 (活动状态):</blendcolor>
@@ -58,6 +59,8 @@
 	<useaccentcolor>使用系统主题色RGB取代颜色设置RGB</useaccentcolor>
 	<glassIntensity>Aero反射纹理不透明度:</glassIntensity>
 	<overrideAccent>覆盖Accent模糊效果</overrideAccent>
+	<scaleOptimizer>启用模糊渲染优化</scaleOptimizer>
+	<disableOnBattery>在省电模式下关闭效果</disableOnBattery>
 	<symbolfile>符号文件:</symbolfile>
 	<download>下载</download>
 	<symtip>符号文件(pdb)是记录程序调试信息的一种文件，由于各版本系统各不相同所以\n需要从微软服务器下载符号文件。如果您更新系统 可能需要重新下载新的文件。</symtip>

@@ -28,13 +28,39 @@ namespace MDWMBlurGlassExt
 		{ dwmcore, "CD2DContext::FillEffect" },
 		{ dwmcore, "CCustomBlur::BuildEffect" },
 		{ dwmcore, "CCustomBlur::DetermineOutputScale" },
+		{ dwmcore, "CCustomBlur::Draw" },
 		{ dwmcore, "CDrawingContext::DrawVisualTree" },
 		{ dwmcore, "CRenderData::DrawImageResource_FillMode" },
 		{ dwmcore, "CFilterEffect::CalcInversedWorldInputBoundsFromVisibleWorldOutputBoundsRecursive" },
 		{ dwmcore, "CArrayBasedCoverageSet::AddAntiOccluderRect" },
+		{ dwmcore, "CArrayBasedCoverageSet::IsCovered" },
+
+		{ dwmcore, "CBrushRenderingGraph::RenderSubgraphs" },
+		{ dwmcore, "CWindowNode::RenderImage" },
+		{ dwmcore, "CWindowNode::GetHwnd" },
+
+		{ dwmcore, "CChannel::DuplicateSharedResource" },
+		{ dwmcore, "CChannel::MatrixTransformUpdate" },
+		{ dwmcore, "CVisual::GetVisualTree" },
+		{ dwmcore, "CVisual::GetBounds" },
+		{ dwmcore, "CVisual::GetHwnd" },
+		{ dwmcore, "CVisual::GetTopLevelWindow" },
+		{ dwmcore, "CVisual::GetWindowBackgroundTreatmentInternal" },
+		{ dwmcore, "CArrayBasedCoverageSet::Add" },
+		{ dwmcore, "CZOrderedRect::UpdateDeviceRect" },
+		{ dwmcore, "CResource::GetOwningProcessId" },
+		{ dwmcore, "COcclusionContext::PostSubgraph" },
+		{ dwmcore, "CDrawingContext::IsOccluded" },
+		{ dwmcore, "CDrawingContext::GetCurrentVisual" },
+		{ dwmcore, "CDrawingContext::GetClipBoundsWorld" },
+		{ dwmcore, "CCustomBlur::Reset" },
+		{ dwmcore, "GetCurrentFrameId" },
+		{ dwmcore, "CBlurRenderingGraph::DeterminePreScale" },
 
 		{ udwm, "CDesktopManager::s_pDesktopManagerInstance" },
+		{ udwm, "CDesktopManager::s_csDwmInstance" },
 		{ udwm, "CDesktopManager::MonitorDpiFromPoint"},
+
 
 		{ udwm, "CSolidColorLegacyMilBrushProxy::Update" },
 		{ udwm, "CWindowList::GetExtendedFrameBounds" },
@@ -44,7 +70,10 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CWindowList::CloakChange" },
 		{ udwm, "CWindowList::CheckForMaximizedChange" },
 		{ udwm, "CWindowList::GetWindowListForDesktop" },
+		{ udwm, "CWindowList::GetShellWindowForDesktop" },
 		{ udwm, "ResourceHelper::CreateGeometryFromHRGN" },
+		{ udwm, "?CreateRectangleGeometry@ResourceHelper@@SAJPEBUtagRECT@@PEAPEAVCRectangleGeometryProxy@@@Z" },
+		{ udwm, "ResourceHelper::CreateCombinedGeometry" },
 		{ udwm, "HrgnFromRects" },
 
 		{ udwm, "CAccent::UpdateAccentPolicy" },
@@ -64,19 +93,33 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CTopLevelWindow::OnAccentPolicyUpdated" },
 		{ udwm, "CTopLevelWindow::OnClipUpdated" },
 		{ udwm, "CTopLevelWindow::~CTopLevelWindow" },
+		{ udwm, "CTopLevelWindow::UpdateClientBlur" },
+		{ udwm, "CTopLevelWindow::UpdateAccent" },
+		{ udwm, "CTopLevelWindow::CalculateBackgroundType" },
+		{ udwm, "CTopLevelWindow::UpdateSystemBackdropVisual" },
+		{ udwm, "CTopLevelWindow::CloneVisualTree" },
+		{ udwm, "CTopLevelWindow::SetDirtyFlags" },
+		{ udwm, "CTopLevelWindow::OnSystemBackdropUpdated" },
+		{ udwm, "CTopLevelWindow::OnClipUpdated" },
+		{ udwm, "CTopLevelWindow::OnBlurBehindUpdated" },
+		{ udwm, "CTopLevelWindow::OnAccentPolicyUpdated" },
+		{ udwm, "CTopLevelWindow::GetSolidColorCaptionColor" },
+		{ udwm, "CTopLevelWindow::GetWindowColorizationColor" },
+		{ udwm, "CTopLevelWindow::GetCurrentDefaultColorizationFlags" },
+		{ udwm, "CTopLevelWindow::IsTrullyMinimized" },
 
 		{ udwm, "CGlassColorizationParameters::AdjustWindowColorization" },
 
 		{ udwm, "CText::SetColor" },
 		{ udwm, "CText::SetText" },
 		{ udwm, "CText::SetSize" },
-		{ udwm, "CText::UpdateAlignmentTransform" },
+		{ udwm, "CText::ValidateResources" },
 
 		{ udwm, "CWindowList::BlurBehindChange" },
 		{ udwm, "CWindowList::GetSyncedWindowData" },
 
 		{ udwm, "CButton::UpdateLayout" },
-		{ udwm, "CButton::DrawStateW"},
+		{ udwm, "CButton::RedrawVisual"},
 		{ udwm, "CButton::~CButton" },
 
 		{ udwm, "VisualCollection::Remove" },
@@ -91,6 +134,7 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CVisual::Create" },
 		{ udwm, "CVisual::SetInsetFromParent" },
 		{ udwm, "CVisual::SetInsetFromParentRight" },
+		{ udwm, "CVisual::SetInsetFromParentLeft" },
 		{ udwm, "CVisual::SetSize" },
 		{ udwm, "CVisual::SetOffset" },
 		{ udwm, "CVisual::InitializeVisualTreeClone" },
@@ -107,6 +151,7 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CVisual::InitializeFromSharedHandle" },
 		{ udwm, "CVisual::MoveToFront" },
 		{ udwm, "CVisual::Initialize" },
+		{ udwm, "CVisual::WrapExistingResource" },
 
 		{ udwm, "CContainerVisual" },
 		{ udwm, "CContainerVisual::Create" },
@@ -119,6 +164,7 @@ namespace MDWMBlurGlassExt
 		{ udwm, "CWindowData::IsImmersiveWindow" },
 		{ udwm, "CWindowData::IsWindowVisibleAndUncloaked" },
 
-		{ udwm, "CMatrixTransformProxy::Update" }
+		{ udwm, "CMatrixTransformProxy::Update" },
+		{ udwm, "CRgnGeometryProxy::Update" },
 	});
 }

@@ -123,24 +123,15 @@ namespace MDWMBlurGlass
 			return false;
 
 		ui->Mgr()->LoadStyleList();
+		ui->LoadDefaultStyle();
 
 		std::wstring_view xml = 
-		LR"(
-		<DefPropGroup control="UIButton" style="style_buttonLight" autoSize="false" textAlign="5" animate="true" />
-		<DefPropGroup control="UICheckBox" style="style_checkbox" />
-		<DefPropGroup control="UISlider" trackInset="0,5,0,5" style="style_slidertrack" btnStyle="style_sliderbtn" />
-		<DefPropGroup control="UIEditBox" style="style_editbox" inset="5,5,5,5" />
-		<DefPropGroup control="UIListBox" style="style_listbox" itemStyle="style_listitem" iTextAlign="5" 
-		styleV="style_scroll" button="false" barWidth="6" inset="2,2,2,2" />
-		<DefPropGroup control="UIProgBar" autoSize="false" style="style_progress" />
-		<DefPropGroup control="UIComBox" fontSize="14" style="style_buttonLight" textAlign="5" listStyle="style_comlist"
-		itemStyle="style_comitem" itemHeight="30" autoSize="false" dropIcon="dropIcon" iTextAlign="5" 
-		styleV="style_scroll" button="false" barWidth="6" inset="1,1,1,1" />
-		<DefPropGroup control="UIMenu" style="style_listbox" itemStyle="style_menuitem" inset="5,5,5,5" 
-		pos="20,10" shadowColor="0,0,0,80" shadowOffset="0,10" shadowExtend="5" shadowRadius="12" />
-		)";
+		MXMLCODE(
+		<DefPropGroup control="UICheckBox" style="style_checkbox" minSize="16,16" />
+		<DefPropGroup control="UIComBox" dropIcon="dropIcon" />
+		);
 
-		if (!ui->AddDefPropGroup(xml.data()))
+		if (!ui->AddDefPropGroup(xml, true))
 			_M_OutErrorDbg_(L"AddDefaultProp failed! The XML code is invalid.", true);
 
 		return true;

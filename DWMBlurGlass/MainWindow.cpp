@@ -52,10 +52,8 @@ namespace MDWMBlurGlass
 		SendMessageW(hWnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 		SendMessageW(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 
-		EnableHostBackdropBrush(hWnd);
-
 		UIBkgndStyle bgStyle;
-		bgStyle.bkgndColor = Color::M_RGBA(255, 255, 255, 200);
+		bgStyle.bkgndColor = Color::M_RGBA(250, 250, 250, 255);
 		root->SetBackground(bgStyle);
 
 		try
@@ -85,8 +83,8 @@ namespace MDWMBlurGlass
 
 	_m_result MainWindow_SrcEventProc(MWindowCtx* ctx, const MWndDefEventSource& defcallback, MEventCodeEnum code, _m_param param)
 	{
-		if (g_mainPage)
-			g_mainPage->SrcEventProc(ctx, defcallback, code, param);
+		if (g_mainPage && g_mainPage->SrcEventProc(ctx, defcallback, code, param))
+			return 0;
 		return defcallback(code, param);
 	}
 

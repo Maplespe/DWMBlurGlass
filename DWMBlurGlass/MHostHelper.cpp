@@ -22,6 +22,7 @@
 #include "Common.h"
 #include "../DWMBlurGlassExt/Common/DefFunctionList.h"
 #include <TlHelp32.h>
+#include "Helper/wil.h"
 
 #pragma data_seg(".DWMBlurGlassShared")
 
@@ -112,20 +113,13 @@ namespace MDWMBlurGlass
 
 	void ParsingSymbol(PSYMBOL_INFO symInfo, std::string& funName, std::string& fullName, DWORD64& offset)
 	{
-		auto functionName{ reinterpret_cast<const CHAR*>(symInfo->Name) };
+		std::string_view functionName{ symInfo->Name, symInfo->NameLen };
 
-		CHAR unDecoratedFunctionName[MAX_PATH + 1]{};
-		UnDecorateSymbolName(
-			functionName, unDecoratedFunctionName, MAX_PATH,
-			UNDNAME_COMPLETE | UNDNAME_NO_ACCESS_SPECIFIERS | UNDNAME_NO_THROW_SIGNATURES | UNDNAME_NO_ALLOCATION_LANGUAGE
-		);
-
-		fullName = unDecoratedFunctionName;
-		OutputDebugStringA((std::string(unDecoratedFunctionName) + "\n").c_str());
+		fullName = functionName;
 
 		CHAR fullyUnDecoratedFunctionName[MAX_PATH + 1]{};
 		UnDecorateSymbolName(
-			functionName, fullyUnDecoratedFunctionName, MAX_PATH,
+			functionName.data(), fullyUnDecoratedFunctionName, MAX_PATH,
 			UNDNAME_NAME_ONLY
 		);
 

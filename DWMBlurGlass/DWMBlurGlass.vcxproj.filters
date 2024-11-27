@@ -51,9 +51,6 @@
     <ClInclude Include="MainWindow.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MDcompRender.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>资源文件</Filter>
     </ClInclude>
@@ -93,9 +90,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MainWindow.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MDcompRender.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Extend\Dialog.cpp">

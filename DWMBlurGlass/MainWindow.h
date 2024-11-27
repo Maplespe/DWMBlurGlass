@@ -21,7 +21,7 @@
 
 namespace MDWMBlurGlass
 {
-	inline const std::wstring g_vernum = L"2.2.0";
+	inline const std::wstring g_vernum = L"3.0.0";
 
 	Mui::_m_result MainWindow_SrcEventProc(Mui::MWindowCtx*, const Mui::MWndDefEventSource&, Mui::MEventCodeEnum, Mui::_m_param);
 

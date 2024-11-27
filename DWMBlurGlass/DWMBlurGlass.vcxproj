@@ -120,14 +120,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(MUI_LIBRARY)\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MUI_LITE_LIBRARY)\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(MUI_LIBRARY)\library\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MUI_LITE_LIBRARY)\library\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,7 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(MUI_LIBRARY)\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MUI_LITE_LIBRARY)\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -147,7 +147,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(MUI_LIBRARY)\library\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MUI_LITE_LIBRARY)\library\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
@@ -162,7 +162,6 @@
     <ClInclude Include="Helper\Helper.h" />
     <ClInclude Include="Helper\SymbolResolver.h" />
     <ClInclude Include="Helper\wil.h" />
-    <ClInclude Include="MDcompRender.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MHostHelper.h" />
     <ClInclude Include="Page\MainPage.h" />
@@ -177,7 +176,6 @@
     <ClCompile Include="Extend\Dialog.cpp" />
     <ClCompile Include="Helper\Helper.cpp" />
     <ClCompile Include="Helper\SymbolResolver.cpp" />
-    <ClCompile Include="MDcompRender.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MHostHelper.cpp" />
     <ClCompile Include="Page\MainPage.cpp" />

@@ -22,7 +22,7 @@ namespace MDWMBlurGlass
 {
 	using namespace Ctrl;
 
-	class ColorPickerDlg : public Dialog
+	class ColorPickerDlg : public Page
 	{
 	public:
 		ColorPickerDlg(UIControl* parent, XML::MuiXML* ui);
@@ -44,7 +44,6 @@ namespace MDWMBlurGlass
 		UISlider* m_alphav = nullptr;
 		UILabel* m_alphaper = nullptr;
 
-		bool m_dlgShow = false;
 		bool m_alpha = false;
 		std::function<void(bool, _m_color)> m_callback = nullptr;
 	};

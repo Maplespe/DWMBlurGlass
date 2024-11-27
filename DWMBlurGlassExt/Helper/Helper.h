@@ -79,6 +79,11 @@ namespace MDWMBlurGlassExt
 		std::wstring_view filename
 	);
 
+	winrt::com_ptr<ID2D1Bitmap1> CreateD2DMaskBitmap(
+		ID2D1DeviceContext* context,
+		D2D1_SIZE_U size
+	);
+
 	HBITMAP CreateAlphaBitmap(int width, int height);
 
 	void EnumMonitors(std::vector<RECT>& monitorRects);

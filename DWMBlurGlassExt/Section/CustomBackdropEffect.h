@@ -16,31 +16,13 @@
  * If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.
 */
 #pragma once
-#include "DWMStruct.h"
-
-namespace MDWMBlurGlassExt
-{
-	class CVisualManager;
-}
+#include "CompositedBackdrop.hpp"
 
 namespace MDWMBlurGlassExt::CustomBackdrop
 {
 	void Attach();
 	void Detach();
 	void Refresh();
-
-
-	CVisualManager* GetCVisualManager();
-
-	HRESULT WINAPI CTopLevelWindow_InitializeVisualTreeClone(
-		DWM::CTopLevelWindow* This,
-		DWM::CTopLevelWindow* topLevelWindow,
-		UINT cloneOptions
-	);
-	HRESULT WINAPI CTopLevelWindow_UpdateNCAreaBackground(DWM::CTopLevelWindow* This);
-	HRESULT WINAPI CTopLevelWindow_ValidateVisual(DWM::CTopLevelWindow* This);
-	void WINAPI CTopLevelWindow_Destructor(DWM::CTopLevelWindow* This);
-	HRESULT WINAPI ResourceHelper_CreateGeometryFromHRGN(HRGN hrgn, DWM::CRgnGeometryProxy** geometry);
 
 	struct MILCMD
 	{
@@ -54,7 +36,20 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 		}
 	};
 	struct MILCMD_DWM_REDIRECTION_ACCENTBLURRECTUPDATE : MILCMD {};
+
+	CompositedBackdropKind GetActualBackdropKind(DWM::CTopLevelWindow* This, bool overrideAccent = true);
+
+	HRESULT STDMETHODCALLTYPE CDrawGeometryInstruction_Create(DWM::CBaseLegacyMilBrushProxy* brush, DWM::CBaseGeometryProxy* geometry, DWM::CDrawGeometryInstruction** instruction);
+	HRESULT STDMETHODCALLTYPE CTopLevelWindow_UpdateNCAreaBackground(DWM::CTopLevelWindow* This);
+	HRESULT STDMETHODCALLTYPE CTopLevelWindow_UpdateClientBlur(DWM::CTopLevelWindow* This);
+	HRESULT STDMETHODCALLTYPE CTopLevelWindow_ValidateVisual(DWM::CTopLevelWindow* This);
+	HRESULT STDMETHODCALLTYPE CTopLevelWindow_UpdateAccent(DWM::CTopLevelWindow* This, bool visibleAndUncloaked);
+	DWORD STDMETHODCALLTYPE CTopLevelWindow_CalculateBackgroundType(DWM::CTopLevelWindow* This);
+	HRESULT STDMETHODCALLTYPE CTopLevelWindow_UpdateSystemBackdropVisual(DWM::CTopLevelWindow* This);
+	void STDMETHODCALLTYPE CTopLevelWindow_Destructor(DWM::CTopLevelWindow* This);
+	HRESULT STDMETHODCALLTYPE CTopLevelWindow_InitializeVisualTreeClone(DWM::CTopLevelWindow* This, DWM::CTopLevelWindow* window, UINT cloneOptions);
+	HRESULT STDMETHODCALLTYPE CTopLevelWindow_CloneVisualTree(DWM::CTopLevelWindow* This, DWM::CTopLevelWindow** window, bool unknown);
+	HRESULT STDMETHODCALLTYPE CTopLevelWindow_CloneVisualTree_Pre1903(DWM::CTopLevelWindow* This, DWM::CTopLevelWindow** window, bool unknown1, bool unknown2, bool unknown3);
 	HRESULT STDMETHODCALLTYPE CTopLevelWindow_OnClipUpdated(DWM::CTopLevelWindow* This);
-	HRESULT STDMETHODCALLTYPE CTopLevelWindow_OnAccentPolicyUpdated(DWM::CTopLevelWindow* This);
 	HRESULT STDMETHODCALLTYPE CWindowList_UpdateAccentBlurRect(DWM::CWindowList* This, const MILCMD_DWM_REDIRECTION_ACCENTBLURRECTUPDATE* milCmd);
 }
