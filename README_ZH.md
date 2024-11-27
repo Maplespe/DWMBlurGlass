@@ -3,7 +3,7 @@ Add blur effect to global system title bar, support win10 and win11.
 
 给全局系统标题栏添加自定义效果，支持win10和win11
 #
-| [中文](/README_ZH.md) | [English](/README.md) | [Italiano](/README_IT.md) | [Français](/README_FR.md) | [Türkçe](/README_TR.md)
+| [中文](/README_ZH.md) | [English](/README.md) | [italiano](/README_IT.md) | [français](/README_FR.md) | [Türkçe](/README_TR.md) | [español](/README_ES.md)
 This project uses [LGNU V3 license](/COPYING.LESSER).
 
 其他语言:
@@ -11,6 +11,17 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 >
 > [Deutsch](/README_DE.md)
 
+## !!!!不要从其他地方下载DWMBlurGlass!!!!
+> [!WARNING]
+> 我们发现有人冒充我们发布植入恶意代码的DWMBlurGlass，
+> 
+> 为了避免此类事项再次发生，请不要从非官方地址下载软件！
+> 
+> **我们也没有任何官方的Discord。**
+> 
+> 我们仅在 [Github](https://github.com/Maplespe/DWMBlurGlass/releases)、 [Bilibili](https://space.bilibili.com/87195798) 和 [winmoes](https://winmoes.com) 发布软件
+> 
+> 以及，任何新版本的测试都会先推送到test分支，而不是提前发布二进制文件。
 
 [![license](https://img.shields.io/github/license/Maplespe/DWMBlurGlass.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 [![Github All Releases](https://img.shields.io/github/downloads/Maplespe/DWMBlurGlass/total.svg)](https://github.com/Maplespe/DWMBlurGlass/releases)

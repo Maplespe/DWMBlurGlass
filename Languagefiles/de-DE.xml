@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<lang local="da-DE" author="Akey.Dev">
+<lang local="de-DE" author="Akey.Dev">
 	<inituifail0>Die Initialisierung der MiaoUI-Bibliothek ist fehlgeschlagen! Fehlercode: </inituifail0>
 	<inituifail1>Fensterelement konnte nicht erstellt werden!</inituifail1>
 	<inituifail2>Das Fenster konnte nicht initialisiert werden!</inituifail2>
@@ -32,8 +32,8 @@
 	<applyglobal>Überschreiben Sie den DWMAPI-Glimmereffekt (Win11)</applyglobal>
 	<extendborder>Effekte auf Ränder erweitern (Win10)</extendborder>
 	<reflection>Aero-Reflektionseffekt aktivieren</reflection>
-	<reflectiontip>(nur für Win10)</reflectiontip>
-	<oldBtnHeight>Reduzieren Sie die Höhe der Titelleistenschaltfläche (Win7-Stil)</oldBtnHeight>
+	<reflectiontip>(Altcode-Unschärfemethode nur für Windows 10)</reflectiontip>
+	<oldBtnSize>Reduzieren Sie die Höhe der Titelleistenschaltfläche (Win7-Stil)</oldBtnSize>
 	<cmodelight>Farben im Hellen Modus</cmodelight>
 	<cmodedark>Farben im Dunklen Modus</cmodedark>
 	<blendcolor>Titelleiste Blendfarbe (Aktiv):</blendcolor>
@@ -49,6 +49,15 @@
 	<effecttype>Effekttyp:</effecttype>
 	<blurvaluetitle>Unschärferadius (nur Titelleiste):</blurvaluetitle>
 	<luminosity>Leuchtkraft undurchlässigkeit:</luminosity>
+	<colorBalance>Farb Balance:</colorBalance>
+	<blurBalance>Unschärfe Balance:</blurBalance>
+	<afterglowBalance>Nachglimmen Balance:</afterglowBalance>
+	<miscsettings>Sonstiges:</miscsettings>
+	<enablecrossfade>Aktivieren Sie den Crossfade-Animationseffekt</enablecrossfade>
+	<crossfadeTime>Animationsdauer:</crossfadeTime>
+	<useaccentcolor>Verwenden Sie die Akzentfarbe, um die RGB-Farbeinstellungen zu überschreiben</useaccentcolor>
+	<glassIntensity>Deckkraft der Aero-Reflexionstextur:</glassIntensity>
+	<overrideAccent>Akzent-Unschärfe-Effekt außer Kraft setzen</overrideAccent>
 	<symbolfile>Symboldatei:</symbolfile>
 	<download>Herunterladen</download>
 	<symtip>Symboldateien (pdb) sind Dateien, die Debugging-Informationen zu einem\nProgramm aufzeichnen. Da die Systeme von Version zu Version\nunterschiedlich sind, müssen Sie die Symboldateien von einem\nMicrosoft-Server herunterladen. Wenn Sie Ihr System aktualisieren, müssen\nSie die neue Datei möglicherweise erneut herunterladen.</symtip>

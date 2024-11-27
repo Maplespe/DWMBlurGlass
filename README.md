@@ -3,14 +3,21 @@ Add custom effects to the global system title bar, supports Windows 10 and Windo
 
 给全局系统标题栏添加自定义效果，支持win10和win11
 #
-| [中文](/README_ZH.md) | [English](/README.md) | [Italian](/README_IT.md) | [French](/README_FR.md) | [Türkçe](/README_TR.md)
+| [中文](/README_ZH.md) | [English](/README.md) | [italiano](/README_IT.md) | [français](/README_FR.md) | [Türkçe](/README_TR.md) | [español](/README_ES.md) | [German](/README_DE.md) 
+
 This project uses [LGNU V3 license](/COPYING.LESSER).
 
-Other languages:
-> The following documentation may be out of date, please refer to the current documentation.
->
-> [Deutsch](/README_DE.md)
-
+## !!! Do not download DWMBlurGlass from anywhere else!!!!
+> [!WARNING]
+> We have discovered that someone is pretending to be us and posting DWMBlurGlass with a malicious code implant.
+> 
+> To avoid this kind of matter from happening again, please do not download the software from unofficial addresses!
+> 
+> **We also don't have any official Discord.**
+> 
+> We only distribute software on [Github](https://github.com/Maplespe/DWMBlurGlass/releases), [Bilibili](https://space.bilibili.com/87195798) and [winmoes](https://winmoes.com).
+> 
+> As well, any new versions for testing are pushed to the test branch first, rather than releasing binaries in advance.
 
 [![license](https://img.shields.io/github/license/Maplespe/DWMBlurGlass.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 [![Github All Releases](https://img.shields.io/github/downloads/Maplespe/DWMBlurGlass/total.svg)](https://github.com/Maplespe/DWMBlurGlass/releases)

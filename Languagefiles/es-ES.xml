@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<lang local="es-ES" author="Amaro Martínez (xoascf)">
+	<inituifail0>¡Error al inicializar la biblioteca MiaoUI!\nMensaje de error: </inituifail0>
+	<inituifail1>¡Error al crear el contexto de ventana!</inituifail1>
+	<inituifail2>¡Error al inicializar la ventana!</inituifail2>
+	<initfail0>¡Tenga en cuenta que debido a que DWM se ejecuta en un entorno seguro, el programa debe colocarse en un directorio que no sea de usuario, y no puede estar en "{path}" o sus subdirectorios! Cambie el directorio del programa.</initfail0>
+	<symloadfail>¡Error al cargar los archivos de símbolos! ¡El programa no pudo cargar el componente DLL, descargue los símbolos nuevamente! (Es posible que también deba volver a descargar los símbolos después de una actualización del sistema).</symloadfail>
+	<colorpicker_dlg_sel>Seleccione un color:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Nuevo color:</colorpicker_dlg_c>
+	<msgdlg_no>Cancelar</msgdlg_no>
+	<msgdlg_yes>Aceptar</msgdlg_yes>
+	<colorpicker_dlg_alpha>Opacidad:</colorpicker_dlg_alpha>
+	<general>General</general>
+	<advanced>Opciones avanzadas</advanced>
+	<symbol>Símbolos</symbol>
+	<config>Configuración</config>
+	<about>Acerca de</about>
+	<status>Estado:</status>
+	<status0>No instalado</status0>
+	<status1>Instalado</status1>
+	<install>Instalar</install>
+	<uninstall>Desinstalar</uninstall>
+	<installsucs>¡Instalación exitosa!</installsucs>
+	<installsucs1>¡Instalación exitosa! ¡Pero aún no ha descargado los archivos de símbolos, descárguelos desde la página «Símbolos» para que DWMBlurGlass funcione correctamente!</installsucs1>
+	<installfail>¡Error al instalar!\nMensaje de error: </installfail>
+	<uninstallsucs>Desinstalación exitosa.</uninstallsucs>
+	<uninstallfail>¡Error al desinstalar!\nMensaje de error: </uninstallfail>
+	<loadfail>¡Error al cargar el componente!\nMensaje de error: </loadfail>
+	<saveconfig>Guardar configuración</saveconfig>
+	<effectset>Configuración de efectos</effectset>
+	<blurvalue>Radio de desenfoque (global):</blurvalue>
+	<applyglobal>Redefinir efecto Mica establecido mediante DWMAPI (Win 11)</applyglobal>
+	<extendborder>Extender efectos a bordes (Win 10)</extendborder>
+	<reflection>Habilitar efecto de reflejo Aero</reflection>
+	<reflectiontip>(OldBlur sólo para Win 10)</reflectiontip>
+	<oldBtnSize>Restaurar tamaño de botones de barra de título (estilo de Win 7)</oldBtnSize>
+	<cmodelight>Colores de modo claro</cmodelight>
+	<cmodedark>Colores de modo oscuro</cmodedark>
+	<blendcolor>Color fusión de barra de título (activa):</blendcolor>
+	<inactiveblendcolor>Color fusión de barra de título (inactiva):</inactiveblendcolor>
+	<activecolor>Color de texto activo:</activecolor>
+	<inactivecolor>Color de texto inactivo:</inactivecolor>
+	<preview>Vista previa</preview>
+	<sampletitle>Ejemplo de título de ventana (activa)</sampletitle>
+	<blurmethod>Método de desenfoque:</blurmethod>
+	<methodcustom>[Recomendado] Implementación personalizada de desenfoque que usa \nCVisual (DWM) y Windows.UI.Composition (dcomp) para lograr efectos \nde fondo personalizados, puede personalizar la mayoría de los parámetros, \nno sólo puede obtener la máxima eficiencia, sino también la mejor \napariencia y mayor estabilidad. Sin embargo, la compatibilidad no es tan \nbuena ya que puede fallar después de una importante actualización de \nWindows y deberá esperar una nueva versión del programa.</methodcustom>
+	<methodaccent>[No recomendado] Usa la implementación interna de desenfoque de DWM \nsin eliminar (clase AccentBlurBehind) para aplicar el efecto de desenfoque, \npuede personalizar algunos de los parámetros, pero es ineficiente y \nmenos estable. Puede funcionar normalmente en la mayoría de los \nsistemas, generalmente, una actualización del sistema no lo romperá.</methodaccent>
+	<methoddwmapi>Usa DWMAPI documentado para aplicar el efecto SystemBackdrop \nlimitado, como Acrylic, Mica, no puede personalizar estos parámetros \nen absoluto. Aunque tenga alta eficiencia y mejor estabilidad, puede \nromper la apariencia de algunos programas y sólo está disponible \nen Windows 11 22H2 o superior.</methoddwmapi>
+	<effecttype>Tipo de efecto:</effecttype>
+	<blurvaluetitle>Radio de desenfoque (sólo barra de título):</blurvaluetitle>
+	<luminosity>Opacidad de luminosidad:</luminosity>
+	<colorBalance>ColorBalance:</colorBalance>
+	<blurBalance>BlurBalance:</blurBalance>
+	<afterglowBalance>AfterglowBalance:</afterglowBalance>
+	<miscsettings>Otros:</miscsettings>
+	<enablecrossfade>Habilitar efecto de animación de desvanecimiento</enablecrossfade>
+	<crossfadeTime>Duración de animación:</crossfadeTime>
+	<useaccentcolor>Usar color de énfasis para redefinir configuración de color</useaccentcolor>
+	<glassIntensity>Opacidad de textura de reflejo Aero:</glassIntensity>
+	<overrideAccent>Redefinir efecto AccentBlur</overrideAccent>
+	<symbolfile>Archivos de símbolos:</symbolfile>
+	<download>Descargar</download>
+	<symtip>Los archivos de símbolos (pdb) son archivos que registran información \nde depuración sobre un programa. Dado que los sistemas varían de una \nversión a otra, debe descargar los archivos de símbolos desde el servidor \nde Microsoft. Si actualiza su sistema, es posible que deba descargar los \narchivos de símbolos nuevamente.</symtip>
+	<symstatus0>No válidos</symstatus0>
+	<symstatus1>Válidos</symstatus1>
+	<symdowning>Descargando...</symdowning>
+	<symdownfail>¡Error al descargar! No se pueden descargar los archivos de símbolos desde msdl.microsoft.com.</symdownfail>
+	<syminvalid>¡Los archivos de símbolos no son válidos! Vaya a la página «Símbolos» del programa DWMBlurGlass para descargar nuevos archivos de símbolos.</syminvalid>
+	<configfile>Archivo de configuración</configfile>
+	<import>Importar</import>
+	<export>Exportar</export>
+	<restore>Restablecer</restore>
+	<importwarn>Al importar un archivo de configuración se sobrescribirá la configuración existente\n¿Desea continuar?</importwarn>
+	<restorecfg>¿Desea restablecer la configuración predeterminada?</restorecfg>
+	<aboutinfo>Este programa está bajo la licencia LGPL v3:</aboutinfo>
+	<curlang>Idioma actual:</curlang>
+	<langauthor>Traducido por:</langauthor>
+</lang>
