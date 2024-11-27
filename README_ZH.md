@@ -40,14 +40,15 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 * 可自定义标题栏文本颜色
 * 可添加Aero反射和视差效果
 * 可还原win7样式标题栏按钮高度
+* 可还原win7样式标题栏按钮发光效果
 * 支持为使用旧版win7API DwmEnableBlurBehindWindow 的程序启用模糊效果
 * 支持 `Blur`, `Aero`, `Acrylic`, `Mica(仅win11)` 效果
 * 可单独设置 亮/暗 颜色模式颜色，跟随系统自动切换
 * 提供 `CustomBlur`、`AccentBlur`、`SystemBackdrop` 模糊方法可选
 * 第三方主题支持
 
-![image](/Screenshot/001701.png)
-![image](/Screenshot/10307.png)
+![image](./Screenshot/001701.png)
+![image](./Screenshot/10307.png)
 
 ## 兼容性
 最低支持 **Windows 10 2004** 最高支持到 **Windows 11 最新版**(部分模糊方法不支持预览版)
@@ -67,30 +68,30 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 ## 预览
 <details><summary><b>Windows 11</b></summary>
   
-![image](/Screenshot/10307.png)
+![image](./Screenshot/10307.png)
 
-![image](/Screenshot/102134.png)
+![image](./Screenshot/102134.png)
 
-> 启用 "覆盖使用DWMAPI设置的云母效果 (win11)"
+- [x] 覆盖使用DWMAPI设置的云母效果 (win11)
 
-![image](/Screenshot/013521.png)
+![image](./Screenshot/013521.png)
 </details>
 
 <details><summary><b>Windows 10</b></summary>
 
-![image](/Screenshot/001701.png)
+![image](./Screenshot/001701.png)
 
-![image](/Screenshot/100750.png)
+![image](./Screenshot/100750.png)
 
 使用第三方主题
 
-> 启用 "扩展效果到边框 (win10)"
+- [x] 扩展效果到边框 (win10)
 
-> 启用 "启用Aero反射效果"
+- [x] 启用Aero反射效果
 
-> 启用 "减少标题栏按钮高度 (win7 样式)"
+- [x] 减少标题栏按钮高度 (win7 样式)
 
-![image](/Screenshot/025410.png)
+![image](./Screenshot/025410.png)
 
 </details>
 
@@ -103,19 +104,19 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 ### Aero
 > Windows 7 的玻璃效果 失去焦点时具有曝光和饱和度效果
 
-![image](/Screenshot/aero.png)
+![image](./Screenshot/aero.png)
 
-![image](/Screenshot/aero_inactive.png)
+![image](./Screenshot/aero_inactive.png)
 
 ### Acrylic
 > 亚克力效果配方: 背景, 模糊, 叠加混合, 饱和度, 颜色混合覆盖, 噪点纹理
 
-![image](/Screenshot/acrylic.png)
+![image](./Screenshot/acrylic.png)
 
 ### Mica
 > 云母效果配方: 模糊的壁纸, 饱和度, 颜色混合覆盖
 
-![image](/Screenshot/mica.png)
+![image](./Screenshot/mica.png)
 
 ### MicaAlt
 以上的所有效果均可以自定义混合颜色，MicaAlt是灰色调的云母效果的变体，你可以自定义混合颜色来实现MicaAlt效果
@@ -127,7 +128,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 2. 解压到一个位置 例如 "`C:\Program Files`".
 <details><summary><b>3. 运行 DWMBlurGlass.exe GUI 程序 并点击安装.</b></summary>
 
-![image](/Screenshot/013025.png)
+![image](./Screenshot/013025.png)
 
 >如果提示 "安装成功! 但您还没有下载有效的符号文件，在"符号文件"页面下载后才能生效" 则需要前往"符号"页面下载符号
 
@@ -135,7 +136,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 >
 >如果下载失败 则可能需要使用代理，在中国大陆部分地区可能无法访问微软服务器
 
-![image](/Screenshot/013100.png)
+![image](./Screenshot/013100.png)
 
 </details>
 
@@ -157,7 +158,7 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 10. 请求通过后，您的文件将随未来的软件更新一起发布.
 
 ## 依赖
-* MiaoUI interface library v2 (Private)
+* [MiaoUI Lite interface library v2](https://github.com/Maplespe/MiaoUILite)
 * [AcrylicEverywhere](https://github.com/ALTaleX531/AcrylicEverywhere) - CustomBlur方法的上游单独实现，感谢ALTaleX的研究和支持.
 * [minhook](https://github.com/m417z/minhook)
 * [pugixml](https://github.com/zeux/pugixml)

@@ -911,7 +911,6 @@ namespace MDWMBlurGlass
         m_page->Child(L"crossFadeGroup")->SetEnabled(index == blurMethod::CustomBlur && m_cfgData.crossFade);
         m_page->Child(L"useaccentcolor")->SetEnabled(index == blurMethod::CustomBlur || index == blurMethod::AccentBlur);
         m_page->Child(L"overrideAccent")->SetEnabled(index == blurMethod::CustomBlur);
-        m_page->Child(L"disableOnBattery")->SetEnabled(index == blurMethod::CustomBlur);
         m_page->Child(L"titlebtnGlow")->SetEnabled(index == blurMethod::CustomBlur);
         if(index == blurMethod::AccentBlur)
             m_page->Child<UICheckBox>(L"overrideAccent")->SetSel(true, false);

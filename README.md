@@ -40,15 +40,16 @@ Other languages:
 * Customizable title bar blend colors.
 * Customizable title bar text color.
 * Aero reflections and parallax effects are available.
-* Restore Windows 7 style title bar button height.
+* Restore Windows 7 style titlebar button height.
+* Restore Windows 7 style titlebar button glow.
 * Support to enable blur effect for programs using old Windows 7 API DwmEnableBlurBehindWindow.
 * Supports `Blur`, `Aero`, `Acrylic`, and `Mica (Win11 only)` effects.
 * Individually customizable Light/Dark color mode automatic switching.
 * `CustomBlur`, `AccentBlur` and `SystemBackdrop` blurring methods are available.
 * Third-party theme support.
 
-![image](/Screenshot/001701.png)
-![image](/Screenshot/10307.png)
+![image](./Screenshot/001701.png)
+![image](./Screenshot/10307.png)
 
 ## Compatibility
 Supported as low as **Windows 10 2004** and as high as the **latest version of Windows 11** (Some blurring methods are not supported in Windows Insider versions).
@@ -68,30 +69,28 @@ Compatible with [TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFl
 ## Gallery
 <details><summary><b>Windows 11</b></summary>
   
-![image](/Screenshot/10307.png)
+![image](./Screenshot/10307.png)
 
-![image](/Screenshot/102134.png)
+![image](./Screenshot/102134.png)
 
-> Enable "Override DWMAPI mica effect (win11)"
+- [x] Override DWMAPI mica effect (win11)
 
-![image](/Screenshot/013521.png)
+![image](./Screenshot/013521.png)
 </details>
 
 <details><summary><b>Windows 10</b></summary>
 
-![image](/Screenshot/001701.png)
+![image](./Screenshot/001701.png)
 
-![image](/Screenshot/100750.png)
+![image](./Screenshot/100750.png)
 
 Using third-party themes
 
-> Enable "Extend effects to borders (win10)"
+- [x] Extend effects to borders (win10)
+- [x] Aero reflection effect
+- [x] Restore Win7 style titlebar button size
 
-> Enable "Aero reflection effect (win10)"
-
-> Enable "Reduce title bar button height (win7 style)"
-
-![image](/Screenshot/025410.png)
+![image](./Screenshot/025410.png)
 
 </details>
 
@@ -99,24 +98,24 @@ Using third-party themes
 ### Blur
 > Basic pure blur. Nothing special.
 
-![image](/Screenshot/blur.png)
+![image](./Screenshot/blur.png)
 
 ### Aero
 > Windows 7's glass effect, with saturation and exposure effects on the background when a window is inactive.
 
-![image](/Screenshot/aero.png)
+![image](./Screenshot/aero.png)
 
-![image](/Screenshot/aero_inactive.png)
+![image](./Screenshot/aero_inactive.png)
 
 ### Acrylic
 > The acrylic recipe: background, blur, exclusion blend, saturation, color/tint overlay and noise.
 
-![image](/Screenshot/acrylic.png)
+![image](./Screenshot/acrylic.png)
 
 ### Mica
 > The Mica recipe: blurred wallpaper, saturation and color/tint overlay.
 
-![image](/Screenshot/mica.png)
+![image](./Screenshot/mica.png)
 
 ### MicaAlt
 All of the above effects can be customized to blend colors.
@@ -130,13 +129,13 @@ MicaAlt is Mica with a grayish tone, you can modify the blend color by yourself 
 2. Unzip it to a location such as "`C:\Program Files`".
 <details><summary><b>3. Run the DWMBlurGlass.exe GUI program and click Install.</b></summary>
 
-![image](/Screenshot/012746.png)
+![image](./Screenshot/012746.png)
 
 >If nothing happens when you click Install, then you need to click on the Symbols page and click Download.
 
 >**You may receive a notification about missing symbols in the future, especially after system updates.**
 
-![image](/Screenshot/012924.png)
+![image](./Screenshot/012924.png)
 
 </details>
 
@@ -161,7 +160,7 @@ If you would like to help us translate into other languages, please see below fo
    
 
 ## Dependencies
-* MiaoUI interface library v2 (Private)
+* [MiaoUI Lite interface library v2](https://github.com/Maplespe/MiaoUILite)
 * [AcrylicEverywhere](https://github.com/ALTaleX531/AcrylicEverywhere) - Separate upstream implementation of the CustomBlur method, thanks to ALTaleX for research and support.
 * [minhook](https://github.com/m417z/minhook)
 * [pugixml](https://github.com/zeux/pugixml)
