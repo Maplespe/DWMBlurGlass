@@ -306,4 +306,10 @@ namespace MDWMBlurGlassExt
 		}
 		return false;
 	}
+
+	bool IsBatterySaverEnabled()
+	{
+		SYSTEM_POWER_STATUS powerStatus{};
+		return GetSystemPowerStatus(&powerStatus) && powerStatus.SystemStatusFlag;
+	}
 }
