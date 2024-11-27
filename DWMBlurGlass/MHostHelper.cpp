@@ -75,6 +75,22 @@ namespace MDWMBlurGlass
 		g_proclist = list;
 	}
 
+	bool IsEnableTransparency()
+	{
+		HKEY hKey = nullptr;
+		DWORD dwValue = 1;
+		if (RegOpenKeyExW(HKEY_CURRENT_USER, LR"(SOFTWARE\Microsoft\Windows\CurrentVersion\themes\personalize)", 0, KEY_READ, &hKey) == ERROR_SUCCESS)
+		{
+			DWORD dwType = REG_DWORD;
+			DWORD dwDataSize = sizeof(DWORD);
+
+			RegQueryValueExW(hKey, L"EnableTransparency", nullptr, &dwType, (LPBYTE)&dwValue, &dwDataSize);
+
+			RegCloseKey(hKey);
+		}
+		return dwValue;
+	}
+
 	HWND FindMessageWnd(DWORD pid)
 	{
 		if (!pid)
@@ -227,23 +243,7 @@ namespace MDWMBlurGlass
 		}
 		else if(message == WM_APP + 20 && MClientNotifyType::QueryTransparency == (MClientNotifyType)wParam)
 		{
-			HKEY hKey = nullptr;
-			DWORD dwValue = 1;
-			static DWORD lastValue = dwValue;
-			if (RegOpenKeyExW(HKEY_CURRENT_USER, LR"(SOFTWARE\Microsoft\Windows\CurrentVersion\themes\personalize)", 0, KEY_READ, &hKey) == ERROR_SUCCESS)
-			{
-				DWORD dwType = REG_DWORD;
-				DWORD dwDataSize = sizeof(DWORD);
-
-				RegQueryValueExW(hKey, L"EnableTransparency", nullptr, &dwType, (LPBYTE)&dwValue, &dwDataSize);
-
-				RegCloseKey(hKey);
-			}
-			if(dwValue != lastValue)
-			{
-				MHostNotify(MHostNotifyType::EnableTransparency, dwValue);
-				lastValue = dwValue;
-			}
+			MHostNotify(MHostNotifyType::EnableTransparency, IsEnableTransparency());
 		}
 		return DefWindowProcW(hWnd, message, wParam, lParam);
 	}

@@ -99,9 +99,12 @@ namespace MDWMBlurGlassExt
 					break;
 
 				g_powerSavingMode = *(DWORD*)(settings->Data);
+				if (!CommonDef::g_configData.disableOnBattery && g_powerSavingMode)
+					g_powerSavingMode = false;
 				CommonDef::g_configData.powerSavingMode = g_powerSavingMode;
 				if (!g_enableTransparency)
 					CommonDef::g_configData.powerSavingMode = true;
+
 				Refresh(false);
 			}
 			break;
@@ -139,7 +142,8 @@ namespace MDWMBlurGlassExt
 				ChangeWindowMessageFilterEx(dwmWnd, WM_POWERBROADCAST, MSGFLT_ALLOW, nullptr);
 
 			ChangeWindowMessageFilterEx(dwmWnd, WM_SETTINGCHANGE, MSGFLT_ALLOW, nullptr);
-
+			
+			g_powerSavingMode = IsBatterySaverEnabled();
 			PostMessageW(FindMessageWnd(), WM_APP + 20, (WPARAM)MClientNotifyType::QueryTransparency, 0);
 
 			MSG msg;
