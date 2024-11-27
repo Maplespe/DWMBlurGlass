@@ -52,6 +52,11 @@ namespace MDWMBlurGlass
 
 		bool overrideAccent = false;
 		bool powerSavingMode = false;
+		bool disableOnBattery = true;
+
+		bool scaleOptimizer = false;
+		bool titlebtnGlow = false;
+		bool turnofflightGlass = false;
 
 		//Options without GUI
 		int extendRound = 10;

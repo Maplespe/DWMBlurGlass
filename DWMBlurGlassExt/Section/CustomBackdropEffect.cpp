@@ -39,8 +39,23 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 
 	MinHook g_funCTopLevelWindow_InitializeVisualTreeClone
 	{
-		"CTopLevelWindow::InitializeVisualTreeClone",
-		CTopLevelWindow_InitializeVisualTreeClone
+		if (g_configData.powerSavingMode)
+		{
+			return false;
+		}
+
+		if (This && GetActualBackdropKind(This) == CompositedBackdropKind::SystemBackdrop && !g_configData.applyglobal)
+		{
+			CVisualManager::Trim(This);
+			return false;
+		}
+		return true;
+	}
+
+	MinHook g_funCTopLevelWindow_CalculateBackgroundType
+	{
+		"CTopLevelWindow::CalculateBackgroundType",
+		CTopLevelWindow_CalculateBackgroundType
 	};
 	MinHook g_funCTopLevelWindow_UpdateNCAreaBackground
 	{
