@@ -52,13 +52,14 @@ namespace MDWMBlurGlass
 
 		bool overrideAccent = false;
 		bool powerSavingMode = false;
+		bool disableOnBattery = true;
 
-		bool occlusionCulling = false;
+		bool scaleOptimizer = false;
+		bool titlebtnGlow = false;
 
 		//Options without GUI
 		int extendRound = 10;
 		int titlebtnOffsetX = -1;
-		int cullingLevel = 0;
 		//
 
 		float blurAmount = 20.f;

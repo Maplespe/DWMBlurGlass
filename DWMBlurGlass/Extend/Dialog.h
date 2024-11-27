@@ -32,13 +32,6 @@ namespace MDWMBlurGlass
 			m_ui = ui;
 		}
 
-		virtual ~Page()
-		{
-			//if (m_page && m_parent)
-			//	m_parent->RemoveChildren(m_page);
-			//delete m_page;
-		}
-
 		virtual bool EventProc(UINotifyEvent event, Ctrl::UIControl* control, _m_param param) = 0;
 
 	protected:
@@ -47,46 +40,15 @@ namespace MDWMBlurGlass
 		XML::MuiXML* m_ui = nullptr;
 	};
 
-	class Dialog : public Page
-	{
-	public:
-		Dialog(Ctrl::UIControl* parent, XML::MuiXML* ui) : Page(parent, ui)
-		{
-			m_ani = new MAnimation(parent->GetParentWin());
-		}
-		~Dialog() override
-		{
-			delete m_ani;
-		}
-
-	protected:
-		void ScaleContent(float scale);
-
-		Ctrl::UIControl* m_content = nullptr;
-		MAnimation* m_ani = nullptr;
-		bool m_isani = false;
-	};
-
 	class MultiplePages : public Page
 	{
 	public:
 		MultiplePages(Ctrl::UIControl* parent, XML::MuiXML* ui)
-			: Page(parent, ui)
-		{
-			m_ani = new MAnimation(parent->GetParentWin());
-		}
-		~MultiplePages() override
-		{
-			delete m_ani;
-		}
+			: Page(parent, ui) {}
 
 		void SwitchNavPage(const std::wstring& subPageName, int page);
 
 	private:
 		int m_curpage = 0;
-		int m_lastpage[2] = { 0 };
-		bool m_inani = false;
-		MAnimation* m_ani = nullptr;
-		MAnimation::TaskID m_task = 0;
 	};
 }

@@ -1,7 +1,7 @@
 ﻿/**
  * FileName: TitleTextTweaker.cpp
  *
- * Copyright (C) 2024 Maplespe
+ * Copyright (C) 2024 ALTaleX531, Maplespe
  *
  * This file is part of MToolBox and DWMBlurGlass.
  * DWMBlurGlass is free software: you can redistribute it and/or modify it under the terms of the
@@ -17,6 +17,7 @@
  */
 #include "TitleTextTweaker.h"
 #include "CommonDef.h"
+#include "wil.h"
 #include <shellscalingapi.h>
 #pragma comment(lib, "shcore.lib")
 
@@ -26,9 +27,14 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 	using namespace CommonDef;
 	using namespace DWM;
 
+	std::atomic_bool g_startup = false;
+
+	SIZE g_textRcSize{ 0 };
+	CText* g_textVisual{ nullptr };
+	constexpr int g_textGlowSize{ 16 };
+
 	PVOID g_pCreateBitmapFromHBITMAP = nullptr;
 	decltype(DrawTextW)* g_funDrawTextW = nullptr;
-	decltype(FillRect)* g_funFillRect = nullptr;
 	decltype(CreateBitmap)* g_funCreateBitmap = nullptr;
 	decltype(Vtbl::IWICImagingFactory2Vtbl::CreateBitmapFromHBITMAP) g_funCreateBitmapFromHBITMAP = nullptr;
 
@@ -43,13 +49,26 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		"CTopLevelWindow::UpdateText", CTopLevelWindow_UpdateText
 	};
 
-	MinHook g_funCText_UpdateAlignmentTransform
+	MinHook g_funCText_ValidateResources
 	{
-		"CText::UpdateAlignmentTransform", CText_UpdateAlignmentTransform
+		"CText::ValidateResources", CText_ValidateResources
+	};
+
+	MinHook g_funCMatrixTransformProxy_Update
+	{
+		"CMatrixTransformProxy::Update", CMatrixTransformProxy_Update
+	};
+
+	MinHook g_funCChannel_MatrixTransformUpdate
+	{
+		"CChannel::MatrixTransformUpdate", CChannel_MatrixTransformUpdate
 	};
 
 	void Attach()
 	{
+		if(g_startup)
+			return;
+		g_startup = true;
 		if (auto wicFactory = CDesktopManager::s_pDesktopManagerInstance->GetWICFactory())
 		{
 			if (((Vtbl::IWICImagingFactory2*)wicFactory)->lpVtbl)
@@ -65,8 +84,9 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		if (os::buildNumber < 22621)
 		{
 			g_funCTopLevelWindow_UpdateWindowVisuals.Attach();
-			g_funCText_UpdateAlignmentTransform.Attach();
-			g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<3, true>();
+			g_funCText_ValidateResources.Attach();
+			//g_funCChannel_MatrixTransformUpdate.Attach();
+			g_funCMatrixTransformProxy_Update.Attach();
 		}
 		else if (os::buildNumber >= 22621)
 		{
@@ -77,13 +97,10 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		if (os::buildNumber < 22621)
 		{
 			HMODULE hModule = GetModuleHandleW(L"user32.dll");
-			g_funFillRect = (decltype(g_funFillRect))GetProcAddress(hModule, "FillRect");
 			g_funDrawTextW = (decltype(g_funDrawTextW))GetProcAddress(hModule, "DrawTextW");
-			WriteIAT(udwmModule, "User32.dll", { { "FillRect", MyFillRect }, { "DrawTextW", MyDrawTextW } });
-		}
-		if (os::buildNumber < 22621)
-		{
-			HMODULE hModule = GetModuleHandleW(L"gdi32.dll");
+			WriteIAT(udwmModule, "User32.dll", { { "DrawTextW", MyDrawTextW } });
+			
+			hModule = GetModuleHandleW(L"gdi32.dll");
 			g_funCreateBitmap = (decltype(g_funCreateBitmap))GetProcAddress(hModule, "CreateBitmap");
 			WriteIAT(udwmModule, "gdi32.dll", { { "CreateBitmap", MyCreateBitmap } });
 		}
@@ -91,15 +108,18 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 
 	void Detach()
 	{
+		if (!g_startup)
+			return;
 		if (os::buildNumber >= 22621)
 		{
 			g_funCTopLevelWindow_UpdateText.Detach();
 		}
 		else if (os::buildNumber < 22621)
 		{
+			g_funCMatrixTransformProxy_Update.Detach();
+			//g_funCChannel_MatrixTransformUpdate.Detach();
+			g_funCText_ValidateResources.Detach();
 			g_funCTopLevelWindow_UpdateWindowVisuals.Detach();
-			g_funCText_UpdateAlignmentTransform.Detach();
-			g_CTopLevelWindow_ValidateVisual_HookDispatcher.enable_hook_routine<3, false>();
 		}
 
 		if (g_pCreateBitmapFromHBITMAP)
@@ -107,49 +127,56 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 
 		HMODULE udwmModule = GetModuleHandleW(L"udwm.dll");
 		if (os::buildNumber < 22621)
-		{
-			WriteIAT(udwmModule, "User32.dll", { { "DrawTextW", g_funDrawTextW } , { "FillRect", g_funFillRect } });
-		}
+			WriteIAT(udwmModule, "User32.dll", { { "DrawTextW", g_funDrawTextW } });
+
 		if (os::buildNumber < 22621)
 			WriteIAT(udwmModule, "gdi32.dll", { { "CreateBitmap", g_funCreateBitmap } });
 
-	}
-
-	int MyFillRect(HDC hdc, LPRECT rect, HBRUSH hbrush)
-	{
-		return g_funFillRect(hdc, rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
+		g_startup = false;
 	}
 
 	int MyDrawTextW(HDC hdc, LPCWSTR lpchText, int cchText, LPRECT lprc, UINT format)
 	{
-		SetBkMode(hdc, TRANSPARENT);
-		int result = 0;
-
-		if ((format & DT_CALCRECT) || (format & DT_INTERNAL) || (format & DT_NOCLIP))
-		{
-			if (os::buildNumber < 22621)
-			{
-				//兼容第三方主题绘制发光字需要预留一些区域
-				if (format & DT_CALCRECT)
-				{
-					auto ret = g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
-					lprc->right += 30;
-					lprc->bottom += 20;
-					lprc->top = -5;
-					lprc->left = -10;
-					return ret + 20;
-				}
-			}
-			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
-		}
+		int result{ 0 };
 		auto drawTextCallback = [](HDC hdc, LPWSTR pszText, int cchText, LPRECT prc, UINT dwFlags, LPARAM lParam) -> int
-			{
-				return *reinterpret_cast<int*>(lParam) = DrawTextW(hdc, pszText, cchText, prc, dwFlags);
-			};
-		DTTOPTS Options =
+		{
+			return *reinterpret_cast<int*>(lParam) = g_funDrawTextW(hdc, pszText, cchText, prc, dwFlags);
+		};
+
+		if ((format & DT_CALCRECT))
+		{
+			result = g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
+
+			g_textRcSize.cx = wil::rect_width(*lprc);
+			// reservice space for the glow
+			lprc->right += g_textGlowSize * 2;
+			lprc->bottom += g_textGlowSize * 2;
+			// if the text height exceed the height of the text visual
+			// then later it will be set to the height of the visual
+			g_textRcSize.cy = wil::rect_height(*lprc);
+
+			return result;
+		}
+		// clear the background, so the text can be shown transparent
+		// with this hack, we don't need to hook FillRect any more
+		BITMAP bmp{};
+		if (GetObjectW(GetCurrentObject(hdc, OBJ_BITMAP), sizeof(bmp), &bmp) && bmp.bmBits)
+		{
+			memset(bmp.bmBits, 0, 4 * bmp.bmWidth * bmp.bmHeight);
+		}
+
+		// override that so we can use the correct param in CDrawImageInstruction::Create
+		lprc->bottom = lprc->top + g_textRcSize.cy;
+
+		lprc->left += g_textGlowSize;
+		lprc->top += g_textGlowSize;
+		lprc->right -= g_textGlowSize;
+		lprc->bottom -= g_textGlowSize;
+
+		DTTOPTS options
 		{
 			sizeof(DTTOPTS),
-			DTT_TEXTCOLOR | DTT_CALLBACK | DTT_COMPOSITED | DTT_GLOWSIZE,
+			DTT_TEXTCOLOR | DTT_COMPOSITED | DTT_CALLBACK | DTT_GLOWSIZE,
 			GetTextColor(hdc),
 			0,
 			0,
@@ -160,26 +187,28 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 			0,
 			0,
 			FALSE,
-			15,
+			g_textGlowSize,
 			drawTextCallback,
 			(LPARAM)&result
 		};
-		HTHEME hTheme = OpenThemeData(nullptr, L"Composited::Window");
+		wil::unique_htheme hTheme{ OpenThemeData(nullptr, L"Composited::Window") };
 
-		auto clean = RAIIHelper::scope_exit([&] { CloseThemeData(hTheme); });
-
-		if (!hTheme)
-			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
-
-		RECT offset = *lprc;
-		if (os::buildNumber < 22621)
+		if (hTheme)
 		{
-			offset.left += 20;
-			offset.top += 10;
+			LOG_IF_FAILED(DrawThemeTextEx(hTheme.get(), hdc, 0, 0, lpchText, cchText, format, lprc, &options));
 		}
-		if (FAILED(DrawThemeTextEx(hTheme, hdc, 0, 0, lpchText, cchText, DT_LEFT | DT_TOP, &offset, &Options)))
-			return g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
-		return 1;
+		else
+		{
+			LOG_HR_IF_NULL(E_FAIL, hTheme);
+			result = g_funDrawTextW(hdc, lpchText, cchText, lprc, format);
+		}
+
+		lprc->left -= g_textGlowSize;
+		lprc->top -= g_textGlowSize;
+		lprc->right += g_textGlowSize;
+		lprc->bottom += g_textGlowSize;
+
+		return result;
 	}
 
 	HRESULT MyCreateBitmapFromHBITMAP(IWICImagingFactory2* This, HBITMAP hBitmap, HPALETTE hPalette,
@@ -194,6 +223,7 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		if (nWidth == 1 && nHeight == 1)
 			return g_funCreateBitmap(nWidth, nHeight, nPlanes, nBitCount, lpBits);
 
+		nHeight = g_textRcSize.cy;
 		return CreateAlphaBitmap(nWidth, nHeight);
 	}
 
@@ -256,39 +286,34 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		return g_funCTopLevelWindow_UpdateText.call_org(This, a2, a3);
 	}
 
-	HRESULT CText_UpdateAlignmentTransform(CText* This)
+	HRESULT CText_ValidateResources(CText* This)
 	{
-		DWORD64* textCache;
-		if(os::buildNumber < 22000)
-			textCache = (DWORD64*)*((DWORD64*)CDesktopManager::s_pDesktopManagerInstance + 33);
-		else
-			textCache = (DWORD64*)*((DWORD64*)CDesktopManager::s_pDesktopManagerInstance + 25);
+		g_textVisual = This;
+		HRESULT hr = g_funCText_ValidateResources.call_org(This);
+		g_textVisual = nullptr;
 
-		if (textCache)
+		return hr;
+	}
+
+	HRESULT CMatrixTransformProxy_Update(CMatrixTransformProxy* This, MilMatrix3x2D* matrix)
+	{
+		if (g_textVisual)
 		{
-			HDC hdc = (HDC)*(textCache + 13);
-			RECT rc{ 0 };
-			MyDrawTextW(hdc, This->GetText(), -1, &rc, DT_CALCRECT);
-
-			int* textHeight;
-			int* titleHeight;
-			if (os::buildNumber >= 22000)
-			{
-				textHeight = (int*)This + 103;
-				titleHeight = (int*)This + 33;
-			}
-			else
-			{
-				textHeight = (int*)This + 101;
-				titleHeight = (int*)This + 31;
-			}
-
-			*textHeight = rc.bottom - rc.top;
-			*titleHeight += 25;
-			g_funCText_UpdateAlignmentTransform.call_org(This);
-			*titleHeight -= 25;
-			return 0;
+			matrix->DX -= static_cast<DOUBLE>(g_textGlowSize) * (g_textVisual->IsRTL() ? -1.f : 1.f);
+			matrix->DY = static_cast<DOUBLE>(static_cast<LONG>(static_cast<DOUBLE>(g_textVisual->GetHeight() - g_textRcSize.cy) / 2. - 0.5));
 		}
-		return g_funCText_UpdateAlignmentTransform.call_org(This);
+
+		return g_funCMatrixTransformProxy_Update.call_org(This, matrix);
+	}
+
+	HRESULT CChannel_MatrixTransformUpdate(Core::CChannel* This, UINT handleIndex, MilMatrix3x2D* matrix)
+	{
+		if (g_textVisual)
+		{
+			matrix->DX -= static_cast<DOUBLE>(g_textGlowSize) * (g_textVisual->IsRTL() ? -1.f : 1.f);
+			matrix->DY = static_cast<DOUBLE>(static_cast<LONG>(static_cast<DOUBLE>(g_textVisual->GetHeight() - g_textRcSize.cy) / 2. - 0.5));
+		}
+
+		return g_funCChannel_MatrixTransformUpdate.call_org(This, handleIndex, matrix);
 	}
 }

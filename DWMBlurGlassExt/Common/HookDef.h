@@ -19,10 +19,11 @@
 #include "DWMStruct.h"
 #include "../Section/AccentBlurEffect.h"
 #include "../Section/CustomButton.h"
-#include "../Section/TitleTextTweaker.h"
 #include "../Section/BlurRadiusTweaker.h"
 #include "../Section/CustomBackdropEffect.h"
 #include "../Section/DwmAPIEffect.h"
+#include "../Section/TitleTextTweaker.h"
+#include "../Section/ScaleOptimizer.h"
 
 namespace MDWMBlurGlassExt
 {
@@ -38,7 +39,7 @@ namespace MDWMBlurGlassExt
 		{
 			detour_info(AccentBlur::CTopLevelWindow_ValidateVisual, call_type::before),
 			detour_info(CustomButton::CTopLevelWindow_ValidateVisual, call_type::before),
-			detour_info(CustomBackdrop::CTopLevelWindow_ValidateVisual, call_type::after),
+			detour_info(CustomBackdrop::CTopLevelWindow_ValidateVisual, call_type::before),
 			detour_info(DwmAPIEffect::CTopLevelWindow_ValidateVisual, call_type::after),
 			detour_info(Common::CTopLevelWindow_ValidateVisual, call_type::after)
 		}
@@ -60,7 +61,6 @@ namespace MDWMBlurGlassExt
 		std::array
 		{
 			detour_info(CustomBackdrop::CTopLevelWindow_InitializeVisualTreeClone, call_type::after),
-			detour_info(CustomButton::CTopLevelWindow_InitializeVisualTreeClone, call_type::after)
 		}
 	};
 

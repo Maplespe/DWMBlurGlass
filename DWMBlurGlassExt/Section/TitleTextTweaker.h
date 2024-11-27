@@ -23,12 +23,6 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 	void Attach();
 	void Detach();
 
-	int WINAPI MyFillRect(
-		HDC hdc,
-		LPRECT rect,
-		HBRUSH hbrush
-	);
-
 	int WINAPI MyDrawTextW(
 		HDC     hdc,
 		LPCWSTR lpchText,
@@ -63,5 +57,7 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 		double a3
 	);
 
-	HRESULT CText_UpdateAlignmentTransform(DWM::CText* This);
+	HRESULT STDMETHODCALLTYPE CText_ValidateResources(DWM::CText* This);
+	HRESULT STDMETHODCALLTYPE CMatrixTransformProxy_Update(struct CMatrixTransformProxy* This, MilMatrix3x2D* matrix);
+	HRESULT STDMETHODCALLTYPE CChannel_MatrixTransformUpdate(DWM::Core::CChannel* This, UINT handleIndex, MilMatrix3x2D* matrix);
 }

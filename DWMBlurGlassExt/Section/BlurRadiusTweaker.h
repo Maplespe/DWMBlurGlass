@@ -44,6 +44,16 @@ namespace MDWMBlurGlassExt::BlurRadiusTweaker
 		DWM::EffectInput* a5
 	);
 
+	DWORD64 WINAPI CRenderingTechnique_ExecuteBlur24h2
+	(
+		DWM::CRenderingTechnique* This,
+		DWM::CDrawingContext* a2,
+		const DWM::EffectInput* a3,
+		const D2D_VECTOR_2F* a4,
+		const D2D_SIZE_F* a5,
+		DWM::EffectInput* a6
+	);
+
 	DWORD64 WINAPI CCustomBlur_BuildEffect(
 		DWM::CCustomBlur* This,
 		ID2D1Image* backdropImage,

@@ -30,187 +30,188 @@ namespace MDWMBlurGlass
 
 	MainWindowPage::MainWindowPage(UIControl* parent, XML::MuiXML* ui) : MultiplePages(parent, ui)
 	{
-        std::wstring xml = LR"(
-<PropGroup id="group" frameColor="222,222,222,255" frameWidth="1" bgColor="255,255,255,200" frameRound="6" padding="10,10,10,5" />
-<PropGroup id="cdsp" normalColor="222,222,222,255" hoverColor="100,100,100,255" pressColor="150,150,150,255" autoSize="false" size="190,30" />
-<UINavBar frame="15,50,0,0" name="navbar" fontSize="14" />
-<UIControl frame="0,95,485,100%" name="page0" align="LinearV">
-    <UIControl frame="15,5,15f,75" align="LinearV" prop="group">
-        <UIControl autoSize="true">
-            <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_status" />
-            <UILabel pos="10,2" text="#status" />
-            <UILabel pos="10,2" name="dllstate" text="Not installed" fontColor="255,128,0,255" />
-        </UIControl>
-        <UIControl frame="0,10,100,100" autoSize="true">
-            <UIButton pos="0,0" name="install" text="#install" autoSize="true" minSize="80,26" maxSize="105,26" inset="5,2,5,2" />
-            <UIButton pos="5,0" name="uninstall" text="#uninstall" autoSize="true" minSize="80,26" maxSize="105,26" inset="5,2,5,2" />
-            <UIControl frame="10,5,1,15" bgColor="211,211,211,255" />
-            <UIButton pos="10,0" name="savecfg" text="#saveconfig" enable="false" autoSize="true" minSize="100,26" maxSize="190,26" inset="5,2,5,2" />
-        </UIControl>
-    </UIControl>
-    <UIControl frame="15,8,15f,15f" align="LinearV" prop="group" name="generalGroup">
-        <UIControl frame="0,0,100,100" autoSize="true">
-            <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_control" />
-            <UILabel pos="10,2" text="#effectset" />
-        </UIControl>
-		<UICheckBox pos="0,11" text="#applyglobal" name="applyglobal" />
-		<UICheckBox pos="0,11" text="#extendborder" name="extendBorder" />
-		<UICheckBox pos="0,11" text="#reflection" name="reflection" />
-		<UICheckBox pos="0,11" text="#oldBtnSize" name="oldBtnHeight" />
-        <UIControl frame="0,10,100,100" autoSize="true">
-            <UICheckBox frame="0,1,60,20" text="#blurvalue" name="customAmount" />
-            <UISlider frame="10,0,200,16" name="blurslider" maxValue="50" />
-            <UILabel pos="5,1" name="blurvalue" text="50" />
-        </UIControl>
-		<UIControl frame="0,15,10f,1" bgColor="222,222,222,255" />
-		<UINavBar frame="0,10,0,0" name="cmodenavbar" fontSize="12" barAnitime="0" barColor="162,158,180,255" />
-        <UIControl frame="0,10,100,100" autoSize="true" align="LinearH">
-            <UIControl frame="0,0,100,100" autoSize="true" align="LinearV">
-                <UILabel pos="0,11" text="#blendcolor" />
-				<UILabel pos="0,22" text="#inactiveblendcolor" />
-                <UILabel pos="0,20" text="#activecolor" />
-                <UILabel pos="0,21" text="#inactivecolor" />
+        std::wstring xml = MXMLCODE(
+        <PropGroup id="group" frameColor="222,222,222,255" frameWidth="1" bgColor="255,255,255,200" frameRound="6" padding="10,10,10,5" />
+        <PropGroup id="cdsp" normalColor="222,222,222,255" hoverColor="100,100,100,255" pressColor="150,150,150,255" autoSize="false" size="190,30" />
+        <UINavBar frame="15,50,0,0" name="navbar" fontSize="14" />
+        <UIControl frame="0,95,485,100%" name="page0" align="LinearV">
+            <UIControl frame="15,5,15f,75" align="LinearV" prop="group">
+                <UIControl autoSize="true">
+                    <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_status" />
+                    <UILabel pos="10,2" text="#status" />
+                    <UILabel pos="10,2" name="dllstate" text="Not installed" fontColor="255,128,0,255" />
+                </UIControl>
+                <UIControl frame="0,10,100,100" autoSize="true">
+                    <UIButton pos="0,0" name="install" text="#install" autoSize="true" minSize="80,26" maxSize="105,26" inset="5,2,5,2" />
+                    <UIButton pos="5,0" name="uninstall" text="#uninstall" autoSize="true" minSize="80,26" maxSize="105,26" inset="5,2,5,2" />
+                    <UIControl frame="10,5,1,15" bgColor="211,211,211,255" />
+                    <UIButton pos="10,0" name="savecfg" text="#saveconfig" enable="false" autoSize="true" minSize="100,26" maxSize="190,26" inset="5,2,5,2" />
+                </UIControl>
             </UIControl>
-            <UIControl frame="0,0,100,100" autoSize="true" align="LinearV">
-                <ColorDisplay frame="10,5,190,30" name="activeBlendColor" prop="cdsp" curColor="255,255,255,100" showAlpha="true" />
-				<ColorDisplay frame="10,5,190,30" name="inactiveBlendColor" prop="cdsp" curColor="255,255,255,100" showAlpha="true" />
-                <ColorDisplay frame="10,5,190,30" name="activetext" prop="cdsp" curColor="0,0,0,255" />
-                <ColorDisplay frame="10,5,190,30" name="inactivetext" prop="cdsp" curColor="180,180,180,255" />
+            <UIControl frame="15,8,15f,15f" align="LinearV" prop="group" name="generalGroup">
+                <UIControl frame="0,0,100,100" autoSize="true">
+                    <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_control" />
+                    <UILabel pos="10,2" text="#effectset" />
+                </UIControl>
+        		<UICheckBox pos="0,11" text="#overrideDwmapi" name="applyglobal" />
+        		<UICheckBox pos="0,11" text="#extendborder" name="extendBorder" />
+        		<UICheckBox pos="0,11" text="#reflection" name="reflection" />
+        		<UICheckBox pos="0,11" text="#oldBtnSize" name="oldBtnHeight" />
+                <UICheckBox pos="0,11" text="#titlebtnGlow" name="titlebtnGlow" />
+                <UIControl frame="0,10,100,100" autoSize="true">
+                    <UICheckBox frame="0,1,60,20" text="#blurvalue" name="customAmount" />
+                    <UISlider frame="10,0,200,18" name="blurslider" maxValue="50" />
+                    <UILabel pos="5,1" name="blurvalue" text="50" />
+                </UIControl>
+        		<UIControl frame="0,15,10f,1" bgColor="222,222,222,255" />
+        		<UINavBar frame="0,10,0,0" name="cmodenavbar" fontSize="12" barAnitime="0" barColor="162,158,180,255" />
+                <UIControl frame="0,10,100,100" autoSize="true" align="LinearH">
+                    <UIControl frame="0,0,100,100" autoSize="true" align="LinearV">
+                        <UILabel pos="0,11" text="#blendcolor" />
+        				<UILabel pos="0,22" text="#inactiveblendcolor" />
+                        <UILabel pos="0,20" text="#activecolor" />
+                        <UILabel pos="0,21" text="#inactivecolor" />
+                    </UIControl>
+                    <UIControl frame="0,0,100,100" autoSize="true" align="LinearV">
+                        <ColorDisplay frame="10,5,190,30" name="activeBlendColor" prop="cdsp" curColor="255,255,255,100" showAlpha="true" />
+        				<ColorDisplay frame="10,5,190,30" name="inactiveBlendColor" prop="cdsp" curColor="255,255,255,100" showAlpha="true" />
+                        <ColorDisplay frame="10,5,190,30" name="activetext" prop="cdsp" curColor="0,0,0,255" />
+                        <ColorDisplay frame="10,5,190,30" name="inactivetext" prop="cdsp" curColor="180,180,180,255" />
+                    </UIControl>
+                </UIControl>
+                <UIControl frame="0,18,100,100" autoSize="true">
+                    <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_preview" />
+                    <UILabel pos="10,2" text="#preview" />
+                </UIControl>
+                <UIImgBox frame="0,10,10f,90" autoSize="false" frameColor="222,222,222,255" frameWidth="1" img="prebackground" imgStyle="3">
+                    <UIControl frame="20,20,20f,100" frameColor="222,222,222,255" frameWidth="1" align="LinearV">
+                        <UIControl frame="0,0,100%,30" name="preblur" bgColor="255,255,255,100" align="LinearH">
+                            <UIImgBox frame="7,7,16,16" autoSize="false" img="icon_title" />
+                            <UILabel pos="5,8" name="sampletitle" text="#sampletitle" />
+                        </UIControl>
+                        <UIControl frame="0,0,100%,100" bgColor="255,255,255,255" frameColor="222,222,222,255" frameWidth="1" />
+                    </UIControl>
+                </UIImgBox>
             </UIControl>
-        </UIControl>
-        <UIControl frame="0,18,100,100" autoSize="true">
-            <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_preview" />
-            <UILabel pos="10,2" text="#preview" />
-        </UIControl>
-        <UIImgBox frame="0,10,10f,90" autoSize="false" frameColor="222,222,222,255" frameWidth="1" img="prebackground" imgStyle="3">
-            <UIControl frame="20,20,20f,100" frameColor="222,222,222,255" frameWidth="1" align="LinearV">
-                <UIEffectLayer frame="0,0,100%,30" name="preblur" bgColor="255,255,255,100" align="LinearH">
-                    <UIImgBox frame="7,7,16,16" autoSize="false" img="icon_title" />
-                    <UILabel pos="5,8" name="sampletitle" text="#sampletitle" />
-                </UIEffectLayer>
-                <UIControl frame="0,0,100%,100" bgColor="255,255,255,255" frameColor="222,222,222,255" frameWidth="1" />
+        </UIControl>);
+        
+        xml += MXMLCODE(
+        <UIControl frame="0,95,485,100%" name="page1" visible="false" align="LinearV">
+        	<UIControl frame="15,5,15f,115" align="LinearV" prop="group" autoSize="true" maxSize="455,180" minSize="455,90">
+        		<UIControl frame="0,0,10f,30">
+                    <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_code" />
+                    <UILabel pos="10,2" text="#blurmethod" />
+                    <UIControl frame="0,0,100%,100%" align="LinearHL">
+                        <UIComBox frame="0,0,260,26" name="blurmethod" fontSize="12" menuHeight="150" />
+                    </UIControl>
+                </UIControl>
+                <UILabel pos="0,5" fontColor="169,169,169,255" name="functip" />
             </UIControl>
-        </UIImgBox>
-    </UIControl>
-</UIControl>)";
+        	<UIControl frame="15,5,15f,120" align="LinearV" prop="group" enable="true" name="effectgroup">
+        		<UIControl frame="0,0,100%,30" align="LinearH">
+        			<UILabel pos="5,5" text="#effecttype" />
+        			<UIControl frame="0,0,100%,100%" align="LinearHL">
+        				<UIComBox frame="10,0,120,26" name="effecttype" fontSize="12" menuHeight="150" />
+        			</UIControl>
+        		</UIControl>
+        		<UIControl frame="0,5,100%,20" align="LinearH" name="customEffectGroup">
+        		    <UILabel pos="5,0" text="#blurvaluetitle" />
+        			<UIControl size="100%,100%" align="LinearHL">
+        				<UISlider frame="10,0,35f,18" name="titlebarAmountSlider" maxValue="50" maxSize="230,18" />
+        				<UILabel frame="5,0,30,16" name="titlebarAmountValue" text="50" autoSize="false" textAlign="2" />
+        			</UIControl>
+        		</UIControl>
+        		<UIControl frame="0,5,100%,20" align="LinearH" name="customEffectGroup1">
+        		    <UILabel pos="5,0" text="#luminosity" name="luminosityText" />
+        			<UIControl size="100%,100%" align="LinearHL">
+        				<UISlider frame="10,0,40f,18" name="luminositySlider" maxValue="100" maxSize="230,18" />
+        				<UILabel frame="5,0,35,16" name="luminosityValue" text="50" autoSize="false" textAlign="2" />
+        			</UIControl>
+        		</UIControl>
+        		<UIControl size="100%,100%" name="customEffectGroup2" align="LinearV">
+        		    <UIControl frame="0,5,100%,20" align="LinearH">
+        		        <UILabel pos="5,0" text="#blurBalance" />
+        		    	<UIControl size="100%,100%" align="LinearHL">
+        		    		<UISlider frame="10,0,40f,18" name="blurBalanceSlider" maxValue="100" maxSize="230,18" />
+        		    		<UILabel frame="5,0,35,16" name="blurBalanceValue" text="50" autoSize="false" textAlign="2" />
+        		    	</UIControl>
+        		    </UIControl>
+        			<UIControl frame="0,5,100%,20" align="LinearH">
+        		        <UILabel pos="5,0" text="#afterglowBalance" />
+        		    	<UIControl size="100%,100%" align="LinearHL">
+        		    		<UISlider frame="10,0,40f,18" name="glowBalanceSlider" maxValue="100" maxSize="230,18" />
+        		    		<UILabel frame="5,0,35,16" name="glowBalanceValue" text="50" autoSize="false" textAlign="2" />
+        		    	</UIControl>
+        		    </UIControl>
+        		</UIControl>
+        	</UIControl>);
 
-            xml += LR"(
-<UIControl frame="0,50,485,100%" name="page1" visible="false" align="LinearV">
-	<UIControl frame="15,5,15f,115" align="LinearV" prop="group" autoSize="true" maxSize="455,180" minSize="455,90">
-		<UIControl frame="0,0,10f,30">
-            <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_code" />
-            <UILabel pos="10,2" text="#blurmethod" />
-            <UIControl frame="0,0,100%,100%" align="LinearHL">
-                <UIComBox frame="0,0,260,26" name="blurmethod" fontSize="12" menuHeight="150" />
+        xml += MXMLCODE(
+        	<UIControl frame="15,5,15f,240" align="LinearV" prop="group" enable="true" name="miscSettings">
+        		<UIControl autoSize="true">
+                    <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_misc" />
+                    <UILabel pos="10,2" text="#miscsettings" />
+        		</UIControl>
+        		<UICheckBox pos="0,11" text="#enablecrossfade" name="crossFade" />
+        		<UIControl pos="25,5" autoSize="true" align="LinearH" name="crossFadeGroup">
+        			<UILabel pos="0,3" text="#crossfadeTime" />
+        			<UIEditBox frame="5,1,50,20" number="true" inset="3,2,1,1" wordAutoSel="true" name="crossfadeTimeValue" text="180" limitText="4" />
+        			<UILabel pos="3,3" text="ms" />
+        		</UIControl>
+        		<UICheckBox pos="0,11" text="#useaccentcolor" name="useaccentcolor" />
+        		<UICheckBox pos="0,11" text="#overrideAccent" name="overrideAccent" />
+        		<UICheckBox pos="0,11" text="#scaleOptimizer" name="scaleOptimizer" />
+                <UICheckBox pos="0,11" text="#disableOnBattery" name="disableOnBattery" />
+        		<UIControl frame="0,15,10f,1" bgColor="222,222,222,255" />
+        		<UIControl frame="0,10,100%,20" align="LinearH">
+        		    <UILabel pos="0,0" text="#glassIntensity" />
+        		    <UIControl size="100%,100%" align="LinearHL">
+        		    	<UISlider frame="10,0,40f,18" name="glassIntensitySlider" maxValue="100" maxSize="230,18" />
+        		    	<UILabel frame="5,0,35,16" name="glassIntensityValue" text="100" autoSize="false" textAlign="2" />
+        		    </UIControl>
+        		</UIControl>
+        	</UIControl>
+        </UIControl>
+        <UIControl frame="0,95,485,100%" name="page2" visible="false" align="LinearV">
+            <UIControl frame="15,5,15f,115" align="LinearV" prop="group" autoSize="true" maxSize="455,150" minSize="455,90">
+                <UIControl frame="0,0,10f,30">
+                    <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_symbol" />
+                    <UILabel pos="10,2" text="#symbolfile" />
+                    <UILabel pos="10,2" name="symstate" text="invalid" fontColor="255,128,0,255" />
+                    <UIControl frame="0,0,100%,100%" align="LinearHL">
+                        <UIButton pos="0,0" name="downloadsym" text="#download" autoSize="true" minSize="100,26" maxSize="210,26" inset="5,2,5,2" />
+                    </UIControl>
+                </UIControl>
+                <UILabel pos="0,5" text="#symtip" fontColor="169,169,169,255" />
             </UIControl>
         </UIControl>
-        <UILabel pos="0,5" fontColor="169,169,169,255" name="functip" />
-    </UIControl>
-	<UIControl frame="15,5,15f,120" align="LinearV" prop="group" enable="true" name="effectgroup">
-		<UIControl frame="0,0,100%,30" align="LinearH">
-			<UILabel pos="5,5" text="#effecttype" />
-			<UIControl frame="0,0,100%,100%" align="LinearHL">
-				<UIComBox frame="10,0,120,26" name="effecttype" fontSize="12" menuHeight="150" />
-			</UIControl>
-		</UIControl>
-		<UIControl frame="0,5,100%,20" align="LinearH" name="customEffectGroup">
-		    <UILabel pos="5,0" text="#blurvaluetitle" />
-			<UIControl size="100%,100%" align="LinearHL">
-				<UISlider frame="10,0,35f,16" name="titlebarAmountSlider" maxValue="50" maxSize="230,16" />
-				<UILabel frame="5,0,30,16" name="titlebarAmountValue" text="50" autoSize="false" textAlign="2" />
-			</UIControl>
-		</UIControl>
-		<UIControl frame="0,5,100%,20" align="LinearH" name="customEffectGroup1">
-		    <UILabel pos="5,0" text="#luminosity" name="luminosityText" />
-			<UIControl size="100%,100%" align="LinearHL">
-				<UISlider frame="10,0,40f,16" name="luminositySlider" maxValue="100" maxSize="230,16" />
-				<UILabel frame="5,0,35,16" name="luminosityValue" text="50" autoSize="false" textAlign="2" />
-			</UIControl>
-		</UIControl>
-		<UIControl size="100%,100%" name="customEffectGroup2" align="LinearV">
-		    <UIControl frame="0,5,100%,20" align="LinearH">
-		        <UILabel pos="5,0" text="#blurBalance" />
-		    	<UIControl size="100%,100%" align="LinearHL">
-		    		<UISlider frame="10,0,40f,16" name="blurBalanceSlider" maxValue="100" maxSize="230,16" />
-		    		<UILabel frame="5,0,35,16" name="blurBalanceValue" text="50" autoSize="false" textAlign="2" />
-		    	</UIControl>
-		    </UIControl>
-			<UIControl frame="0,5,100%,20" align="LinearH">
-		        <UILabel pos="5,0" text="#afterglowBalance" />
-		    	<UIControl size="100%,100%" align="LinearHL">
-		    		<UISlider frame="10,0,40f,16" name="glowBalanceSlider" maxValue="100" maxSize="230,16" />
-		    		<UILabel frame="5,0,35,16" name="glowBalanceValue" text="50" autoSize="false" textAlign="2" />
-		    	</UIControl>
-		    </UIControl>
-		</UIControl>
-	</UIControl>)";
-
-        xml += LR"(
-	<UIControl frame="15,5,15f,210" align="LinearV" prop="group" enable="true" name="miscSettings">
-		<UIControl autoSize="true">
-            <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_misc" />
-            <UILabel pos="10,2" text="#miscsettings" />
-		</UIControl>
-		<UICheckBox pos="0,11" text="#enablecrossfade" name="crossFade" />
-		<UIControl pos="25,5" autoSize="true" align="LinearH" name="crossFadeGroup">
-			<UILabel pos="0,3" text="#crossfadeTime" />
-			<UIEditBox frame="5,1,50,20" number="true" inset="3,2,1,1" wordAutoSel="true" name="crossfadeTimeValue" text="180" limitText="4" />
-			<UILabel pos="3,3" text="ms" />
-		</UIControl>
-		<UICheckBox pos="0,11" text="#useaccentcolor" name="useaccentcolor" />
-		<UICheckBox pos="0,11" text="#overrideAccent" name="overrideAccent" />
-		<UICheckBox pos="0,11" text="#occlusionCulling" name="occlusionCulling" />
-		<UIControl frame="0,15,10f,1" bgColor="222,222,222,255" />
-		<UIControl frame="0,10,100%,20" align="LinearH">
-		    <UILabel pos="0,0" text="#glassIntensity" />
-		    <UIControl size="100%,100%" align="LinearHL">
-		    	<UISlider frame="10,0,40f,16" name="glassIntensitySlider" maxValue="100" maxSize="230,16" />
-		    	<UILabel frame="5,0,35,16" name="glassIntensityValue" text="100" autoSize="false" textAlign="2" />
-		    </UIControl>
-		</UIControl>
-	</UIControl>
-</UIControl>
-<UIControl frame="0,50,485,100%" name="page2" visible="false" align="LinearV">
-    <UIControl frame="15,5,15f,115" align="LinearV" prop="group" autoSize="true" maxSize="455,150" minSize="455,90">
-        <UIControl frame="0,0,10f,30">
-            <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_symbol" />
-            <UILabel pos="10,2" text="#symbolfile" />
-            <UILabel pos="10,2" name="symstate" text="invalid" fontColor="255,128,0,255" />
-            <UIControl frame="0,0,100%,100%" align="LinearHL">
-                <UIButton pos="0,0" name="downloadsym" text="#download" autoSize="true" minSize="100,26" maxSize="210,26" inset="5,2,5,2" />
+        <UIControl frame="0,95,485,100%" name="page3" visible="false" align="LinearV">
+            <UIControl frame="15,5,15f,75" align="LinearV" prop="group">
+                <UIControl autoSize="true">
+                    <UIImgBox frame="0,0,18,20" autoSize="false" img="icon_config" />
+                    <UILabel pos="10,3" text="#configfile" />
+                </UIControl>
+                <UIControl frame="0,10,100,100" autoSize="true">
+                    <UIButton pos="0,0" name="importcfg" text="#import" autoSize="true" minSize="80,26" maxSize="100,26" inset="5,2,5,2" />
+                    <UIButton pos="5,0" name="exportcfg" text="#export" autoSize="true" minSize="80,26" maxSize="100,26" inset="5,2,5,2" />
+                    <UIControl frame="10,5,1,15" bgColor="211,211,211,255" />
+                    <UIButton pos="10,0" name="restorecfg" text="#restore" autoSize="true" minSize="100,26" maxSize="200,26" inset="5,2,5,2" />
+                </UIControl>
             </UIControl>
         </UIControl>
-        <UILabel pos="0,5" text="#symtip" fontColor="169,169,169,255" />
-    </UIControl>
-</UIControl>
-<UIControl frame="0,50,485,100%" name="page3" visible="false" align="LinearV">
-    <UIControl frame="15,5,15f,75" align="LinearV" prop="group">
-        <UIControl autoSize="true">
-            <UIImgBox frame="0,0,18,20" autoSize="false" img="icon_config" />
-            <UILabel pos="10,3" text="#configfile" />
-        </UIControl>
-        <UIControl frame="0,10,100,100" autoSize="true">
-            <UIButton pos="0,0" name="importcfg" text="#import" autoSize="true" minSize="80,26" maxSize="100,26" inset="5,2,5,2" />
-            <UIButton pos="5,0" name="exportcfg" text="#export" autoSize="true" minSize="80,26" maxSize="100,26" inset="5,2,5,2" />
-            <UIControl frame="10,5,1,15" bgColor="211,211,211,255" />
-            <UIButton pos="10,0" name="restorecfg" text="#restore" autoSize="true" minSize="100,26" maxSize="200,26" inset="5,2,5,2" />
-        </UIControl>
-    </UIControl>
-</UIControl>
-<UIControl frame="0,50,485,100%" name="page4" visible="false" align="LinearV">
-    <UIControl pos="15,5" align="LinearV" prop="group" autoSize="true" maxSize="455,180" minSize="455,90">
-        <UIControl autoSize="true">
-            <UIImgBox frame="0,0,18,20" autoSize="false" img="icon_about" />
-            <UILabel pos="10,3" text="#about" />
-        </UIControl>
-        <UILabel pos="0,5" text="#aboutinfo" />
-        <UILabel pos="0,5" text="https://github.com/Maplespe/DWMBlurGlass" fontColor="30,144,255,255" hyperlink="true" url="https://github.com/Maplespe/DWMBlurGlass" />
-        <UILabel pos="0,5" text="#curlang" />
-        <UILabel pos="0,5" name="langauthor" />
-		<UILabel frame="0,15,10f,20" text="Copyright © 2023-2024 Maplespe" autoSize="false" textAlign="2" hyperlink="true" url="https://github.com/Maplespe/" />
-    </UIControl>
-</UIControl>
-		)";
+        <UIControl frame="0,95,485,100%" name="page4" visible="false" align="LinearV">
+            <UIControl pos="15,5" align="LinearV" prop="group" autoSize="true" maxSize="455,180" minSize="455,90">
+                <UIControl autoSize="true">
+                    <UIImgBox frame="0,0,18,20" autoSize="false" img="icon_about" />
+                    <UILabel pos="10,3" text="#about" />
+                </UIControl>
+                <UILabel pos="0,5" text="#aboutinfo" />
+                <UILabel pos="0,5" text="https://github.com/Maplespe/DWMBlurGlass" fontColor="30,144,255,255" hyperlink="true" url="https://github.com/Maplespe/DWMBlurGlass" />
+                <UILabel pos="0,5" text="#curlang" />
+                <UILabel pos="0,5" name="langauthor" />
+        		<UILabel frame="0,15,10f,20" text="Copyright © 2023-2024 Maplespe" autoSize="false" textAlign="2" hyperlink="true" url="https://github.com/Maplespe/" />
+            </UIControl>
+        </UIControl>);
         
 		if(!ui->CreateUIFromXML(parent, xml))
 			throw std::invalid_argument("Invalid XML code!");
@@ -251,8 +252,9 @@ namespace MDWMBlurGlass
         langinfo->SetAttribute(L"text", str);
 
         m_page = parent;
+        m_effLayer = m_page->Child(L"preblur");
+
         m_blurValue = m_page->Child<UISlider>(L"blurslider");
-        m_effLayer = m_page->Child<UIEffectLayer>(L"preblur");
         m_blurValueLabel = m_page->Child<UILabel>(L"blurvalue");
         m_saveBtn[0] = m_page->Child<UIButton>(L"savecfg");
         m_restBtn = m_page->Child<UIButton>(L"restorecfg");
@@ -448,6 +450,11 @@ namespace MDWMBlurGlass
                     m_cfgData.oldBtnHeight = static_cast<UICheckBox*>(control)->GetSel();
                     SetButtonEnable(true);
                 }
+                else if (_MNAME(L"titlebtnGlow"))
+                {
+                    m_cfgData.titlebtnGlow = static_cast<UICheckBox*>(control)->GetSel();
+                    SetButtonEnable(true);
+                    }
                 else if (_MNAME(L"customAmount"))
                 {
                     m_cfgData.customAmount = static_cast<UICheckBox*>(control)->GetSel();
@@ -471,11 +478,16 @@ namespace MDWMBlurGlass
                     m_cfgData.overrideAccent = static_cast<UICheckBox*>(control)->GetSel();
                     SetButtonEnable(true);
                 }
-                else if (_MNAME(L"occlusionCulling"))
+                else if (_MNAME(L"scaleOptimizer"))
                 {
-                    m_cfgData.occlusionCulling = static_cast<UICheckBox*>(control)->GetSel();
+                    m_cfgData.scaleOptimizer = static_cast<UICheckBox*>(control)->GetSel();
                     SetButtonEnable(true);
                 }
+                else if (_MNAME(L"disableOnBattery"))
+                {
+                    m_cfgData.disableOnBattery = static_cast<UICheckBox*>(control)->GetSel();
+                    SetButtonEnable(true);
+                    }
                 else
                     ret = false;
 	        }
@@ -485,7 +497,7 @@ namespace MDWMBlurGlass
                 if (_MNAME(L"blurslider"))
                 {
                     m_blurValueLabel->SetAttribute(L"text", std::to_wstring((int)param), false);
-                    m_effLayer->SetEffectValue((float)param);
+                    //m_effLayer->SetEffectValue((float)param);
                     m_cfgData.blurAmount = (float)param;
                     SetButtonEnable(true);
                     m_page->UpdateLayout();
@@ -589,7 +601,7 @@ namespace MDWMBlurGlass
                 {
                     m_cfgData.effectType = effectType::Blur;
                     if (m_cfgData.blurmethod == blurMethod::CustomBlur)
-                        SwitchBlurType(effectType::Blur, true, true);
+                        SwitchBlurType(effectType::Blur, true);
                     m_cfgData.blurmethod = (blurMethod)param;
                     SwitchBlurMethod((blurMethod)param);
                     SetButtonEnable(true);
@@ -645,24 +657,26 @@ namespace MDWMBlurGlass
         {
             RefreshTopLineColor(LOWORD(pm->first) != WA_INACTIVE);
         }
+        if (message == WM_DESTROY)
+            return true;
         return false;
 	}
 
 	void MainWindowPage::CreateTitleBar(XML::MuiXML* ui)
 	{
-        std::wstring_view titlebar = LR"(
-<UIControl size="100%,35" align="Absolute">
-	<PropGroup id="btnProp" autoSize="false" animate="true" aniAlphaType="true" />
-	<UIControl size="100%,1" name="borderColor" />
-	<UIControl size="100%,100%" name="Titlebar" align="LinearHL">
-		<UIButton size="35,30" style="style_closebtn" name="Titlebar_Close" />
-		<UIButton size="35,30" style="style_minbtn" name="Titlebar_Minisize" />
-		<UIControl bgColor="150,150,150,255" frame="3,12,1,8" />
-		<UIButton style="style_savebtn" frame="3,0,35,30" name="savecfg1" enable="false" />
-	</UIControl>
-	<UILabel pos="10,10" fontSize="12" name="windTitle" />
-</UIControl>
-)";
+        std::wstring_view titlebar = MXMLCODE(
+        <UIControl size="100%,35" align="Absolute">
+        	<PropGroup id="btnProp" autoSize="false" animate="true" aniAlphaType="true" />
+        	<UIControl size="100%,1" name="borderColor" />
+        	<UIControl size="100%,100%" name="Titlebar" align="LinearHL">
+        		<UIButton size="35,30" style="style_closebtn" name="Titlebar_Close" autoSize="false" />
+        		<UIButton size="35,30" style="style_minbtn" name="Titlebar_Minisize" autoSize="false" />
+        		<UIControl bgColor="150,150,150,255" frame="3,12,1,8" />
+        		<UIButton style="style_savebtn" frame="3,0,35,30" name="savecfg1" enable="false" autoSize="false" />
+        	</UIControl>
+        	<UILabel pos="10,10" fontSize="12" name="windTitle" />
+        </UIControl>
+        );
         if (!ui->CreateUIFromXML(m_page, titlebar.data()))
             throw std::invalid_argument("Invalid XML code!");
 
@@ -747,6 +761,7 @@ namespace MDWMBlurGlass
         m_page->Child<UICheckBox>(L"extendBorder")->SetSel(m_cfgData.extendBorder);
         m_page->Child<UICheckBox>(L"reflection")->SetSel(m_cfgData.reflection);
         m_page->Child<UICheckBox>(L"oldBtnHeight")->SetSel(m_cfgData.oldBtnHeight);
+        m_page->Child<UICheckBox>(L"titlebtnGlow")->SetSel(m_cfgData.titlebtnGlow);
 
         m_page->Child<UICheckBox>(L"customAmount")->SetSel(m_cfgData.customAmount, false);
         m_page->Child<UICheckBox>(L"crossFade")->SetSel(m_cfgData.crossFade, false);
@@ -785,14 +800,15 @@ namespace MDWMBlurGlass
         m_page->Child<UIComBox>(L"blurmethod")->SetCurSelItem((int)m_cfgData.blurmethod, false);
         m_page->Child<UIComBox>(L"effecttype")->SetCurSelItem((int)m_cfgData.effectType, false);
         if(m_cfgData.blurmethod != blurMethod::CustomBlur)
-            SwitchBlurType(effectType::Blur, false, true);
+            SwitchBlurType(effectType::Blur, true);
         else
 			SwitchBlurType(m_cfgData.effectType, false);
         //m_page->Child(L"customEffectGroup1")->SetVisible(enableLuminosity, false);
 
         m_page->Child<UICheckBox>(L"useaccentcolor")->SetSel(m_cfgData.useAccentColor, false);
         m_page->Child<UICheckBox>(L"overrideAccent")->SetSel(m_cfgData.overrideAccent, false);
-        m_page->Child<UICheckBox>(L"occlusionCulling")->SetSel(m_cfgData.occlusionCulling, false);
+        m_page->Child<UICheckBox>(L"scaleOptimizer")->SetSel(m_cfgData.scaleOptimizer, false);
+        m_page->Child<UICheckBox>(L"disableOnBattery")->SetSel(m_cfgData.disableOnBattery, false);
         m_page->Child<UIEditBox>(L"crossfadeTimeValue")->SetCurText(std::to_wstring(m_cfgData.crossfadeTime));
 
         m_page->UpdateLayout();
@@ -829,7 +845,7 @@ namespace MDWMBlurGlass
             blurValue = m_cfgData.customBlurAmount;
         if (m_cfgData.blurmethod == blurMethod::DWMAPIBlur)
             blurValue = 20.f;
-        m_effLayer->SetEffectValue(blurValue);
+        //m_effLayer->SetEffectValue(blurValue);
     }
 
     void MainWindowPage::SwitchColorModePreview(bool light)
@@ -869,7 +885,7 @@ namespace MDWMBlurGlass
             item->SetText(L"Mica");
             combox->AddItem(item, -1, false);
         }
-        else
+		else if (combox->GetItemListCount() > 3)
             combox->DeleteItem(3);
 
         combox->SetCurSelItem(0, false);
@@ -895,6 +911,8 @@ namespace MDWMBlurGlass
         m_page->Child(L"crossFadeGroup")->SetEnabled(index == blurMethod::CustomBlur && m_cfgData.crossFade);
         m_page->Child(L"useaccentcolor")->SetEnabled(index == blurMethod::CustomBlur || index == blurMethod::AccentBlur);
         m_page->Child(L"overrideAccent")->SetEnabled(index == blurMethod::CustomBlur);
+        m_page->Child(L"disableOnBattery")->SetEnabled(index == blurMethod::CustomBlur);
+        m_page->Child(L"titlebtnGlow")->SetEnabled(index == blurMethod::CustomBlur);
         if(index == blurMethod::AccentBlur)
             m_page->Child<UICheckBox>(L"overrideAccent")->SetSel(true, false);
         else
@@ -904,12 +922,10 @@ namespace MDWMBlurGlass
         m_page->UpdateLayout();
     }
 
-    void MainWindowPage::SwitchBlurType(effectType type, bool enableani, bool skip)
+    void MainWindowPage::SwitchBlurType(effectType type, bool skip)
     {
         if (m_cfgData.blurmethod == blurMethod::CustomBlur || skip)
         {
-			MAnimation ani(m_page->GetParentWin());
-
             int dstHeight;
 
             m_page->Child(L"customEffectGroup")->SetEnabled(type != effectType::Mica, false);
@@ -936,48 +952,10 @@ namespace MDWMBlurGlass
             auto effgroup2 = m_page->Child(L"customEffectGroup2");
             bool visablegroup1 = enableLuminosity || m_cfgData.effectType == effectType::Aero;
             bool visablegroup2 = !enableLuminosity && m_cfgData.effectType == effectType::Aero;
-            if(enableani)
-            {
-                if (effgroup1->IsVisible() == visablegroup1)
-                    effgroup1 = nullptr;
-                else if(visablegroup1)
-                {
-                    effgroup1->SetAlpha(0, false);
-                    effgroup1->SetVisible(true, false);
-                }
-
-                if (effgroup2->IsVisible() == visablegroup2)
-                    effgroup2 = nullptr;
-                else if (visablegroup2)
-                {
-                    effgroup2->SetAlpha(0, false);
-                    effgroup2->SetVisible(true, false);
-                }
-
-                auto aniproc = [=](const MAnimation::MathsCalc* calc, float percent)
-                {
-                    auto size = group->GetSize();
-                    group->SetSize(size.width, calc->calc(MAnimation::Exponential_In, size.height, dstHeight), false);
-
-                    auto alpha = _m_byte(percent / 100.f * 255.f);
-
-                    if (effgroup1)
-                        effgroup1->SetAlpha(visablegroup1 ? alpha : 255 - alpha, false);
-
-                    if (effgroup2)
-                        effgroup2->SetAlpha(visablegroup2 ? alpha : 255 - alpha, false);
-
-                    m_page->UpdateLayout();
-                    return true;
-                };
-                ani.WaitTask(ani.CreateTask(aniproc, 200));
-            }
-            else
-            {
-                group->SetSize(15, dstHeight, false);
-                effgroup1->SetVisible(visablegroup1, false);
-                effgroup2->SetVisible(visablegroup2, false);
-            }
+            
+            group->SetSize(15, dstHeight, false);
+            effgroup1->SetVisible(visablegroup1, false);
+            effgroup2->SetVisible(visablegroup2, false);
 
             m_page->Child(L"customEffectGroup1")->SetVisible(enableLuminosity || m_cfgData.effectType == effectType::Aero, false);
             m_page->Child(L"customEffectGroup2")->SetVisible(!enableLuminosity && m_cfgData.effectType == effectType::Aero, false);

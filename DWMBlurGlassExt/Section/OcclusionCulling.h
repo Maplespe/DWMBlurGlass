@@ -22,15 +22,26 @@ namespace MDWMBlurGlassExt::OcclusionCulling
 {
 	void Attach();
 	void Detach();
-	void Refresh();
 
-	HRESULT WINAPI CWindowList_StyleChange(DWM::CWindowList* This, DWM::IDwmWindow* windowContext);
-	HRESULT WINAPI CWindowList_CloakChange(DWM::CWindowList* This, DWM::IDwmWindow* windowContext1,  DWM::IDwmWindow* windowContext2, bool cloaked);
-	HRESULT WINAPI CWindowList_CheckForMaximizedChange(DWM::CWindowList* This, DWM::CWindowData* data);
+	DWM::Core::CWindowBackgroundTreatment* CVisual_GetWindowBackgroundTreatmentInternal(DWM::Core::CVisual* This);
 
-	HRESULT WINAPI CArrayBasedCoverageSet_AddAntiOccluderRect(
-		void* This,
-		DWM::MilRectF* a2,
-		int a3,
-		const struct CMILMatrix* a4);
+	HRESULT STDMETHODCALLTYPE CArrayBasedCoverageSet_AddAntiOccluderRect(
+		DWM::Core::CArrayBasedCoverageSet* This,
+		const D2D1_RECT_F& lprc,
+		int depth,
+		const MilMatrix3x2D* matrix
+	);
+
+	bool STDMETHODCALLTYPE CArrayBasedCoverageSet_IsCovered(
+		DWM::Core::CArrayBasedCoverageSet* This,
+		const D2D1_RECT_F& lprc,
+		int depth,
+		bool deprecated
+	);
+
+	HRESULT STDMETHODCALLTYPE COcclusionContext_PostSubgraph(
+		DWM::Core::COcclusionContext* This,
+		DWM::Core::CVisualTree* visualTree,
+		bool* unknown
+	);
 }

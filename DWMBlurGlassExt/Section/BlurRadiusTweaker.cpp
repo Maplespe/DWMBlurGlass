@@ -32,6 +32,11 @@ namespace MDWMBlurGlassExt::BlurRadiusTweaker
 		"CRenderingTechnique::ExecuteBlur", CRenderingTechnique_ExecuteBlur
 	};
 
+	MinHook g_funCRenderingTechnique_ExecuteBlur24h2
+	{
+		"CRenderingTechnique::ExecuteBlur", CRenderingTechnique_ExecuteBlur24h2
+	};
+
 	//Win10 WinUI HostBackdrop Brush
 	MinHook g_funCCustomBlur_BuildEffect
 	{
@@ -55,7 +60,10 @@ namespace MDWMBlurGlassExt::BlurRadiusTweaker
 		}
 		else if (os::buildNumber >= 22000)
 		{
-			g_funCRenderingTechnique_ExecuteBlur.Attach();
+			if(os::buildNumber >= 26100)
+				g_funCRenderingTechnique_ExecuteBlur24h2.Attach();
+			else
+				g_funCRenderingTechnique_ExecuteBlur.Attach();
 		}
 
 	}
@@ -72,7 +80,10 @@ namespace MDWMBlurGlassExt::BlurRadiusTweaker
 		}
 		else if (os::buildNumber >= 22000)
 		{
-			g_funCRenderingTechnique_ExecuteBlur.Detach();
+			if (os::buildNumber >= 26100)
+				g_funCRenderingTechnique_ExecuteBlur24h2.Detach();
+			else
+				g_funCRenderingTechnique_ExecuteBlur.Detach();
 		}
 
 		g_startup = false;
@@ -133,8 +144,16 @@ namespace MDWMBlurGlassExt::BlurRadiusTweaker
 		return g_funCRenderingTechnique_ExecuteBlur.call_org(This, a2, a3, &blurVector, a5);
 	}
 
+	DWORD64 CRenderingTechnique_ExecuteBlur24h2(DWM::CRenderingTechnique* This, DWM::CDrawingContext* a2,
+		const DWM::EffectInput* a3, const D2D_VECTOR_2F* a4, const D2D_SIZE_F* a5, DWM::EffectInput* a6)
+	{
+		auto blurVector = *a4;
+		blurVector.x = blurVector.y = (g_configData.blurAmount / 2.f) / 10.f;
+		return g_funCRenderingTechnique_ExecuteBlur24h2.call_org(This, a2, a3, &blurVector, a5, a6);
+	}
+
 	DWORD64 CCustomBlur_BuildEffect(DWM::CCustomBlur* This, ID2D1Image* backdropImage, const D2D_RECT_F* srcRect,
-		const D2D_SIZE_F* kSize, D2D1_GAUSSIANBLUR_OPTIMIZATION a5, const D2D_VECTOR_2F* a6, D2D_VECTOR_2F* a7)
+	                                const D2D_SIZE_F* kSize, D2D1_GAUSSIANBLUR_OPTIMIZATION a5, const D2D_VECTOR_2F* a6, D2D_VECTOR_2F* a7)
 	{
 		const auto ret = g_funCCustomBlur_BuildEffect.call_org(This, backdropImage, srcRect, kSize, a5, a6, a7);
 

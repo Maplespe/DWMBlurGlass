@@ -25,11 +25,11 @@ namespace Mui
 	class ColorDisplay : public UIControl
 	{
 	public:
-		M_DEF_CTRL(L"ColorDisplay")
-		{
+		MCTRL_DEFINE
+		(
+			L"ColorDisplay",
 			{ CtrlMgr::AttribType::labelStyle, L"fontStyle" }
-		}
-		M_DEF_CTRL_END
+		);
 
 		ColorDisplay(UIControl* parent);
 

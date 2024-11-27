@@ -26,6 +26,136 @@ namespace MDWMBlurGlassExt::DWM
 
 	inline HANDLE g_hProcessHeap{ GetProcessHeap() };
 
+	HRESULT Core::CVisual::GetVisualTree(CVisualTree** visualTree, bool value) const
+	{
+		return DEFCALL_MHOST_METHOD(CVisual::GetVisualTree, visualTree, value);
+	}
+
+	const D2D1_RECT_F& Core::CVisual::GetBounds(CVisualTree* visualTree) const
+	{
+		return DEFCALL_MHOST_METHOD(CVisual::GetBounds, visualTree);
+	}
+
+	HWND Core::CVisual::GetHwnd() const
+	{
+		return DEFCALL_MHOST_METHOD(CVisual::GetHwnd);
+	}
+
+	HWND Core::CVisual::GetTopLevelWindow() const
+	{
+		return DEFCALL_MHOST_METHOD(CVisual::GetTopLevelWindow);
+	}
+
+	HRESULT Core::CZOrderedRect::UpdateDeviceRect(const MilMatrix3x2D* matrix)
+	{
+		return DEFCALL_MHOST_METHOD(CZOrderedRect::UpdateDeviceRect, matrix);
+	}
+
+	HRESULT Core::CArrayBasedCoverageSet::Add(const D2D1_RECT_F& lprc, int depth, const MilMatrix3x2D* matrix)
+	{
+		return DEFCALL_MHOST_METHOD(CArrayBasedCoverageSet::Add, lprc, depth, matrix);
+	}
+
+	Core::DynArray<Core::CZOrderedRect>* Core::CArrayBasedCoverageSet::GetAntiOccluderArray() const
+	{
+		DynArray<CZOrderedRect>* array{ nullptr };
+		if (os::buildNumber < 19041)
+		{
+			array = reinterpret_cast<DynArray<CZOrderedRect>*>(const_cast<CArrayBasedCoverageSet*>(this + 52));
+		}
+		else
+		{
+			array = reinterpret_cast<DynArray<CZOrderedRect>*>(const_cast<CArrayBasedCoverageSet*>(this + 49));
+		}
+
+		return array;
+	}
+
+	Core::CVisual* Core::COcclusionContext::GetVisual() const
+	{
+		CVisual* visual{ nullptr };
+
+		if (os::buildNumber < 19041)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[6];
+		}
+		else
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[1];
+		}
+
+		return visual;
+	}
+
+	HRESULT Core::COcclusionContext::PostSubgraph(CVisualTree* visualTree, bool* unknown)
+	{
+		return DEFCALL_MHOST_METHOD(COcclusionContext::PostSubgraph, visualTree, unknown);
+	}
+
+	HRESULT Core::CD2DContext::FillEffect(const ID2DContextOwner* contextOwner, ID2D1Effect* effect,
+		const D2D_RECT_F* lprc, const D2D_POINT_2F* point, D2D1_INTERPOLATION_MODE interpolationMode,
+		D2D1_COMPOSITE_MODE compositeMode)
+	{
+		return DEFCALL_MHOST_METHOD(CD2DContext::FillEffect, contextOwner, effect, lprc, point, interpolationMode, compositeMode);
+	}
+
+	Core::CD2DContext* Core::CDrawingContext::GetD2DContext() const
+	{
+		if (os::buildNumber < 19041)
+		{
+			return reinterpret_cast<CD2DContext* const*>(this)[48];
+		}
+		return reinterpret_cast<CD2DContext*>(reinterpret_cast<ULONG_PTR const*>(this)[5] + 16);
+	}
+
+	Core::ID2DContextOwner* Core::CDrawingContext::GetD2DContextOwner() const
+	{
+		if (os::buildNumber < 19041)
+		{
+			return reinterpret_cast<ID2DContextOwner* const*>(this)[8];
+		}
+		return reinterpret_cast<ID2DContextOwner*>(reinterpret_cast<ULONG_PTR const>(this) + 24);
+	}
+
+	bool Core::CDrawingContext::IsOccluded(const D2D1_RECT_F& lprc, int flag) const
+	{
+		return DEFCALL_MHOST_METHOD(CDrawingContext::IsOccluded, lprc, flag);
+	}
+
+	Core::CVisual* Core::CDrawingContext::GetCurrentVisual() const
+	{
+		return DEFCALL_MHOST_METHOD(CDrawingContext::GetCurrentVisual);
+	}
+
+	HRESULT Core::CDrawingContext::GetClipBoundsWorld(D2D1_RECT_F& lprc) const
+	{
+		return DEFCALL_MHOST_METHOD(CDrawingContext::GetClipBoundsWorld, lprc);
+	}
+
+	void Core::CCustomBlur::Reset()
+	{
+		DEFCALL_MHOST_METHOD(CCustomBlur::Reset);
+	}
+
+	HRESULT Core::CCustomBlur::Create(ID2D1DeviceContext* deviceContext, CCustomBlur** customBlur)
+	{
+		static auto pfun = MHostGetProcAddress<decltype(Create)>("CCustomBlur::Create");
+		return pfun(deviceContext, customBlur);
+	}
+
+	float Core::CCustomBlur::DetermineOutputScale(float size, float blurAmount,
+		D2D1_GAUSSIANBLUR_OPTIMIZATION optimization)
+	{
+		static auto pfun = MHostGetProcAddress<decltype(DetermineOutputScale)>("CCustomBlur::DetermineOutputScale");
+		return pfun(size, blurAmount, optimization);
+	}
+
+	ULONGLONG Core::GetCurrentFrameId()
+	{
+		static auto pfun = MHostGetProcAddress<decltype(GetCurrentFrameId)>("GetCurrentFrameId");
+		return pfun();
+	}
+
 	void* CBaseObject::operator new(size_t size)
 	{
 		return HeapAlloc(g_hProcessHeap, 0, size);
@@ -146,6 +276,29 @@ namespace MDWMBlurGlassExt::DWM
 		return accentpolicy;
 	}
 
+	const MARGINS* CWindowData::GetExtendedFrameMargins() const
+	{
+		const MARGINS* margins{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+			margins = reinterpret_cast<const MARGINS*>(reinterpret_cast<ULONG_PTR>(this) + 80);
+		}
+		else
+		{
+			margins = reinterpret_cast<const MARGINS*>(reinterpret_cast<ULONG_PTR>(this) + 96);
+		}
+
+		return margins;
+	}
+
+	bool CWindowData::IsFrameExtendedIntoClientAreaLRB() const
+	{
+		const MARGINS* margins{ GetExtendedFrameMargins() };
+
+		return margins->cxLeftWidth || margins->cxRightWidth || margins->cyBottomHeight;
+	}
+
 	HRESULT CMatrixTransformProxy::Update(const MilMatrix3x2D* matrix)
 	{
 		return DEFCALL_MHOST_METHOD(CMatrixTransformProxy::Update, matrix);
@@ -195,10 +348,6 @@ namespace MDWMBlurGlassExt::DWM
 		{
 			properties = &reinterpret_cast<BYTE const*>(this)[84];
 		}
-		else if (os::buildNumber < 22621)
-		{
-			properties = &reinterpret_cast<BYTE const*>(this)[92];
-		}
 		else if (os::buildNumber < 26020)
 		{
 			properties = &reinterpret_cast<BYTE const*>(this)[92];
@@ -223,10 +372,6 @@ namespace MDWMBlurGlassExt::DWM
 		if (os::buildNumber < 22000)
 		{
 			properties = &reinterpret_cast<BYTE*>(this)[84];
-		}
-		else if (os::buildNumber < 22621)
-		{
-			properties = &reinterpret_cast<BYTE*>(this)[92];
 		}
 		else if (os::buildNumber < 26020)
 		{
@@ -275,6 +420,11 @@ namespace MDWMBlurGlassExt::DWM
 	void CVisual::SetInsetFromParentRight(int right)
 	{
 		DEFCALL_MHOST_METHOD(CVisual::SetInsetFromParentRight, right);
+	}
+
+	void CVisual::SetInsetFromParentLeft(int left)
+	{
+		DEFCALL_MHOST_METHOD(CVisual::SetInsetFromParentLeft, left);
 	}
 
 	HRESULT CVisual::SetSize(const SIZE& size)
@@ -340,6 +490,18 @@ namespace MDWMBlurGlassExt::DWM
 		return (this->*class_method_cast<decltype(&CVisual::SetDirtyChildren)>("CContainerVisual"))();
 	}
 
+	HRESULT CVisual::WrapExistingResource(UINT handleIndex, CVisual** visual)
+	{
+		static auto pfun = (HRESULT(*)(UINT, CVisual**))MHostGetProcAddress("CVisual::WrapExistingResource");
+		return pfun(handleIndex, visual);
+	}
+
+	HRESULT CVisual::WrapExistingResource(Core::CChannel* channel, UINT handleIndex, CVisual** visual)
+	{
+		static auto pfun = (HRESULT(*)(Core::CChannel*, UINT, CVisual**))MHostGetProcAddress("CVisual::WrapExistingResource");
+		return pfun(channel, handleIndex, visual);
+	}
+
 	HRESULT CVisual::CreateFromSharedHandle(HANDLE handle, CVisual** visual)
 	{
 		static auto pfun = MHostGetProcAddress<decltype(CreateFromSharedHandle)>("CVisual::CreateFromSharedHandle");
@@ -359,6 +521,54 @@ namespace MDWMBlurGlassExt::DWM
 	HRESULT CVisual::Initialize()
 	{
 		return DEFCALL_MHOST_METHOD(CVisual::Initialize);
+	}
+
+	LONG CVisual::GetWidth() const
+	{
+		LONG width{ 0 };
+
+		if (os::buildNumber < 22000)
+		{
+			width = reinterpret_cast<LONG const*>(this)[30];
+		}
+		else
+		{
+			width = reinterpret_cast<LONG const*>(this)[32];
+		}
+
+		return width;
+	}
+
+	LONG CVisual::GetHeight() const
+	{
+		LONG height{ 0 };
+
+		if (os::buildNumber < 22000)
+		{
+			height = reinterpret_cast<LONG const*>(this)[31];
+		}
+		else
+		{
+			height = reinterpret_cast<LONG const*>(this)[33];
+		}
+
+		return height;
+	}
+
+	MARGINS* CVisual::GetMargins()
+	{
+		MARGINS* margins{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+			margins = reinterpret_cast<MARGINS*>(this) + 8;
+		}
+		else
+		{
+			margins = reinterpret_cast<MARGINS*>(reinterpret_cast<ULONG_PTR>(this) + 136);
+		}
+
+		return margins;
 	}
 
 	HRESULT VisualCollection::RemoveAll()
@@ -404,29 +614,29 @@ namespace MDWMBlurGlassExt::DWM
 		return collection;
 	}
 
-	CVisual* CTopLevelWindow::GetVisual() const
+	CCanvasVisual* CTopLevelWindow::GetVisual() const
 	{
-		CVisual* visual{ nullptr };
+		CCanvasVisual* visual{ nullptr };
 
 		if (os::buildNumber < 19041)
 		{
-			// TO-DO
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[32];
 		}
 		else if (os::buildNumber < 22000)
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[33];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[33];
 		}
 		else if (os::buildNumber < 22621)
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[34];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[34];
 		}
 		else if (os::buildNumber < 26020)
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[36];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[36];
 		}
 		else
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[31];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[31];
 		}
 
 		return visual;
@@ -450,30 +660,35 @@ namespace MDWMBlurGlassExt::DWM
 		}
 		else
 		{
-			accent = reinterpret_cast<CAccent* const*>(this)[34];
+			accent = reinterpret_cast<CAccent* const*>(this)[32];
 		}
 
 		return accent;
 	}
-	CVisual* CTopLevelWindow::GetLegacyVisual() const
-	{
-		CVisual* visual{ nullptr };
 
-		if (os::buildNumber < 22000)
+	CCanvasVisual* CTopLevelWindow::GetLegacyVisual() const
+	{
+		CCanvasVisual* visual{ nullptr };
+
+		if (os::buildNumber < 19041)
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[36];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[35];
+		}
+		else if (os::buildNumber < 22000)
+		{
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[36];
 		}
 		else if (os::buildNumber < 22621)
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[37];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[37];
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < 26100)
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[39];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[39];
 		}
 		else
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[40];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[34];
 		}
 
 		return visual;
@@ -492,11 +707,11 @@ namespace MDWMBlurGlassExt::DWM
 		}
 		else if (os::buildNumber < 26020)
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[37];
+			visual = reinterpret_cast<CVisual* const*>(this)[42];
 		}
 		else
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[40];
+			visual = reinterpret_cast<CVisual* const*>(this)[37];
 		}
 
 		return visual;
@@ -523,9 +738,9 @@ namespace MDWMBlurGlassExt::DWM
 
 		return visual;
 	}
-	CVisual* CTopLevelWindow::GetAccentColorVisual() const
+	CCanvasVisual* CTopLevelWindow::GetAccentColorVisual() const
 	{
-		CVisual* visual{ nullptr };
+		CCanvasVisual* visual{ nullptr };
 
 		if (os::buildNumber < 22000)
 		{
@@ -535,15 +750,44 @@ namespace MDWMBlurGlassExt::DWM
 		}
 		else if (os::buildNumber < 26020)
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[41];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[41];
 		}
 		else
 		{
-			visual = reinterpret_cast<CVisual* const*>(this)[36];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[36];
 		}
 
 		return visual;
 	}
+
+	CVisual* CTopLevelWindow::GetClientAreaContainerParentVisual() const
+	{
+		CVisual* visual{ nullptr };
+
+		if (os::buildNumber < 19041)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[67];
+		}
+		else if (os::buildNumber < 22000)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[68];
+		}
+		else if (os::buildNumber < 22621)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[70];
+		}
+		else if (os::buildNumber < 26100)
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[74];
+		}
+		else
+		{
+			visual = reinterpret_cast<CVisual* const*>(this)[69];
+		}
+
+		return visual;
+	}
+
 	std::vector<winrt::com_ptr<CVisual>> CTopLevelWindow::GetNCBackgroundVisuals() const
 	{
 		std::vector<winrt::com_ptr<CVisual>> visuals{};
@@ -621,26 +865,26 @@ namespace MDWMBlurGlassExt::DWM
 
 	CRgnGeometryProxy* const& CTopLevelWindow::GetBorderGeometry() const
 	{
-		CRgnGeometryProxy* const* geometry{ nullptr };
+		CRgnGeometryProxy* geometry{ nullptr };
 
 		if (os::buildNumber < 19041)
 		{
-			// TO-DO
+			geometry = reinterpret_cast<CRgnGeometryProxy* const*>(this)[68];
 		}
 		else if (os::buildNumber < 22000)
 		{
-			geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(this)[69];
+			geometry = reinterpret_cast<CRgnGeometryProxy* const*>(this)[69];
 		}
 		else if (os::buildNumber < 22621)
 		{
-			geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(this)[71];
+			geometry = reinterpret_cast<CRgnGeometryProxy* const*>(this)[71];
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < 26100)
 		{
-			auto legacyBackgroundVisual{ reinterpret_cast<CVisual* const*>(this)[40] };
+			auto legacyBackgroundVisual{ reinterpret_cast<CVisual* const*>(this)[39] };
 			if (legacyBackgroundVisual)
 			{
-				geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(legacyBackgroundVisual)[40];
+				geometry = reinterpret_cast<CRgnGeometryProxy* const*>(legacyBackgroundVisual)[40];
 			}
 		}
 		else
@@ -648,11 +892,11 @@ namespace MDWMBlurGlassExt::DWM
 			auto legacyBackgroundVisual{ reinterpret_cast<CVisual* const*>(this)[34] };
 			if (legacyBackgroundVisual)
 			{
-				geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(legacyBackgroundVisual)[34];
+				geometry = reinterpret_cast<CRgnGeometryProxy* const*>(legacyBackgroundVisual)[34];
 			}
 		}
 
-		return *geometry;
+		return geometry;
 	}
 
 	CRgnGeometryProxy* const& CTopLevelWindow::GetTitlebarGeometry() const
@@ -661,7 +905,7 @@ namespace MDWMBlurGlassExt::DWM
 
 		if (os::buildNumber < 19041)
 		{
-			// TO-DO
+			geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(this)[69];
 		}
 		else if (os::buildNumber < 22000)
 		{
@@ -681,7 +925,7 @@ namespace MDWMBlurGlassExt::DWM
 		}
 		else
 		{
-			auto legacyBackgroundVisual{ reinterpret_cast<CVisual* const*>(this)[33] };
+			auto legacyBackgroundVisual{ reinterpret_cast<CVisual* const*>(this)[34] };
 			if (legacyBackgroundVisual)
 			{
 				geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(legacyBackgroundVisual)[33];
@@ -691,9 +935,11 @@ namespace MDWMBlurGlassExt::DWM
 		return *geometry;
 	}
 
-	bool CTopLevelWindow::HasNonClientBackground()
+	bool CTopLevelWindow::HasNonClientBackground(CWindowData* data)
 	{
 		auto windowData{ GetData() };
+		if (data)
+			windowData = data;
 		if ((windowData->GetNonClientAttribute() & 8) == 0)
 		{
 			return false;
@@ -812,6 +1058,100 @@ namespace MDWMBlurGlassExt::DWM
 		DEFCALL_MHOST_METHOD(CTopLevelWindow::GetBorderMargins, margins);
 	}
 
+	bool CTopLevelWindow::IsTrullyMinimized()
+	{
+		RECT borderRect{};
+		if (!GetActualWindowRect(&borderRect, false, true, false))
+			return true;
+
+		return borderRect.left <= -32000 || borderRect.top <= -32000;
+	}
+
+	void CTopLevelWindow::SetDirtyFlags(int flags)
+	{
+		DEFCALL_MHOST_METHOD(CTopLevelWindow::SetDirtyFlags, flags);
+	}
+
+	HRESULT CTopLevelWindow::OnSystemBackdropUpdated()
+	{
+		return DEFCALL_MHOST_METHOD(CTopLevelWindow::OnSystemBackdropUpdated);
+	}
+
+	HRESULT CTopLevelWindow::OnClipUpdated()
+	{
+		return DEFCALL_MHOST_METHOD(CTopLevelWindow::OnClipUpdated);
+	}
+
+	HRESULT CTopLevelWindow::OnBlurBehindUpdated()
+	{
+		return DEFCALL_MHOST_METHOD(CTopLevelWindow::OnBlurBehindUpdated);
+	}
+
+	HRESULT CTopLevelWindow::OnAccentPolicyUpdated()
+	{
+		return DEFCALL_MHOST_METHOD(CTopLevelWindow::OnAccentPolicyUpdated);
+	}
+
+	bool CTopLevelWindow::IsRTLMirrored() const
+	{
+		bool rtlMirrored{ false };
+
+		if (os::buildNumber < 19041)
+		{
+			rtlMirrored = (reinterpret_cast<DWORD const*>(this)[146] & 0x20000) != 0;
+		}
+		else if (os::buildNumber < 22000)
+		{
+			rtlMirrored = (reinterpret_cast<DWORD const*>(this)[148] & 0x20000) != 0;
+		}
+		else if (os::buildNumber < 22621)
+		{
+			rtlMirrored = (reinterpret_cast<DWORD const*>(this)[152] & 0x20000) != 0;
+		}
+		else if (os::buildNumber < 26100)
+		{
+			rtlMirrored = (reinterpret_cast<DWORD const*>(this)[156] & 0x20000) != 0;
+		}
+		else
+		{
+			rtlMirrored = (reinterpret_cast<DWORD const*>(this)[146] & 0x20000) != 0;
+		}
+
+		return rtlMirrored;
+	}
+
+	DWORD CTopLevelWindow::GetSolidColorCaptionColor() const
+	{
+		return DEFCALL_MHOST_METHOD(CTopLevelWindow::GetSolidColorCaptionColor);
+	}
+
+	DWORD CTopLevelWindow::GetWindowColorizationColor(BYTE flags) const
+	{
+		return DEFCALL_MHOST_METHOD(CTopLevelWindow::GetWindowColorizationColor, flags);
+	}
+
+	DWORD* CTopLevelWindow::GetCurrentDefaultColorizationFlags(DWORD* flags) const
+	{
+		return DEFCALL_MHOST_METHOD(CTopLevelWindow::GetCurrentDefaultColorizationFlags, flags);
+	}
+
+	DWORD CTopLevelWindow::GetCurrentColorizationColor() const
+	{
+		DWORD color{};
+
+		if (os::buildNumber < 22621)
+		{
+			DWORD flags{};
+			color = GetWindowColorizationColor(static_cast<BYTE>(*GetCurrentDefaultColorizationFlags(&flags) | 8u));
+		}
+		else
+		{
+			color = GetSolidColorCaptionColor();
+		}
+
+		return color;
+	}
+
 	CTopLevelWindow::WindowFrame* CTopLevelWindow::s_ChooseWindowFrameFromStyle(char a1, bool a2, bool a3)
 	{
 		static auto pfun = MHostGetProcAddress<decltype(s_ChooseWindowFrameFromStyle)>("CTopLevelWindow::s_ChooseWindowFrameFromStyle");
@@ -895,8 +1235,10 @@ namespace MDWMBlurGlassExt::DWM
 		POINT* pt;
 		if (os::buildNumber < 22000)
 			pt = (POINT*)this + 14;
-		else
+		else if(os::buildNumber < 26100)
 			pt = (POINT*)this + 15;
+		else
+			pt = (POINT*)this + 8;
 		return pt;
 	}
 
@@ -905,14 +1247,54 @@ namespace MDWMBlurGlassExt::DWM
 		SIZE* size;
 		if (os::buildNumber < 22000)
 			size = (SIZE*)this + 15;
-		else
+		else if (os::buildNumber < 26100)
 			size = (SIZE*)this + 16;
+		else
+			size = (SIZE*)this + 9;
 		return size;
+	}
+
+	HRESULT CCompositor::CreateVisualProxyFromSharedHandle(HANDLE handle, CVisualProxy** visualProxy)
+	{
+		return (this->*class_method_cast<decltype(&CCompositor::CreateVisualProxyFromSharedHandle)>("CCompositor::CreateProxyFromSharedHandle<CVisualProxy>"))(handle, visualProxy);
+	}
+
+	Core::CChannel* CCompositor::GetChannel() const
+	{
+		Core::CChannel* channel{ nullptr };
+
+		if (os::buildNumber < 18362)
+		{
+			channel = reinterpret_cast<Core::CChannel*>(const_cast<CCompositor*>(this));
+		}
+		else if (os::buildNumber < 19041)
+		{
+			channel = reinterpret_cast<Core::CChannel* const*>(this)[2];
+		}
+
+		return channel;
 	}
 
 	CWindowList* CDesktopManager::GetWindowList() const
 	{
-		return static_cast<CWindowList*>(reinterpret_cast<PVOID const*>(this)[61]);
+		CWindowList* windowList{ nullptr };
+		if (os::buildNumber < 22000)
+		{
+			windowList = reinterpret_cast<CWindowList* const*>(this)[61];
+		}
+		else if (os::buildNumber < 22621)
+		{
+			windowList = reinterpret_cast<CWindowList* const*>(this)[52];
+		}
+		else if (os::buildNumber < 26100)
+		{
+			windowList = reinterpret_cast<CWindowList* const*>(this)[54];
+		}
+		else
+		{
+			windowList = reinterpret_cast<CWindowList* const*>(this)[53];
+		}
+		return windowList;
 	}
 
 	IWICImagingFactory2* CDesktopManager::GetWICFactory() const
@@ -1004,9 +1386,30 @@ namespace MDWMBlurGlassExt::DWM
 		return interopDevice;
 	}
 
+	CCompositor* CDesktopManager::GetCompositor() const
+	{
+		CCompositor* compositor{ nullptr };
+
+		if (os::buildNumber < 22000)
+		{
+			compositor = reinterpret_cast<CCompositor* const*>(this)[5];
+		}
+		else
+		{
+			compositor = reinterpret_cast<CCompositor* const*>(this)[6];
+		}
+
+		return compositor;
+	}
+
 	UINT CDesktopManager::MonitorDpiFromPoint(POINT pt) const
 	{
 		return DEFCALL_MHOST_METHOD(CDesktopManager::MonitorDpiFromPoint, pt);
+	}
+
+	HWND CWindowNode::GetHwnd() const
+	{
+		return DEFCALL_MHOST_METHOD(CWindowNode::GetHwnd);
 	}
 
 	HRESULT ResourceHelper::CreateGeometryFromHRGN(HRGN hrgn, CRgnGeometryProxy** geometry)
@@ -1044,6 +1447,11 @@ namespace MDWMBlurGlassExt::DWM
 		return text;
 	}
 
+	bool CText::IsRTL() const
+	{
+		return (reinterpret_cast<BYTE const*>(this)[280] & 2) != 0;
+	}
+
 	CMatrixTransformProxy* CText::GetMatrixProxy()
 	{
 		if(os::buildNumber >= 22000)
@@ -1062,12 +1470,38 @@ namespace MDWMBlurGlassExt::DWM
 	}
 	HRESULT STDMETHODCALLTYPE CWindowList::GetSyncedWindowDataByHwnd(HWND hwnd, CWindowData** windowData)
 	{
-		return DEFCALL_MHOST_METHOD(CWindowList::GetSyncedWindowDataByHwnd, hwnd, windowData);
+		auto hr = DEFCALL_MHOST_METHOD(CWindowList::GetSyncedWindowDataByHwnd, hwnd, windowData);
+		if (os::buildNumber >= 26020)
+			return S_OK;
+		return hr;
 	}
 
 	PRLIST_ENTRY CWindowList::GetWindowListForDesktop(ULONG_PTR desktopID)
 	{
 		return DEFCALL_MHOST_METHOD(CWindowList::GetWindowListForDesktop, desktopID);
+	}
+
+	HWND CWindowList::GetShellWindowForDesktop(ULONG_PTR desktopID)
+	{
+		return DEFCALL_MHOST_METHOD(CWindowList::GetShellWindowForDesktop, desktopID);
+	}
+
+	namespace Core
+	{
+		UINT CResource::GetOwningProcessId()
+		{
+			return DEFCALL_MHOST_METHOD(CResource::GetOwningProcessId);
+		}
+
+		HRESULT CChannel::DuplicateSharedResource(HANDLE handle, UINT type, UINT* handleIndex)
+		{
+			return DEFCALL_MHOST_METHOD(CChannel::DuplicateSharedResource, handle, type, handleIndex);
+		}
+
+		HRESULT CChannel::MatrixTransformUpdate(UINT handleIndex, MilMatrix3x2D* matrix)
+		{
+			return DEFCALL_MHOST_METHOD(CChannel::MatrixTransformUpdate, handleIndex, matrix);
+		}
 	}
 }
 #pragma pop_macro("DEFCALL_MHOST_METHOD")

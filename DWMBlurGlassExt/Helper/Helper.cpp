@@ -16,6 +16,7 @@
  * If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.
 */
 #include "Helper.h"
+#include <wil.h>
 
 namespace MDWMBlurGlassExt
 {
@@ -231,6 +232,29 @@ namespace MDWMBlurGlassExt
 		context->CreateBitmapFromWicBitmap(wicbitmap.get(), bitmapProp, ret.put());
 
 		return ret;
+	}
+
+	winrt::com_ptr<ID2D1Bitmap1> CreateD2DMaskBitmap(ID2D1DeviceContext* context, D2D1_SIZE_U size)
+	{
+		if (!context) return nullptr;
+
+		constexpr D2D1_PIXEL_FORMAT format =
+		{
+			DXGI_FORMAT_A8_UNORM,
+			D2D1_ALPHA_MODE_PREMULTIPLIED
+		};
+
+		D2D1_BITMAP_PROPERTIES1 bitmapProp;
+		bitmapProp.dpiX = 96;
+		bitmapProp.dpiY = 96;
+		bitmapProp.colorContext = nullptr;
+		bitmapProp.pixelFormat = format;
+		bitmapProp.bitmapOptions = D2D1_BITMAP_OPTIONS_TARGET;
+
+		winrt::com_ptr<ID2D1Bitmap1> d2dBitmap = nullptr;
+		context->CreateBitmap(size, nullptr, 0, bitmapProp, d2dBitmap.put());
+
+		return d2dBitmap;
 	}
 
 	HBITMAP CreateAlphaBitmap(int width, int height)

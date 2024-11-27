@@ -107,7 +107,9 @@ namespace MDWMBlurGlass
 		cfgData.useAccentColor = GetConfigBool(L"useAccentColor");
 		cfgData.crossFade = GetConfigBool(L"crossFade", true);
 		cfgData.overrideAccent = GetConfigBool(L"overrideAccent");
-		cfgData.occlusionCulling = GetConfigBool(L"occlusionCulling");
+		cfgData.scaleOptimizer = GetConfigBool(L"scaleOptimizer");
+		cfgData.disableOnBattery = GetConfigBool(L"disableOnBattery", true);
+		cfgData.titlebtnGlow = GetConfigBool(L"titlebtnGlow");
 
 		GetCfgValueInternal(L"extendRound",
 		{
@@ -217,11 +219,6 @@ namespace MDWMBlurGlass
 			cfgData.titlebtnOffsetX = (UINT)std::clamp(_wtoi(value.data()), -1, 1000);
 		});
 
-		GetCfgValueInternal(L"cullingLevel",
-		{
-			cfgData.cullingLevel = (UINT)std::clamp(_wtoi(value.data()), 0, 1);
-		});
-
 		return cfgData;
 	}
 
@@ -268,8 +265,9 @@ namespace MDWMBlurGlass
 				{ L"effectType", make_wstring((int)cfg.effectType) },
 				{ L"crossfadeTime", make_wstring(cfg.crossfadeTime) },
 				{ L"overrideAccent", make_wstring(cfg.overrideAccent) },
-				{ L"occlusionCulling", make_wstring(cfg.occlusionCulling) }
-				/*{ L"cullingLevel", make_wstring(cfg.cullingLevel) }*/
+				{ L"occlusionCulling", make_wstring(cfg.scaleOptimizer) },
+				{ L"disableOnBattery", make_wstring(cfg.disableOnBattery) },
+				{ L"titlebtnGlow", make_wstring(cfg.titlebtnGlow) }
 				}); const auto & [key, value] : regkeyList)
 		{
 			Utils::SetIniString(path, L"config", key, value);

@@ -3,12 +3,13 @@
 #include "../Effects/CrossFadeEffect.hpp"
 #include "ColorConversion.hpp"
 #include "CommonDef.h"
+#include "../Effects/GaussianBlurEffect.hpp"
 
 namespace MDWMBlurGlassExt
 {
 	using namespace CommonDef;
 
-	inline winrt::Windows::UI::Color MakeWinrtColor(COLORREF color, bool rgb = true)
+	inline winrt::Windows::UI::Color MakeWinrtColor(COLORREF color, bool rgb = false)
 	{
 		return
 		{
@@ -24,156 +25,73 @@ namespace MDWMBlurGlassExt
 		return float(BYTE((color >> 24) & 0xff)) / 255.f;
 	}
 
-	struct CDCompResourcesBase
+	FORCEINLINE wge::IGraphicsEffectSource CreateBlurredBackdrop(float blurAmount)
 	{
-		winrt::com_ptr<DCompPrivate::IDCompositionDesktopDevicePartner> interopDCompDevice{ nullptr };
-		virtual void ReloadParameters() {}
-	};
-	struct CDCompResources : CDCompResourcesBase
+		if (!blurAmount)
+		{
+			return wuc::CompositionEffectSourceParameter{ L"Backdrop" };
+		}
+
+		auto gaussianBlurEffect{ winrt::make_self<GaussianBlurEffect>() };
+		gaussianBlurEffect->SetName(L"Blur");
+		gaussianBlurEffect->SetBorderMode(D2D1_BORDER_MODE_HARD);
+		gaussianBlurEffect->SetBlurAmount(blurAmount);
+		gaussianBlurEffect->SetOptimizationMode(D2D1_GAUSSIANBLUR_OPTIMIZATION_SPEED);
+		gaussianBlurEffect->SetInput(wuc::CompositionEffectSourceParameter{ L"Backdrop" });
+		return *gaussianBlurEffect;
+	}
+
+	FORCEINLINE wuc::CompositionBrush CreateCrossFadeBrush(
+		const wuc::Compositor& compositor,
+		const wuc::CompositionBrush& from,
+		const wuc::CompositionBrush& to
+	)
 	{
-		winrt::Windows::UI::Composition::CompositionBrush lightMode_Active_Brush{ nullptr };
-		winrt::Windows::UI::Composition::CompositionBrush darkMode_Active_Brush{ nullptr };
-		winrt::Windows::UI::Composition::CompositionBrush lightMode_Inactive_Brush{ nullptr };
-		winrt::Windows::UI::Composition::CompositionBrush darkMode_Inactive_Brush{ nullptr };
-		std::chrono::milliseconds crossfadeTime{ 87 };
-		winrt::Windows::UI::Color lightMode_Active_Color{};
-		winrt::Windows::UI::Color darkMode_Active_Color{};
-		winrt::Windows::UI::Color lightMode_Inactive_Color{};
-		winrt::Windows::UI::Color darkMode_Inactive_Color{};
+		auto crossFadeEffect{ winrt::make_self<CrossFadeEffect>() };
+		crossFadeEffect->SetName(L"Crossfade");
+		crossFadeEffect->SetSource(wuc::CompositionEffectSourceParameter{ L"From" });
+		crossFadeEffect->SetDestination(wuc::CompositionEffectSourceParameter{ L"To" });
+		crossFadeEffect->SetWeight(0);
 
-		static winrt::Windows::UI::Composition::CompositionBrush CreateCrossFadeEffectBrush(
-			const winrt::Windows::UI::Composition::Compositor& compositor,
-			const winrt::Windows::UI::Composition::CompositionBrush& from,
-			const winrt::Windows::UI::Composition::CompositionBrush& to
-		)
-		{
-			auto crossFadeEffect{ winrt::make_self<CrossFadeEffect>() };
-			crossFadeEffect->SetName(L"Crossfade");
-			crossFadeEffect->SetSource(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"From" });
-			crossFadeEffect->SetDestination(winrt::Windows::UI::Composition::CompositionEffectSourceParameter{ L"To" });
-			crossFadeEffect->SetWeight(0);
+		auto crossFadeEffectBrush{ compositor.CreateEffectFactory(*crossFadeEffect, {L"Crossfade.Weight"}).CreateBrush() };
+		crossFadeEffectBrush.Comment(L"Crossfade");
+		crossFadeEffectBrush.SetSourceParameter(L"From", from);
+		crossFadeEffectBrush.SetSourceParameter(L"To", to);
+		return crossFadeEffectBrush;
+	}
 
-			auto crossFadeEffectBrush{ compositor.CreateEffectFactory( *crossFadeEffect, {L"Crossfade.Weight"} ).CreateBrush() };
-			crossFadeEffectBrush.Comment(L"Crossfade");
-			crossFadeEffectBrush.SetSourceParameter(L"From", from);
-			crossFadeEffectBrush.SetSourceParameter(L"To", to);
-			return crossFadeEffectBrush;
-		}
-		static winrt::Windows::UI::Composition::ScalarKeyFrameAnimation CreateCrossFadeAnimation(
-			const winrt::Windows::UI::Composition::Compositor& compositor,
-			winrt::Windows::Foundation::TimeSpan const& crossfadeTime
-		)
-		{
-			auto animation{ compositor.CreateScalarKeyFrameAnimation() };
-			auto linearEasing{ compositor.CreateLinearEasingFunction() };
-			animation.InsertKeyFrame(0.0f, 0.0f, linearEasing);
-			animation.InsertKeyFrame(1.0f, 1.0f, linearEasing);
-			animation.Duration(crossfadeTime);
-			return animation;
-		}
-		virtual winrt::Windows::UI::Composition::CompositionBrush STDMETHODCALLTYPE GetBrush(bool useDarkMode, bool windowActivated)
-		{
-			if (useDarkMode)
-			{
-				if (windowActivated) { return darkMode_Active_Brush; }
-				else { return darkMode_Inactive_Brush; }
-			}
-			else
-			{
-				if (windowActivated) { return lightMode_Active_Brush; }
-				else { return lightMode_Inactive_Brush; }
-			}
-
-			return nullptr;
-		}
-	};
-
-	struct CDCompBackdropBase
+	FORCEINLINE wuc::ScalarKeyFrameAnimation CreateCrossFadeAnimation(
+		const wuc::Compositor& compositor,
+		char easingFunction,
+		winrt::Windows::Foundation::TimeSpan const& crossfadeTime
+	)
 	{
-		winrt::Windows::UI::Composition::SpriteVisual spriteVisual{ nullptr };
+		auto animation{ compositor.CreateScalarKeyFrameAnimation() };
+		auto easing{ easingFunction == 1 ? static_cast<wuc::CompositionEasingFunction>(
+			compositor.CreateCubicBezierEasingFunction({ 0.5f, 0.0f }, { 0.0f, 0.9f })) : static_cast<wuc::CompositionEasingFunction>(compositor.CreateLinearEasingFunction()) 
+		};
+		animation.InsertKeyFrame(0.0f, 0.0f);
+		animation.InsertKeyFrame(1.0f, 1.0f, easing);
+		animation.Duration(crossfadeTime);
+		return animation;
+	}
 
-		STDMETHOD(Initialize)(
-			winrt::Windows::UI::Composition::VisualCollection& visualCollection
-		)
-		{
-			auto compositor{ visualCollection.Compositor() };
-			spriteVisual = compositor.CreateSpriteVisual();
-			spriteVisual.RelativeSizeAdjustment({ 1.f, 1.f });
-			visualCollection.InsertAtTop(spriteVisual);
-
-			return S_OK;
-		}
-		virtual ~CDCompBackdropBase() = default;
-	};
-
-	struct CDCompBackdrop : CDCompBackdropBase
+	FORCEINLINE void ThisModule_AddRef()
 	{
-		winrt::Windows::UI::Composition::CompositionBrush currentBrush{ nullptr };
-		winrt::Windows::UI::Color currentColor{};
+		HMODULE thisModule{ nullptr };
+		GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, L"", &thisModule);
+	}
 
-		STDMETHOD(TryCrossFadeToNewBrush)(
-			const winrt::Windows::UI::Composition::Compositor& compositor, 
-			const winrt::Windows::UI::Composition::CompositionBrush& newBrush,
-			std::chrono::milliseconds crossfadeTime
-		) try
-		{
-			if (currentBrush != newBrush)
-			{
-				if (currentBrush && crossfadeTime.count())
-				{
-					const auto crossfadeBrush
-					{
-						CDCompResources::CreateCrossFadeEffectBrush(
-							compositor,
-							currentBrush,
-							newBrush
-						)
-					};
-					currentBrush = newBrush;
-					spriteVisual.Brush(crossfadeBrush);
-
-					crossfadeBrush.StartAnimation(
-						L"Crossfade.Weight",
-						CDCompResources::CreateCrossFadeAnimation(
-							compositor,
-							crossfadeTime
-						)
-					);
-				}
-				else
-				{
-					currentBrush = newBrush;
-					spriteVisual.Brush(currentBrush);
-				}
-			}
-
-			return S_OK;
-		}
-		CATCH_RETURN()
-
-		STDMETHOD(UpdateColorizationColor)(
-			bool useDarkMode,
-			bool windowActivated
-		) PURE;
-		STDMETHOD(Update)(
-			bool useDarkMode,
-			bool windowActivated
-		) PURE;
-	};
-	struct CAccentDCompBackdrop : CDCompBackdropBase
+	FORCEINLINE void ThisModule_Release(bool async = true)
 	{
-		winrt::com_ptr<DCompPrivate::IDCompositionDesktopDevicePartner> interopDCompDevice{ nullptr };
-		inline static winrt::Windows::UI::Color FromAbgr(DWORD gradientColor)
+		if (async)
 		{
-			auto abgr{ reinterpret_cast<const UCHAR*>(&gradientColor) };
-			return
-			{
-				abgr[3],
-				abgr[0],
-				abgr[1],
-				abgr[2]
-			};
+			static wil::unique_threadpool_work s_freeModuleRefWork{ CreateThreadpoolWork([](PTP_CALLBACK_INSTANCE instance, PVOID, PTP_WORK) { DwmFlush(); FreeLibraryWhenCallbackReturns(instance, wil::GetModuleInstanceHandle());  }, nullptr, nullptr) };
+			SubmitThreadpoolWork(s_freeModuleRefWork.get());
 		}
-		STDMETHOD(Update)(const DWM::ACCENT_POLICY& policy) PURE;
-	};
+		else
+		{
+			FreeLibraryAndExitThread(wil::GetModuleInstanceHandle(), 0);
+		}
+	}
 }

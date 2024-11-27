@@ -29,11 +29,12 @@
 	<saveconfig>Save</saveconfig>
 	<effectset>Effect Settings</effectset>
 	<blurvalue>Blur radius (global):</blurvalue>
-	<applyglobal>Override DWMAPI effect (Windows 11)</applyglobal>
+	<overrideDwmapi>Override DWMAPI effect (Windows 11)</overrideDwmapi>
 	<extendborder>Extend effects to borders (Windows 10)</extendborder>
 	<reflection>Enable Aero reflection effect</reflection>
 	<reflectiontip>(Legacy blur method for Windows 10 only)</reflectiontip>
-	<oldBtnSize>Restore Win7 style title bar button size</oldBtnSize>
+	<oldBtnSize>Restore Win7 style titlebar button size</oldBtnSize>
+	<titlebtnGlow>Enable Win7 style titlebar button glow</titlebtnGlow>
 	<cmodelight>Light Mode colors</cmodelight>
 	<cmodedark>Dark Mode colors</cmodedark>
 	<blendcolor>Titlebar blend color (active):</blendcolor>
@@ -43,9 +44,9 @@
 	<preview>Preview</preview>
 	<sampletitle>Example window title (active)</sampletitle>
 	<blurmethod>Blur Method:</blurmethod>
-	<methodcustom>[Recommended] Custom blur implementation written by CVisual (DWM)\nand Windows.UI.Composition (dcomp) to achieve custom backdrop effects, \nyou can customize most of the parameters. Not only you can get the highest \nefficiency, but also the best appearance and better stability. However, the \ncompatibility is not that good. \nIt may be broken after a major Windows update, then you have to wait for \nthe next release.</methodcustom>
-	<methodaccent>[Not Recommended] Use DWM internal \nAccentBlurBehind class to apply blur effect. You can customize some of the \nparameters, but it is inefficient and less stable. It can work normally on most \nsystems. \n(generally, a system update will not break it).</methodaccent>
-	<methoddwmapi>Use documented DWMAPI in Windows 11 to apply limited SystemBackdrop effect, such as \nAcrylic and Mica effect, you cannot customize these parameters at all, but it has \nhigh efficiency and better stability. However, it may break the appearance of \nsome programs, and it is only available on Windows 11 22H2 and newer.</methoddwmapi>
+	<methodcustom>[Recommended] Custom blur implementation written by CVisual (DWM)\nand Windows.UI.Composition (dcomp) to achieve custom backdrop \neffects, you can customize most of the parameters. Not only you can get \nthe highest efficiency, but also the best appearance and better stability. \nHowever, the compatibility is not that good. \nIt may be broken after a major Windows update, then you have to wait \nfor the next release.</methodcustom>
+	<methodaccent>[Not Recommended] Use DWM internal AccentBlurBehind class to apply \nblur effect. You can customize some of the nparameters, but it is \ninefficient and less stable. It can work normally on most systems. \n(generally, a system update will not break it).</methodaccent>
+	<methoddwmapi>Use documented DWMAPI in Windows 11 to apply limited \nSystemBackdrop effect, such as Acrylic and Mica effect, you cannot \ncustomize these parameters at all, but it has high efficiency and \nbetter stability. However, it may break the appearance of some programs, \nand it is only available on Windows 11 22H2 and newer.</methoddwmapi>
 	<effecttype>Effect Type:</effecttype>
 	<blurvaluetitle>Blur radius (titlebar only):</blurvaluetitle>
 	<luminosity>Luminosity opacity:</luminosity>
@@ -58,6 +59,8 @@
 	<useaccentcolor>Use Accent color to override color settings RGB</useaccentcolor>
 	<glassIntensity>Aero reflection texture opacity:</glassIntensity>
 	<overrideAccent>Override AccentBlur effect</overrideAccent>
+	<scaleOptimizer>Enable blur rendering optimization</scaleOptimizer>
+	<disableOnBattery>Disable the effect in power-saving mode</disableOnBattery>
 	<symbolfile>Symbol files:</symbolfile>
 	<download>Download</download>
 	<symtip>Symbol files (pdb) are files that record debugging information about a\nprogram. Since systems vary from version to version, you need to\ndownload symbol files from the Microsoft servers. If you update your\nsystem, you may need to download the symbol files again.</symtip>

@@ -48,11 +48,12 @@ namespace MDWMBlurGlass
 
         void SwitchColorModePreview(bool light);
         void SwitchBlurMethod(blurMethod index);
-        void SwitchBlurType(effectType type, bool enableani = true, bool skip = false);
+        void SwitchBlurType(effectType type, bool skip = false);
+
+		Ctrl::UIControl* m_effLayer = nullptr;
 
         Ctrl::UINavBar* m_cmodeNavbar = nullptr;
 
-        Ctrl::UIEffectLayer* m_effLayer = nullptr;
         Ctrl::UISlider* m_blurValue = nullptr;
         Ctrl::UILabel* m_blurValueLabel = nullptr;
 

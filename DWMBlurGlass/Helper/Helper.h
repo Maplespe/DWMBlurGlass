@@ -28,8 +28,6 @@ namespace MDWMBlurGlass
 
 	extern std::wstring GetSystemLocalName();
 
-	extern BOOL EnableHostBackdropBrush(HWND hWnd);
-
 	extern bool InstallScheduledTasks(std::wstring& errinfo);
 
 	extern bool IsInstallTasks();

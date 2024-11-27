@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="Backdrops\AcrylicBackdrop.hpp" />
     <ClInclude Include="Backdrops\AeroBackdrop.hpp" />
+    <ClInclude Include="Backdrops\BackdropFactory.hpp" />
     <ClInclude Include="Backdrops\BlurBackdrop.hpp" />
     <ClInclude Include="Backdrops\ButtonGlowBackdrop.hpp" />
     <ClInclude Include="Backdrops\DCompBackdrop.hpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Effects\SaturationEffect.hpp" />
     <ClInclude Include="Effects\TintEffect.hpp" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Helper\CanvasGeometry.hpp" />
     <ClInclude Include="Helper\Helper.h" />
     <ClInclude Include="Helper\HookHelper.h" />
     <ClInclude Include="minhook\buffer.h" />
@@ -208,11 +210,14 @@
     <ClInclude Include="Section\CustomBackdropEffect.h" />
     <ClInclude Include="Section\CustomButton.h" />
     <ClInclude Include="Section\DwmAPIEffect.h" />
+    <ClInclude Include="Section\GeometryRecorder.h" />
     <ClInclude Include="Section\OcclusionCulling.h" />
+    <ClInclude Include="Section\ScaleOptimizer.h" />
     <ClInclude Include="Section\TitleTextTweaker.h" />
     <ClInclude Include="Section\VisualManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Backdrops\BackdropFactory.cpp" />
     <ClCompile Include="Common\ColorConversion.cpp" />
     <ClCompile Include="Common\DWMStruct.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -227,11 +232,15 @@
     <ClCompile Include="minhook\trampoline.cpp" />
     <ClCompile Include="Section\AccentBlurEffect.cpp" />
     <ClCompile Include="Section\BlurRadiusTweaker.cpp" />
+    <ClCompile Include="Section\CompositedBackdrop.cpp" />
     <ClCompile Include="Section\CustomBackdropEffect.cpp" />
     <ClCompile Include="Section\CustomButton.cpp" />
     <ClCompile Include="Section\DwmAPIEffect.cpp" />
+    <ClCompile Include="Section\GeometryRecorder.cpp" />
     <ClCompile Include="Section\OcclusionCulling.cpp" />
+    <ClCompile Include="Section\ScaleOptimizer.cpp" />
     <ClCompile Include="Section\TitleTextTweaker.cpp" />
+    <ClCompile Include="Section\VisualManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="minhook\MiniHook.vcxitems" />

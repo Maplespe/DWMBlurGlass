@@ -22,6 +22,7 @@
 #include <windows.graphics.h>
 #include <windows.graphics.directx.h>
 #include <windows.graphics.effects.h>
+#include <windows.graphics.interop.h>
 
 #include <Windows.Foundation.h>
 #include <Windows.Foundation.Collections.h>
