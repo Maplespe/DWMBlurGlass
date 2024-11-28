@@ -175,5 +175,3 @@ This project uses [LGNU V3 license](/COPYING.LESSER).
 * [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)
 * [Windows Implementation Libraries](https://github.com/Microsoft/wil)
-
-由于GUI程序使用了私有的库，因此只有内部人员才可以编译GUI，这并不影响库的编译.

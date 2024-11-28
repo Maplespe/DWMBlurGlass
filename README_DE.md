@@ -168,11 +168,9 @@ Das korrekte Format ist: „<config>Config</config>“ in „<config>xxxx</confi
    
 
 ## Abhängigkeiten
-* MiaoUI interface library v2 (Private)
+* [MiaoUI Lite interface library v2](https://github.com/Maplespe/MiaoUILite)
 * [AcrylicEverywhere](https://github.com/ALTaleX531/AcrylicEverywhere) - Separate Upstream-Implementierung der CustomBlur-Methode, danke an ALTaleX für Recherche und Unterstützung.
 * [minhook](https://github.com/m417z/minhook)
 * [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)
 * [Windows Implementation Libraries](https://github.com/Microsoft/wil)
-
-Da das GUI-Programm private Bibliotheken verwendet, können nur Insider die GUI kompilieren, was keinen Einfluss auf die Kompilierung der Bibliotheken hat.
