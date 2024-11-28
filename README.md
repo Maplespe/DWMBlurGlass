@@ -173,5 +173,3 @@ If you would like to help us translate into other languages, please see below fo
 * [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)
 * [Windows Implementation Libraries](https://github.com/Microsoft/wil)
-
-Since the GUI program uses private libraries, only insiders can compile the GUI, which does not affect the compilation of the libraries.

@@ -162,11 +162,9 @@ Başka dillere çeviri yapmamıza yardımcı olmak isterseniz, lütfen dil dosya
    
 
 ## Bağımlılıklar
-* MiaoUI arayüz kütüphanesi v2 (Gizli)
+* [MiaoUI Lite interface library v2](https://github.com/Maplespe/MiaoUILite)
 * [AcrylicEverywhere](https://github.com/ALTaleX531/AcrylicEverywhere) - CustomBlur yönteminin ayrı bir üst akım uygulaması, araştırma ve destek için ALTaleX'e teşekkürler.
 * [minhook](https://github.com/m417z/minhook)
 * [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)
 * [Windows Gerçekleme Kütüphaneleri](https://github.com/Microsoft/wil)
-
-GUI programı özel kütüphaneler kullandığı için, sadece içeriden olanlar GUI'yi derleyebilir. Bu durum kütüphanelerin derlenmesini etkilemez.

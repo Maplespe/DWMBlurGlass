@@ -172,11 +172,9 @@ Nếu bạn muốn giúp chúng tôi phiên dịch sang các ngôn ngữ khác, 
    
 
 ## Phụ thuộc
-* MiaoUI interface library v2 (Riêng tư)
+* [MiaoUI Lite interface library v2](https://github.com/Maplespe/MiaoUILite)
 * [AcrylicEverywhere](https://github.com/ALTaleX531/AcrylicEverywhere) - Phương thức upstream riêng biệt của phương pháp CustomBlur, cảm ơn ALTaleX vì nghiên cứu và hỗ trợ.
 * [minhook](https://github.com/m417z/minhook)
 * [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)
 * [Windows Implementation Libraries](https://github.com/Microsoft/wil)
-
-Vì chương trình GUI sử dụng thư viện riêng tư, chỉ người nội bộ mới có thể biên dịch GUI, điều đó không ảnh hưởng việc biên dịch thư viện.

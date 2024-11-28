@@ -160,11 +160,9 @@ Si desea ayudarnos a traducir a otros idiomas, consulte a continuación los form
 
 
 ## Dependencias
-* Biblioteca de interfaz MiaoUI v2 (privada)
+* [MiaoUI Lite interface library v2](https://github.com/Maplespe/MiaoUILite)
 * [AcrylicEverywhere](https://github.com/ALTaleX531/AcrylicEverywhere) - Implementación separada del método CustomBlur, gracias a ALTaleX por la investigación y el apoyo.
 * [minhook](https://github.com/m417z/minhook)
 * [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)
 * [Bibliotecas de implementación de Windows (WIL)](https://github.com/Microsoft/wil)
-
-Dado que la GUI usa una biblioteca privada, sólo los desarrolladores con acceso pueden compilarla, lo que no afecta la compilación de la biblioteca principal.
