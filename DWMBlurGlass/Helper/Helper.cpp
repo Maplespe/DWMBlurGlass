@@ -87,14 +87,20 @@ namespace MDWMBlurGlass
 		return str;
 	}
 
-	std::wstring GetSystemLocalName()
+	std::pair<std::wstring, std::wstring> GetSystemLocaleAndParent()
 	{
 		WCHAR langName[LOCALE_NAME_MAX_LENGTH];
-		if (GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SNAME, langName, LOCALE_NAME_MAX_LENGTH)) 
+		if (GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SNAME, langName, LOCALE_NAME_MAX_LENGTH))
 		{
-			return langName;
+			std::wstring locale = langName;
+			auto pos = locale.find(L'-');
+			if (pos != std::wstring::npos)
+			{
+				return { locale, std::wstring(locale.substr(0, pos)) };
+			}
+			return { locale, locale };
 		}
-		return L"en-US";
+		return { L"en-US", L"en" };
 	}
 
 	std::wstring hrToStr(HRESULT hr)
