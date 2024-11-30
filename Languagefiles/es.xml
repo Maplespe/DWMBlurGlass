@@ -28,7 +28,7 @@
 	<loadfail>¡Error al cargar el componente!\nMensaje de error: </loadfail>
 	<saveconfig>Guardar configuración</saveconfig>
 	<effectset>Configuración de efectos</effectset>
-	<blurvalue>Radio de desenfoque (global):</blurvalue>
+	<blurvalue>Radio de desenfoque global:</blurvalue>
 	<overrideDwmapi>Redefinir efecto de DWMAPI (Win 11)</overrideDwmapi>
 	<extendborder>Extender efectos a bordes (Win 10)</extendborder>
 	<reflection>Habilitar efecto de reflejo Aero</reflection>
@@ -44,11 +44,11 @@
 	<preview>Vista previa</preview>
 	<sampletitle>Ejemplo de título de ventana (activa)</sampletitle>
 	<blurmethod>Método de desenfoque:</blurmethod>
-	<methodcustom>[Recomendado] Implementación personalizada de desenfoque que usa \nCVisual (DWM) y Windows.UI.Composition (dcomp) para lograr efectos \nde fondo personalizados, puede personalizar la mayoría de los parámetros, \nno sólo puede obtener la máxima eficiencia, sino también la mejor \napariencia y mayor estabilidad. Sin embargo, la compatibilidad no es tan \nbuena ya que puede fallar después de una importante actualización de \nWindows y deberá esperar una nueva versión del programa.</methodcustom>
-	<methodaccent>[No recomendado] Usa la implementación interna de desenfoque de DWM \nsin eliminar (clase AccentBlurBehind) para aplicar el efecto de desenfoque, \npuede personalizar algunos de los parámetros, pero es ineficiente y \nmenos estable. Puede funcionar normalmente en la mayoría de los \nsistemas, generalmente, una actualización del sistema no lo romperá.</methodaccent>
+	<methodcustom>[Recomendado] Implementación personalizada de desenfoque que usa \nCVisual (DWM) y Windows.UI.Composition (dcomp) para lograr efectos \nde fondo personalizados, puede personalizar la mayoría de los\nparámetros, no sólo puede obtener la máxima eficiencia, sino también \nla mejor apariencia y mayor estabilidad. Sin embargo, la compatibilidad \nno es tan buena ya que puede fallar después de una importante \nactualización de Windows y deberá esperar una nueva versión del \nprograma.</methodcustom>
+	<methodaccent>[No recomendado] Usa la implementación interna de desenfoque de \nDWM sin eliminar (clase AccentBlurBehind) para aplicar el efecto de \ndesenfoque, puede personalizar algunos de los parámetros, pero es \nineficiente y menos estable. Puede funcionar normalmente en la mayoría \nde los sistemas, generalmente, una actualización del sistema no lo \nromperá.</methodaccent>
 	<methoddwmapi>Usa DWMAPI documentado para aplicar el efecto SystemBackdrop \nlimitado, como Acrylic, Mica, no puede personalizar estos parámetros \nen absoluto. Aunque tenga alta eficiencia y mejor estabilidad, puede \nromper la apariencia de algunos programas y sólo está disponible \nen Windows 11 22H2 o superior.</methoddwmapi>
 	<effecttype>Tipo de efecto:</effecttype>
-	<blurvaluetitle>Radio de desenfoque (sólo barra de título):</blurvaluetitle>
+	<blurvaluetitle>Radio de desenfoque (barra de título):</blurvaluetitle>
 	<luminosity>Opacidad de luminosidad:</luminosity>
 	<colorBalance>ColorBalance:</colorBalance>
 	<blurBalance>BlurBalance:</blurBalance>
