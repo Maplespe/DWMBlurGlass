@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<lang local="es-ES" author="Amaro Martínez (xoascf)">
+<lang local="es" author="Amaro Martínez (xoascf)">
 	<inituifail0>¡Error al inicializar la biblioteca MiaoUI!\nMensaje de error: </inituifail0>
 	<inituifail1>¡Error al crear el contexto de ventana!</inituifail1>
 	<inituifail2>¡Error al inicializar la ventana!</inituifail2>
@@ -29,11 +29,12 @@
 	<saveconfig>Guardar configuración</saveconfig>
 	<effectset>Configuración de efectos</effectset>
 	<blurvalue>Radio de desenfoque (global):</blurvalue>
-	<applyglobal>Redefinir efecto Mica establecido mediante DWMAPI (Win 11)</applyglobal>
+	<overrideDwmapi>Redefinir efecto de DWMAPI (Win 11)</overrideDwmapi>
 	<extendborder>Extender efectos a bordes (Win 10)</extendborder>
 	<reflection>Habilitar efecto de reflejo Aero</reflection>
 	<reflectiontip>(OldBlur sólo para Win 10)</reflectiontip>
 	<oldBtnSize>Restaurar tamaño de botones de barra de título (estilo de Win 7)</oldBtnSize>
+	<titlebtnGlow>Habilitar brillo de botones de barra de título (estilo de Win 7)</titlebtnGlow>
 	<cmodelight>Colores de modo claro</cmodelight>
 	<cmodedark>Colores de modo oscuro</cmodedark>
 	<blendcolor>Color fusión de barra de título (activa):</blendcolor>
@@ -58,6 +59,8 @@
 	<useaccentcolor>Usar color de énfasis para redefinir configuración de color</useaccentcolor>
 	<glassIntensity>Opacidad de textura de reflejo Aero:</glassIntensity>
 	<overrideAccent>Redefinir efecto AccentBlur</overrideAccent>
+	<scaleOptimizer>Habilitar optimización de renderizado de desenfoque</scaleOptimizer>
+	<disableOnBattery>Deshabilitar efecto en modo de ahorro de energía</disableOnBattery>
 	<symbolfile>Archivos de símbolos:</symbolfile>
 	<download>Descargar</download>
 	<symtip>Los archivos de símbolos (pdb) son archivos que registran información \nde depuración sobre un programa. Dado que los sistemas varían de una \nversión a otra, debe descargar los archivos de símbolos desde el servidor \nde Microsoft. Si actualiza su sistema, es posible que deba descargar los \narchivos de símbolos nuevamente.</symtip>
