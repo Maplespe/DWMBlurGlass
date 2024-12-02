@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<lang local="es-ES" author="Amaro Martínez (xoascf)">
+<lang local="es" author="Amaro Martínez (xoascf)">
 	<inituifail0>¡Error al inicializar la biblioteca MiaoUI!\nMensaje de error: </inituifail0>
 	<inituifail1>¡Error al crear el contexto de ventana!</inituifail1>
 	<inituifail2>¡Error al inicializar la ventana!</inituifail2>
@@ -28,12 +28,13 @@
 	<loadfail>¡Error al cargar el componente!\nMensaje de error: </loadfail>
 	<saveconfig>Guardar configuración</saveconfig>
 	<effectset>Configuración de efectos</effectset>
-	<blurvalue>Radio de desenfoque (global):</blurvalue>
-	<applyglobal>Redefinir efecto Mica establecido mediante DWMAPI (Win 11)</applyglobal>
+	<blurvalue>Radio de desenfoque global:</blurvalue>
+	<overrideDwmapi>Redefinir efecto de DWMAPI (Win 11)</overrideDwmapi>
 	<extendborder>Extender efectos a bordes (Win 10)</extendborder>
 	<reflection>Habilitar efecto de reflejo Aero</reflection>
 	<reflectiontip>(OldBlur sólo para Win 10)</reflectiontip>
 	<oldBtnSize>Restaurar tamaño de botones de barra de título (estilo de Win 7)</oldBtnSize>
+	<titlebtnGlow>Habilitar brillo de botones de barra de título (estilo de Win 7)</titlebtnGlow>
 	<cmodelight>Colores de modo claro</cmodelight>
 	<cmodedark>Colores de modo oscuro</cmodedark>
 	<blendcolor>Color fusión de barra de título (activa):</blendcolor>
@@ -43,11 +44,11 @@
 	<preview>Vista previa</preview>
 	<sampletitle>Ejemplo de título de ventana (activa)</sampletitle>
 	<blurmethod>Método de desenfoque:</blurmethod>
-	<methodcustom>[Recomendado] Implementación personalizada de desenfoque que usa \nCVisual (DWM) y Windows.UI.Composition (dcomp) para lograr efectos \nde fondo personalizados, puede personalizar la mayoría de los parámetros, \nno sólo puede obtener la máxima eficiencia, sino también la mejor \napariencia y mayor estabilidad. Sin embargo, la compatibilidad no es tan \nbuena ya que puede fallar después de una importante actualización de \nWindows y deberá esperar una nueva versión del programa.</methodcustom>
-	<methodaccent>[No recomendado] Usa la implementación interna de desenfoque de DWM \nsin eliminar (clase AccentBlurBehind) para aplicar el efecto de desenfoque, \npuede personalizar algunos de los parámetros, pero es ineficiente y \nmenos estable. Puede funcionar normalmente en la mayoría de los \nsistemas, generalmente, una actualización del sistema no lo romperá.</methodaccent>
+	<methodcustom>[Recomendado] Implementación personalizada de desenfoque que usa \nCVisual (DWM) y Windows.UI.Composition (dcomp) para lograr efectos \nde fondo personalizados, puede personalizar la mayoría de los\nparámetros, no sólo puede obtener la máxima eficiencia, sino también \nla mejor apariencia y mayor estabilidad. Sin embargo, la compatibilidad \nno es tan buena ya que puede fallar después de una importante \nactualización de Windows y deberá esperar una nueva versión del \nprograma.</methodcustom>
+	<methodaccent>[No recomendado] Usa la implementación interna de desenfoque de \nDWM sin eliminar (clase AccentBlurBehind) para aplicar el efecto de \ndesenfoque, puede personalizar algunos de los parámetros, pero es \nineficiente y menos estable. Puede funcionar normalmente en la mayoría \nde los sistemas, generalmente, una actualización del sistema no lo \nromperá.</methodaccent>
 	<methoddwmapi>Usa DWMAPI documentado para aplicar el efecto SystemBackdrop \nlimitado, como Acrylic, Mica, no puede personalizar estos parámetros \nen absoluto. Aunque tenga alta eficiencia y mejor estabilidad, puede \nromper la apariencia de algunos programas y sólo está disponible \nen Windows 11 22H2 o superior.</methoddwmapi>
 	<effecttype>Tipo de efecto:</effecttype>
-	<blurvaluetitle>Radio de desenfoque (sólo barra de título):</blurvaluetitle>
+	<blurvaluetitle>Radio de desenfoque (barra de título):</blurvaluetitle>
 	<luminosity>Opacidad de luminosidad:</luminosity>
 	<colorBalance>ColorBalance:</colorBalance>
 	<blurBalance>BlurBalance:</blurBalance>
@@ -58,6 +59,8 @@
 	<useaccentcolor>Usar color de énfasis para redefinir configuración de color</useaccentcolor>
 	<glassIntensity>Opacidad de textura de reflejo Aero:</glassIntensity>
 	<overrideAccent>Redefinir efecto AccentBlur</overrideAccent>
+	<scaleOptimizer>Habilitar optimización de renderizado de desenfoque</scaleOptimizer>
+	<disableOnBattery>Deshabilitar efecto en modo de ahorro de energía</disableOnBattery>
 	<symbolfile>Archivos de símbolos:</symbolfile>
 	<download>Descargar</download>
 	<symtip>Los archivos de símbolos (pdb) son archivos que registran información \nde depuración sobre un programa. Dado que los sistemas varían de una \nversión a otra, debe descargar los archivos de símbolos desde el servidor \nde Microsoft. Si actualiza su sistema, es posible que deba descargar los \narchivos de símbolos nuevamente.</symtip>
