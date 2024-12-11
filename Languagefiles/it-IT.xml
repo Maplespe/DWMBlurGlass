@@ -29,7 +29,7 @@
 	<saveconfig>Salva configurazione</saveconfig>
 	<effectset>Impostazioni effetto</effectset>
 	<blurvalue>Raggio di sfocatura:</blurvalue>
-	<overrideDwmapi>Sostituisci l'effetto mica DWMAPI (win11)</overrideDwmapi>
+	<overrideDwmapi>Sostituisci l'effetto DWMAPI (win11)</overrideDwmapi>
 	<extendborder>Estendi gli effetti ai bordi (win10)</extendborder>
 	<reflection>Abilita l'effetto riflesso Aero (win10)</reflection>
 	<reflectiontip>(Metodo di sfocatura precedente solo per Windows 10)</reflectiontip>
