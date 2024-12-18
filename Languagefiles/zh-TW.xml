@@ -1,54 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang local="zh-TW" author="railyinu">
-	<inituifail0>MiaoUI 初始化失敗！錯誤資訊：</inituifail0>
+<!-- zh_TW.xml For DWMBG ver 2.3.0 -->
+	<inituifail0>MiaoUI 初始化失敗！錯誤資訊:</inituifail0>
 	<inituifail1>建立視窗上下文失敗！</inituifail1>
 	<inituifail2>初始化視窗失敗！</inituifail2>
-	<initfail0>警告：由於 DWM 隔離權限限制，應用程式必須安裝在使用者資料夾以外，也不能是「{path}」及其子資料夾裡。請變更程式的路徑。</initfail0>
+	<initfail0>警告:由於 DWM 隔離權限限制，應用程式必須安裝在使用者資料夾以外，也不能是「{path}」及其子資料夾裡。請變更程式的路徑。</initfail0>
 	<symloadfail>載入符號失敗！程式無法載入組件，請重新下載符號檔案！（作業系統更新後可能也需要重新下載。）</symloadfail>
-	<colorpicker_dlg_sel>選取色彩：</colorpicker_dlg_sel>
-	<colorpicker_dlg_c>新色彩：</colorpicker_dlg_c>
+	<colorpicker_dlg_sel>選取色彩:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>新色彩:</colorpicker_dlg_c>
 	<msgdlg_no>取消</msgdlg_no>
 	<msgdlg_yes>確定</msgdlg_yes>
-	<colorpicker_dlg_alpha>不透明度：</colorpicker_dlg_alpha>
+	<colorpicker_dlg_alpha>不透明度:</colorpicker_dlg_alpha>
 	<general>一般設定</general>
 	<advanced>進階設定</advanced>
 	<symbol>符號檔案</symbol>
 	<config>設定檔</config>
 	<about>關於</about>
-	<status>狀態：</status>
+	<status>狀態:</status>
 	<status0>未安裝</status0>
 	<status1>已安裝</status1>
 	<install>安裝</install>
 	<uninstall>移除</uninstall>
 	<installsucs>安裝成功！</installsucs>
 	<installsucs1>安裝成功！但尚未下載有效的符號檔案，在「符號檔案」分頁裡下載符號後才能使本軟體所進行的變更生效。</installsucs1>
-	<installfail>安裝失敗！錯誤資訊：</installfail>
+	<installfail>安裝失敗！錯誤資訊:</installfail>
 	<uninstallsucs>移除成功</uninstallsucs>
-	<uninstallfail>移除失敗！錯誤資訊：</uninstallfail>
-	<loadfail>載入組件失敗！錯誤資訊：</loadfail>
+	<uninstallfail>移除失敗！錯誤資訊:</uninstallfail>
+	<loadfail>載入組件失敗！錯誤資訊:</loadfail>
 	<saveconfig>套用設定</saveconfig>
 	<effectset>效果設定</effectset>
-	<blurvalue>模糊半徑（全域）：</blurvalue>
-	<applyglobal>覆寫 DWMAPI 設定的 Mica 效果 (Windows 11)</applyglobal>
+	<blurvalue>模糊半徑（全域）:</blurvalue>
+	<overrideDwmapi>覆寫使用 DWMAPI 設定的 Mica 效果 (Windows 11)</overrideDwmapi>
 	<extendborder>將效果延伸到邊框 (Windows 10)</extendborder>
 	<reflection>啟用 Aero 反射效果</reflection>
 	<reflectiontip>(OldBlur 僅在 Windows 10 上有效)</reflectiontip>
-	<oldBtnSize>將標題列按鈕大小還原為 Windows 7 樣式</oldBtnSize>
+	<oldBtnSize>舊版標題列按鈕高度 (Windows 7 樣式)</oldBtnSize>
+	<titlebtnGlow>標題列按鈕發光效果 (Windows 7 樣式)</titlebtnGlow>
 	<cmodelight>淺色模式色彩</cmodelight>
 	<cmodedark>深色模式色彩</cmodedark>
-	<blendcolor>使用中視窗標題列</blendcolor>
-	<inactiveblendcolor>非使用中視窗標題列</inactiveblendcolor>
-	<activecolor>使用中視窗文本</activecolor>
-	<inactivecolor>非使用中視窗文本</inactivecolor>
+	<blendcolor>使用中視窗標題列混合色彩</blendcolor>
+	<inactiveblendcolor>非使用中視窗標題列混合色彩</inactiveblendcolor>
+	<activecolor>使用中視窗文本色彩</activecolor>
+	<inactivecolor>非使用中視窗文本色彩</inactivecolor>
 	<preview>預覽</preview>
 	<sampletitle>使用中視窗</sampletitle>
-	<blurmethod>模糊方法：</blurmethod>
-	<methodcustom>[建議] 透過本程式編寫的模糊方法，以 CVisual(DWM) 和 IComposition(dcomp)\n實現自訂背景效果，此選項可自訂大部分參數，且效能最高、效果最好、穩定性較\n好，但是系統相容性一般。\n\n若作業系統大更新發行時可能會失效，需等待程式更新。</methodcustom>
-	<methodaccent>[不建議] 透過 DWM 未公開，但未移除的 AccentBlurBehind 方法實現模糊效果，\n此選項可自訂小部分參數，系統相容性較好，但是效能較低、穩定性較差。\n\nOS 的一般更新通常不會使本功能失效。</methodaccent>
-	<methoddwmapi>透過公開的 DWMAPI 方法設定 SystemBackdrop 效果，允許選取預設的 Acrylic、\nMica 效果，此選項效能高、穩定性較好，但是無法自訂參數，某些程式的渲染也可\n能會因此遭到破壞。\n\n僅與 Windows 11 22H2(+) 相容。</methoddwmapi>
-	<effecttype>效果類型：</effecttype>
-	<blurvaluetitle>模糊半徑（僅標題列）：</blurvaluetitle>
-	<luminosity>材質亮度不透明度：</luminosity>
+	<blurmethod>模糊方法:</blurmethod>
+	<methodcustom>[建議]\n透過本程式編寫的模糊方法，以 CVisual(DWM) 和 IComposition(dcomp) 實現\n自訂背景效果。\n此選項可允許使用者自訂大部分參數，且效能最高、效果最好、穩定性較好，但系\n統相容性一般。\n\n若作業系統大更新發行時可能會失效，需等待程式更新。</methodcustom>
+	<methodaccent>[不建議]\n透過 DWM 未公開，但未移除的 AccentBlurBehind 方法實現模糊效果。\n此選項可自訂小部分參數，系統相容性較好，但以效能較低、穩定性較差為代價。\n\n作業系統的一般更新通常不會使本功能失效。</methodaccent>
+	<methoddwmapi>透過公開的 DWMAPI 方法來設定 SystemBackdrop，這允許你選取作業系統預\n設的 Acrylic、Mica 效果。\n此選項效能高、穩定性較好，但是無法自訂參數，某些程式的渲染也可能會因此遭\n到破壞。\n\n僅與 Windows 11 22H2(+) 相容。</methoddwmapi>
+	<effecttype>效果類型:</effecttype>
+	<blurvaluetitle>模糊半徑（僅標題列）:</blurvaluetitle>
+	<luminosity>材質亮度不透明度:</luminosity>
 	<colorBalance>色彩平衡:</colorBalance>
 	<blurBalance>亮度平衡:</blurBalance>
 	<afterglowBalance>飽和度平衡:</afterglowBalance>
@@ -58,9 +60,11 @@
 	<useaccentcolor>透過 OS 輔色覆寫色彩設定 RGB</useaccentcolor>
 	<glassIntensity>Aero 反射紋理不透明度:</glassIntensity>
 	<overrideAccent>覆寫 AccentBlur 效果</overrideAccent>
-	<symbolfile>符號檔案：</symbolfile>
+	<scaleOptimizer>啟用模糊渲染最佳化</scaleOptimizer>
+	<disableOnBattery>在省電模式下關閉效果</disableOnBattery>
+	<symbolfile>符號檔案:</symbolfile>
 	<download>下載</download>
-	<symtip>符號檔案(.pdb)為記錄程式偵錯資訊的檔案。\n由於各版本作業系統皆有不同，你需要自 Microsoft 伺服器下載符號檔案使得本\n軟體之變更生效。\n\n若作業系統安裝了更新，你可能需要重新下載符號檔案。</symtip>
+	<symtip>符號檔案(.pdb)為記錄程式偵錯資訊之檔案，由於各版本作業系統皆有不同，你\n需要自 Microsoft 伺服器下載符號檔案。\n\n若作業系統安裝了更新，你可能需要重新下載符號檔案。</symtip>
 	<symstatus0>無效</symstatus0>
 	<symstatus1>有效</symstatus1>
 	<symdowning>下載中...</symdowning>
@@ -72,7 +76,7 @@
 	<restore>還原為預設值</restore>
 	<importwarn>匯入設定檔將覆寫現有的設定，確定要繼續嗎？</importwarn>
 	<restorecfg>確定要將設定還原為預設值嗎？</restorecfg>
-	<aboutinfo>\n本應用程式為遵循 LGPL-3.0 協議之自由開源軟體。</aboutinfo>
-	<curlang>\n當前語言：</curlang>
-	<langauthor>譯者 :</langauthor>
+	<aboutinfo>本程式為遵循 LGPLv3 協議的自由開源軟體。</aboutinfo>
+	<curlang>當前語言:</curlang>
+	<langauthor>繁體中文(台灣) // 譯者 :</langauthor>
 </lang>
