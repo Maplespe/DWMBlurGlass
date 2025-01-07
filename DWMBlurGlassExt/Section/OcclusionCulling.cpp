@@ -83,10 +83,10 @@ namespace MDWMBlurGlassExt::OcclusionCulling
 
 		if (os::buildNumber < 22000)
 		{
+			g_funCOcclusionContext_PostSubgraph.Attach();
 			g_funCVisual_GetWindowBackgroundTreatmentInternal.Attach();
 			g_funCArrayBasedCoverageSet_AddAntiOccluderRect.Attach();
 			g_funCArrayBasedCoverageSet_IsCovered.Attach();
-			g_funCOcclusionContext_PostSubgraph.Attach();
 		}
 	}
 

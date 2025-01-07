@@ -82,9 +82,10 @@ namespace MDWMBlurGlassExt
 						GetCurrentProcessId(),
 						fileHandle.get(),
 						static_cast<MINIDUMP_TYPE>(
+							MINIDUMP_TYPE::MiniDumpNormal |
 							MINIDUMP_TYPE::MiniDumpWithThreadInfo |
-							MINIDUMP_TYPE::MiniDumpWithFullMemory |
-							MINIDUMP_TYPE::MiniDumpWithUnloadedModules
+							MINIDUMP_TYPE::MiniDumpWithUnloadedModules |
+							MINIDUMP_TYPE::MiniDumpWithProcessThreadData
 							),
 						&minidumpExceptionInfo,
 						nullptr,

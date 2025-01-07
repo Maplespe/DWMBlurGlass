@@ -209,7 +209,7 @@ namespace MDWMBlurGlass
                 <UILabel pos="0,5" text="https://github.com/Maplespe/DWMBlurGlass" fontColor="30,144,255,255" hyperlink="true" url="https://github.com/Maplespe/DWMBlurGlass" />
                 <UILabel pos="0,5" text="#curlang" />
                 <UILabel pos="0,5" name="langauthor" />
-        		<UILabel frame="0,15,10f,20" text="Copyright © 2023-2024 Maplespe" autoSize="false" textAlign="2" hyperlink="true" url="https://github.com/Maplespe/" />
+        		<UILabel frame="0,15,10f,20" text="Copyright © 2023-2025 Maplespe" autoSize="false" textAlign="2" hyperlink="true" url="https://github.com/Maplespe/" />
             </UIControl>
         </UIControl>);
         
@@ -911,6 +911,7 @@ namespace MDWMBlurGlass
         m_page->Child(L"crossFadeGroup")->SetEnabled(index == blurMethod::CustomBlur && m_cfgData.crossFade);
         m_page->Child(L"useaccentcolor")->SetEnabled(index == blurMethod::CustomBlur || index == blurMethod::AccentBlur);
         m_page->Child(L"overrideAccent")->SetEnabled(index == blurMethod::CustomBlur);
+        m_page->Child(L"disableOnBattery")->SetEnabled(index == blurMethod::CustomBlur);
         m_page->Child(L"titlebtnGlow")->SetEnabled(index == blurMethod::CustomBlur);
         if(index == blurMethod::AccentBlur)
             m_page->Child<UICheckBox>(L"overrideAccent")->SetSel(true, false);

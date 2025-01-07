@@ -19,6 +19,7 @@
 #include "../DWMBlurGlass.h"
 #include "../Backdrops/ButtonGlowBackdrop.hpp"
 #include <shellscalingapi.h>
+#include <mutex>
 #pragma comment(lib, "shcore.lib")
 
 namespace MDWMBlurGlassExt::CustomButton
@@ -34,12 +35,13 @@ namespace MDWMBlurGlassExt::CustomButton
 	};
 	thread_local std::unordered_map<CTopLevelWindow*, buttonData> g_cbuttonList;
 	std::unordered_map<CTopLevelWindow*, com_ptr<CButtonGlowBackdrop>> g_glowbackdropMap{};
+	std::mutex g_dslock;
 
 	inline auto FindWindowFromButton(CButton* btn)
 	{
-		for(auto wnditer = g_cbuttonList.begin(); wnditer != g_cbuttonList.end(); ++wnditer)
+		for (auto wnditer = g_cbuttonList.begin(); wnditer != g_cbuttonList.end(); ++wnditer)
 		{
-			if(auto iter = wnditer->second.buttonList.find(btn); iter != wnditer->second.buttonList.end())
+			if (auto iter = wnditer->second.buttonList.find(btn); iter != wnditer->second.buttonList.end())
 				return wnditer;
 		}
 		return g_cbuttonList.end();
@@ -123,7 +125,7 @@ namespace MDWMBlurGlassExt::CustomButton
 			&& (
 				(g_configData.blurmethod != blurMethod::DWMAPIBlur && g_configData.oldBtnHeight)
 				|| (g_configData.blurmethod == blurMethod::CustomBlur && g_configData.titlebtnGlow)
-			))
+				))
 			Attach();
 		else if (g_startup
 			&& ((!g_configData.oldBtnHeight && !g_configData.titlebtnGlow) || g_configData.blurmethod == blurMethod::DWMAPIBlur)
@@ -200,7 +202,7 @@ namespace MDWMBlurGlassExt::CustomButton
 		if (scale != 1.f)
 			borderW -= (int)ceil(1.1f * scale);
 
-		if(os::buildNumber < 22000 && borderW <= 0)
+		if (os::buildNumber < 22000 && borderW <= 0)
 		{
 			borderW = 6;
 			if (IsZoomed(g_window))
@@ -279,8 +281,11 @@ namespace MDWMBlurGlassExt::CustomButton
 		{
 			RemoveGlow(This);
 		}
+		std::lock_guard lock{ g_dslock };
 		if (auto iter = g_cbuttonList.find(This); iter != g_cbuttonList.end())
+		{
 			g_cbuttonList.erase(iter);
+		}
 	}
 
 	void CButton_Destructor(CButton* This)
@@ -322,18 +327,21 @@ namespace MDWMBlurGlassExt::CustomButton
 		auto hr = g_funCButton_RedrawVisual.call_org(This);
 		if (!g_configData.titlebtnGlow) return hr;
 
+		std::lock_guard lock{ g_dslock };
 		auto iter = FindWindowFromButton(This);
 		if (iter == g_cbuttonList.end())
 			return hr;
 
+		auto cwnd = iter->first;
+
 		RECT rect;
-		iter->first->GetActualWindowRect(&rect, 0, 0, false);
+		cwnd->GetActualWindowRect(&rect, 0, 0, false);
 		auto monitor = MonitorFromPoint({ max(0, rect.left), max(0, rect.top) }, 0);
 		UINT dpi = 96;
 		GetDpiForMonitor(monitor, MDT_EFFECTIVE_DPI, &dpi, &dpi);
 		const float scale = (float)dpi / 96.f;
 
-		if (auto backdrop = GetOrCreateGlow(iter->first, false))
+		if (auto backdrop = GetOrCreateGlow(cwnd, false))
 		{
 			auto& data = iter->second.buttonList[This];
 

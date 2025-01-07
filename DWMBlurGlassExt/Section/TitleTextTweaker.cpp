@@ -269,7 +269,13 @@ namespace MDWMBlurGlassExt::TitleTextTweaker
 
 	HRESULT CTopLevelWindow_UpdateText(CTopLevelWindow* This, CTopLevelWindow::WindowFrame* a2, double a3)
 	{
-		if (a2 && (*((BYTE*)This + 624) & 8) != 0)
+		BYTE flag = 0;
+		if(os::buildNumber < 26100)
+			flag = (*((BYTE*)This + 624) & 8);
+		else
+			flag = (*((BYTE*)This + 584) & 8);
+
+		if (a2 && flag != 0)
 		{
 			auto ret = g_funCTopLevelWindow_UpdateText.call_org(This, a2, a3);
 

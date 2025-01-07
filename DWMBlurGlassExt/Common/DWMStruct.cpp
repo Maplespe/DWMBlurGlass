@@ -1035,11 +1035,22 @@ namespace MDWMBlurGlassExt::DWM
 
 	void CTopLevelWindow::CDWriteTextSetColor(COLORREF color)
 	{
-		auto text = (CDWriteText*)*((ULONG64*)this + 71);//CDWriteText This
-		typedef void(__fastcall**** CDWriteText_SetColor)(CDWriteText*, UINT);//(***((void(__fastcall****)(ULONG64, __int64))This + 71))(*((ULONG64*)This + 71), inputVec);
-		auto pfunCDWriteText_SetColor = ***((CDWriteText_SetColor)this + 71);//CDWriteText::SetColor(CDWriteText *this, int a2)
+		if(os::buildNumber < 26100)
+		{
+			auto text = (CDWriteText*)*((ULONG64*)this + 71);//CDWriteText This
+			typedef void(__fastcall**** CDWriteText_SetColor)(CDWriteText*, UINT);//(***((void(__fastcall****)(ULONG64, __int64))This + 71))(*((ULONG64*)This + 71), inputVec);
+			auto pfunCDWriteText_SetColor = ***((CDWriteText_SetColor)this + 71);//CDWriteText::SetColor(CDWriteText *this, int a2)
 
-		pfunCDWriteText_SetColor(text, color);
+			pfunCDWriteText_SetColor(text, color);
+		}
+		else
+		{
+			auto text = (CDWriteText*)*((ULONG64*)this + 66);
+			typedef void(__fastcall**** CDWriteText_SetColor)(CDWriteText*, UINT);
+			auto pfunCDWriteText_SetColor = ***((CDWriteText_SetColor)this + 66);
+
+			pfunCDWriteText_SetColor(text, color);
+		}
 	}
 
 	bool CTopLevelWindow::TreatAsActiveWindow()

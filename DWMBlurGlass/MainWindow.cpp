@@ -53,7 +53,7 @@ namespace MDWMBlurGlass
 		SendMessageW(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 
 		UIBkgndStyle bgStyle;
-		bgStyle.bkgndColor = Color::M_RGBA(250, 250, 250, 255);
+		bgStyle.bkgndColor = Color::M_RGBA(245, 241, 249, 255);
 		root->SetBackground(bgStyle);
 
 		try
