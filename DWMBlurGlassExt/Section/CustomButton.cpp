@@ -19,7 +19,7 @@
 #include "../DWMBlurGlass.h"
 #include "../Backdrops/ButtonGlowBackdrop.hpp"
 #include <shellscalingapi.h>
-#include <mutex>
+//#include <mutex>
 #pragma comment(lib, "shcore.lib")
 
 namespace MDWMBlurGlassExt::CustomButton
@@ -33,9 +33,9 @@ namespace MDWMBlurGlassExt::CustomButton
 	{
 		std::unordered_map<CButton*, std::pair<int, RECT>> buttonList;
 	};
-	thread_local std::unordered_map<CTopLevelWindow*, buttonData> g_cbuttonList;
+	std::unordered_map<CTopLevelWindow*, buttonData> g_cbuttonList;
 	std::unordered_map<CTopLevelWindow*, com_ptr<CButtonGlowBackdrop>> g_glowbackdropMap{};
-	std::mutex g_dslock;
+	//std::mutex g_dslock;
 
 	inline auto FindWindowFromButton(CButton* btn)
 	{
@@ -281,7 +281,7 @@ namespace MDWMBlurGlassExt::CustomButton
 		{
 			RemoveGlow(This);
 		}
-		std::lock_guard lock{ g_dslock };
+		//std::lock_guard lock{ g_dslock };
 		if (auto iter = g_cbuttonList.find(This); iter != g_cbuttonList.end())
 		{
 			g_cbuttonList.erase(iter);
@@ -327,7 +327,7 @@ namespace MDWMBlurGlassExt::CustomButton
 		auto hr = g_funCButton_RedrawVisual.call_org(This);
 		if (!g_configData.titlebtnGlow) return hr;
 
-		std::lock_guard lock{ g_dslock };
+		//std::lock_guard lock{ g_dslock };
 		auto iter = FindWindowFromButton(This);
 		if (iter == g_cbuttonList.end())
 			return hr;

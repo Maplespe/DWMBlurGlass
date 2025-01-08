@@ -87,6 +87,10 @@ namespace MDWMBlurGlassExt
 
 			index--;
 
+			//Question button
+			if (index == -1)
+				index = 0;
+
 			if (index == 2)
 			{
 				m_spriteVisual[index].Offset(
