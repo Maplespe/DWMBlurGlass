@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang local="pt-PT" author="JohnnyJeronimo">
+    <inituifail0>Não foi possível inicializar a biblioteca MiaoUI.</inituifail0>
+    <inituifail1>Não foi possível inicializar o conteúdo da janela!</inituifail1>
+    <inituifail2>Não foi possível inicializar o programa!</inituifail2>
+    <initfail0>Devido às restrições de Isolamento de Autorização da DWM, a aplicação deverá ser colocada num diretório fora da pasta do utilizador. Isto é, não pode estar em "{path}" ou nos seus subdiretórios! Por favor, altere o local do programa.</initfail0>
+    <symloadfail>Não foi possível carregar as DLLs 'Símbolos'! Por favor, descarregue-as novamente! (Os símbolos também podem precisar ser descarregados novamente após uma atualização do sistema)</symloadfail>
+    <colorpicker_dlg_sel>Selecione uma cor:</colorpicker_dlg_sel>
+    <colorpicker_dlg_c>Nova cor:</colorpicker_dlg_c>
+    <msgdlg_no>Cancelar</msgdlg_no>
+    <msgdlg_yes>Confirmar</msgdlg_yes>
+    <colorpicker_dlg_alpha>Opacidade:</colorpicker_dlg_alpha>
+    <general>Geral</general>
+    <advanced>Avançado</advanced>
+    <symbol>Símbolos</symbol>
+    <config>Configuração</config>
+    <about>Sobre</about>
+    <status>Status:</status>
+    <status0>Desinstalado</status0>
+    <status1>Instalado</status1>
+    <install>Instalar</install>
+    <uninstall>Desinstalar</uninstall>
+    <installsucs>Instalado com sucesso!</installsucs>
+    <installsucs1>Instalação bem-sucedida, porém detectámos que os módulos 'Símbolos' são inválidos. Poderá descarregá-los na guia 'Símbolos'.</installsucs1>
+    <installfail>Falha na instalação! Código de erro: </installfail>
+    <uninstallsucs>Desinstalado com sucesso.</uninstallsucs>
+    <uninstallfail>Falha na desinstalação! Código de erro: </uninstallfail>
+    <loadfail>Falha ao carregar os componentes! Código de erro: </loadfail>
+    <saveconfig>Aplicar Configs.</saveconfig>
+    <effectset>Configurações de Efeito</effectset>
+    <blurvalue>Blur: </blurvalue>
+    <overrideDwmapi>Sobrepor efeito DWMAPI (Windows 11)  </overrideDwmapi>
+    <extendborder>Estender efeito para as bordas (Windows 10)  </extendborder>
+    <reflection>Ativar o reflexo Aero</reflection>
+    <reflectiontip>(Método legado, apenas para o Windows 10)</reflectiontip>
+    <oldBtnSize>Restaurar tamanho dos botões, estilo Windows 7</oldBtnSize>
+    <titlebtnGlow>Ativar efeito glow nos botões, estilo Windows 7</titlebtnGlow>
+    <cmodelight>Cores modo claro</cmodelight>
+    <cmodedark>Cores modo escuro</cmodedark>
+    <blendcolor>Cor da Barra de Título (Ativa):</blendcolor>
+    <inactiveblendcolor>Cor da Barra de Título (Inativa):</inactiveblendcolor>
+    <activecolor>Cor do texto da Barra de Título Ativa:</activecolor>
+    <inactivecolor>Cor do texto da Barra de Título Inativa:</inactivecolor>
+    <preview>Demostração</preview>
+    <sampletitle>Exemplo da Barra de Título (Ativa)</sampletitle>
+    <blurmethod>Método de desfoque:</blurmethod>
+    <methodcustom>[Recomendado] Implementação personalizada de blur escrita por \nCVisual (DWM) e Windows.UI.Composition (dcomp) para obter efeitos de \nfundo personalizados, pode personalizar a maioria dos parâmetros. \nNão apenas poderá obter a maior eficiência, mas também a melhor \naparência e melhor estabilidade. No entanto, a compatibilidade \nnão é tão boa. \nPode ser que seja quebrada após uma atualização importante do \nWindows, então terá de esperar pela próxima versão.</methodcustom>
+    <methodaccent>[Não recomendado] Usa a classe DWM interna AccentBlurBehind para \naplicar o efeito blur. Pode customizar vários parâmetros, porém, \nisso é ineficiente e pouco instável, mas pode funcionar em vários sistemas. \n(Geralmente, não quebra em atualizações do sistema).</methodaccent>
+    <methoddwmapi>Uso documentado DWMAPI no Windows 11 para aplicar limites nos \nefeitos de fundo personalizado, como efeito Acrílico e Mica, não \npode customizar todos os parâmetros, porém é muito \neficiente e muito estável, no entanto, isso pode quebrar o visual de \nalguns programas, isso está disponível no Windows 11 22H2 ou recente.</methoddwmapi>
+    <effecttype>Tipo de efeito:</effecttype>
+    <blurvaluetitle>Blur (Apenas títulos):</blurvaluetitle>
+    <luminosity>Opacidade luminosa:</luminosity>
+    <colorBalance>Equilíbrio de cor:</colorBalance>
+    <blurBalance>Equilíbrio de blur:</blurBalance>
+    <afterglowBalance>Equilíbrio pós brilho:</afterglowBalance>
+    <miscsettings>Outros:</miscsettings>
+    <enablecrossfade>Ativar efeito de transição de animação</enablecrossfade>
+    <crossfadeTime>Duração da animação:</crossfadeTime>
+    <useaccentcolor>Usar a cor Accent para sobrepor configurações do RGB</useaccentcolor>
+    <glassIntensity>Opacidade da textura do reflexo Aero</glassIntensity>
+    <overrideAccent>Sobrepor o efeito AccentBlur</overrideAccent>
+    <scaleOptimizer>Ativar a renderização de blur otimizada</scaleOptimizer>
+    <disableOnBattery>Desativar efeito no modo de poupança</disableOnBattery>
+    <symbolfile>Arquivo Símbolo: </symbolfile>
+    <download>Descarregar</download>
+    <symtip>Arquivos de símbolos (.pdb) são arquivos que registam informações de\ndepuração sobre um programa. Devido às variações entre versões de\nsistemas, é necessário descarregá-los de um servidor da Microsoft,\nespecialmente após atualizar o sistema.</symtip>
+    <symstatus0>Inválidos</symstatus0>
+    <symstatus1>Válidos</symstatus1>
+    <symdowning>A descarregar...</symdowning>
+    <symdownfail>Falha no download! Não foi possível descarregar os arquivos do site "msdl.microsoft.com".</symdownfail>
+    <syminvalid>Arquivo de símbolo (PDB) inválido! Vá para a aba "Símbolos" e faça o download do novo arquivo!</syminvalid>
+    <configfile>Arquivo de configuração</configfile>
+    <import>Importar</import>
+    <export>Exportar</export>
+    <restore>Restaurar configuração padrão</restore>
+    <importwarn>Importar um arquivo de configuração irá sobrescrever a sua configuração existente. Continuar?</importwarn>
+    <restorecfg>Tem a certeza de que deseja restaurar para as configurações originais?</restorecfg>
+    <aboutinfo>DWMBlurGlass é baseado no software livre e de código aberto sob\nlicença LGPLv3.</aboutinfo>
+    <curlang>Idioma atual:</curlang>
+    <langauthor>Traduzido por:</langauthor>
+</lang>
