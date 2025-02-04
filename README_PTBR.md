@@ -1,8 +1,8 @@
 # DWMBlurGlass
-Adicionar efeitos personalizados à barra de título do sistema global, compatível com Windows 10 e Windows 11.
+Adiciona efeitos personalizados à barra de título do sistema global, compatível com Windows 10 e Windows 11.
 
 #
-| [中文](/README_ZH.md) | [English](/README.md) | [italiano](/README_IT.md) | [français](/README_FR.md) | [Türkçe](/README_TR.md) | [español](/README_ES.md) | [German](/README_DE.md) | [Português Brasil] (/README_PTBR.md)
+| [中文](/README_ZH.md) | [English](/README.md) | [italiano](/README_IT.md) | [français](/README_FR.md) | [Türkçe](/README_TR.md) | [español](/README_ES.md) | [German](/README_DE.md) | [Português Brasil](/README_PTBR.md)
 
 Este projeto usa [LGNU V3 license](/COPYING.LESSER).
 
@@ -26,60 +26,60 @@ Este projeto usa [LGNU V3 license](/COPYING.LESSER).
 
 ## Catálogo
 - [Efeitos](#efeitos)
-- [Compatibilidade](#compatibility)
-- [Galeria](#gallery)
-- [Efeitos materiais](#material-effects)
+- [Compatibilidade](#compatibilidade)
+- [Galeria](#galeria)
+- [Efeitos materiais](#efeitos-materiais)
   - [Blur](#blur)
   - [Aero](#aero)
-  - [Acrilico](#acrylic)
+  - [Acrílico](#acrílico)
   - [Mica](#mica)
   - [MicaAlt](#micaalt)
-- [Como usar](#how-to-use)
-  - [Instalação](#install)
-  - [Desinstalaçao](#uninstall)
-- [Arquivos de linguagem](#language-files)
-- [Dependencies](#dependencies)
+- [Como usar](#como-usar)
+  - [Instalação](#instalação)
+  - [Desinstalação](#desinstalação)
+- [Arquivos de linguagem](#arquivos-de-linguagem)
+- [Dependencias](#dependencias)
 
 ## Efeitos
-* Adds a custom effect to the global system title bar.
-* Customizable global blur radius or title bar blur radius only.
-* Customizable title bar blend colors.
-* Customizable title bar text color.
-* Aero reflections and parallax effects are available.
-* Restore Windows 7 style titlebar button height.
-* Restore Windows 7 style titlebar button glow.
-* Support to enable blur effect for programs using old Windows 7 API DwmEnableBlurBehindWindow.
-* Supports `Blur`, `Aero`, `Acrylic`, and `Mica (Win11 only)` effects.
-* Individually customizable Light/Dark color mode automatic switching.
-* `CustomBlur`, `AccentBlur` and `SystemBackdrop` blurring methods are available.
-* Third-party theme support.
+* Adiciona efeitos personalizados à barra de título do sistema global.
+* Customizable global blur radius or title bar blur radius only. Customização global no blur ou apenas blur na barra de título
+* Cores de mesclagem da barra de título personalizáveis. 
+* Cor do texto da barra de título personalizável.
+* Reflexos Aero Glass e efeitos de paralaxe disponíveis.
+* Restaurar a altura dos botões da barra de título no estilo do Windows 7.
+* Restaurar o glow dos botões da barra de título no estilo do Windows 7.
+* Suporte para ativar o efeito de blur para programas que usam a antiga API do Windows 7 `DwmEnableBlurBehindWindow`.
+* Suporte para efeitos `Blur`, `Aero`, `Acrylic`, e `Mica (Apenas no Windows 11)`.
+* Troca automática de modo de cor claro/escuro personalizável individualmente.
+* Métodos de desfoque `CustomBlur`, `AccentBlur` e `SystemBackdrop` disponíveis.
+* Suporte a temas de terceiros.
 
 ![image](./Screenshot/001701.png)
 ![image](./Screenshot/10307.png)
 
-## Compatibility
-Supported as low as **Windows 10 2004** and as high as the **latest version of Windows 11** (Some blurring methods are not supported in Windows Insider versions).
+## Compatibilidade
+Compatível com **Windows 10 2004** até a **última versão do Windows 11** (Alguns métodos de desfoque não são suportados em versões do Windows Insider).
 
-Can be used with third party themes to further customize DWM.
+Pode ser usado com temas de terceiros para personalizar ainda mais o DWM.
 
-We do not modify the rendering logic of the application itself, which is completely different from the logic of MicaForEveryone and therefore maximizes compatibility with third-party programs.
+Não modificamos a lógica de renderização do próprio aplicativo, o que é completamente diferente da lógica do MicaForEveryone e, portanto, maximiza a compatibilidade com programas de terceiros.
 
-We reverse-analyzed DWM and created a custom blur method to bring stunning visual effects, but if you choose the "`SystemBackdrop`" blur method, it uses the system's publicly available interfaces and has the same effect as MicaForEveryone.
+Nós analisamos o DWM e criamos um método de blur personalizado para trazer efeitos visuais impressionantes, mas se você escolher o método de blur "`SystemBackdrop`" ele usa as interfaces públicas do sistema e tem o mesmo efeito que o MicaForEveryone.
 
-Not recommended for use with MicaForEveryone, we do not guarantee compatibility with it.
+Não é recomendado o uso com o MicaForEveryone, não garantimos compatibilidade com ele.
 
-Compatible with [ExplorerBlurMica](https://github.com/Maplespe/ExplorerBlurMica), works better together.
+Compatível com [ExplorerBlurMica](https://github.com/Maplespe/ExplorerBlurMica), funciona melhor em conjunto.
 
-Compatible with [TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFlyouts). (**It should be noted that even though this project is compatible with TF, EBMv2 is not fully compatible with TFv2**)
+Compatível com [TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFlyouts). (**Deve-se notar que, embora este projeto seja compatível com TF, o EBMv2 não é totalmente compatível com o TFv2**)
 
-## Gallery
+## Galeria
 <details><summary><b>Windows 11</b></summary>
   
 ![image](./Screenshot/10307.png)
 
 ![image](./Screenshot/102134.png)
 
-- [x] Override DWMAPI mica effect (win11)
+- [x] Sobreposição do efeito Mica DWMAPI (Windows 11)
 
 ![image](./Screenshot/013521.png)
 </details>
@@ -90,84 +90,84 @@ Compatible with [TranslucentFlyouts](https://github.com/ALTaleX531/TranslucentFl
 
 ![image](./Screenshot/100750.png)
 
-Using third-party themes
+Usando temas de terceiros
 
-- [x] Extend effects to borders (win10)
-- [x] Aero reflection effect
-- [x] Restore Win7 style titlebar button size
+- [x] Extender efeito para as bordas (Windows 10)
+- [x] Efeito Reflexo Aero
+- [x] Restauração da altura dos botões da barra de título no estilo do Windows 7
 
 ![image](./Screenshot/025410.png)
 
 </details>
 
-## Material Effects
+## Efeitos materiais
 ### Blur
-> Basic pure blur. Nothing special.
+> Apenas um blur básico, nada especial...
 
 ![image](./Screenshot/blur.png)
 
 ### Aero
-> Windows 7's glass effect, with saturation and exposure effects on the background when a window is inactive.
+> Efeito de vidro do Windows 7, com efeitos de saturação e exposição no fundo quando uma janela está inativa.
 
 ![image](./Screenshot/aero.png)
 
 ![image](./Screenshot/aero_inactive.png)
 
-### Acrylic
-> The acrylic recipe: background, blur, exclusion blend, saturation, color/tint overlay and noise.
+### Acrílico
+> Receita do acrílico: fundo, blur, mistura de exclusão, saturação, sobreposição de cor/tom e ruído.
 
 ![image](./Screenshot/acrylic.png)
 
 ### Mica
-> The Mica recipe: blurred wallpaper, saturation and color/tint overlay.
+> Receita do Mica: papel de parede desfocado, saturação e sobreposição de cor/tom.
 
 ![image](./Screenshot/mica.png)
 
 ### MicaAlt
-All of the above effects can be customized to blend colors.
+Todos os efeitos acima podem ser personalizados para mesclar cores.
 
-MicaAlt is Mica with a grayish tone, you can modify the blend color by yourself to get the MicaAlt effect.
+MicaAlt é o Mica com um tom acinzentado, você pode modificar a cor de mesclagem por conta própria para obter o efeito MicaAlt.
 
-## How to use
+## Como usar
 
-### Install
-1. Download the compiled program archive from the [Release](https://github.com/Maplespe/DWMBlurGlass/releases) page.
-2. Unzip it to a location such as "`C:\Program Files`".
-<details><summary><b>3. Run the DWMBlurGlass.exe GUI program and click Install.</b></summary>
+### Instalação
+1. Faça download do programa compilado em [Release](https://github.com/Maplespe/DWMBlurGlass/releases).
+2. Descompacte isso em "`C:\Program Files`".
+<details><summary><b>3. Execute o DWMBlurGlass.exe e clique em "Instalar"</b></summary>
 
 ![image](./Screenshot/012746.png)
 
->If nothing happens when you click Install, then you need to click on the Symbols page and click Download.
+>Se nada acontecer ao clicar em "Instalar", você precisa ir na aba "Simbolos" e fazer o download.
 
->**You may receive a notification about missing symbols in the future, especially after system updates.**
+>**Você pode receber uma notificação sobre símbolos ausentes no futuro, especialmente após atualizações do sistema.**
 
 ![image](./Screenshot/012924.png)
 
-</details>
+</detalhes>
 
 ### Uninstall
-1. Run the DWMBlurGlass.exe GUI program and click Uninstall.
-2. Delete relevant files
+1. Execute o DWMBlurGlass.exe e clique em "Desinstalar".
+2. Apague os arquivos relevantes
 
-## Language files
+## Arquivos de linguagem
 We offer several languages, such as English, Simplified Chinese, Spanish, Portuguese and more.
 If you would like to help us translate into other languages, please see below for language file formats.
 
-1. First, you need to fork this repository and clone it locally.
-2. Open the "`Languagefiles`" folder and select an existing language such as "`en-US.xml`" and make a copy.
-3. Rename the code to the name of the [target language](https://learn.microsoft.com/en-us/windows/win32/intl/locale-names) and open the xml file in your favorite text editor.
-4. In the second line, in the "`local`" field, change it to your target language code, which should be the same as the filename (without the .xml extension).
-5. You can put your name in the "`author`" field.
-6. Next, please translate the field values in the xml format (be careful not to translate the field names) The correct format is:`<config>Config</config>` to `<config>xxxx</config>`.
-7. Save your file when finished and copy it to the "data\lang" directory in the folder where the DWMBlurGlass.exe program is located.
-8. Next, open DWMBlurGlass.exe and test the language file to see if it works correctly. If it doesn't, check the language code settings and check that the file conforms to the xml format specification.
-9. Finally, commit the file to your own forked repository and send a pull request to the main branch of the project.
-10. After the request is approved, your file will be released with a future software update.
+1. Primeiro, você precisa fazer um fork deste repositório e cloná-lo localmente.
+2. Abra a pasta "`Languagefiles`" e selecione um idioma existente, como "`en-US.xml`" e faça uma cópia.
+3. Renomeie o código para o nome do [idioma alvo](https://learn.microsoft.com/en-us/windows/win32/intl/locale-names) e abra o arquivo .XML em seu editor favorito.
+4. Na segunda linha, no campo "`local`", altere para o código do idioma alvo, que deve ser o mesmo do nome do arquivo (sem a extensão .xml).
+5. Você pode colocar seu nome no campo "`author`".
+6. Em seguida, por favor, traduza os valores dos campos no formato XML (cuidado para não traduzir os nomes dos campos). O formato correto é: `<config>Config</config>` para `<config>xxxx</config>`.
+7. Salve seu arquivo quando terminar e copie-o para o diretório "data\lang" na pasta onde o programa `DWMBlurGlass.exe` está localizado.
+8. Depois, execute o `DWMBlurGlass.exe` e teste o arquivo de idioma para ver se funciona corretamente. Se não funcionar, verifique as configurações do código do idioma e certifique-se de que o arquivo está conforme a especificação do formato XML.
+9. Finalmente, faça o commit do arquivo no seu próprio repositório forkado e envie um pull request para a branch principal do projeto.
+10. Após a aprovação do request, seu arquivo será lançado com uma futura atualização de software.
    
 
-## Dependencies
+## Dependencias
 * [MiaoUI Lite interface library v2](https://github.com/Maplespe/MiaoUILite)
-* [AcrylicEverywhere](https://github.com/ALTaleX531/AcrylicEverywhere) - Separate upstream implementation of the CustomBlur method, thanks to ALTaleX for research and support.
+* [AcrylicEverywhere](https://github.com/ALTaleX531/AcrylicEverywhere) - Implementação upstream separada do método CustomBlur, graças a ALTaleX pela pesquisa e suporte.
 * [minhook](https://github.com/m417z/minhook)
 * [pugixml](https://github.com/zeux/pugixml)
 * [VC_LTL](https://github.com/Chuyu-Team/VC-LTL5)
