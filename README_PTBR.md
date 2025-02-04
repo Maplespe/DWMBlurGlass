@@ -133,7 +133,7 @@ MicaAlt é o Mica com um tom acinzentado, você pode modificar a cor de mesclage
 ### Instalação
 1. Faça download do programa compilado em [Release](https://github.com/Maplespe/DWMBlurGlass/releases).
 2. Descompacte isso em "`C:\Program Files`".
-<details><summary><b>3. Execute o DWMBlurGlass.exe e clique em "Instalar"</b></summary>
+<b>3. Execute o DWMBlurGlass.exe e clique em "Instalar": </b>
 
 ![image](./Screenshot/012746.png)
 
@@ -143,9 +143,9 @@ MicaAlt é o Mica com um tom acinzentado, você pode modificar a cor de mesclage
 
 ![image](./Screenshot/012924.png)
 
-</detalhes>
+#
 
-### Uninstall
+### Desinstalação
 1. Execute o DWMBlurGlass.exe e clique em "Desinstalar".
 2. Apague os arquivos relevantes
 
