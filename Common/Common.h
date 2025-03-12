@@ -57,6 +57,8 @@ namespace MDWMBlurGlass
 		bool scaleOptimizer = false;
 		bool titlebtnGlow = false;
 
+		bool disableFramerateLimit = false;
+
 		//Options without GUI
 		int extendRound = 10;
 		int titlebtnOffsetX = -1;

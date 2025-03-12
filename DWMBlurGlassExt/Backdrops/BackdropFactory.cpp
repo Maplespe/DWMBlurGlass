@@ -11,50 +11,63 @@ namespace MDWMBlurGlassExt
 {
 	effectType g_type{ effectType::Blur };
 
-	wuc::CompositionDrawingSurface g_materialTextureSurface{ nullptr };
 	wuc::CompositionSurfaceBrush g_materialTextureBrush{ nullptr };
-
 	std::chrono::steady_clock::time_point g_currentTimeStamp{};
 	std::unordered_map<DWORD, wuc::CompositionBrush> g_backdropActiveBrushMap{};
 	std::unordered_map<DWORD, wuc::CompositionBrush> g_backdropInactiveBrushMap{};
 
 	wuc::CompositionSurfaceBrush CreateMaterialTextureBrush()
 	{
-		com_ptr<IStream> stream{ nullptr };
 		com_ptr<DCompPrivate::IDCompositionDesktopDevicePartner> dcompDevice{ nullptr };
-		winrt::copy_from_abi(dcompDevice, DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice());
+		copy_from_abi(dcompDevice, DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice());
 		auto compositor{ dcompDevice.as<wuc::Compositor>() };
 
-		wil::unique_hmodule wuxcModule{ LoadLibraryExW(L"Windows.UI.Xaml.Controls.dll", nullptr,
-				LOAD_LIBRARY_SEARCH_SYSTEM32 | LOAD_LIBRARY_AS_DATAFILE | LOAD_LIBRARY_AS_IMAGE_RESOURCE) };
+		winrt::Windows::UI::Composition::CompositionGraphicsDevice graphicsDevice{ nullptr };
+		THROW_IF_FAILED(
+			compositor.as<ABI::Windows::UI::Composition::ICompositorInterop>()->CreateGraphicsDevice(
+				DWM::CDesktopManager::s_pDesktopManagerInstance->GetD2DDevice(),
+				reinterpret_cast<ABI::Windows::UI::Composition::ICompositionGraphicsDevice**>(winrt::put_abi(graphicsDevice))
+			)
+		);
+		auto compositionSurface
+		{
+			graphicsDevice.CreateDrawingSurface(
+				{ 256.f, 256.f },
+				winrt::Windows::Graphics::DirectX::DirectXPixelFormat::R16G16B16A16Float,
+				winrt::Windows::Graphics::DirectX::DirectXAlphaMode::Premultiplied
+			)
+		};
+		auto noiceBrush{ compositor.CreateSurfaceBrush(compositionSurface) };
+
+		wil::unique_hmodule wuxcModule{ LoadLibraryExW(L"Windows.UI.Xaml.Controls.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32 | LOAD_LIBRARY_AS_DATAFILE | LOAD_LIBRARY_AS_IMAGE_RESOURCE) };
 		THROW_LAST_ERROR_IF_NULL(wuxcModule);
 		auto resourceHandle{ FindResourceW(wuxcModule.get(), MAKEINTRESOURCE(2000), RT_RCDATA) };
 		THROW_LAST_ERROR_IF_NULL(resourceHandle);
 		auto globalHandle{ LoadResource(wuxcModule.get(), resourceHandle) };
 		THROW_LAST_ERROR_IF_NULL(globalHandle);
 		auto cleanUp = wil::scope_exit([&]
-		{
-			if (globalHandle)
 			{
-				UnlockResource(globalHandle);
-				FreeResource(globalHandle);
-			}
-		});
+				if (globalHandle)
+				{
+					UnlockResource(globalHandle);
+					FreeResource(globalHandle);
+				}
+			});
 		DWORD resourceSize{ SizeofResource(wuxcModule.get(), resourceHandle) };
 		THROW_LAST_ERROR_IF(resourceSize == 0);
 		auto resourceAddress{ reinterpret_cast<PBYTE>(LockResource(globalHandle)) };
-		stream = { SHCreateMemStream(resourceAddress, resourceSize), winrt::take_ownership_from_abi };
+		com_ptr<IStream> stream{ SHCreateMemStream(resourceAddress, resourceSize), winrt::take_ownership_from_abi };
 		THROW_LAST_ERROR_IF_NULL(stream);
 
-		winrt::com_ptr<IWICImagingFactory2> wicFactory{ nullptr };
+		com_ptr<IWICImagingFactory2> wicFactory{ nullptr };
 		wicFactory.copy_from(DWM::CDesktopManager::s_pDesktopManagerInstance->GetWICFactory());
-		winrt::com_ptr<IWICBitmapDecoder> wicDecoder{ nullptr };
+		com_ptr<IWICBitmapDecoder> wicDecoder{ nullptr };
 		THROW_IF_FAILED(wicFactory->CreateDecoderFromStream(stream.get(), &GUID_VendorMicrosoft, WICDecodeMetadataCacheOnDemand, wicDecoder.put()));
-		winrt::com_ptr<IWICBitmapFrameDecode> wicFrame{ nullptr };
+		com_ptr<IWICBitmapFrameDecode> wicFrame{ nullptr };
 		THROW_IF_FAILED(wicDecoder->GetFrame(0, wicFrame.put()));
-		winrt::com_ptr<IWICFormatConverter> wicConverter{ nullptr };
+		com_ptr<IWICFormatConverter> wicConverter{ nullptr };
 		THROW_IF_FAILED(wicFactory->CreateFormatConverter(wicConverter.put()));
-		winrt::com_ptr<IWICPalette> wicPalette{ nullptr };
+		com_ptr<IWICPalette> wicPalette{ nullptr };
 		THROW_IF_FAILED(
 			wicConverter->Initialize(
 				wicFrame.get(),
@@ -67,37 +80,9 @@ namespace MDWMBlurGlassExt
 		com_ptr<IWICBitmap> wicBitmap{ nullptr };
 		THROW_IF_FAILED(wicFactory->CreateBitmapFromSource(wicConverter.get(), WICBitmapCreateCacheOption::WICBitmapNoCache, wicBitmap.put()));
 
-		UINT width{ 0 }, height{ 0 };
-		THROW_IF_FAILED(wicBitmap->GetSize(&width, &height));
-
-		if (!g_materialTextureSurface)
-		{
-			wuc::CompositionGraphicsDevice graphicsDevice{ nullptr };
-			THROW_IF_FAILED(
-				compositor.as<ABI::Windows::UI::Composition::ICompositorInterop>()->CreateGraphicsDevice(
-					DWM::CDesktopManager::s_pDesktopManagerInstance->GetD2DDevice(),
-					reinterpret_cast<ABI::Windows::UI::Composition::ICompositionGraphicsDevice**>(winrt::put_abi(graphicsDevice))
-				)
-			);
-			g_materialTextureSurface = graphicsDevice.CreateDrawingSurface(
-				{ static_cast<float>(width), static_cast<float>(height) },
-				wgd::DirectXPixelFormat::R16G16B16A16Float,
-				wgd::DirectXAlphaMode::Premultiplied
-			);
-		}
-		else
-		{
-			g_materialTextureSurface.Resize(
-				{
-					static_cast<int>(width),
-					static_cast<int>(height)
-				}
-			);
-		}
-
-		auto drawingSurfaceInterop{ g_materialTextureSurface.as<ABI::Windows::UI::Composition::ICompositionDrawingSurfaceInterop>() };
-		POINT offset{ 0, 0 };
-		winrt::com_ptr<ID2D1DeviceContext> d2dContext{ nullptr };
+		auto drawingSurfaceInterop{ compositionSurface.as<ABI::Windows::UI::Composition::ICompositionDrawingSurfaceInterop>() };
+		POINT offset = { 0, 0 };
+		com_ptr<ID2D1DeviceContext> d2dContext{ nullptr };
 		THROW_IF_FAILED(
 			drawingSurfaceInterop->BeginDraw(nullptr, IID_PPV_ARGS(d2dContext.put()), &offset)
 		);
@@ -116,7 +101,7 @@ namespace MDWMBlurGlassExt
 			drawingSurfaceInterop->EndDraw()
 		);
 
-		return compositor.CreateSurfaceBrush(g_materialTextureSurface);
+		return noiceBrush;
 	}
 
 	wuc::CompositionBrush BackdropFactory::GetOrCreateBackdropBrush(
@@ -194,12 +179,13 @@ namespace MDWMBlurGlassExt
 		}
 		case effectType::Aero:
 		{
+			winrtColor = MakeWinrtColor(color, true);
 			brush = AeroBackdrop::CreateBrush(
 				compositor,
 				winrtColor,
 				winrtColor,
 				policy ? static_cast<float>(policy->nColor >> 24 & 0xFF) / 255.f : 
-				(active ? g_configData.aeroColorBalance : g_configData.aeroColorBalance * 0.4),
+				(active ? g_configData.aeroColorBalance : g_configData.aeroColorBalance * 0.4f),
 				g_configData.aeroAfterglowBalance,
 				active ? g_configData.aeroBlurBalance : 0.4f * g_configData.aeroBlurBalance + 0.6f,
 				g_configData.customBlurAmount
@@ -207,6 +193,7 @@ namespace MDWMBlurGlassExt
 			break;
 		}
 		case effectType::Acrylic:
+		case effectType::Mica:
 		{
 			auto useLuminosity
 			{
@@ -219,25 +206,27 @@ namespace MDWMBlurGlassExt
 				)
 			};
 			auto luminosity{ policy ? (useLuminosity ? std::optional{ 1.03f } : std::nullopt) : g_configData.luminosityOpacity };
-			brush = AcrylicBackdrop::CreateBrush(
-				compositor,
-				g_materialTextureBrush,
-				AcrylicBackdrop::GetEffectiveTintColor(winrtColor, glassOpacity, luminosity),
-				AcrylicBackdrop::GetEffectiveLuminosityColor(winrtColor, glassOpacity, luminosity),
-				g_configData.customBlurAmount,
-				1.f
-			);
-			break;
-		}
-		case effectType::Mica:
-		{
-			brush = MicaBackdrop::CreateBrush(
-				compositor,
-				winrtColor,
-				winrtColor,
-				glassOpacity,
-				g_configData.luminosityOpacity
-			);
+			if (g_type == effectType::Acrylic)
+			{
+				brush = AcrylicBackdrop::CreateBrush(
+					compositor,
+					g_materialTextureBrush,
+					AcrylicBackdrop::GetEffectiveTintColor(winrtColor, glassOpacity, luminosity),
+					AcrylicBackdrop::GetEffectiveLuminosityColor(winrtColor, glassOpacity, luminosity),
+					g_configData.customBlurAmount,
+					0.02f
+				);
+			}
+			else
+			{
+				brush = MicaBackdrop::CreateBrush(
+					compositor,
+					AcrylicBackdrop::GetEffectiveTintColor(winrtColor, glassOpacity, luminosity),
+					AcrylicBackdrop::GetEffectiveLuminosityColor(winrtColor, glassOpacity, luminosity),
+					glassOpacity,
+					g_configData.luminosityOpacity
+				);
+			}
 			break;
 		}
 		default:
@@ -263,7 +252,6 @@ namespace MDWMBlurGlassExt
 		g_backdropActiveBrushMap.clear();
 		g_backdropInactiveBrushMap.clear();
 		g_materialTextureBrush = nullptr;
-		g_materialTextureSurface = nullptr;
 	}
 
 	void BackdropFactory::RefreshConfig()

@@ -52,4 +52,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	HRESULT STDMETHODCALLTYPE CTopLevelWindow_CloneVisualTree_Pre1903(DWM::CTopLevelWindow* This, DWM::CTopLevelWindow** window, bool unknown1, bool unknown2, bool unknown3);
 	HRESULT STDMETHODCALLTYPE CTopLevelWindow_OnClipUpdated(DWM::CTopLevelWindow* This);
 	HRESULT STDMETHODCALLTYPE CWindowList_UpdateAccentBlurRect(DWM::CWindowList* This, const MILCMD_DWM_REDIRECTION_ACCENTBLURRECTUPDATE* milCmd);
+
+	DWORD64 STDMETHODCALLTYPE CGlassColorizationParameters_AdjustWindowColorization_Win10(DWM::GpCC* a1, DWM::GpCC* a2, float a3, char a4);
+	DWORD64 STDMETHODCALLTYPE CGlassColorizationParameters_AdjustWindowColorization_Win11(DWM::GpCC* a1, DWM::GpCC* a2, float a3, short a4);
 }

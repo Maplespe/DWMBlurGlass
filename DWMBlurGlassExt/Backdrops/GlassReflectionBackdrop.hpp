@@ -78,6 +78,12 @@ namespace MDWMBlurGlassExt
 				m_offsetChanged = true;
 			}
 		}
+
+		wfn::float3 GetOffset() const
+		{
+			return m_offsetToWindow;
+		}
+
 		void ValidateVisual() try
 		{
 			if (m_intensity != s_intensity)

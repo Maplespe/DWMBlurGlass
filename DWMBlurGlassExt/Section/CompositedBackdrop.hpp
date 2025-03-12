@@ -37,6 +37,7 @@ namespace MDWMBlurGlassExt
 
 		CompositedBackdropKind m_kind{ CompositedBackdropKind::None };
 		DWM::CTopLevelWindow* m_window{ nullptr };
+		DWM::CTopLevelWindow* m_srcWindow{ nullptr };
 		DWM::CWindowData* m_data{ nullptr };
 
 		wuc::CompositionBrush m_backdropBrush{ nullptr };
@@ -76,6 +77,11 @@ namespace MDWMBlurGlassExt
 		bool DoesBorderParticipateInBackdropRegion() const;
 		wil::unique_hrgn CompositeNewBackdropRegion() const;
 
+		DWM::CTopLevelWindow* GetSrcWindow() const
+		{
+			return m_srcWindow ? m_srcWindow : m_window;
+		}
+
 	public:
 		CCompositedBackdropVisual(DWM::CTopLevelWindow* window);
 		~CCompositedBackdropVisual() override;
@@ -97,7 +103,7 @@ namespace MDWMBlurGlassExt
 		}
 		bool CanBeTrimmed() override
 		{
-			if (m_kind != CompositedBackdropKind::Accent && (!m_visible || m_window->IsTrullyMinimized()))
+			if (m_kind != CompositedBackdropKind::Accent && (!m_visible || GetSrcWindow()->IsTrullyMinimized()))
 			{
 				return true;
 			}
@@ -112,6 +118,8 @@ namespace MDWMBlurGlassExt
 
 			return true;
 		}
+
+		friend class CClonedCompositedBackdropVisual;
 	};
 
 	// temporary workaround for aero peek/live preview
@@ -162,21 +170,37 @@ namespace MDWMBlurGlassExt
 		}
 	};
 
-	class CClonedCompositedBackdropVisual : public implements<CClonedCompositedBackdropVisual, DCompPrivate::ICompositedBackdropVisual>, CClonedBackdropVisual
+	class CClonedCompositedBackdropVisual : public implements<CCompositedBackdropVisual, DCompPrivate::ICompositedBackdropVisual>, CBackdropVisual
 	{
-		com_ptr<CCompositedBackdropVisual> m_compositedBackdropVisual{ nullptr };
-	public:
-		CClonedCompositedBackdropVisual(DWM::CTopLevelWindow* window, const CCompositedBackdropVisual* compositedBackdropVisual) :
-			CClonedBackdropVisual{ window->GetVisual(), compositedBackdropVisual->GetDCompVisual() }
+		DWM::CTopLevelWindow* m_window{ nullptr };
+		com_ptr<CCompositedBackdropVisual> m_source{ nullptr };
+		wuc::ContainerVisual m_containerVisual{ nullptr };
+		wuc::SpriteVisual m_spriteVisual{ nullptr };
+		com_ptr<CGlassReflectionVisual> m_reflectionVisual{ nullptr };
+		HRESULT InitializeVisual() override;
+
+		void UninitializeVisual() override;
+
+		void OnDeviceLost()
 		{
-			copy_from_abi(m_compositedBackdropVisual, compositedBackdropVisual);
-			OnDeviceLost();
+			UninitializeVisual();
+			InitializeInteropDevice(DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice());
+			InitializeVisual();
+		}
+	public:
+		CClonedCompositedBackdropVisual(CCompositedBackdropVisual* source, DWM::CTopLevelWindow* target) :
+			m_window{ target },
+			m_reflectionVisual{ winrt::make_self<CGlassReflectionVisual>(source->m_window, source->m_data, true) },
+			CBackdropVisual{ target->GetVisual() }
+		{
+			copy_from_abi(m_source, source);
+			InitializeInteropDevice(DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice());
+			CClonedCompositedBackdropVisual::InitializeVisual();
 		}
 
 		~CClonedCompositedBackdropVisual() override
 		{
-			CClonedSpriteVisual::UninitializeVisual();
-			m_compositedBackdropVisual = nullptr;
+			CClonedCompositedBackdropVisual::UninitializeVisual();
 		}
 
 		void SetClientBlurRegion(HRGN /*region*/) override {}

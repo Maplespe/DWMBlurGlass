@@ -147,7 +147,7 @@ namespace MDWMBlurGlass
         	</UIControl>);
 
         xml += MXMLCODE(
-        	<UIControl frame="15,5,15f,240" align="LinearV" prop="group" enable="true" name="miscSettings">
+        	<UIControl frame="15,5,15f,265" align="LinearV" prop="group" enable="true" name="miscSettings">
         		<UIControl autoSize="true">
                     <UIImgBox frame="0,0,18,18" autoSize="false" img="icon_misc" />
                     <UILabel pos="10,2" text="#miscsettings" />
@@ -162,6 +162,7 @@ namespace MDWMBlurGlass
         		<UICheckBox pos="0,11" text="#overrideAccent" name="overrideAccent" />
         		<UICheckBox pos="0,11" text="#scaleOptimizer" name="scaleOptimizer" />
                 <UICheckBox pos="0,11" text="#disableOnBattery" name="disableOnBattery" />
+                <UICheckBox pos="0,11" text="#disableFramerateLimit" name="disableFramerateLimit" />
         		<UIControl frame="0,15,10f,1" bgColor="222,222,222,255" />
         		<UIControl frame="0,10,100%,20" align="LinearH">
         		    <UILabel pos="0,0" text="#glassIntensity" />
@@ -487,7 +488,12 @@ namespace MDWMBlurGlass
                 {
                     m_cfgData.disableOnBattery = static_cast<UICheckBox*>(control)->GetSel();
                     SetButtonEnable(true);
-                    }
+                }
+                else if (_MNAME(L"disableFramerateLimit"))
+                {
+                    m_cfgData.disableFramerateLimit = static_cast<UICheckBox*>(control)->GetSel();
+                    SetButtonEnable(true);
+                }
                 else
                     ret = false;
 	        }
@@ -809,6 +815,7 @@ namespace MDWMBlurGlass
         m_page->Child<UICheckBox>(L"overrideAccent")->SetSel(m_cfgData.overrideAccent, false);
         m_page->Child<UICheckBox>(L"scaleOptimizer")->SetSel(m_cfgData.scaleOptimizer, false);
         m_page->Child<UICheckBox>(L"disableOnBattery")->SetSel(m_cfgData.disableOnBattery, false);
+        m_page->Child<UICheckBox>(L"disableFramerateLimit")->SetSel(m_cfgData.disableFramerateLimit, false);
         m_page->Child<UIEditBox>(L"crossfadeTimeValue")->SetCurText(std::to_wstring(m_cfgData.crossfadeTime));
 
         m_page->UpdateLayout();
@@ -912,6 +919,7 @@ namespace MDWMBlurGlass
         m_page->Child(L"useaccentcolor")->SetEnabled(index == blurMethod::CustomBlur || index == blurMethod::AccentBlur);
         m_page->Child(L"overrideAccent")->SetEnabled(index == blurMethod::CustomBlur);
         m_page->Child(L"disableOnBattery")->SetEnabled(index == blurMethod::CustomBlur);
+        m_page->Child(L"disableFramerateLimit")->SetEnabled(index == blurMethod::CustomBlur);
         m_page->Child(L"titlebtnGlow")->SetEnabled(index == blurMethod::CustomBlur);
         if(index == blurMethod::AccentBlur)
             m_page->Child<UICheckBox>(L"overrideAccent")->SetSel(true, false);

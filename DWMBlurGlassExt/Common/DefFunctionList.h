@@ -57,6 +57,8 @@ namespace MDWMBlurGlassExt
 		{ dwmcore, "GetCurrentFrameId" },
 		{ dwmcore, "CBlurRenderingGraph::DeterminePreScale" },
 
+		{ dwmcore, "CCommonRegistryData::m_backdropBlurCachingThrottleQPCTimeDelta" },
+
 		{ udwm, "CDesktopManager::s_pDesktopManagerInstance" },
 		{ udwm, "CDesktopManager::s_csDwmInstance" },
 		{ udwm, "CDesktopManager::MonitorDpiFromPoint"},

@@ -5,6 +5,7 @@
 #include "../Effects/CompositeEffect.hpp"
 #include "../Effects/SaturationEffect.hpp"
 #include "../Effects/TintEffect.hpp"
+#include "../Effects/BlendEffect.hpp"
 
 namespace MDWMBlurGlassExt::AeroBackdrop
 {
@@ -44,12 +45,12 @@ namespace MDWMBlurGlassExt::AeroBackdrop
 		// the current recipe is modified from @kfh83, @TorutheRedFox, @aubymori
 		auto fallbackTintSource{ winrt::make_self<ColorSourceEffect>() };
 		fallbackTintSource->SetColor(wu::Color
-			{
-				255,
-				static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
-				static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
-				static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
-			});
+		{
+			255,
+			static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
+			static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
+			static_cast<UCHAR>(min(blurBalance + 0.1f, 1.f) * 255.f),
+		});
 
 		auto blackOrTransparentSource{ winrt::make_self<TintEffect>() };
 		blackOrTransparentSource->SetInput(wuc::CompositionEffectSourceParameter{ L"BlurredBackdrop" });

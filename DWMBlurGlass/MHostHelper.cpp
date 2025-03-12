@@ -204,18 +204,24 @@ namespace MDWMBlurGlass
 
 		if(auto iter = sessionList.find(sessionId); iter != sessionList.end())
 		{
+			bool retry = false;
 			//dwm进程不应启动这么频繁 这有可能是频繁崩溃 停止自动加载
 			if (!iter->second.init && steady_clock::now().time_since_epoch() - iter->second.times < 10s)
 			{
 				KillTimer(g_hostMsgWnd, g_timerID);
-				MessageBoxW(0, L"Checked that the process is suspected to have crashed abnormally and has stopped autoloading.",
-					L"DWMBlurGlass Error", MB_ICONERROR);
+				auto ret = MessageBoxW(nullptr, L"Checked that the process is suspected to have crashed abnormally and has stopped autoloading.",
+					L"DWMBlurGlass Error", MB_ICONERROR | MB_RETRYCANCEL);
 
 				iter->second.times = steady_clock::now().time_since_epoch();
-				return;
+
+				if (ret != IDRETRY)
+					return;
+				else
+					retry = true;
 			}
 			iter->second.times = steady_clock::now().time_since_epoch();
-			iter->second.init = false;
+			if(!retry)
+				iter->second.init = false;
 		}
 		else
 			sessionList.insert(std::make_pair(sessionId, sessionData()));

@@ -61,6 +61,7 @@
 	<overrideAccent>Override AccentBlur effect</overrideAccent>
 	<scaleOptimizer>Enable blur rendering optimization</scaleOptimizer>
 	<disableOnBattery>Disable the effect in power-saving mode</disableOnBattery>
+	<disableFramerateLimit>Disable Dcomp framerate limit</disableFramerateLimit>
 	<symbolfile>Symbol files:</symbolfile>
 	<download>Download</download>
 	<symtip>Symbol files (pdb) are files that record debugging information about a\nprogram. Since systems vary from version to version, you need to\ndownload symbol files from the Microsoft servers. If you update your\nsystem, you may need to download the symbol files again.</symtip>

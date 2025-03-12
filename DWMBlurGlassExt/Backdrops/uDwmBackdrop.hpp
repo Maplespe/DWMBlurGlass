@@ -134,15 +134,13 @@ namespace MDWMBlurGlassExt
 	class CClonedSpriteVisual : CSpriteVisual<insertAtBack>
 	{
 	protected:
-		wuc::RedirectVisual m_redirectVisual{ nullptr };
-		wuc::Visual m_sourceVisual{ nullptr };
-
+		wuc::SpriteVisual m_spriteVisual{ nullptr };
 		HRESULT InitializeVisual() override
 		{
 			RETURN_IF_FAILED(CSpriteVisual<insertAtBack>::InitializeVisual());
 			auto compositor{ this->m_dcompDevice.template as<wuc::Compositor>() };
-			m_redirectVisual = compositor.CreateRedirectVisual(m_sourceVisual);
-			this->m_visualCollection.InsertAtBottom(m_redirectVisual);
+			m_spriteVisual = compositor.CreateSpriteVisual();
+			this->m_visualCollection.InsertAtBottom(m_spriteVisual);
 
 			return S_OK;
 		}
@@ -152,7 +150,7 @@ namespace MDWMBlurGlassExt
 			{
 				this->m_visualCollection.RemoveAll();
 			}
-			m_redirectVisual = nullptr;
+			m_spriteVisual = nullptr;
 			CSpriteVisual<insertAtBack>::UninitializeVisual();
 		}
 		void OnDeviceLost()
@@ -163,8 +161,7 @@ namespace MDWMBlurGlassExt
 		}
 
 		CClonedSpriteVisual(DWM::CVisual* parentVisual, const wuc::Visual& sourceVisual) :
-			CSpriteVisual<insertAtBack>{ parentVisual },
-			m_sourceVisual{ sourceVisual }
+			CSpriteVisual<insertAtBack>{ parentVisual }
 		{
 		}
 

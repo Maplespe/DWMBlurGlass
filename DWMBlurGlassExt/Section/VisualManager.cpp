@@ -117,7 +117,8 @@ namespace MDWMBlurGlassExt::CVisualManager
 			{
 				com_ptr<DCompPrivate::ICompositedBackdropVisual> clonedBackdrop{ nullptr };
 
-				clonedBackdrop = legacyVisual->IsCloneAllowed() ? winrt::make<CClonedCompositedBackdropVisual>(dst, reinterpret_cast<CCompositedBackdropVisual*>(backdrop.get())) : winrt::make<CClonedPeekingBackdropVisual>(src, dst);
+				clonedBackdrop = legacyVisual->IsCloneAllowed() ? winrt::make<CClonedCompositedBackdropVisual>(reinterpret_cast<CCompositedBackdropVisual*>(backdrop.get()), dst)
+					: winrt::make<CClonedPeekingBackdropVisual>(src, dst);
 
 				auto result{ g_backdropMap.emplace(dst, clonedBackdrop) };
 				if (result.second == true) { it = result.first; }

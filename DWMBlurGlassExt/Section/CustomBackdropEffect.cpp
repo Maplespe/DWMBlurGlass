@@ -34,6 +34,8 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	size_t g_captureRef{ 0 };
 	std::vector<com_ptr<CBaseGeometryProxy>> g_geometryBuffer{};
 
+	CWindowData* g_windowData = nullptr;
+
 	ULONGLONG g_oldBackdropBlurCachingThrottleQPCTimeDelta{ 0ull };
 
 	FORCEINLINE bool IsBackdropAllowed(CTopLevelWindow* This)
@@ -111,6 +113,16 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 		CWindowList_UpdateAccentBlurRect
 	};
 
+	MinHook g_funCGlassColorizationParameters_AdjustWindowColorization_Win10
+	{
+		"CGlassColorizationParameters::AdjustWindowColorization", CGlassColorizationParameters_AdjustWindowColorization_Win10
+	};
+
+	MinHook g_funCGlassColorizationParameters_AdjustWindowColorization_Win11
+	{
+		"CGlassColorizationParameters::AdjustWindowColorization", CGlassColorizationParameters_AdjustWindowColorization_Win11
+	};
+
 	CompositedBackdropKind GetActualBackdropKind(CTopLevelWindow* This, bool overrideAccent)
 	{
 		auto backgroundType{ CompositedBackdropKind::Legacy };
@@ -165,9 +177,23 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 		if (g_startup) return;
 		g_startup = true;
 
+		CCommonRegistryData::m_backdropBlurCachingThrottleQPCTimeDelta =
+			MHostGetProcAddress<ULONGLONG>("CCommonRegistryData::m_backdropBlurCachingThrottleQPCTimeDelta");
+
+		g_oldBackdropBlurCachingThrottleQPCTimeDelta = *CCommonRegistryData::m_backdropBlurCachingThrottleQPCTimeDelta;
+
 		if (os::buildNumber >= 22621)
 		{
 			g_funCTopLevelWindow_CalculateBackgroundType.Attach();
+		}
+
+		if (os::buildNumber >= 22000)
+		{
+			g_funCGlassColorizationParameters_AdjustWindowColorization_Win11.Attach();
+		}
+		else
+		{
+			g_funCGlassColorizationParameters_AdjustWindowColorization_Win10.Attach();
 		}
 
 		g_funCDrawGeometryInstruction_Create.Attach();
@@ -205,6 +231,14 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	{
 		if (!g_startup) return;
 
+		if (os::buildNumber >= 22000)
+		{
+			g_funCGlassColorizationParameters_AdjustWindowColorization_Win11.Detach();
+		}
+		else
+		{
+			g_funCGlassColorizationParameters_AdjustWindowColorization_Win10.Detach();
+		}
 		g_funCDrawGeometryInstruction_Create.Detach();
 		g_funCTopLevelWindow_UpdateNCAreaBackground.Detach();
 		g_funCTopLevelWindow_UpdateClientBlur.Detach();
@@ -236,6 +270,8 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 			g_funCTopLevelWindow_CalculateBackgroundType.Detach();
 		}
 
+		*CCommonRegistryData::m_backdropBlurCachingThrottleQPCTimeDelta = g_oldBackdropBlurCachingThrottleQPCTimeDelta;
+
 		CVisualManager::Shutdown();
 		GeometryRecorder::Detach();
 		OcclusionCulling::Detach();
@@ -248,6 +284,11 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 		if (g_startup)
 		{
 			CVisualManager::RefreshEffectConfig();
+
+			if (g_configData.disableFramerateLimit)
+				*CCommonRegistryData::m_backdropBlurCachingThrottleQPCTimeDelta = 0;
+			else
+				*CCommonRegistryData::m_backdropBlurCachingThrottleQPCTimeDelta = g_oldBackdropBlurCachingThrottleQPCTimeDelta;
 
 			auto lock{ wil::EnterCriticalSection(CDesktopManager::s_csDwmInstance) };
 			if (!IsBackdropAllowed(nullptr))
@@ -475,6 +516,9 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 			return S_OK;
 		}
 
+		g_window = data->GetHWND();
+		g_windowData = data;
+
 		auto kind{ (GetActualBackdropKind(This)) };
 		auto accentPolicy{ data->GetAccentPolicy() };
 		auto oldAccentState{ accentPolicy->nAccentState };
@@ -699,5 +743,58 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 			}
 		}
 		return hr;
+	}
+
+	DWORD64 CGlassColorizationParameters_AdjustWindowColorization_Win10(DWM::GpCC* a1, DWM::GpCC* a2, float a3, char a4)
+	{
+		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization_Win10.call_org(a1, a2, a3, a4);
+
+		COLORREF color;
+		bool isLight = true;
+		if (g_windowData)
+			isLight = !g_windowData->IsUsingDarkMode();
+		if (GetForegroundWindow() == g_window)
+			color = isLight ? g_configData.activeBlendColor : g_configData.activeBlendColorDark;
+		else
+			color = isLight ? g_configData.inactiveBlendColor : g_configData.inactiveBlendColorDark;
+
+		if (g_configData.useAccentColor)
+		{
+			color = g_accentColor;
+		}
+
+		a1->a = 255;
+		a1->r = GetRValue(color);
+		a1->g = GetGValue(color);
+		a1->b = GetBValue(color);
+		return ret;
+	}
+
+	DWORD64 CGlassColorizationParameters_AdjustWindowColorization_Win11(DWM::GpCC* a1, DWM::GpCC* a2, float a3,
+		short a4)
+	{
+		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization_Win11.call_org(a1, a2, a3, a4);
+
+		COLORREF color;
+		bool isLight = true;
+		if (g_windowData)
+			isLight = !g_windowData->IsUsingDarkMode();
+		if (GetForegroundWindow() == g_window)
+			color = isLight ? g_configData.activeBlendColor : g_configData.activeBlendColorDark;
+		else
+			color = isLight ? g_configData.inactiveBlendColor : g_configData.inactiveBlendColorDark;
+
+		a1->a = (color >> 24) & 0xff;
+
+		if (g_configData.useAccentColor)
+		{
+			color = g_accentColor;
+		}
+
+		a1->r = GetRValue(color);
+		a1->g = GetGValue(color);
+		a1->b = GetBValue(color);
+
+		return ret;
 	}
 }

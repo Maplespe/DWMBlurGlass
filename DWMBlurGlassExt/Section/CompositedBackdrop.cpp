@@ -179,7 +179,7 @@ namespace MDWMBlurGlassExt
 		}
 		else
 		{
-			auto active{ m_window->TreatAsActiveWindow() };
+			auto active{ GetSrcWindow()->TreatAsActiveWindow()};
 			if (active != m_activate)
 			{
 				m_shouldPlayCrossFadeAnimation = true;
@@ -190,7 +190,7 @@ namespace MDWMBlurGlassExt
 			DWORD color;
 			if (g_configData.useAccentColor)
 			{
-				BYTE alpha = BYTE(ULONG(active ? g_configData.activeBlendColor : g_configData.inactiveBlendColor >> 24) & 0xff);
+				BYTE alpha = BYTE(ULONG((active ? g_configData.activeBlendColor : g_configData.inactiveBlendColor) >> 24) & 0xff);
 				color = RGB(GetRValue(g_accentColor), GetGValue(g_accentColor), GetBValue(g_accentColor));
 				color = color | (alpha << 24);
 			}
@@ -301,7 +301,7 @@ namespace MDWMBlurGlassExt
 	{
 		// GetClientBlurVisual() somtimes cannot work in ClonedVisual
 		// so here we use the original offset get from CTopLevelWindow::UpdateClientBlur
-		auto margins{ m_window->GetClientAreaContainerParentVisual()->GetMargins() };
+		auto margins{ GetSrcWindow()->GetClientAreaContainerParentVisual()->GetMargins()};
 		return { margins->cxLeftWidth, margins->cyTopHeight };
 	}
 
@@ -457,7 +457,7 @@ namespace MDWMBlurGlassExt
 
 	void CCompositedBackdropVisual::ValidateVisual()
 	{
-		if (m_window->IsTrullyMinimized())
+		if (GetSrcWindow()->IsTrullyMinimized())
 			return;
 
 		if (m_visible)
@@ -468,7 +468,7 @@ namespace MDWMBlurGlassExt
 			}
 		}
 
-		OnBackdropKindUpdated(CustomBackdrop::GetActualBackdropKind(m_window));
+		OnBackdropKindUpdated(CustomBackdrop::GetActualBackdropKind(GetSrcWindow()));
 		if (m_backdropDataChanged) { HandleChanges(); }
 		if (m_visible)
 		{
@@ -479,13 +479,13 @@ namespace MDWMBlurGlassExt
 
 	void CCompositedBackdropVisual::UpdateNCBackground()
 	{
-		if (m_window->IsTrullyMinimized())
+		if (GetSrcWindow()->IsTrullyMinimized())
 		{
 			return;
 		}
 
 		RECT borderRect{};
-		THROW_HR_IF_NULL(E_INVALIDARG, m_window->GetActualWindowRect(&borderRect, true, true, false));
+		THROW_HR_IF_NULL(E_INVALIDARG, GetSrcWindow()->GetActualWindowRect(&borderRect, true, true, false));
 
 		if (!EqualRect(&m_windowRect, &borderRect))
 		{
@@ -510,7 +510,7 @@ namespace MDWMBlurGlassExt
 			window->GetActualWindowRect(&windowRect, false, true, true);
 			window->GetActualWindowRect(&borderRect, false, true, false);
 			MARGINS margins{};
-			window->GetBorderMargins(&margins);
+			//window->GetBorderMargins(&margins);
 			winrt::Windows::Foundation::Numerics::float3 offset
 			{
 				static_cast<float>(0.f),
@@ -542,6 +542,45 @@ namespace MDWMBlurGlassExt
 		m_roundedGeometry = nullptr;
 		m_containerVisual = nullptr;
 
+		m_reflectionVisual->UninitializeVisual();
+		CBackdropVisual::UninitializeVisual();
+	}
+
+	HRESULT CClonedCompositedBackdropVisual::InitializeVisual()
+	{
+		RETURN_IF_FAILED(CBackdropVisual::InitializeVisual());
+
+		auto compositor{ m_dcompDevice.as<wuc::Compositor>() };
+		m_reflectionVisual->InitializeVisual(compositor);
+		m_containerVisual = compositor.CreateContainerVisual();
+		m_spriteVisual = compositor.CreateSpriteVisual();
+		m_spriteVisual.RelativeSizeAdjustment({ 1.f, 1.f });
+
+		m_reflectionVisual->NotifyOffsetToWindow(m_source->m_reflectionVisual->GetOffset());
+		m_reflectionVisual->ValidateVisual();
+
+		RECT regionBox{};
+		GetRgnBox(m_source->m_compositedRgn.get(), &regionBox);
+
+		wfn::float3 offset{ static_cast<float>(regionBox.left), static_cast<float>(regionBox.top), 0.f };
+		m_containerVisual.Offset(offset);
+		m_containerVisual.Size({ static_cast<float>(max(wil::rect_width(regionBox), 0)), static_cast<float>(max(wil::rect_height(regionBox), 0)) });
+
+		m_containerVisual.Clip(compositor.CreateGeometricClip(m_source->m_pathGeometry));
+		m_containerVisual.Children().InsertAtTop(m_reflectionVisual->GetVisual());
+
+		m_spriteVisual.Brush(m_source->m_spriteVisual.Brush());
+		m_containerVisual.Children().InsertAtBottom(m_spriteVisual);
+		m_visualCollection.InsertAtBottom(m_containerVisual);
+
+		return S_OK;
+	}
+
+	void CClonedCompositedBackdropVisual::UninitializeVisual()
+	{
+		m_spriteVisual = nullptr;
+		m_containerVisual = nullptr;
+		m_source = nullptr;
 		m_reflectionVisual->UninitializeVisual();
 		CBackdropVisual::UninitializeVisual();
 	}

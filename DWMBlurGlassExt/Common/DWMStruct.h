@@ -703,6 +703,11 @@ namespace MDWMBlurGlassExt::DWM
 		}
 	};
 
+	namespace CCommonRegistryData
+	{
+		inline PULONGLONG m_backdropBlurCachingThrottleQPCTimeDelta{ nullptr };
+	}
+
 	FORCEINLINE HWND GetShellWindowForCurrentDesktop()
 	{
 		ULONG_PTR desktopID{ 0 };

@@ -215,8 +215,8 @@ namespace MDWMBlurGlassExt
 
 		if(lastColor != color && g_configData.useAccentColor)
 		{
-			CustomBackdrop::Refresh();
-			AccentBlur::Refresh();
+			//CustomBackdrop::Refresh();
+			//AccentBlur::Refresh();
 
 			g_accentColor = color;
 			lastColor = color;

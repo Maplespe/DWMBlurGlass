@@ -110,6 +110,7 @@ namespace MDWMBlurGlass
 		cfgData.scaleOptimizer = GetConfigBool(L"scaleOptimizer");
 		cfgData.disableOnBattery = GetConfigBool(L"disableOnBattery", true);
 		cfgData.titlebtnGlow = GetConfigBool(L"titlebtnGlow");
+		cfgData.disableFramerateLimit = GetConfigBool(L"disableFramerateLimit");
 
 		GetCfgValueInternal(L"extendRound",
 		{
@@ -267,7 +268,8 @@ namespace MDWMBlurGlass
 				{ L"overrideAccent", make_wstring(cfg.overrideAccent) },
 				{ L"occlusionCulling", make_wstring(cfg.scaleOptimizer) },
 				{ L"disableOnBattery", make_wstring(cfg.disableOnBattery) },
-				{ L"titlebtnGlow", make_wstring(cfg.titlebtnGlow) }
+				{ L"titlebtnGlow", make_wstring(cfg.titlebtnGlow) },
+				{ L"disableFramerateLimit", make_wstring(cfg.disableFramerateLimit) }
 				}); const auto & [key, value] : regkeyList)
 		{
 			Utils::SetIniString(path, L"config", key, value);
