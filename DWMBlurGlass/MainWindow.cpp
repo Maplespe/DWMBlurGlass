@@ -38,19 +38,13 @@ namespace MDWMBlurGlass
 		if (!LoadDefualtUIStyle(ui))
 			return false;
 
-		auto [locale, parentLocale] = GetSystemLocaleAndParent();
-		if (!LoadLanguageString(ui, locale, true))
+		if (!LoadLanguageString(ui, GetSystemLocalName(), true))
 		{
-			if (!LoadLanguageString(ui, parentLocale, true))
-			{
-				if (!LoadLanguageString(ui, L"en-US", true))
-					return false;
-			}
+			if (!LoadLanguageString(ui, L"en-US", true))
+				return false;
 		}
-		else if (locale != L"en-US")
-		{
+		else if(GetSystemLocalName() != L"en-US")
 			LoadLanguageString(ui, L"en-US", true, false);
-		}
 
 		const HWND hWnd = (HWND)ctx->Base()->GetWindowHandle();
 		//SetWindowLongW(hWnd, GWL_STYLE, GetWindowLongW(hWnd, GWL_STYLE) & ~(WS_MAXIMIZEBOX | WS_SIZEBOX));

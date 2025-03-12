@@ -40,10 +40,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		return 0;
 #endif
 
-	auto [locale, parentLocale] = MDWMBlurGlass::GetSystemLocaleAndParent();
-
 	if (!MDWMBlurGlass::LoadLanguageFileList() 
-		|| (!MDWMBlurGlass::LoadBaseLanguageString(locale) && !MDWMBlurGlass::LoadBaseLanguageString(parentLocale)
+		|| (!MDWMBlurGlass::LoadBaseLanguageString(MDWMBlurGlass::GetSystemLocalName())
 		&& !MDWMBlurGlass::LoadBaseLanguageString(L"en-US")))
 	{
 		MessageBoxW(nullptr, L"初始化失败: 没有有效的语言文件 (Initialization failed: No valid language file).", L"error", MB_ICONERROR);
@@ -60,7 +58,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		{
 			MessageBoxW(nullptr,
 				Helper::M_ReplaceString(MDWMBlurGlass::GetBaseLanguageString(L"initfail0"), L"{path}", curpath).c_str(),
-				L"Warning", MB_ICONWARNING | MB_TOPMOST);
+				L"waring", MB_ICONWARNING | MB_TOPMOST);
 			return false;
 		}
 	}

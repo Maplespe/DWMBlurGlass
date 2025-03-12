@@ -26,7 +26,7 @@ namespace MDWMBlurGlass
 
 	extern std::wstring ReadFileSting(std::wstring_view filePath);
 
-	std::pair<std::wstring, std::wstring> GetSystemLocaleAndParent();
+	extern std::wstring GetSystemLocalName();
 
 	extern bool InstallScheduledTasks(std::wstring& errinfo);
 

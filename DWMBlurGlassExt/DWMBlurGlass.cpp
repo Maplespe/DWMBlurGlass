@@ -186,7 +186,6 @@ namespace MDWMBlurGlassExt
 		}
 		DwmAPIEffect::Refresh();
 		CustomBackdrop::Refresh();
-		OcclusionCulling::Refresh();
 		AccentBlur::Refresh();
 		BlurRadiusTweaker::Refresh();
 		CustomButton::Refresh();

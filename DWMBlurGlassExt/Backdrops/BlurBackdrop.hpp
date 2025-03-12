@@ -49,6 +49,8 @@ namespace MDWMBlurGlassExt::BlurBackdrop
 		compositeStepEffect->SetDestination(*gaussianBlurEffect);
 		compositeStepEffect->SetSource(*tintOpacityEffect);
 
-		blurAmount = g_configData.customBlurAmount;
+		auto effectBrush{ compositor.CreateEffectFactory(*compositeStepEffect).CreateBrush() };
+		effectBrush.SetSourceParameter(L"Backdrop", compositor.CreateBackdropBrush());
+		return effectBrush;
 	}
 }
