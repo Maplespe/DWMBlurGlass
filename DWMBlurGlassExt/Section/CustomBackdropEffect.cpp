@@ -505,6 +505,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 
 	HRESULT CTopLevelWindow_ValidateVisual(CTopLevelWindow* This)
 	{
+		g_windowData = nullptr;
 		if (!IsBackdropAllowed(This))
 		{
 			return S_OK;
@@ -536,7 +537,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 				backdrop->ValidateVisual();
 			}
 		}
-
+		g_windowData = nullptr;
 		return hr;
 	}
 
@@ -749,10 +750,11 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	{
 		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization_Win10.call_org(a1, a2, a3, a4);
 
+		if (!g_windowData)
+			return ret;
+
 		COLORREF color;
-		bool isLight = true;
-		if (g_windowData)
-			isLight = !g_windowData->IsUsingDarkMode();
+		bool isLight = !g_windowData->IsUsingDarkMode();
 		if (GetForegroundWindow() == g_window)
 			color = isLight ? g_configData.activeBlendColor : g_configData.activeBlendColorDark;
 		else
@@ -775,10 +777,11 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	{
 		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization_Win11.call_org(a1, a2, a3, a4);
 
+		if (!g_windowData)
+			return ret;
+
 		COLORREF color;
-		bool isLight = true;
-		if (g_windowData)
-			isLight = !g_windowData->IsUsingDarkMode();
+		bool isLight = !g_windowData->IsUsingDarkMode();
 		if (GetForegroundWindow() == g_window)
 			color = isLight ? g_configData.activeBlendColor : g_configData.activeBlendColorDark;
 		else
