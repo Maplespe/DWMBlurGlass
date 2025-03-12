@@ -186,39 +186,37 @@ namespace MDWMBlurGlassExt::AcrylicBackdrop
 		effectBrush.SetSourceParameter(L"Noise", noiceBrush);
 		effectBrush.SetSourceParameter(L"Backdrop", compositor.CreateBackdropBrush());
 
-			return effectBrush;
-		}
-		catch (...) { return nullptr; }
-
-		static winrt::Windows::UI::Composition::CompositionSurfaceBrush CreateNoiceSurfaceBrush(
-			const winrt::Windows::UI::Composition::Compositor& compositor,
-			ID2D1Device* d2dDevice
-		) try
+		return effectBrush;
+	}
+	static winrt::Windows::UI::Composition::CompositionSurfaceBrush CreateNoiceSurfaceBrush(
+		const winrt::Windows::UI::Composition::Compositor& compositor,
+		ID2D1Device* d2dDevice
+	) try
+	{
+		winrt::Windows::UI::Composition::CompositionGraphicsDevice graphicsDevice{ nullptr };
+		THROW_IF_FAILED(
+			compositor.as<ABI::Windows::UI::Composition::ICompositorInterop>()->CreateGraphicsDevice(
+				d2dDevice,
+				reinterpret_cast<ABI::Windows::UI::Composition::ICompositionGraphicsDevice**>(winrt::put_abi(graphicsDevice))
+			)
+		);
+		auto compositionSurface
 		{
-			winrt::Windows::UI::Composition::CompositionGraphicsDevice graphicsDevice{ nullptr };
-			THROW_IF_FAILED(
-				compositor.as<ABI::Windows::UI::Composition::ICompositorInterop>()->CreateGraphicsDevice(
-					d2dDevice,
-					reinterpret_cast<ABI::Windows::UI::Composition::ICompositionGraphicsDevice**>(winrt::put_abi(graphicsDevice))
-				)
-			);
-			auto compositionSurface
-			{
-				graphicsDevice.CreateDrawingSurface(
-					{ 256.f, 256.f },
-					winrt::Windows::Graphics::DirectX::DirectXPixelFormat::R16G16B16A16Float,
-					winrt::Windows::Graphics::DirectX::DirectXAlphaMode::Premultiplied
-				)
-			};
-			auto noiceBrush{ compositor.CreateSurfaceBrush(compositionSurface) };
+			graphicsDevice.CreateDrawingSurface(
+				{ 256.f, 256.f },
+				winrt::Windows::Graphics::DirectX::DirectXPixelFormat::R16G16B16A16Float,
+				winrt::Windows::Graphics::DirectX::DirectXAlphaMode::Premultiplied
+			)
+		};
+		auto noiceBrush{ compositor.CreateSurfaceBrush(compositionSurface) };
 
-			wil::unique_hmodule wuxcModule{ LoadLibraryExW(L"Windows.UI.Xaml.Controls.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32 | LOAD_LIBRARY_AS_DATAFILE | LOAD_LIBRARY_AS_IMAGE_RESOURCE) };
-			THROW_LAST_ERROR_IF_NULL(wuxcModule);
-			auto resourceHandle{ FindResourceW(wuxcModule.get(), MAKEINTRESOURCE(2000), RT_RCDATA) };
-			THROW_LAST_ERROR_IF_NULL(resourceHandle);
-			auto globalHandle{ LoadResource(wuxcModule.get(), resourceHandle) };
-			THROW_LAST_ERROR_IF_NULL(globalHandle);
-			auto cleanUp = wil::scope_exit([&]
+		wil::unique_hmodule wuxcModule{ LoadLibraryExW(L"Windows.UI.Xaml.Controls.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32 | LOAD_LIBRARY_AS_DATAFILE | LOAD_LIBRARY_AS_IMAGE_RESOURCE) };
+		THROW_LAST_ERROR_IF_NULL(wuxcModule);
+		auto resourceHandle{ FindResourceW(wuxcModule.get(), MAKEINTRESOURCE(2000), RT_RCDATA) };
+		THROW_LAST_ERROR_IF_NULL(resourceHandle);
+		auto globalHandle{ LoadResource(wuxcModule.get(), resourceHandle) };
+		THROW_LAST_ERROR_IF_NULL(globalHandle);
+		auto cleanUp = wil::scope_exit([&]
 			{
 				if (globalHandle)
 				{
@@ -226,282 +224,55 @@ namespace MDWMBlurGlassExt::AcrylicBackdrop
 					FreeResource(globalHandle);
 				}
 			});
-			DWORD resourceSize{ SizeofResource(wuxcModule.get(), resourceHandle) };
-			THROW_LAST_ERROR_IF(resourceSize == 0);
-			auto resourceAddress{ reinterpret_cast<PBYTE>(LockResource(globalHandle)) };
-			winrt::com_ptr<IStream> stream{ SHCreateMemStream(resourceAddress, resourceSize), winrt::take_ownership_from_abi };
-			THROW_LAST_ERROR_IF_NULL(stream);
+		DWORD resourceSize{ SizeofResource(wuxcModule.get(), resourceHandle) };
+		THROW_LAST_ERROR_IF(resourceSize == 0);
+		auto resourceAddress{ reinterpret_cast<PBYTE>(LockResource(globalHandle)) };
+		winrt::com_ptr<IStream> stream{ SHCreateMemStream(resourceAddress, resourceSize), winrt::take_ownership_from_abi };
+		THROW_LAST_ERROR_IF_NULL(stream);
 
-			winrt::com_ptr<IWICImagingFactory2> wicFactory{ nullptr };
-			wicFactory.copy_from(DWM::CDesktopManager::s_pDesktopManagerInstance->GetWICFactory());
-			winrt::com_ptr<IWICBitmapDecoder> wicDecoder{ nullptr };
-			THROW_IF_FAILED(wicFactory->CreateDecoderFromStream(stream.get(), &GUID_VendorMicrosoft, WICDecodeMetadataCacheOnDemand, wicDecoder.put()));
-			winrt::com_ptr<IWICBitmapFrameDecode> wicFrame{ nullptr };
-			THROW_IF_FAILED(wicDecoder->GetFrame(0, wicFrame.put()));
-			winrt::com_ptr<IWICFormatConverter> wicConverter{ nullptr };
-			THROW_IF_FAILED(wicFactory->CreateFormatConverter(wicConverter.put()));
-			winrt::com_ptr<IWICPalette> wicPalette{ nullptr };
-			THROW_IF_FAILED(
-				wicConverter->Initialize(
-					wicFrame.get(),
-					GUID_WICPixelFormat32bppPBGRA,
-					WICBitmapDitherTypeNone,
-					wicPalette.get(),
-					0, WICBitmapPaletteTypeCustom
-				)
-			);
-			winrt::com_ptr<IWICBitmap> wicBitmap{ nullptr };
-			THROW_IF_FAILED(wicFactory->CreateBitmapFromSource(wicConverter.get(), WICBitmapCreateCacheOption::WICBitmapNoCache, wicBitmap.put()));
-
-			auto drawingSurfaceInterop{ compositionSurface.as<ABI::Windows::UI::Composition::ICompositionDrawingSurfaceInterop>() };
-			POINT offset = { 0, 0 };
-			winrt::com_ptr<ID2D1DeviceContext> d2dContext{ nullptr };
-			THROW_IF_FAILED(
-				drawingSurfaceInterop->BeginDraw(nullptr, IID_PPV_ARGS(d2dContext.put()), &offset)
-			);
-			d2dContext->Clear();
-			winrt::com_ptr<ID2D1Bitmap1> d2dBitmap{ nullptr };
-			d2dContext->CreateBitmapFromWicBitmap(
-				wicBitmap.get(),
-				D2D1::BitmapProperties1(
-					D2D1_BITMAP_OPTIONS_NONE,
-					D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED)
-				),
-				d2dBitmap.put()
-			);
-			d2dContext->DrawBitmap(d2dBitmap.get());
-			THROW_IF_FAILED(
-				drawingSurfaceInterop->EndDraw()
-			);
-
-			return noiceBrush;
-		}
-		catch (...) { return nullptr; }
-
-		void STDMETHODCALLTYPE ReloadParameters()
-		{
-			crossfadeTime = std::chrono::milliseconds{ g_configData.crossfadeTime };
-
-			if(g_configData.useAccentColor)
-			{
-				darkMode_Active_Color = MakeWinrtColor(g_accentColor);
-				darkMode_Inactive_Color = darkMode_Active_Color;
-				lightMode_Active_Color = darkMode_Inactive_Color;
-				lightMode_Inactive_Color = lightMode_Active_Color;
-			}
-			else
-			{
-				darkMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColorDark);
-				darkMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColorDark);
-				lightMode_Active_Color = MakeWinrtColor(g_configData.activeBlendColor);
-				lightMode_Inactive_Color = MakeWinrtColor(g_configData.inactiveBlendColor);
-			}
-			lightMode_Active_TintOpacity = GetFloatAlpha(g_configData.activeBlendColor);
-			lightMode_Inactive_TintOpacity = GetFloatAlpha(g_configData.inactiveBlendColor);
-			darkMode_Active_TintOpacity = GetFloatAlpha(g_configData.activeBlendColorDark);
-			darkMode_Inactive_TintOpacity = GetFloatAlpha(g_configData.inactiveBlendColorDark);
-
-			lightMode_Active_LuminosityOpacity = g_configData.luminosityOpacity;
-			lightMode_Inactive_LuminosityOpacity = g_configData.luminosityOpacity;
-			darkMode_Active_LuminosityOpacity = g_configData.luminosityOpacity;
-			darkMode_Inactive_LuminosityOpacity = g_configData.luminosityOpacity;
-
-			blurAmount = g_configData.customBlurAmount;
-		}
-		winrt::Windows::UI::Composition::CompositionBrush STDMETHODCALLTYPE GetBrush(bool useDarkMode, bool windowActivated) override try
-		{
-			auto is_device_valid = [&]()
-			{
-				if (!interopDCompDevice) return false;
-
-				BOOL valid{ FALSE };
-				THROW_IF_FAILED(
-					interopDCompDevice.as<IDCompositionDevice>()->CheckDeviceState(
-						&valid
-					)
-				);
-
-				return valid == TRUE;
-			};
-			if (!is_device_valid())
-			{
-				interopDCompDevice.copy_from(
-					DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice()
-				);
-				ReloadParameters();
-				auto compositor{ interopDCompDevice.as<winrt::Windows::UI::Composition::Compositor>() };
-				auto noiceBrush{ CreateNoiceSurfaceBrush(compositor, DWM::CDesktopManager::s_pDesktopManagerInstance->GetD2DDevice()) };
-
-				lightMode_Active_Brush = CreateBrush(
-					compositor,
-					noiceBrush,
-					GetEffectiveTintColor(lightMode_Active_Color, lightMode_Active_TintOpacity, lightMode_Active_LuminosityOpacity),
-					GetEffectiveLuminosityColor(lightMode_Active_Color, lightMode_Active_TintOpacity, lightMode_Active_LuminosityOpacity),
-					blurAmount,
-					hostBackdrop
-				);
-				lightMode_Inactive_Brush = CreateBrush(
-					compositor,
-					noiceBrush,
-					GetEffectiveTintColor(lightMode_Inactive_Color, lightMode_Inactive_TintOpacity, lightMode_Inactive_LuminosityOpacity),
-					GetEffectiveLuminosityColor(lightMode_Inactive_Color, lightMode_Inactive_TintOpacity, lightMode_Inactive_LuminosityOpacity),
-					blurAmount,
-					hostBackdrop
-				);
-				darkMode_Active_Brush = CreateBrush(
-					compositor,
-					noiceBrush,
-					GetEffectiveTintColor(darkMode_Active_Color, darkMode_Active_TintOpacity, darkMode_Active_LuminosityOpacity),
-					GetEffectiveLuminosityColor(darkMode_Active_Color, darkMode_Active_TintOpacity, darkMode_Active_LuminosityOpacity),
-					blurAmount,
-					hostBackdrop
-				);
-				darkMode_Inactive_Brush = CreateBrush(
-					compositor,
-					noiceBrush,
-					GetEffectiveTintColor(darkMode_Inactive_Color, darkMode_Inactive_TintOpacity, darkMode_Inactive_LuminosityOpacity),
-					GetEffectiveLuminosityColor(darkMode_Inactive_Color, darkMode_Inactive_TintOpacity, darkMode_Inactive_LuminosityOpacity),
-					blurAmount,
-					hostBackdrop
-				);
-			}
-
-			return CDCompResources::GetBrush(useDarkMode, windowActivated);
-		}
-		catch (...) { return nullptr; }
-	};
-
-	struct CAcrylicBackdrop : CDCompBackdrop
-	{
-		inline static CAcrylicResources s_sharedResources{};
-
-		STDMETHOD(UpdateColorizationColor)(
-			bool useDarkMode,
-			bool windowActivated
-		) override
-		{
-			if (useDarkMode)
-			{
-				if (windowActivated) { currentColor = s_sharedResources.darkMode_Active_Color; }
-				else { currentColor = s_sharedResources.darkMode_Inactive_Color; }
-			}
-			else
-			{
-				if (windowActivated) { currentColor = s_sharedResources.lightMode_Active_Color; }
-				else { currentColor = s_sharedResources.lightMode_Inactive_Color; }
-			}
-
-			return S_OK;
-		}
-		HRESULT STDMETHODCALLTYPE Update(
-			bool useDarkMode,
-			bool windowActivated
-		) try
-		{
-			THROW_IF_FAILED(UpdateColorizationColor(useDarkMode, windowActivated));
-			THROW_IF_FAILED(
-				TryCrossFadeToNewBrush(
-					spriteVisual.Compositor(),
-					s_sharedResources.GetBrush(useDarkMode, windowActivated),
-					s_sharedResources.crossfadeTime
-				)
-			);
-
-			return S_OK;
-		}
-		CATCH_RETURN()
-	};
-
-	struct CAccentAcrylicResources : CDCompResourcesBase
-	{
-		winrt::Windows::UI::Composition::CompositionSurfaceBrush noiceBrush{ nullptr };
-
-		HRESULT STDMETHODCALLTYPE EnsureNoiceSurfaceBrush() try
-		{
-			auto is_device_valid = [&]()
-			{
-				if (!interopDCompDevice) return false;
-
-				BOOL valid{ FALSE };
-				THROW_IF_FAILED(
-					interopDCompDevice.as<IDCompositionDevice>()->CheckDeviceState(
-						&valid
-					)
-				);
-
-				return valid == TRUE;
-			};
-			if (!is_device_valid())
-			{
-				interopDCompDevice.copy_from(
-					DWM::CDesktopManager::s_pDesktopManagerInstance->GetDCompositionInteropDevice()
-				);
-				noiceBrush = CAcrylicResources::CreateNoiceSurfaceBrush(
-					interopDCompDevice.as<winrt::Windows::UI::Composition::Compositor>(),
-					DWM::CDesktopManager::s_pDesktopManagerInstance->GetD2DDevice()
-				);
-			}
-
-			return S_OK;
-		}
-		CATCH_RETURN()
-	};
-	struct CAccentAcrylicBackdrop : CAccentDCompBackdrop
-	{
-		inline static CAccentAcrylicResources s_sharedResources{};
-		bool usingLuminosity{ false };
-		winrt::Windows::UI::Color currenTintColor{};
-
-		HRESULT STDMETHODCALLTYPE UpdateBrush(const DWM::ACCENT_POLICY& policy) try
-		{
-			s_sharedResources.ReloadParameters();
-			THROW_IF_FAILED(s_sharedResources.EnsureNoiceSurfaceBrush());
-
-			auto compositor{ spriteVisual.Compositor() };
-			auto useLuminosity
-			{
-				MDWMBlurGlass::os::buildNumber >= 22000 &&
-				(policy.nFlags & 2) != 0 &&
-				(
-					(policy.nAccentState == 3 && MDWMBlurGlass::os::buildNumber > 22000) ||
-					(policy.nAccentState == 4)
-				)
-			};
-			auto tintColor{ FromAbgr(policy.nColor) };
-			if (
-				usingLuminosity != useLuminosity || 
-				currenTintColor != tintColor ||
-				interopDCompDevice != s_sharedResources.interopDCompDevice
+		winrt::com_ptr<IWICImagingFactory2> wicFactory{ nullptr };
+		wicFactory.copy_from(DWM::CDesktopManager::s_pDesktopManagerInstance->GetWICFactory());
+		winrt::com_ptr<IWICBitmapDecoder> wicDecoder{ nullptr };
+		THROW_IF_FAILED(wicFactory->CreateDecoderFromStream(stream.get(), &GUID_VendorMicrosoft, WICDecodeMetadataCacheOnDemand, wicDecoder.put()));
+		winrt::com_ptr<IWICBitmapFrameDecode> wicFrame{ nullptr };
+		THROW_IF_FAILED(wicDecoder->GetFrame(0, wicFrame.put()));
+		winrt::com_ptr<IWICFormatConverter> wicConverter{ nullptr };
+		THROW_IF_FAILED(wicFactory->CreateFormatConverter(wicConverter.put()));
+		winrt::com_ptr<IWICPalette> wicPalette{ nullptr };
+		THROW_IF_FAILED(
+			wicConverter->Initialize(
+				wicFrame.get(),
+				GUID_WICPixelFormat32bppPBGRA,
+				WICBitmapDitherTypeNone,
+				wicPalette.get(),
+				0, WICBitmapPaletteTypeCustom
 			)
-			{
-				interopDCompDevice = s_sharedResources.interopDCompDevice;
-				usingLuminosity = useLuminosity;
-				currenTintColor = tintColor;
+		);
+		winrt::com_ptr<IWICBitmap> wicBitmap{ nullptr };
+		THROW_IF_FAILED(wicFactory->CreateBitmapFromSource(wicConverter.get(), WICBitmapCreateCacheOption::WICBitmapNoCache, wicBitmap.put()));
 
-				auto tintOpacity{ static_cast<float>(tintColor.A) / 255.f };
-				tintColor.A = 255;
-				spriteVisual.Brush(
-					CAcrylicResources::CreateBrush(
-						compositor,
-						s_sharedResources.noiceBrush,
-						CAcrylicResources::GetEffectiveTintColor(tintColor, tintOpacity, useLuminosity ? std::optional{ 1.03f } : std::nullopt),
-						CAcrylicResources::GetEffectiveLuminosityColor(tintColor, tintOpacity, useLuminosity ? std::optional{ 1.03f } : std::nullopt),
-						CAcrylicBackdrop::s_sharedResources.blurAmount,
-						CAcrylicBackdrop::s_sharedResources.hostBackdrop
-					)
-				);
-			}
+		auto drawingSurfaceInterop{ compositionSurface.as<ABI::Windows::UI::Composition::ICompositionDrawingSurfaceInterop>() };
+		POINT offset = { 0, 0 };
+		winrt::com_ptr<ID2D1DeviceContext> d2dContext{ nullptr };
+		THROW_IF_FAILED(
+			drawingSurfaceInterop->BeginDraw(nullptr, IID_PPV_ARGS(d2dContext.put()), &offset)
+		);
+		d2dContext->Clear();
+		winrt::com_ptr<ID2D1Bitmap1> d2dBitmap{ nullptr };
+		d2dContext->CreateBitmapFromWicBitmap(
+			wicBitmap.get(),
+			D2D1::BitmapProperties1(
+				D2D1_BITMAP_OPTIONS_NONE,
+				D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED)
+			),
+			d2dBitmap.put()
+		);
+		d2dContext->DrawBitmap(d2dBitmap.get());
+		THROW_IF_FAILED(
+			drawingSurfaceInterop->EndDraw()
+		);
 
-			return S_OK;
-		}
-		CATCH_RETURN()
-
-		HRESULT STDMETHODCALLTYPE Update(const DWM::ACCENT_POLICY& policy) override try
-		{
-			THROW_IF_FAILED(UpdateBrush(policy));
-
-			return S_OK;
-		}
-		CATCH_RETURN()
-	};
+		return noiceBrush;
+	}
+	catch (...) { return nullptr; }
 }
