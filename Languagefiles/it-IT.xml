@@ -61,6 +61,7 @@
 	<overrideAccent>Sostituisci l'effetto AccentBlur</overrideAccent>
 	<scaleOptimizer>Abilita l'ottimizzazione del rendering della sfocatura</scaleOptimizer>
 	<disableOnBattery>Disattiva gli effetti quando in modalità di risparmio energetico</disableOnBattery>
+	<disableFramerateLimit>Disattivare il limite del Framerate Dcomp</disableFramerateLimit>
 	<symbolfile>File di simboli:</symbolfile>
 	<download>Scarica</download>
 	<symtip>I file di simboli (pdb) sono file che registrano informazioni di debug su un\nprogramma. Poiché i sistemi variano da versione a versione, dovrai\nscaricare i file dei simboli da un server Microsoft. Se aggiorni il tuo\nsistema, potrebbe essere necessario scaricare nuovamente il nuovo file.</symtip>
