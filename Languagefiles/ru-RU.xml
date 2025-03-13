@@ -61,6 +61,7 @@
 	<overrideAccent>Переопределить эффект "Размытие акцента"</overrideAccent>
 	<scaleOptimizer>Включить оптимизацию рендеринга размытия</scaleOptimizer>
 	<disableOnBattery>Отключить эффект в режиме энергосбережения</disableOnBattery>
+	<disableFramerateLimit>Отключение ограничения частоты кадров Dcomp</disableFramerateLimit>
 	<symbolfile>Файл символов:</symbolfile>
 	<download>Скачать</download>
 	<symtip>Файлы символов записывают информацию приложения об отладке.\nПоскольку они отличаются от системы к системе, вам необходимо\nскачать актуальную версию с сервера Microsoft. После обновления\nсистемы, возможно, потребуется сделать это снова.</symtip>
