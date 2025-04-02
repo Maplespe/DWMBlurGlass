@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lang local="zh-TW" author="railyinu">
-<!-- zh_TW.xml For DWMBG ver 2.3.0 -->
 	<inituifail0>MiaoUI 初始化失敗！錯誤資訊:</inituifail0>
 	<inituifail1>建立視窗上下文失敗！</inituifail1>
 	<inituifail2>初始化視窗失敗！</inituifail2>
@@ -62,6 +61,7 @@
 	<overrideAccent>覆寫 AccentBlur 效果</overrideAccent>
 	<scaleOptimizer>啟用模糊渲染最佳化</scaleOptimizer>
 	<disableOnBattery>在省電模式下關閉效果</disableOnBattery>
+	<disableFramerateLimit>解除 Dcomp 影格率限制</disableFramerateLimit>
 	<symbolfile>符號檔案:</symbolfile>
 	<download>下載</download>
 	<symtip>符號檔案(.pdb)為記錄程式偵錯資訊之檔案，由於各版本作業系統皆有不同，你\n需要自 Microsoft 伺服器下載符號檔案。\n\n若作業系統安裝了更新，你可能需要重新下載符號檔案。</symtip>
@@ -80,3 +80,4 @@
 	<curlang>當前語言:</curlang>
 	<langauthor>繁體中文(台灣) // 譯者 :</langauthor>
 </lang>
+<!-- zh_TW.xml For DWMBG ver 2.3.1 -->
