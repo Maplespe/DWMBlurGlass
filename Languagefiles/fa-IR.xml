@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang local="fa-IR" author="smmhosseini">
+	<inituifail0>راه‌اندازی کتابخانه MiaoUI با شکست مواجه شد! کد خطا: </inituifail0>
+	<inituifail1>ایجاد زمینه پنجره با شکست مواجه شد!</inituifail1>
+	<inituifail2>راه‌اندازی پنجره با شکست مواجه شد!</inituifail2>
+	<initfail0>توجه داشته باشید که به دلیل اجرای DWM در محیط سندباکس، این برنامه باید در یک پوشه غیرکاربری قرار گیرد، و مسیر آن نباید در "{path}" یا زیرپوشه‌های آن باشد! لطفاً آن را به پوشه‌ای دیگر منتقل کنید.</initfail0>
+	<symloadfail>بارگذاری فایل‌های نماد (Symbol) با شکست مواجه شد! برنامه نتوانست DLL را بارگذاری کند، لطفاً نمادها را دوباره دانلود کنید. (بعد از به‌روزرسانی سیستم نیز ممکن است نیاز به بارگیری مجدد داشته باشید)</symloadfail>
+	<colorpicker_dlg_sel>انتخاب رنگ:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>رنگ جدید:</colorpicker_dlg_c>
+	<msgdlg_no>لغو</msgdlg_no>
+	<msgdlg_yes>تأیید</msgdlg_yes>
+	<colorpicker_dlg_alpha>شفافیت:</colorpicker_dlg_alpha>
+	<general>عمومی</general>
+	<advanced>پیشرفته</advanced>
+	<symbol>نماد</symbol>
+	<config>پیکربندی</config>
+	<about>درباره</about>
+	<status>وضعیت:</status>
+	<status0>نصب نشده</status0>
+	<status1>نصب شده</status1>
+	<install>نصب</install>
+	<uninstall>حذف نصب</uninstall>
+	<installsucs>با موفقیت نصب شد!</installsucs>
+	<installsucs1>با موفقیت نصب شد! اما هنوز فایل‌های نماد معتبر را دانلود نکرده‌اید، لطفاً از صفحه "نمادها" آن‌ها را دانلود کنید تا DWMBlurGlass کار کند.</installsucs1>
+	<installfail>نصب ناموفق بود! پیام خطا: </installfail>
+	<uninstallsucs>با موفقیت حذف نصب شد.</uninstallsucs>
+	<uninstallfail>حذف نصب با شکست مواجه شد! پیام خطا: </uninstallfail>
+	<loadfail>بارگذاری مؤلفه با شکست مواجه شد! پیام خطا: </loadfail>
+	<saveconfig>ذخیره</saveconfig>
+	<effectset>تنظیمات افکت</effectset>
+	<blurvalue>میزان تاری (سراسری):</blurvalue>
+	<overrideDwmapi>جایگزینی افکت DWMAPI (ویندوز 11)</overrideDwmapi>
+	<extendborder>گسترش افکت به لبه‌ها (ویندوز 10)</extendborder>
+	<reflection>فعال‌سازی افکت بازتاب Aero</reflection>
+	<reflectiontip>(روش تاری قدیمی فقط برای ویندوز 10)</reflectiontip>
+	<oldBtnSize>بازیابی اندازه دکمه نوار عنوان به سبک ویندوز 7</oldBtnSize>
+	<titlebtnGlow>فعال‌سازی درخشش دکمه نوار عنوان به سبک ویندوز 7</titlebtnGlow>
+	<cmodelight>رنگ‌های حالت روشن</cmodelight>
+	<cmodedark>رنگ‌های حالت تاریک</cmodedark>
+	<blendcolor>رنگ ترکیبی نوار عنوان (فعال):</blendcolor>
+	<inactiveblendcolor>رنگ ترکیبی نوار عنوان (غیرفعال):</inactiveblendcolor>
+	<activecolor>رنگ متن فعال:</activecolor>
+	<inactivecolor>رنگ متن غیرفعال:</inactivecolor>
+	<preview>پیش‌نمایش</preview>
+	<sampletitle>عنوان نمونه پنجره (فعال)</sampletitle>
+	<blurmethod>روش تاری:</blurmethod>
+	<methodcustom>[توصیه‌شده] پیاده‌سازی سفارشی تاری توسط CVisual (DWM) و Windows.UI.Composition (dcomp) برای دستیابی به افکت‌های بک‌دراپ سفارشی، قابل شخصی‌سازی بالا، کارایی و ظاهر بهتر. ممکن است بعد از آپدیت‌های بزرگ ویندوز خراب شود.</methodcustom>
+	<methodaccent>[توصیه نمی‌شود] استفاده از کلاس داخلی AccentBlurBehind برای اعمال افکت تاری. شخصی‌سازی محدود، کارایی و پایداری پایین‌تر، اما در اکثر سیستم‌ها کار می‌کند.</methodaccent>
+	<methoddwmapi>استفاده از DWMAPI مستند در ویندوز 11 برای اعمال افکت‌های محدود مانند آکریلیک و میکا. بدون امکان شخصی‌سازی، اما کارایی و پایداری بالا. فقط در ویندوز 11 نسخه 22H2 و بالاتر موجود است.</methoddwmapi>
+	<effecttype>نوع افکت:</effecttype>
+	<blurvaluetitle>میزان تاری (فقط نوار عنوان):</blurvaluetitle>
+	<luminosity>شفافیت روشنایی:</luminosity>
+	<colorBalance>تعادل رنگ:</colorBalance>
+	<blurBalance>تعادل تاری:</blurBalance>
+	<afterglowBalance>تعادل درخشش پس از تاری:</afterglowBalance>
+	<miscsettings>متفرقه:</miscsettings>
+	<enablecrossfade>فعال‌سازی افکت انیمیشن محو شدن</enablecrossfade>
+	<crossfadeTime>مدت زمان انیمیشن:</crossfadeTime>
+	<useaccentcolor>استفاده از رنگ تاکید برای جایگزینی تنظیمات رنگ RGB</useaccentcolor>
+	<glassIntensity>شفافیت بافت بازتاب Aero:</glassIntensity>
+	<overrideAccent>جایگزینی افکت AccentBlur</overrideAccent>
+	<scaleOptimizer>فعال‌سازی بهینه‌سازی رندر تاری</scaleOptimizer>
+	<disableOnBattery>غیرفعال‌سازی افکت در حالت صرفه‌جویی باتری</disableOnBattery>
+	<disableFramerateLimit>غیرفعال‌سازی محدودیت نرخ فریم Dcomp</disableFramerateLimit>
+	<symbolfile>فایل‌های نماد:</symbolfile>
+	<download>دانلود</download>
+	<symtip>فایل‌های نماد (pdb) اطلاعات رفع اشکال یک برنامه را ذخیره می‌کنند. از آنجا که نسخه‌های سیستم متفاوت هستند، باید فایل‌ها را از سرورهای مایکروسافت دانلود کنید. پس از بروزرسانی سیستم نیز ممکن است نیاز به دانلود مجدد داشته باشید.</symtip>
+	<symstatus0>نامعتبر</symstatus0>
+	<symstatus1>معتبر</symstatus1>
+	<symdowning>در حال دانلود...</symdowning>
+	<symdownfail>دانلود ناموفق بود! امکان دانلود فایل‌های نماد از "msdl.microsoft.com" وجود ندارد.</symdownfail>
+	<syminvalid>فایل‌های نماد نامعتبر هستند، لطفاً به صفحه "نمادها" در برنامه DWMBlurGlass بروید و فایل‌های جدید را دانلود کنید.</syminvalid>
+	<configfile>فایل پیکربندی</configfile>
+	<import>وارد کردن</import>
+	<export>خروجی گرفتن</export>
+	<restore>بازنشانی به تنظیمات پیش‌فرض</restore>
+	<importwarn>وارد کردن فایل پیکربندی، تنظیمات فعلی شما را بازنویسی خواهد کرد. آیا ادامه می‌دهید؟</importwarn>
+	<restorecfg>آیا مطمئن هستید که می‌خواهید پیکربندی را به حالت پیش‌فرض بازنشانی کنید؟</restorecfg>
+	<aboutinfo>این برنامه تحت مجوز LGPLv3 ارائه شده است:</aboutinfo>
+	<curlang>زبان فعلی:</curlang>
+	<langauthor>مشارکت‌کنندگان ترجمه:</langauthor>
+</lang>
