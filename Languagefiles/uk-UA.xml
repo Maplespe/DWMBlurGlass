@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<lang local="uk-UA" author="Yehor Avramenko">
+	<inituifail0>Не вдалося ініціалізувати бібліотеку MiaoUI! Код помилки: </inituifail0>
+	<inituifail1>Не вдалося створити контекст вікна!</inituifail1>
+	<inituifail2>Не вдалося ініціалізувати вікно!</inituifail2>
+	<initfail0>Через обмеження менеджера вікон DWM цей застосунок має бути запущений поза текою користувача, і шлях до нього не може бути в "{path}" чи його підтеках! Будь ласка, змініть шлях.</initfail0>
+	<symloadfail>Не вдалося завантажити файли символів! Застосунок не зміг завантажити бібліотеку DLL, будь ласка, завантажте символи ще раз. (Символи можуть також потребувати повтороного завантаження після оновлення системи)</symloadfail>
+	<colorpicker_dlg_sel>Оберіть колір:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Новий колір:</colorpicker_dlg_c>
+	<msgdlg_no>Скасувати</msgdlg_no>
+	<msgdlg_yes>Підтвердити</msgdlg_yes>
+	<colorpicker_dlg_alpha>Прозорість:</colorpicker_dlg_alpha>
+	<general>Загальні</general>
+	<advanced>Розширені</advanced>
+	<symbol>Символи</symbol>
+	<config>Конфігурація</config>
+	<about>Про програму</about>
+	<status>Статус:</status>
+	<status0>Не встановлено</status0>
+	<status1>Встановлено</status1>
+	<install>Встановити</install>
+	<uninstall>Видалити</uninstall>
+	<installsucs>Успішно встановлено!</installsucs>
+	<installsucs1>Успішно встановлено! Для коректної роботи DWMBlurGlass також необхідно завантажити файли символів на вкладці "Символи".</installsucs1>
+	<installfail>Не вдалося встановити! Код помилки: </installfail>
+	<uninstallsucs>Успішно видалено.</uninstallsucs>
+	<uninstallfail>Не вдалося видалити! Код помилки: </uninstallfail>
+	<loadfail>Не вдалося завантажити компонент! Код помилки: </loadfail>
+	<saveconfig>Зберегти</saveconfig>
+	<effectset>Налаштування ефектів</effectset>
+	<blurvalue>Радіус розмиття (загальний):</blurvalue>
+	<overrideDwmapi>Замістити ефект DWMAPI (Windows 11)</overrideDwmapi>
+	<extendborder>Застосувати ефекти до країв вікна (Windows 10)</extendborder>
+	<reflection>Увімкнути ефект віддзеркалення Aero</reflection>
+	<reflectiontip>(Застарілий спосіб розмиття тільки для Windows 10)</reflectiontip>
+	<oldBtnSize>Відновити розмір кнопок як у Windows 7</oldBtnSize>
+	<titlebtnGlow>Увімкнути світіння кнопок вікна як у Windows 7</titlebtnGlow>
+	<cmodelight>Кольори світлого режиму</cmodelight>
+	<cmodedark>Кольори темного режиму</cmodedark>
+	<blendcolor>Колір змішування заголовку (активний):</blendcolor>
+	<inactiveblendcolor>Колір змішування заголовку (неактивний):</inactiveblendcolor>
+	<activecolor>Колір активного тексту:</activecolor>
+	<inactivecolor>Колір неактивного тексту:</inactivecolor>
+	<preview>Попередній перегляд</preview>
+	<sampletitle>Приклад заголовку вікна (активний)</sampletitle>
+	<blurmethod>Спосіб розмиття:</blurmethod>
+	<methodcustom>[Рекомендовано] Власна імплементація розмиття, написана \nCVisual (DWM) і Windows.UI.Composition (dcomp) \nдля отримання власних ефектів фону. \nВи можете налаштувати більшість параметрів і не тільки отримати \nнайкращу продуктивність, але також найкращий вигляд та \nкращу стабільність, проте сумісність є гіршою. \nЦей спосіб може зламатися після оновлення Windows, \nтоді вам доведеться чекати наступного виходу застосунку.</methodcustom>
+	<methodaccent>[Не Рекомендовано] Використовуйте внутрішній клас AccentBlurBehind \nменеджера вікон DWM для отримання ефекту розмиття. \nВи можете змінити деякі парметри, проте це неефективно та менш \nстабільно. Цей спосіб працюватиме нормально на більшості систем. \n(зазвичай оновлення системи не зламатиме цей спосіб).</methodaccent>	
+	<methoddwmapi>Використовуйте задокументований DWMAPI у Windows 11 аби \nзастосувати обмежений ефект SystemBackdrop, такий як Acrylic або \nMica. \nВи також не зможете змінити параметри, проте цей спосіб має високу \nефективність та кращу стабільність. Однак цей спосіб може зламати \nзовнішній вигляд деяких програм, і він доступний тільки на \nWindows 11 22H2 і новіше.</methoddwmapi>
+	<effecttype>Вид ефекту:</effecttype>
+	<blurvaluetitle>Радіус розмиття (тільки заголовок вікна):</blurvaluetitle>
+	<luminosity>Яскравість світіння:</luminosity>
+	<colorBalance>Колірний баланс:</colorBalance>
+	<blurBalance>Кількість розмиття:</blurBalance>
+	<afterglowBalance>Баланс післясвітіння:</afterglowBalance>
+	<miscsettings>Інше:</miscsettings>
+	<enablecrossfade>Увімкнути ефект плавної анімації</enablecrossfade>
+	<crossfadeTime>Тривалість анімації:</crossfadeTime>
+	<useaccentcolor>Використовувати акцентний колір для налаштувань кольору RGB</useaccentcolor>
+	<glassIntensity>Прозорість текстури віддзеркалення Aero:</glassIntensity>
+	<overrideAccent>Замістити ефект "Розмиття акценту"</overrideAccent>
+	<scaleOptimizer>Увімкнути оптимізацію рендерингу розмиття</scaleOptimizer>
+	<disableOnBattery>Вимкнути ефект в режимі енергозбереження</disableOnBattery>
+	<disableFramerateLimit>Вимкнути обмеження кількості кадрів Dcomp</disableFramerateLimit>
+	<symbolfile>Файли символів:</symbolfile>
+	<download>Завантажити</download>
+	<symtip>Файли символів (pdb) містять в собі інформацію для налагодження. \nОскільки системи відрізняються залежно від версії, вам треба \nзавантажити файли символів із серверів Microsoft. \nЯкщо ви оновлюєте вашу систему, вам може знадобитися \nзавантажити файли символів знову.</symtip>
+	<symstatus0>Некоректні</symstatus0>
+	<symstatus1>Коректні</symstatus1>
+	<symdowning>Завантаження...</symdowning>
+	<symdownfail>Помилка завантаження! Не вдалося завантажити файли символів з "msdl.microsoft.com".</symdownfail>
+	<syminvalid>Файли символів некоректні, будь ласка, відкрийте вкладку "Символи" в застосунку DWMBlurGlass аби завантажити нові файли символів.</syminvalid>
+	<configfile>Файл конфігурації</configfile>
+	<import>Імпортувати</import>
+	<export>Експортувати</export>
+	<restore>Скинути</restore>
+	<importwarn>Імпорт файлу конфігурації перезапише вашу нинішню конфігурацію, продовжити?</importwarn>
+	<restorecfg>Ви дійсно хочете відновити початкові налаштування?</restorecfg>
+	<aboutinfo>Цей застосунок використовує ліцензію LGPLv3:</aboutinfo>
+	<curlang>Мова:</curlang>
+	<langauthor>Автори перекладу:</langauthor>
+</lang>
