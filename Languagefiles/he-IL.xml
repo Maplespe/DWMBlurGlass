@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<lang local="he-IL" author="Y-PLONI">
+	<inituifail0>אתחול ספריית MiaoUI נכשל! קוד שגיאה: </inituifail0>
+	<inituifail1>יצירת הקשר החלון נכשלה!</inituifail1>
+	<inituifail2>אתחול החלון נכשל!</inituifail2>
+	<initfail0>שים לב: מכיוון ש-DWM פועל ב'ארגז חול' (sandbox), יש למקם יישום זה בספרייה שאינה ספריית משתמש. הנתיב אינו יכול להיות בתוך "{path}" או בתתי-הספריות שלו! אנא העבר את היישום לספרייה אחרת.</initfail0>
+	<symloadfail>טעינת קבצי הסמלים נכשלה! התוכנה לא הצליחה לטעון את קובץ ה-DLL, אנא הורד את הסמלים שוב. (ייתכן שיהיה צורך להוריד את הסמלים מחדש לאחר עדכון מערכת)</symloadfail>
+	<colorpicker_dlg_sel>בחר צבע:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>צבע חדש:</colorpicker_dlg_c>
+	<msgdlg_no>ביטול</msgdlg_no>
+	<msgdlg_yes>אישור</msgdlg_yes>
+	<colorpicker_dlg_alpha>אטימות:</colorpicker_dlg_alpha>
+	<general>כללי</general>
+	<advanced>מתקדם</advanced>
+	<symbol>סמל</symbol>
+	<config>הגדרות</config>
+	<about>אודות</about>
+	<status>מצב:</status>
+	<status0>הוסר</status0>
+	<status1>הותקן</status1>
+	<install>הותקן</install>
+	<uninstall>הסר</uninstall>
+	<installsucs>ההתקנה הצליחה!</installsucs>
+	<installsucs1>ההתקנה הושלמה בהצלחה! אך עדיין לא הורדת קובצי סמלים תקפים. הורד אותם מעמוד ה"סמלים" כדי ש-DWMBlurGlass יפעל.</installsucs1>
+	<installfail>ההתקנה נכשלה! הודעת שגיאה: </installfail>
+	<uninstallsucs>ההסרה הושלמה בהצלחה.</uninstallsucs>
+	<uninstallfail>ההסרה נכשלה! הודעת שגיאה: </uninstallfail>
+	<loadfail>טעינת הרכיב נכשלה! הודעת שגיאה: </loadfail>
+	<saveconfig>שמור</saveconfig>
+	<effectset>הגדרות אפקטים</effectset>
+	<blurvalue>רדיוס טשטוש (כללי):</blurvalue>
+	<overrideDwmapi>דריסת אפקט DWMAPI (Windows 11)</overrideDwmapi>
+	<extendborder>הרחבת אפקטים לגבולות (Windows 10)</extendborder>
+	<reflection>הפעלת אפקט השתקפות Aero</reflection>
+	<reflectiontip>(שיטת טשטוש מדור קודם, עבור Windows 10 בלבד)</reflectiontip>
+	<oldBtnSize>שחזור גודל כפתורי כותרת בסגנון Windows 7</oldBtnSize>
+	<titlebtnGlow>הפעלת זוהר לכפתורי כותרת בסגנון Windows 7</titlebtnGlow>
+	<cmodelight>צבעי מצב בהיר</cmodelight>
+	<cmodedark>צבעי מצב כהה</cmodedark>
+	<blendcolor>צבע מיזוג פס כותרת (פעיל):</blendcolor>
+	<inactiveblendcolor>צבע מיזוג פס כותרת (לא פעיל):</inactiveblendcolor>
+	<activecolor>צבע טקסט (פעיל):</activecolor>
+	<inactivecolor>צבע טקסט (לא פעיל):</inactivecolor>
+	<preview>תצוגה מקדימה</preview>
+	<sampletitle>כותרת חלון לדוגמה (פעיל)</sampletitle>
+	<blurmethod>שיטת טשטוש:</blurmethod>
+	<methodcustom>[מומלץ] יישום טשטוש מותאם אישית שנכתב על ידי CVisual (DWM)\nו-Windows.UI.Composition (dcomp) כדי להשיג אפקטים של רקע מותאמים אישית.\nניתן להתאים את רוב הפרמטרים. לא רק שניתן להשיג\nאת היעילות הגבוהה ביותר, אלא גם את המראה הטוב ביותר ויציבות משופרת.\nעם זאת, התאימות אינה טובה במיוחד.\nהאפקט עלול להישבר לאחר עדכון משמעותי של Windows, ואז יהיה צורך להמתין\nלגרסה הבאה.</methodcustom>
+	<methodaccent>[לא מומלץ] שימוש במחלקת AccentBlurBehind הפנימית של DWM כדי להחיל\nאפקט טשטוש. ניתן להתאים אישית חלק מהפרמטרים, אך השיטה\nאינה יעילה ופחות יציבה. היא יכולה לעבוד כרגיל ברוב המערכות.\n(בדרך כלל, עדכון מערכת לא ישבור אותה).</methodaccent>
+	<methoddwmapi>שימוש ב-DWMAPI המתועד של Windows 11 כדי להחיל אפקטים מוגבלים\nשל SystemBackdrop, כגון אפקט Acrylic ו-Mica. לא ניתן\nלהתאים אישית את הפרמטרים כלל, אך לשיטה זו יעילות גבוהה\nויציבות טובה יותר. עם זאת, היא עלולה לשבש את המראה של תוכנות מסוימות,\nוהיא זמינה רק ב-Windows 11 גרסה 22H2 ומעלה.</methoddwmapi>
+	<effecttype>סוג אפקט:</effecttype>
+	<blurvaluetitle>רדיוס טשטוש (פס כותרת בלבד):</blurvaluetitle>
+	<luminosity>אטימות בהיקות (Luminosity):</luminosity>
+	<colorBalance>איזון צבע:</colorBalance>
+	<blurBalance>איזון טשטוש:</blurBalance>
+	<afterglowBalance>איזון זוהר-משנה:</afterglowBalance>
+	<miscsettings>שונות:</miscsettings>
+	<enablecrossfade>הפעלת אפקט הנפשת מעבר הדרגתי (crossfade)</enablecrossfade>
+	<crossfadeTime>משך ההנפשה:</crossfadeTime>
+	<useaccentcolor>השתמש בצבע הדגשה כדי לדרוס את הגדרות צבעי ה-RGB</useaccentcolor>
+	<glassIntensity>אטימות טקסטורת השתקפות Aero:</glassIntensity>
+	<overrideAccent>דריסת אפקט AccentBlur</overrideAccent>
+	<scaleOptimizer>הפעלת מיטוב רינדור הטשטוש</scaleOptimizer>
+	<disableOnBattery>השבתת האפקט במצב חיסכון בסוללה</disableOnBattery>
+	<disableFramerateLimit>השבתת מגבלת קצב הפריימים של Dcomp</disableFramerateLimit>
+	<symbolfile>קבצי סמלים:</symbolfile>
+	<download>הורדה</download>
+	<symtip>קבצי סמלים (pdb) הם קבצים המכילים מידע ניפוי שגיאות (debugging) אודות\nתוכנה. מכיוון שהמערכות שונות מגרסה לגרסה, עליך להוריד\nקבצי סמלים משרתי מיקרוסופט. אם תעדכן את המערכת,\nייתכן שתצטרך להוריד את קבצי הסמלים שוב.</symtip>
+	<symstatus0>לא תקין</symstatus0>
+	<symstatus1>תקין</symstatus1>
+	<symdowning>מוריד...</symdowning>
+	<symdownfail>ההורדה נכשלה! לא ניתן להוריד קבצי סמלים מהכתובת "msdl.microsoft.com".</symdownfail>
+	<syminvalid>קבצי הסמלים אינם תקינים, אנא גש לעמוד ה"סמלים" בתוכנת DWMBlurGlass כדי להוריד קבצי סמלים חדשים.</syminvalid>
+	<configfile>קובץ הגדרות</configfile>
+	<import>ייבוא</import>
+	<export>ייצוא</export>
+	<restore>שחזור להגדרות ברירת המחדל</restore>
+	<importwarn>ייבוא קובץ הגדרות יחליף את ההגדרות הקיימות שלך, להמשיך בכל זאת?</importwarn>
+	<restorecfg>האם אתה בטוח שברצונך לשחזר את הגדרות ברירת המחדל?</restorecfg>
+	<aboutinfo>תוכנה זו מבוססת על רישיון LGPLv3:</aboutinfo>
+	<curlang>שפה נוכחית:</curlang>
+	<langauthor>תורמי התרגום:</langauthor>
+</lang>
