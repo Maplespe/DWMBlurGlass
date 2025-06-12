@@ -55,8 +55,8 @@
 * שיטות טשטוש זמינות: `CustomBlur`, `AccentBlur` ו-`SystemBackdrop`.
 * תמיכה בערכות נושא של צד שלישי.
 
-![image](/Screenshot/001701.png)
-![image](/Screenshot/10307.png)
+![image](./Screenshot/001701.png)
+![image](./Screenshot/10307.png)
 
 ## תאימות
 תואם החל מ-**Windows 10 2004** ועד ל**גרסה האחרונה של Windows 11** (חלק משיטות הטשטוש אינן נתמכות בגרסאות Windows Insider).
@@ -76,20 +76,20 @@
 ## גלריה
 <details><summary><b>Windows 11</b></summary>
 
-![image](/Screenshot/10307.png)
+![image](./Screenshot/10307.png)
 
-![image](/Screenshot/102134.png)
+![image](./Screenshot/102134.png)
 
 - [x] ביטול אפקט נציץ DWMAPI (win11)
 
-![image](/Screenshot/013521.png)
+![image](./Screenshot/013521.png)
 </details>
 
 <details><summary><b>Windows 10</b></summary>
 
-![image](/Screenshot/001701.png)
+![image](./Screenshot/001701.png)
 
-![image](/Screenshot/100750.png)
+![image](./Screenshot/100750.png)
 
 בשימוש בערכות נושא של צד שלישי, האפשרויות הבאות הופעלו:
 
@@ -97,7 +97,7 @@
 - [x] אפקט השתקפות אוויר
 - [x] שחזר את גודל כפתור שורת הכותרת בסגנון Win7
 
-![image](/Screenshot/025410.png)
+![image](./Screenshot/025410.png)
 
 </details>
 
@@ -105,24 +105,24 @@
 ### טשטוש (Blur)
 > טשטוש בסיסי ופשוט. אין בו שום דבר מיוחד.
 
-![image](/Screenshot/blur.png)
+![image](./Screenshot/blur.png)
 
 ### Aero
 > אפקט הזכוכית (Glass) של Windows 7, עם אפקטי רוויה וחשיפה ברקע כאשר חלון אינו פעיל.
 
-![image](/Screenshot/aero.png)
+![image](./Screenshot/aero.png)
 
-![image](/Screenshot/aero_inactive.png)
+![image](./Screenshot/aero_inactive.png)
 
 ### Acrylic
 > המתכון של Acrylic: רקע, טשטוש, מיזוג הדרה (exclusion blend), רוויה, שכבת-על של צבע או גוון, ורעש.
 
-![image](/Screenshot/acrylic.png)
+![image](./Screenshot/acrylic.png)
 
 ### Mica
 > המתכון של Mica: טפט מטושטש, רוויה, ושכבת-על של צבע או גוון.
 
-![image](/Screenshot/mica.png)
+![image](./Screenshot/mica.png)
 
 ### MicaAlt
 כל האפקטים שלעיל ניתנים להתאמה אישית למיזוג צבעים.
@@ -136,13 +136,13 @@ MicaAlt הוא למעשה Mica עם גוון אפרפר; ניתן לשנות א�
 2. חלץ את הקבצים למיקום כגון `C:\Program Files`.
 <details><summary><b>3. הפעל את תוכנת הממשק הגרפי DWMBlurGlass.exe ולחץ על 'התקנה'.</b></summary>
 
-![image](/Screenshot/012746.png)
+![image](./Screenshot/012746.png)
 
 > אם לא קורה כלום לאחר הלחיצה על 'התקנה', עליך לעבור לעמוד 'סמלים' וללחוץ על 'הורדה'.
 
 > **ייתכן שתקבל הודעה על סמלים חסרים בעתיד, במיוחד לאחר עדכוני מערכת.**
 
-![image](/Screenshot/012924.png)
+![image](./Screenshot/012924.png)
 
 </details>
 
