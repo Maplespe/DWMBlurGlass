@@ -30,7 +30,7 @@
 	<effectset>効果の設定</effectset>
 	<blurvalue>ぼかしの半径 (グローバル):</blurvalue>
 	<overrideDwmapi>DWMAPI の効果をオーバーライドする (Windows 11)</overrideDwmapi>
-	<extendborder>エフェクトを境界まで拡張する (Windows 10)</extendborder>
+	<extendborder>効果を境界まで拡張する (Windows 10)</extendborder>
 	<reflection>Aero 反射効果を有効にする</reflection>
 	<reflectiontip>(OldBlur を使用時には Win10 のみ)</reflectiontip>
 	<oldBtnSize>Windows 7 スタイルのタイトルバーボタンサイズを復元する</oldBtnSize>
