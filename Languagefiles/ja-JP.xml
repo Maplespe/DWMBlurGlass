@@ -3,9 +3,9 @@
 	<inituifail0>MiaoUI library の初期化に失敗しました。エラー：</inituifail0>
 	<inituifail1>ウィンドウのコンテストの生成に失敗しました</inituifail1>
 	<inituifail2>ウィンドウの初期化に失敗しました</inituifail2>
-    <initfail0>DWM がサンドボックスで実行されているため、このアプリケーションはユーザーディレクトリ以外に配置する必要があり、パスは '{path}' またはそのサブディレクトリには配置できません。別のディレクトリに配置してください。</initfail0>
+	<initfail0>DWM がサンドボックスで実行されているため、このアプリケーションはユーザーディレクトリ以外に配置する必要があり、パスは '{path}' またはそのサブディレクトリには配置できません。別のディレクトリに配置してください。</initfail0>
 	<symloadfail>シンボルファイルの読み込みに失敗しました。プログラムが DLL を読み込めませんでした。シンボルを再ダウンロードしてください。（システムの更新後にシンボルを再ダウンロードする必要がある場合があります）</symloadfail>
-    <colorpicker_dlg_sel>色の選択</colorpicker_dlg_sel>
+	<colorpicker_dlg_sel>色の選択</colorpicker_dlg_sel>
 	<colorpicker_dlg_c>新しい色</colorpicker_dlg_c>
 	<msgdlg_no>キャンセル</msgdlg_no>
 	<msgdlg_yes>OK</msgdlg_yes>
@@ -21,19 +21,20 @@
 	<install>インストール</install>
 	<uninstall>アンインストール</uninstall>
 	<installsucs>インストールに成功しました</installsucs>
-    <installsucs1>インストールに成功しました。ただし、有効なシンボルファイルをまだダウンロードしていません。DWMBlurGlass を動作させるには、「シンボル」ページからダウンロードしてください。</installsucs1>
+	<installsucs1>インストールに成功しました。ただし、有効なシンボルファイルをまだダウンロードしていません。DWMBlurGlass を動作させるには、「シンボル」ページからダウンロードしてください。</installsucs1>
 	<installfail>インストールに失敗しました。エラー: </installfail>
 	<uninstallsucs>アンインストールに成功成功しました</uninstallsucs>
 	<uninstallfail>アンインストールに失敗しました。エラー: </uninstallfail>
 	<loadfail>コンポーネントの読み込みに失敗しました。エラー: </loadfail>
 	<saveconfig>設定を適用</saveconfig>
 	<effectset>効果の設定</effectset>
-    <blurvalue>ぼかしの半径 (グローバル):</blurvalue>
-    <applyglobal>DWMAPI の効果をオーバーライドする (Windows 11)</applyglobal>
-    <extendborder>エフェクトを境界まで拡張する (Windows 10)</extendborder>
-    <reflection>Aero 反射効果を有効にする</reflection>
+	<blurvalue>ぼかしの半径 (グローバル):</blurvalue>
+	<overrideDwmapi>DWMAPI の効果をオーバーライドする (Windows 11)</overrideDwmapi>
+	<extendborder>効果を境界まで拡張する (Windows 10)</extendborder>
+	<reflection>Aero 反射効果を有効にする</reflection>
 	<reflectiontip>(OldBlur を使用時には Win10 のみ)</reflectiontip>
-    <oldBtnSize>Windows 7 スタイルのタイトルバーボタンサイズを復元する</oldBtnSize>
+	<oldBtnSize>Windows 7 スタイルのタイトルバーボタンサイズを復元する</oldBtnSize>
+	<titlebtnGlow>Windows 7 スタイルのタイトルバーボタングローを有効にする</titlebtnGlow>
 	<cmodelight>ライトモード</cmodelight>
 	<cmodedark>ダークモード</cmodedark>
 	<blendcolor>アクティブタイトルバー:</blendcolor>
@@ -41,11 +42,11 @@
 	<activecolor>アクティブタイトル:</activecolor>
 	<inactivecolor>非アクティブタイトル:</inactivecolor>
 	<preview>プレビュー</preview>
-    <sampletitle>アクティブウィンドウの例</sampletitle>
+	<sampletitle>アクティブウィンドウの例</sampletitle>
 	<blurmethod>ぼかしのモード:</blurmethod>
-	<methodcustom>[おすすめ] CVisual (DWM) と IComposition (dcomp) を使用してカスタム背景\n効果を実現します。ほとんどのパラメータをカスタマイズでき、効率が最も高く、\n効果が最も良く、安定性が比較的高いです。ただし、システムの適応範囲は一般\n的です。システムが大幅に更新されると失敗する可能性があるため、新しいバー\nジョンを待つ必要があります。</methodcustom>
-	<methodaccent>[お勧めしません] DWM の未公開のクラス AccentBlurBehind を使用して、一部\nのパラメータをカスタマイズできますが、効率が低く、安定性が低く、システム\nの適応範囲が広いです。通常、システムの更新で失敗することはありません。</methodaccent>
-	<methoddwmapi>公開済みの DWMAPI で SystemBackdrop 効果を調整します、Acrylic、Mica の\n効果を選択できますが、パラメータをカスタマイズできません、効率が高く、安\n定性が高いですが、一部のプログラムのレンダリングが壊れる可能性があります。\nシステムの適応範囲は Windows 11 22H2 以上に限定されます。</methoddwmapi>
+	<methodcustom>[おすすめ] CVisual (DWM) と IComposition (dcomp) を使用してカスタム背\n景効果を実現します。ほとんどのパラメータをカスタマイズでき、効率が最も\n高く、効果が最も良く、安定性が比較的高いです。ただし、システムの適応範\n囲は一般的です。システムが大幅に更新されると失敗する可能性があるため、\n新しいバージョンを待つ必要があります。</methodcustom>
+	<methodaccent>[お勧めしません] DWM の未公開のクラス AccentBlurBehind を使用して、一\n部のパラメータをカスタマイズできますが、効率が低く、安定性が低く、シス\nテムの適応範囲が広いです。通常、システムの更新で失敗することはありませ\nん。</methodaccent>
+	<methoddwmapi>公開済みの DWMAPI で SystemBackdrop 効果を調整します、Acrylic、Mica \nの効果を選択できますが、パラメータをカスタマイズできません、効率が高く、\n安定性が高いですが、一部のプログラムのレンダリングが壊れる可能性があり\nます。システムの適応範囲は Windows 11 22H2 以上に限定されます。</methoddwmapi>
 	<effecttype>効果のタイプ:</effecttype>
 	<blurvaluetitle>タイトルバーのぼかしの半径:</blurvaluetitle>
 	<luminosity>明るさ / 不透明度:</luminosity>
@@ -58,15 +59,18 @@
 	<useaccentcolor>システムのアクセントカラーを使用する</useaccentcolor>
 	<glassIntensity>Aero 反射テクスチャの不透明度:</glassIntensity>
 	<overrideAccent>AccentBlur の効果をオーバーライドする</overrideAccent>
-	<configfile>構成ファイル</configfile>
+	<scaleOptimizer>ぼかしのレンダリングを最適化する</scaleOptimizer>
+	<disableOnBattery>省エネ機能がオンの時に効果を無効にする</disableOnBattery>
+	<disableFramerateLimit>Dcomp フレームレートの制限を無効にする</disableFramerateLimit>
 	<symbolfile>シンボルファイル:</symbolfile>
 	<download>ダウンロード</download>
-	<symtip>シンボルファイル (pdb) はプログラムのデバッグ情報を記録するファイルです。\nシステムごとにバージョンが異なるため、Microsoft のサーバーから直接ダウン\nロードする必要があります。システムアップデート後にはシンボルファイルの更\n新が必要になることがあります。</symtip>
+	<symtip>シンボルファイル (pdb) はプログラムのデバッグ情報を記録するファイルで\nす。システムごとにバージョンが異なるため、Microsoft のサーバーから直接\nダウンロードする必要があります。システムアップデート後にはシンボルファ\nイルの更新が必要になることがあります。</symtip>
 	<symstatus0>無効</symstatus0>
 	<symstatus1>有効</symstatus1>
 	<symdowning>ダウンロード中…</symdowning>
-	<symdownfail>ダウンロードに失敗しました。「msdl.microsoft.com」 からファイルをダウンロードできませんでした。</symdownfail>
+	<symdownfail>ダウンロードに失敗しました。「msdl.microsoft.com」からファイルをダウンロードできませんでした。</symdownfail>
 	<syminvalid>シンボルファイルが無効です。「シンボル」ページで新しいシンボルファイルをダウンロードしてください。</syminvalid>
+	<configfile>構成ファイル</configfile>
 	<import>インポート</import>
 	<export>エクスポート</export>
 	<restore>設定をリセット</restore>
@@ -74,5 +78,5 @@
 	<restorecfg>設定をリセットしますか？</restorecfg>
 	<aboutinfo>このプログラムは LGPLv3 に準拠する無料のオープンソースソフトウェアです:</aboutinfo>
 	<curlang>現在の言語:</curlang>
-	<langauthor>翻訳:</langauthor>
+	<langauthor>翻訳貢献者:</langauthor>
 </lang>
