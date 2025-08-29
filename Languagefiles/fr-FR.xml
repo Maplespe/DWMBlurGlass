@@ -1,69 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<lang local="fr-FR" author="Unbloated">
-	<inituifail0>L'initialisation de la librairie MiaoUI à échoué ! Code Erreur: </inituifail0>
-	<inituifail1>Échec de création du contexte de la fenêtre !</inituifail1>
-	<inituifail2>Échec de l’initialisation de la fenêtre !</inituifail2>
-	<initfail0>Notez qu’en raison des restrictions d’isolation d’autorisation DWM, l’application doit être placée dans un répertoire non-utilisateur, et le chemin ne peut pas être dans "{path}" ou ses sous-répertoires! Veuillez changer le répertoire.</initfail0>
-	<symloadfail>Échec du chargement du fichier de symboles ! Le programme n’a pas pu charger le DLL, veuillez télécharger à nouveau les symboles! (Les symboles peuvent également devoir être re-téléchargés après une mise à jour du système)</symloadfail>
-	<colorpicker_dlg_sel>Seléctionnez la couleur :</colorpicker_dlg_sel>
-	<colorpicker_dlg_c>Nouvelle couleur :</colorpicker_dlg_c>
-	<msgdlg_no>Annuler</msgdlg_no>
-	<msgdlg_yes>Confirmer</msgdlg_yes>
-	<colorpicker_dlg_alpha>Opacity:</colorpicker_dlg_alpha>
-	<general>General</general>
-	<advanced>Avancé</advanced>
-	<symbol>Symboles</symbol>
-	<config>Configuration</config>
-	<about>À propos</about>
-	<status>Statut :</status>
-	<status0>Déinstallé</status0>
-	<status1>Installé</status1>
-	<install>Installer</install>
-	<uninstall>Déinstaller</uninstall>
-	<installsucs>Installation réussie !</installsucs>
-	<installsucs1>Installation réussie ! Mais vous n'avez pas téléchargé de fichier valide pour les symboles, téléchargez-le dans la page "Symboles" pour le faire marcher !</installsucs1>
-	<installfail>Installation échouée ! Message d'erreur :</installfail>
-	<uninstallsucs>Déinstallé avec succès.</uninstallsucs>
-	<uninstallfail>Déinstallation échouée ! Message d'erreur : </uninstallfail>
-	<loadfail>Un composant n'a pas pu charger ! Message d'erreur : </loadfail>
-	<saveconfig>Sauv. Config.</saveconfig>
-	<effectset>Paramètre d'effet</effectset>
-	<blurvalue>Rayon de flou :</blurvalue>
-	<applyglobal>Outrepasser l'effet MICA du DWMAPI (Win11)</applyglobal>
-	<extendborder>Étendre les effets aux bordures (Win10)</extendborder>
-	<reflection>Activer l'effect de réflection d'Aero (Win10)</reflection>
-	<reflectiontip>(Ancienne méthode de flou uniquement pour Windows 10)</reflectiontip>
-	<oldBtnHeight>Réduire la taille des boutons de la barre de titre (Win7 style)</oldBtnHeight>
-	<cmodelight>Couleurs en mode clair</cmodelight>
-	<cmodedark>Couleurs en mode foncé</cmodedark>
-	<blendcolor>Couleur de fusion de la barre de titre (Actif):</blendcolor>
-	<inactiveblendcolor>Couleur de fusion de la barre de titre (Inactif):</inactiveblendcolor>
-	<activecolor>Couleur du text actif :</activecolor>
-	<inactivecolor>Couleur du text inactif :</inactivecolor>
-	<preview>Aperçu</preview>
-	<sampletitle>Exemple de titre de fenêtre (active)</sampletitle>
-	<blurmethod>Méthode de flou :</blurmethod>
-	<methodcustom>[Recommendé] Implémentation de flou customisée écrite par CVisual (DWM)\et Windows.UI.Composition (dcomp) pour obtenir des effets de fond customisés, \nvous pouvez customiser la plupart des paramètres. Non seulement vosu obtenez la meilleure \nefficience mais aussi les meilleures apparence et stabilité. Cependant, la \ncompatibilité n'est pas si bonne. \nCa peut être casssé après une mise à jour majeure de Windows, et vous devez atendre pour \nla prochaine version.</methodcustom>
-	<methodaccent>[Non recommendé] Utilise la classe interne \nAccentBlurBehind de DWM pour appliquer l'effet de flou. Vous pouvez customiser certains des \nparamètres, mais ce n'est pas très efficient et moins stable. Celà fonctionnera sur la plupart des  \nsystèmes. \n(normalement une mise à jour du système ne le cassera pas).</methodaccent>
-	<methoddwmapi>Utilise DWMAPI documenté dans Windows 11 pour appliquer un effet SystemBackdrop limité, tels que\n les effets Acrylic et Mica, vous ne pouvez pas customiser ces paramètres du tout, mais c'est \ntrès efficient et a une meilleure stabilité. Cependant, ça peut casser l'apparence de \nscertaines applications, et c'est uniquement disponible sur Windows 11 22H2 et plus récent.</methoddwmapi>
-	<effecttype>Type d'effet :</effecttype>
-	<blurvaluetitle>Rayon de flou (barre de titre) :</blurvaluetitle>
-	<luminosity>Opacité de la luminosité :</luminosity>	
-	<symbolfile>Fichier de symboles :</symbolfile>
-	<download>Télécharger</download>
-	<symtip>Les fichiers de symboles (pdb) sont des fichiers qui enregistrent des\ninformations de débogage sur un programme. Étant donné que les\nsystèmes varient d’une version à l’autre, vous devrez télécharger les\nfichiers de symboles à partir d’un serveur Microsoft. Si vous mettez à\njour votre système, vous devrez peut-être télécharger à nouveau le\nnouveau fichier.</symtip>
-	<symstatus0>Invalide</symstatus0>
-	<symstatus1>Valide</symstatus1>
-	<symdowning>Téléchargement...</symdowning>
-	<symdownfail>Téléchargement échoué ! Impossible de télécharger le fichier dans "msdl.microsoft.com".</symdownfail>
-	<syminvalid>Le fichier de symboles n’est pas valide ! Veuillez vous rendre sur la page "Symboles" du programme DWMBlurGlass pour télécharger un nouveau fichier de symboles !</syminvalid>
-	<configfile>Fichier de configuration</configfile>
-	<import>Importer</import>
-	<export>Exporter</export>
-	<restore>Par défaut</restore>
-	<importwarn>Si vous importez un fichier de configuration, votre configuration actuellement utilisée sera remplacée. Continuer ?</importwarn>
-	<restorecfg>Êtes-vous sûr de revenir aux paramètres par défaut ?</restorecfg>
-	<aboutinfo>Ce programme est basé sur l’accord LGPLv3 logiciel libre open-source :</aboutinfo>
-	<curlang>Language utilisé :</curlang>
-	<langauthor>Contributeurs de traduction :</langauthor>
+<lang local="fr-FR" author="Unbloated, Friend2850">
+<inituifail0>L'initialisation de la librairie MiaoUI à échoué! Code Erreur:</inituifail0>
+<inituifail1>Échec de création du contexte de la fenêtre!</inituifail1>
+<inituifail2>Échec de l’initialisation de la fenêtre!</inituifail2>
+<initfail0>Notez qu’en raison des restrictions d’isolation d’autorisation DWM, l’application doit être placée dans un répertoire non-utilisateur, et le chemin ne peut pas être dans "{path}" ou ses sous-répertoires! Veuillez changer le répertoire.</initfail0>
+<symloadfail>Échec du chargement du fichier de symboles! Le programme n’a pas pu charger le fichier DLL, veuillez télécharger à nouveau les symboles! (Les symboles peuvent également devoir être re-téléchargés après une mise à jour du système)</symloadfail>
+<colorpicker_dlg_sel>Sélectionner la couleur:</colorpicker_dlg_sel>
+<colorpicker_dlg_c>Nouvelle couleur:</colorpicker_dlg_c>
+<msgdlg_no>Annuler</msgdlg_no>
+<msgdlg_yes>Confirmer</msgdlg_yes>
+<colorpicker_dlg_alpha>Opacité:</colorpicker_dlg_alpha>
+<general>Général</general>
+<advanced>Avancé</advanced>
+<symbol>Symbole</symbol>
+<config>Configuration</config>
+<about>À propos</about>
+<status>Statut:</status>
+<status0>Désinstallé</status0>
+<status1>Installé</status1>
+<install>Installer</install>
+<uninstall>Désinstaller</uninstall>
+<installsucs>Installation réussie!</installsucs>
+<installsucs1>Installation réussie! Mais vous n'avez pas téléchargé de fichier valide pour les symboles, téléchargez-le dans la page "Symboles" pour le faire marcher!</installsucs1>
+<installfail>Installation échouée! Message d'erreur:</installfail>
+<uninstallsucs>Désinstallé avec succès.</uninstallsucs>
+<uninstallfail>Désinstallation échouée! Message d'erreur:</uninstallfail>
+<loadfail>Un composant n'a pas pu charger! Message d'erreur:</loadfail>
+<saveconfig>Sauv. Config.</saveconfig>
+<effectset>Paramètres d'effet</effectset>
+<blurvalue>Rayon de flou:</blurvalue>
+<applyglobal>Outrepasser l'effet MICA du DWMAPI (Win11)</applyglobal>
+<extendborder>Étendre les effets aux bordures (Win10)</extendborder>
+<reflection>Activer l'effect de réflexion d'Aero (Win10)</reflection>
+<reflectiontip>(Ancienne méthode de flou uniquement pour Windows 10)</reflectiontip>
+<oldBtnSize>Restaurer la taille des boutons de la barre de titre Win7</oldBtnSize>
+<titlebtnGlow>Activer la brillance des boutons de la barre de titre Win7</titlebtnGlow>
+<cmodelight>Couleurs du Mode Clair</cmodelight>
+<cmodedark>Couleurs du Mode Foncé</cmodedark>
+<blendcolor>Couleur de fusion de la barre de titre (Actif):</blendcolor>
+<inactiveblendcolor>Couleur de fusion de la barre de titre (Inactif):</inactiveblendcolor>
+<activecolor>Couleur du texte actif:</activecolor>
+<inactivecolor>Couleur du texte inactif:</inactivecolor>
+<preview>Aperçu</preview>
+<sampletitle>Exemple de titre de fenêtre (active)</sampletitle>
+<blurmethod>Méthode de flou:</blurmethod>
+<methodcustom>[Recommandé] Implémentation de flou customisée écrite par CVisual (DWM)\et Windows.UI.Composition (dcomp) pour obtenir des effets de fond customisés, \nvous pouvez customiser la plupart des paramètres. Non seulement vous obtenez la meilleure \nefficience mais aussi les meilleures apparence et stabilité. Cependant, la \ncompatibilité n'est pas si bonne. \nCela peut être cassé après une mise à jour majeure de Windows, et vous devez attendre pour \nla prochaine version.</methodcustom>
+<methodaccent>[Non recommandé] Utilise la classe interne \nAccentBlurBehind de DWM pour appliquer l'effet de flou. Vous pouvez customiser certains des \nparamètres, mais ce n'est pas très efficient et moins stable. Cela fonctionnera sur la plupart des \nsystèmes. \n(normalement une mise à jour du système ne le cassera pas).</methodaccent>
+<methoddwmapi>Utilise DWMAPI documenté dans Windows 11 pour appliquer un effet SystemBackdrop limité, tels que\n les effets Acrylic et Mica, vous ne pouvez pas customiser ces paramètres du tout, mais c'est \ntrès efficient et a une meilleure stabilité. Cependant, cela peut casser l'apparence de \ncertaines applications, et c'est uniquement disponible sur Windows 11 22H2 et plus récent.</methoddwmapi>
+<effecttype>Type d'effet:</effecttype>
+<blurvaluetitle>Rayon de flou (barre de titre):</blurvaluetitle>
+<luminosity>Opacité de la luminosité:</luminosity>
+<symbolfile>Fichier de symboles:</symbolfile>
+<download>Télécharger</download>
+<symtip>Les fichiers de symboles (pdb) sont des fichiers qui enregistrent des\ninformations de débogage sur un programme. Étant donné que les\nsystèmes varient d’une version à l’autre, vous devrez télécharger les\nfichiers de symboles à partir d’un serveur Microsoft. Si vous mettez à\njour votre système, vous devrez peut-être télécharger à nouveau le\nnouveau fichier.</symtip>
+<symstatus0>Invalide</symstatus0>
+<symstatus1>Valide</symstatus1>
+<symdowning>Téléchargement...</symdowning>
+<symdownfail>Téléchargement échoué! Impossible de télécharger le fichier dans "msdl.microsoft.com".</symdownfail>
+<syminvalid>Le fichier de symboles n’est pas valide! Veuillez vous rendre sur la page "Symboles" du programme DWMBlurGlass pour télécharger un nouveau fichier de symboles!</syminvalid>
+<configfile>Fichier de configuration</configfile>
+<import>Importer</import>
+<export>Exporter</export>
+<restore>Par défaut</restore>
+<importwarn>En important un fichier de configuration, vous remplacerez la configuration actuellement utilisée. Voulez-vous continuer?</importwarn>
+<restorecfg>Êtes-vous sûr de revenir aux paramètres par défaut?</restorecfg>
+<aboutinfo>Ce programme est basé sur l’accord LGPLv3 logiciel libre open-source:</aboutinfo>
+<curlang>Langue utilisé:</curlang>
+<langauthor>Contributeurs de traduction:</langauthor>
 </lang>
