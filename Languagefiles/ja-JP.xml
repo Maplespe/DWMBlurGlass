@@ -55,7 +55,7 @@
   <afterglowBalance>残光のバランス:</afterglowBalance>
   <miscsettings>その他:</miscsettings>
   <enablecrossfade>クロスフェードアニメーション効果を有効化する</enablecrossfade>
-  <crossfadeTime>アニメーションの時間:</crossfadeTime>
+  <crossfadeTime>アニメーションの長さ:</crossfadeTime>
   <useaccentcolor>アクセントカラーを使用して RGB の色設定を上書きする</useaccentcolor>
   <glassIntensity>Aero 反射テクスチャの不透明度:</glassIntensity>
   <overrideAccent>アクセントぼかしの効果を上書きする</overrideAccent>
