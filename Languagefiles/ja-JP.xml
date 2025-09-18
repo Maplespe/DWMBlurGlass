@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <lang local="ja-JP" author="KimChampil, FreshP-0325, Re*Index.(ot_inc)">
-  <inituifail0>MiaoUI ライブラリの初期化に失敗しました！ エラーコード: </inituifail0>
+  <inituifail0>MiaoUI ライブラリの初期化に失敗しました！\nエラーコード: </inituifail0>
   <inituifail1>ウィンドウコンテキストの作成に失敗しました！</inituifail1>
   <inituifail2>ウィンドウの初期化に失敗しました！</inituifail2>
   <initfail0>DWM はサンドボックス内で実行されるため、このアプリはユーザーディレクトリ以外のディレクトリに配置する必要があります。「{path}」のパスまたは、そのサブディレクトリ内に配置できない点にご注意ください。別のディレクトリに配置し直してください。</initfail0>
-  <symloadfail>シンボルファイルの読み込みに失敗しました！DLL を読み込めませんでした。シンボルを再度ダウンロードしてください (システムの更新後にもシンボルの再ダウンロードが必要になる場合があります)。</symloadfail>
+  <symloadfail>シンボルファイルの読み込みに失敗しました！\nDLL を読み込めませんでした。シンボルを再度ダウンロードしてください (システムの更新後にもシンボルの再ダウンロードが必要になる場合があります)。</symloadfail>
   <colorpicker_dlg_sel>色を選択:</colorpicker_dlg_sel>
   <colorpicker_dlg_c>新しい色:</colorpicker_dlg_c>
   <msgdlg_no>キャンセル</msgdlg_no>
@@ -21,11 +21,11 @@
   <install>インストール</install>
   <uninstall>アンインストール</uninstall>
   <installsucs>インストールに成功しました！</installsucs>
-  <installsucs1>インストールに成功しました！ただし、有効なシンボルファイルをまだダウンロードしていません。DWMBlurGlass を正常に動作させるには「シンボル」ページからダウンロードしてください。</installsucs1>
-  <installfail>インストールに失敗しました！ エラーメッセージ: </installfail>
+  <installsucs1>インストールに成功しました！\nただし、有効なシンボルファイルをまだダウンロードしていません。DWMBlurGlass を正常に動作させるには「シンボル」ページからダウンロードしてください。</installsucs1>
+  <installfail>インストールに失敗しました！\nエラーメッセージ: </installfail>
   <uninstallsucs>アンインストールに成功しました。</uninstallsucs>
-  <uninstallfail>アンインストールに失敗しました！ エラーメッセージ: </uninstallfail>
-  <loadfail>コンポーネントの読み込みに失敗しました！ エラーメッセージ: </loadfail>
+  <uninstallfail>アンインストールに失敗しました！\nエラーメッセージ: </uninstallfail>
+  <loadfail>コンポーネントの読み込みに失敗しました！\nエラーメッセージ: </loadfail>
   <saveconfig>保存</saveconfig>
   <effectset>効果の設定</effectset>
   <blurvalue>ぼかしの半径 (グローバル):</blurvalue>
@@ -68,8 +68,8 @@
   <symstatus0>無効</symstatus0>
   <symstatus1>有効</symstatus1>
   <symdowning>ダウンロード中...</symdowning>
-  <symdownfail>ダウンロードに失敗しました！「msdl.microsoft.com」からシンボルファイルをダウンロードできません。</symdownfail>
-  <syminvalid>シンボルファイルが無効です。DWMBlurGlass の「シンボル」ページに移動して、新しいシンボルファイルをダウンロードしてください。</syminvalid>
+  <symdownfail>ダウンロードに失敗しました！\nmsdl.microsoft.com からシンボルファイルをダウンロードできません。</symdownfail>
+  <syminvalid>シンボルファイルが無効です。\nDWMBlurGlass の「シンボル」ページに移動して、新しいシンボルファイルをダウンロードしてください。</syminvalid>
   <configfile>構成ファイル</configfile>
   <import>インポート</import>
   <export>エクスポート</export>
