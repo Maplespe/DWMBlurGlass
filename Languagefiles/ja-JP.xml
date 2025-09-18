@@ -22,10 +22,10 @@
   <uninstall>アンインストール</uninstall>
   <installsucs>インストールに成功しました！</installsucs>
   <installsucs1>インストールに成功しました！\nただし、有効なシンボルファイルをまだダウンロードしていません。DWMBlurGlass を正常に動作させるには「シンボル」ページからダウンロードしてください。</installsucs1>
-  <installfail>インストールに失敗しました！\nエラーメッセージ: </installfail>
+  <installfail>インストールに失敗しました！ エラーメッセージ: </installfail>
   <uninstallsucs>アンインストールに成功しました。</uninstallsucs>
-  <uninstallfail>アンインストールに失敗しました！\nエラーメッセージ: </uninstallfail>
-  <loadfail>コンポーネントの読み込みに失敗しました！\nエラーメッセージ: </loadfail>
+  <uninstallfail>アンインストールに失敗しました！ エラーメッセージ: </uninstallfail>
+  <loadfail>コンポーネントの読み込みに失敗しました！ エラーメッセージ: </loadfail>
   <saveconfig>保存</saveconfig>
   <effectset>効果の設定</effectset>
   <blurvalue>ぼかしの半径 (グローバル):</blurvalue>
