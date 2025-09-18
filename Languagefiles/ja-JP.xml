@@ -1,82 +1,82 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<lang local="ja-JP" author="KimChampil, FreshP-0325">
-	<inituifail0>MiaoUI library の初期化に失敗しました。エラー：</inituifail0>
-	<inituifail1>ウィンドウのコンテストの生成に失敗しました</inituifail1>
-	<inituifail2>ウィンドウの初期化に失敗しました</inituifail2>
-	<initfail0>DWM がサンドボックスで実行されているため、このアプリケーションはユーザーディレクトリ以外に配置する必要があり、パスは '{path}' またはそのサブディレクトリには配置できません。別のディレクトリに配置してください。</initfail0>
-	<symloadfail>シンボルファイルの読み込みに失敗しました。プログラムが DLL を読み込めませんでした。シンボルを再ダウンロードしてください。（システムの更新後にシンボルを再ダウンロードする必要がある場合があります）</symloadfail>
-	<colorpicker_dlg_sel>色の選択</colorpicker_dlg_sel>
-	<colorpicker_dlg_c>新しい色</colorpicker_dlg_c>
-	<msgdlg_no>キャンセル</msgdlg_no>
-	<msgdlg_yes>OK</msgdlg_yes>
-	<colorpicker_dlg_alpha>不透明度:</colorpicker_dlg_alpha>
-	<general>全般</general>
-	<advanced>詳細設定</advanced>
-	<symbol>シンボル</symbol>
-	<config>構成ファイル</config>
-	<about>情報</about>
-	<status>ステータス:</status>
-	<status0>未インストール</status0>
-	<status1>インストール済</status1>
-	<install>インストール</install>
-	<uninstall>アンインストール</uninstall>
-	<installsucs>インストールに成功しました</installsucs>
-	<installsucs1>インストールに成功しました。ただし、有効なシンボルファイルをまだダウンロードしていません。DWMBlurGlass を動作させるには、「シンボル」ページからダウンロードしてください。</installsucs1>
-	<installfail>インストールに失敗しました。エラー: </installfail>
-	<uninstallsucs>アンインストールに成功成功しました</uninstallsucs>
-	<uninstallfail>アンインストールに失敗しました。エラー: </uninstallfail>
-	<loadfail>コンポーネントの読み込みに失敗しました。エラー: </loadfail>
-	<saveconfig>設定を適用</saveconfig>
-	<effectset>効果の設定</effectset>
-	<blurvalue>ぼかしの半径 (グローバル):</blurvalue>
-	<overrideDwmapi>DWMAPI の効果をオーバーライドする (Windows 11)</overrideDwmapi>
-	<extendborder>効果を境界まで拡張する (Windows 10)</extendborder>
-	<reflection>Aero 反射効果を有効にする</reflection>
-	<reflectiontip>(OldBlur を使用時には Win10 のみ)</reflectiontip>
-	<oldBtnSize>Windows 7 スタイルのタイトルバーボタンサイズを復元する</oldBtnSize>
-	<titlebtnGlow>Windows 7 スタイルのタイトルバーボタングローを有効にする</titlebtnGlow>
-	<cmodelight>ライトモード</cmodelight>
-	<cmodedark>ダークモード</cmodedark>
-	<blendcolor>アクティブタイトルバー:</blendcolor>
-	<inactiveblendcolor>非アクティブタイトルバー:</inactiveblendcolor>
-	<activecolor>アクティブタイトル:</activecolor>
-	<inactivecolor>非アクティブタイトル:</inactivecolor>
-	<preview>プレビュー</preview>
-	<sampletitle>アクティブウィンドウの例</sampletitle>
-	<blurmethod>ぼかしのモード:</blurmethod>
-	<methodcustom>[おすすめ] CVisual (DWM) と IComposition (dcomp) を使用してカスタム背\n景効果を実現します。ほとんどのパラメータをカスタマイズでき、効率が最も\n高く、効果が最も良く、安定性が比較的高いです。ただし、システムの適応範\n囲は一般的です。システムが大幅に更新されると失敗する可能性があるため、\n新しいバージョンを待つ必要があります。</methodcustom>
-	<methodaccent>[お勧めしません] DWM の未公開のクラス AccentBlurBehind を使用して、一\n部のパラメータをカスタマイズできますが、効率が低く、安定性が低く、シス\nテムの適応範囲が広いです。通常、システムの更新で失敗することはありませ\nん。</methodaccent>
-	<methoddwmapi>公開済みの DWMAPI で SystemBackdrop 効果を調整します、Acrylic、Mica \nの効果を選択できますが、パラメータをカスタマイズできません、効率が高く、\n安定性が高いですが、一部のプログラムのレンダリングが壊れる可能性があり\nます。システムの適応範囲は Windows 11 22H2 以上に限定されます。</methoddwmapi>
-	<effecttype>効果のタイプ:</effecttype>
-	<blurvaluetitle>タイトルバーのぼかしの半径:</blurvaluetitle>
-	<luminosity>明るさ / 不透明度:</luminosity>
-	<colorBalance>カラーバランス:</colorBalance>
-	<blurBalance>明るさ:</blurBalance>
-	<afterglowBalance>コントラスト:</afterglowBalance>
-	<miscsettings>その他</miscsettings>
-	<enablecrossfade>タイトルバーのクロスフェード効果を有効にする</enablecrossfade>
-	<crossfadeTime>長さ:</crossfadeTime>
-	<useaccentcolor>システムのアクセントカラーを使用する</useaccentcolor>
-	<glassIntensity>Aero 反射テクスチャの不透明度:</glassIntensity>
-	<overrideAccent>AccentBlur の効果をオーバーライドする</overrideAccent>
-	<scaleOptimizer>ぼかしのレンダリングを最適化する</scaleOptimizer>
-	<disableOnBattery>省エネ機能がオンの時に効果を無効にする</disableOnBattery>
-	<disableFramerateLimit>Dcomp フレームレートの制限を無効にする</disableFramerateLimit>
-	<symbolfile>シンボルファイル:</symbolfile>
-	<download>ダウンロード</download>
-	<symtip>シンボルファイル (pdb) はプログラムのデバッグ情報を記録するファイルで\nす。システムごとにバージョンが異なるため、Microsoft のサーバーから直接\nダウンロードする必要があります。システムアップデート後にはシンボルファ\nイルの更新が必要になることがあります。</symtip>
-	<symstatus0>無効</symstatus0>
-	<symstatus1>有効</symstatus1>
-	<symdowning>ダウンロード中…</symdowning>
-	<symdownfail>ダウンロードに失敗しました。「msdl.microsoft.com」からファイルをダウンロードできませんでした。</symdownfail>
-	<syminvalid>シンボルファイルが無効です。「シンボル」ページで新しいシンボルファイルをダウンロードしてください。</syminvalid>
-	<configfile>構成ファイル</configfile>
-	<import>インポート</import>
-	<export>エクスポート</export>
-	<restore>設定をリセット</restore>
-	<importwarn>構成ファイルをインポートすると、現在の設定は上書きされます。続行しますか？</importwarn>
-	<restorecfg>設定をリセットしますか？</restorecfg>
-	<aboutinfo>このプログラムは LGPLv3 に準拠する無料のオープンソースソフトウェアです:</aboutinfo>
-	<curlang>現在の言語:</curlang>
-	<langauthor>翻訳貢献者:</langauthor>
+<?xml version="1.0" encoding="utf-8"?>
+<lang local="ja-JP" author="KimChampil, FreshP-0325, Re*Index.(ot_inc)">
+  <inituifail0>MiaoUI ライブラリの初期化に失敗しました！ エラーコード: </inituifail0>
+  <inituifail1>ウィンドウコンテキストの作成に失敗しました！</inituifail1>
+  <inituifail2>ウィンドウの初期化に失敗しました！</inituifail2>
+  <initfail0>DWM はサンドボックス内で実行されるため、このアプリはユーザーディレクトリ以外のディレクトリに配置する必要があります。「{path}」のパスまたは、そのサブディレクトリ内に配置できない点にご注意ください。別のディレクトリに配置し直してください。</initfail0>
+  <symloadfail>シンボルファイルの読み込みに失敗しました！DLL を読み込めませんでした。シンボルを再度ダウンロードしてください (システムの更新後にもシンボルの再ダウンロードが必要になる場合があります)。</symloadfail>
+  <colorpicker_dlg_sel>色を選択:</colorpicker_dlg_sel>
+  <colorpicker_dlg_c>新しい色:</colorpicker_dlg_c>
+  <msgdlg_no>キャンセル</msgdlg_no>
+  <msgdlg_yes>確認</msgdlg_yes>
+  <colorpicker_dlg_alpha>不透明度:</colorpicker_dlg_alpha>
+  <general>一般</general>
+  <advanced>高度</advanced>
+  <symbol>シンボル</symbol>
+  <config>構成</config>
+  <about>バージョン情報</about>
+  <status>状態:</status>
+  <status0>アンインストール済み</status0>
+  <status1>インストール済み</status1>
+  <install>インストール</install>
+  <uninstall>アンインストール</uninstall>
+  <installsucs>インストールに成功しました！</installsucs>
+  <installsucs1>インストールに成功しました！ただし、有効なシンボルファイルをまだダウンロードしていません。DWMBlurGlass を正常に動作させるには「シンボル」ページからダウンロードしてください。</installsucs1>
+  <installfail>インストールに失敗しました！ エラーメッセージ: </installfail>
+  <uninstallsucs>アンインストールに成功しました。</uninstallsucs>
+  <uninstallfail>アンインストールに失敗しました！ エラーメッセージ: </uninstallfail>
+  <loadfail>コンポーネントの読み込みに失敗しました！ エラーメッセージ: </loadfail>
+  <saveconfig>保存</saveconfig>
+  <effectset>効果の設定</effectset>
+  <blurvalue>ぼかしの半径 (グローバル):</blurvalue>
+  <overrideDwmapi>DWMAPI の効果を上書きする (Windows 11)</overrideDwmapi>
+  <extendborder>効果を境界まで拡張する (Windows 10)</extendborder>
+  <reflection>Aero の反射効果を有効化する</reflection>
+  <reflectiontip>(従来の方式で Windows 10 のみ)</reflectiontip>
+  <oldBtnSize>Win7 スタイルのタイトルバーボタンのサイズを復元する</oldBtnSize>
+  <titlebtnGlow>Win7 スタイルのタイトルバーボタンのグローを有効化する</titlebtnGlow>
+  <cmodelight>ライトモードの色</cmodelight>
+  <cmodedark>ダークモードの色</cmodedark>
+  <blendcolor>タイトルバーのブレンドカラー (アクティブ):</blendcolor>
+  <inactiveblendcolor>タイトルバーのブレンドカラー (非アクティブ):</inactiveblendcolor>
+  <activecolor>アクティブテキストの色:</activecolor>
+  <inactivecolor>非アクティブテキストの色:</inactivecolor>
+  <preview>プレビュー</preview>
+  <sampletitle>ウィンドウタイトルの例 (アクティブ)</sampletitle>
+  <blurmethod>ぼかしの方式:</blurmethod>
+  <methodcustom>[推奨] CVisual (DWM) と Windows.UI.Composition (dcomp) \nによって記述されたカスタムぼかし実装を使用して\nカスタム背景効果を実現します。\nほとんどのパラメーターをカスタマイズできます。\n最高の効率だけでなく、見た目や安定性も向上します。\nただし互換性はそれほど安定していません。\nWindows の主要な更新後に破綻する可能性があり、\nその場合は次のリリースを待つ必要があります。</methodcustom>
+  <methodaccent>[非推奨] ぼかし効果を適用するために\nDWM 内部の AccentBlurBehind クラスを使用します。\n一部のパラメーターをカスタマイズできますが、非効率で安定性も低下します。\nほとんどのシステム上で正常に動作します \n(通常はシステムの更新によって動作が損なわれることはありません)。</methodaccent>
+  <methoddwmapi>Windows 11 でドキュメントに記載されている DWMAPI を使用して\n限定的なシステムバックドロップ効果\n(アクリル効果やマイカ効果など) を適用できます。\nこれらのパラメーターをカスタマイズすることはできませんが\n高効率で安定性も優れています。\nただし、一部のプログラムの外観が崩れる可能性があり、\nWindows 11 22H2 以降でのみ使用できます。</methoddwmapi>
+  <effecttype>効果のタイプ:</effecttype>
+  <blurvaluetitle>ぼかしの半径 (タイトルバーのみ):</blurvaluetitle>
+  <luminosity>不透明度の輝度:</luminosity>
+  <colorBalance>カラーバランス:</colorBalance>
+  <blurBalance>ぼかしのバランス:</blurBalance>
+  <afterglowBalance>残光のバランス:</afterglowBalance>
+  <miscsettings>その他:</miscsettings>
+  <enablecrossfade>クロスフェードアニメーション効果を有効化する</enablecrossfade>
+  <crossfadeTime>アニメーションの時間:</crossfadeTime>
+  <useaccentcolor>アクセントカラーを使用して RGB の色設定を上書きする</useaccentcolor>
+  <glassIntensity>Aero 反射テクスチャの不透明度:</glassIntensity>
+  <overrideAccent>アクセントぼかしの効果を上書きする</overrideAccent>
+  <scaleOptimizer>ぼかしのレンダリングの最適化を有効化する</scaleOptimizer>
+  <disableOnBattery>省電力モード時に効果を無効化する</disableOnBattery>
+  <disableFramerateLimit>Dcomp フレームレート制限を無効化する</disableFramerateLimit>
+  <symbolfile>シンボルファイル:</symbolfile>
+  <download>ダウンロード</download>
+  <symtip>シンボルファイル (pdb) は、プログラムのデバッグ情報を記録する物です。\nシステムはバージョンによって異なり、\nMicrosoft のサーバーからシンボルファイルをダウンロードを\n要する場合があります。\nシステムの更新後は、シンボルファイルを\n再度ダウンロードする必要があります。</symtip>
+  <symstatus0>無効</symstatus0>
+  <symstatus1>有効</symstatus1>
+  <symdowning>ダウンロード中...</symdowning>
+  <symdownfail>ダウンロードに失敗しました！「msdl.microsoft.com」からシンボルファイルをダウンロードできません。</symdownfail>
+  <syminvalid>シンボルファイルが無効です。DWMBlurGlass の「シンボル」ページに移動して、新しいシンボルファイルをダウンロードしてください。</syminvalid>
+  <configfile>構成ファイル</configfile>
+  <import>インポート</import>
+  <export>エクスポート</export>
+  <restore>既定の設定に復元</restore>
+  <importwarn>構成ファイルをインポートすると既存の構成が上書きされますが、続行しますか？</importwarn>
+  <restorecfg>既定の設定を復元してもよろしいですか？</restorecfg>
+  <aboutinfo>このプログラムは LGPLv3 に基づいています:</aboutinfo>
+  <curlang>現在の言語:</curlang>
+  <langauthor>翻訳の貢献者:</langauthor>
 </lang>
