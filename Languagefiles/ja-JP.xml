@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <lang local="ja-JP" author="KimChampil, FreshP-0325, Re*Index.(ot_inc)">
-  <inituifail0>MiaoUI ライブラリの初期化に失敗しました！\nエラーコード: </inituifail0>
+  <inituifail0>MiaoUI ライブラリの初期化に失敗しました！ エラーコード: </inituifail0>
   <inituifail1>ウィンドウコンテキストの作成に失敗しました！</inituifail1>
   <inituifail2>ウィンドウの初期化に失敗しました！</inituifail2>
   <initfail0>DWM はサンドボックス内で実行されるため、このアプリはユーザーディレクトリ以外のディレクトリに配置する必要があります。「{path}」のパスまたは、そのサブディレクトリ内に配置できない点にご注意ください。別のディレクトリに配置し直してください。</initfail0>
