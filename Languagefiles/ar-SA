@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang local="ar-SA" author="Kh4l1l">
+	<inituifail0>فشل في تهيئة مكتبة MiaoUI! رمز الخطأ: </inituifail0>
+	<inituifail1>فشل إنشاء سياق النافذة!</inituifail1>
+	<inituifail2>فشل في تهيئة النافذة!</inituifail2>
+	<initfail0>نظرًا لأن DWM يعمل في بيئة معزولة (Sandbox)، يجب وضع هذا التطبيق في مجلد غير تابع للمستخدم، ولا يمكن أن يكون المسار داخل "{path}" أو أي من المجلدات الفرعية له! الرجاء وضعه في مجلد آخر.</initfail0>
+	<symloadfail>فشل تحميل ملفات الرموز! لم يتمكن البرنامج من تحميل مكتبة DLL، يرجى إعادة تنزيل ملفات الرموز. (قد تحتاج إلى إعادة تنزيلها بعد تحديث النظام)</symloadfail>
+	<colorpicker_dlg_sel>اختر اللون:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>اللون الجديد:</colorpicker_dlg_c>
+	<msgdlg_no>إلغاء</msgdlg_no>
+	<msgdlg_yes>تأكيد</msgdlg_yes>
+	<colorpicker_dlg_alpha>الشفافية:</colorpicker_dlg_alpha>
+	<general>عام</general>
+	<advanced>متقدم</advanced>
+	<symbol>الرموز</symbol>
+	<config>الإعدادات</config>
+	<about>حول</about>
+	<status>الحالة:</status>
+	<status0>غير مثبت</status0>
+	<status1>مثبت</status1>
+	<install>تثبيت</install>
+	<uninstall>إلغاء التثبيت</uninstall>
+	<installsucs>تم التثبيت بنجاح!</installsucs>
+	<installsucs1>تم التثبيت بنجاح! ولكن لم تقم بعد بتنزيل ملفات الرموز الصالحة، قم بتنزيلها من صفحة "الرموز" لتشغيل DWMBlurGlass.</installsucs1>
+	<installfail>فشل التثبيت! رسالة الخطأ: </installfail>
+	<uninstallsucs>تم إلغاء التثبيت بنجاح.</uninstallsucs>
+	<uninstallfail>فشل إلغاء التثبيت! رسالة الخطأ: </uninstallfail>
+	<loadfail>فشل تحميل المكون! رسالة الخطأ: </loadfail>
+	<saveconfig>حفظ</saveconfig>
+	<effectset>إعدادات التأثير</effectset>
+	<blurvalue>نصف قطر التمويه (عام):</blurvalue>
+	<overrideDwmapi>تجاوز تأثير DWMAPI (ويندوز 11)</overrideDwmapi>
+	<extendborder>تمديد التأثيرات إلى الحواف (ويندوز 10)</extendborder>
+	<reflection>تفعيل تأثير الانعكاس الزجاجي (Aero)</reflection>
+	<reflectiontip>(طريقة تمويه قديمة مخصصة لويندوز 10 فقط)</reflectiontip>
+	<oldBtnSize>استعادة حجم أزرار شريط العنوان بأسلوب ويندوز 7</oldBtnSize>
+	<titlebtnGlow>تفعيل توهج أزرار شريط العنوان بأسلوب ويندوز 7</titlebtnGlow>
+	<cmodelight>ألوان الوضع الفاتح</cmodelight>
+	<cmodedark>ألوان الوضع الداكن</cmodedark>
+	<blendcolor>لون دمج شريط العنوان (النشط):</blendcolor>
+	<inactiveblendcolor>لون دمج شريط العنوان (غير النشط):</inactiveblendcolor>
+	<activecolor>لون النص النشط:</activecolor>
+	<inactivecolor>لون النص غير النشط:</inactivecolor>
+	<preview>معاينة</preview>
+	<sampletitle>عنوان نافذة تجريبي (نشط)</sampletitle>
+	<blurmethod>طريقة التمويه:</blurmethod>
+	<methodcustom>[مُوصى به] تنفيذ مخصص للتمويه مكتوب بواسطة CVisual (DWM)\nو Windows.UI.Composition (dcomp) لتوفير تأثيرات خلفية مخصصة.\nيمكنك تخصيص معظم الإعدادات. يمنحك هذا أفضل أداء وأجمل مظهر\nواستقرارًا جيدًا. ومع ذلك، قد لا يكون متوافقًا تمامًا، وقد يتعطل بعد تحديثات\nكبيرة لنظام ويندوز، حينها يجب انتظار إصدار جديد.</methodcustom>
+	<methodaccent>[غير موصى به] استخدام الفئة الداخلية AccentBlurBehind الخاصة بـ DWM\nلتطبيق تأثير التمويه. يمكنك تخصيص بعض الإعدادات، لكنه غير فعال\nوأقل استقرارًا. يمكن أن يعمل بشكل طبيعي في معظم الأنظمة، ونادرًا ما\nيتأثر بتحديثات النظام.</methodaccent>
+	<methoddwmapi>استخدام DWMAPI الموثق في ويندوز 11 لتطبيق تأثيرات محدودة للنظام\nمثل تأثير الأكريليك أو الميكا. لا يمكنك تخصيص الإعدادات، لكنه فعال\nوسريع ومستقر. ومع ذلك، قد يُفسد مظهر بعض البرامج، وهو متاح فقط\nعلى ويندوز 11 إصدار 22H2 وما بعده.</methoddwmapi>
+	<effecttype>نوع التأثير:</effecttype>
+	<blurvaluetitle>نصف قطر التمويه (لشريط العنوان فقط):</blurvaluetitle>
+	<luminosity>شفافية الإضاءة:</luminosity>
+	<colorBalance>توازن اللون:</colorBalance>
+	<blurBalance>توازن التمويه:</blurBalance>
+	<afterglowBalance>توازن التوهج اللاحق:</afterglowBalance>
+	<miscsettings>إعدادات متنوعة:</miscsettings>
+	<enablecrossfade>تفعيل تأثير انتقال تدريجي (Crossfade)</enablecrossfade>
+	<crossfadeTime>مدة الحركة:</crossfadeTime>
+	<useaccentcolor>استخدام لون النظام (Accent) لتجاوز إعدادات الألوان RGB</useaccentcolor>
+	<glassIntensity>شفافية نسيج الانعكاس الزجاجي:</glassIntensity>
+	<overrideAccent>تجاوز تأثير AccentBlur</overrideAccent>
+	<scaleOptimizer>تفعيل تحسين عرض التمويه</scaleOptimizer>
+	<disableOnBattery>تعطيل التأثير في وضع توفير الطاقة</disableOnBattery>
+	<disableFramerateLimit>تعطيل حد معدل الإطارات لـ Dcomp</disableFramerateLimit>
+	<symbolfile>ملفات الرموز:</symbolfile>
+	<download>تنزيل</download>
+	<symtip>ملفات الرموز (pdb) تحتوي على معلومات تصحيح الأخطاء الخاصة بالبرنامج.\nنظرًا لاختلاف الأنظمة من إصدار لآخر، يجب تنزيل ملفات الرموز من خوادم\nمايكروسوفت. بعد تحديث النظام، قد تحتاج إلى إعادة تنزيل ملفات الرموز مرة أخرى.</symtip>
+	<symstatus0>غير صالح</symstatus0>
+	<symstatus1>صالح</symstatus1>
+	<symdowning>جارٍ التنزيل...</symdowning>
+	<symdownfail>فشل التنزيل! لم يتمكن من تنزيل ملفات الرموز من "msdl.microsoft.com".</symdownfail>
+	<syminvalid>ملفات الرموز غير صالحة، يرجى الانتقال إلى صفحة "الرموز" في برنامج DWMBlurGlass لتنزيل ملفات جديدة.</syminvalid>
+	<configfile>ملف الإعدادات</configfile>
+	<import>استيراد</import>
+	<export>تصدير</export>
+	<restore>استعادة الإعدادات الافتراضية</restore>
+	<importwarn>سيؤدي استيراد ملف إعدادات إلى استبدال إعداداتك الحالية، هل ترغب بالمتابعة؟</importwarn>
+	<restorecfg>هل أنت متأكد أنك تريد استعادة الإعدادات الافتراضية؟</restorecfg>
+	<aboutinfo>يعتمد هذا البرنامج على ترخيص LGPLv3:</aboutinfo>
+	<curlang>اللغة الحالية:</curlang>
+	<langauthor>مساهمو الترجمة:</langauthor>
+</lang>
