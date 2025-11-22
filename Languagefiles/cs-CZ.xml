@@ -1,0 +1,81 @@
+<lang local="cs-CZ" author="Jan">
+  <inituifail0>Inicializace knihovny MiaoUI selhala! Kód chyby: </inituifail0>
+  <inituifail1>Nelze vytvořit kontext okna!</inituifail1>
+  <inituifail2>Nelze inicializovat okno!</inituifail2>
+  <initfail0>Protože DWM běží v sandboxu, aplikace musí být umístěna mimo uživatelský adresář. Cesta nesmí být v „{path}“ ani v jeho podadresářích! Umístěte ji do jiného adresáře.</initfail0>
+  <symloadfail>Načtení symbolových souborů selhalo! Program nemohl načíst DLL, stáhněte prosím symboly znovu. (Po aktualizaci systému může být nutné je znovu stáhnout)</symloadfail>
+  <colorpicker_dlg_sel>Vyberte barvu:</colorpicker_dlg_sel>
+  <colorpicker_dlg_c>Nová barva:</colorpicker_dlg_c>
+  <msgdlg_no>Zrušit</msgdlg_no>
+  <msgdlg_yes>Potvrdit</msgdlg_yes>
+  <colorpicker_dlg_alpha>Průhlednost:</colorpicker_dlg_alpha>
+  <general>Obecné</general>
+  <advanced>Pokročilé</advanced>
+  <symbol>Symbol</symbol>
+  <config>Nastavení</config>
+  <about>O programu</about>
+  <status>Stav:</status>
+  <status0>Neinstalováno</status0>
+  <status1>Instalováno</status1>
+  <install>Instalovat</install>
+  <uninstall>Odinstalovat</uninstall>
+  <installsucs>Instalace proběhla úspěšně!</installsucs>
+  <installsucs1>Instalace proběhla úspěšně! Ale zatím jste nestáhli platné symbolové soubory. Stáhněte je na stránce „Symboly“, aby DWMBlurGlass fungoval správně.</installsucs1>
+  <installfail>Instalace selhala! Chybová zpráva: </installfail>
+  <uninstallsucs>Odinstalace proběhla úspěšně.</uninstallsucs>
+  <uninstallfail>Odinstalace selhala! Chybová zpráva: </uninstallfail>
+  <loadfail>Načtení komponenty selhalo! Chybová zpráva: </loadfail>
+  <saveconfig>Uložit</saveconfig>
+  <effectset>Nastavení efektů</effectset>
+  <blurvalue>Poloměr rozmazání (globální):</blurvalue>
+  <overrideDwmapi>Přepsat efekt DWMAPI (Windows 11)</overrideDwmapi>
+  <extendborder>Rozšířit efekty na okraje (Windows 10)</extendborder>
+  <reflection>Povolit efekt odrazu Aero</reflection>
+  <reflectiontip>(Zastaralá metoda rozmazání pouze pro Windows 10)</reflectiontip>
+  <oldBtnSize>Obnovit velikost tlačítek titulního pruhu ve stylu Windows 7</oldBtnSize>
+  <titlebtnGlow>Povolit záři tlačítek titulního pruhu ve stylu Windows 7</titlebtnGlow>
+  <cmodelight>Barvy světlého režimu</cmodelight>
+  <cmodedark>Barvy tmavého režimu</cmodedark>
+  <blendcolor>Barva prolínání titulního pruhu (aktivní):</blendcolor>
+  <inactiveblendcolor>Barva prolínání titulního pruhu (neaktivní):</inactiveblendcolor>
+  <activecolor>Barva aktivního textu:</activecolor>
+  <inactivecolor>Barva neaktivního textu:</inactivecolor>
+  <preview>Náhled</preview>
+  <sampletitle>Ukázkový název okna (aktivní)</sampletitle>
+  <blurmethod>Metoda rozmazání:</blurmethod>
+  <methodcustom>[Doporučeno] Vlastní implementace rozmazání pomocí CVisual (DWM) a Windows.UI.Composition (dcomp) pro dosažení vlastních efektů pozadí. Můžete upravit většinu parametrů. Nabízí nejvyšší efektivitu, nejlepší vzhled a stabilitu. Kompatibilita však není ideální. Po větší aktualizaci Windows může přestat fungovat, pak je třeba počkat na novou verzi.</methodcustom>
+  <methodaccent>[Nedoporučeno] Používá interní třídu AccentBlurBehind DWM pro aplikaci rozmazání. Některé parametry lze upravit, ale je neefektivní a méně stabilní. Funguje na většině systémů. (Obvykle ho aktualizace systému nerozbije).</methodaccent>
+  <methoddwmapi>Používá dokumentované DWMAPI ve Windows 11 pro aplikaci omezeného efektu SystemBackdrop, jako je Acrylic nebo Mica. Parametry nelze upravit, ale má vysokou efektivitu a stabilitu. Může však narušit vzhled některých programů a je dostupný pouze ve Windows 11 22H2 a novějších.</methoddwmapi>
+  <effecttype>Typ efektu:</effecttype>
+  <blurvaluetitle>Poloměr rozmazání (pouze titulní pruh):</blurvaluetitle>
+  <luminosity>Průhlednost jasu:</luminosity>
+  <colorBalance>Vyvážení barev:</colorBalance>
+  <blurBalance>Vyvážení rozmazání:</blurBalance>
+  <afterglowBalance>Vyvážení dosvitu:</afterglowBalance>
+  <miscsettings>Různé:</miscsettings>
+  <enablecrossfade>Povolit efekt přechodu (crossfade)</enablecrossfade>
+  <crossfadeTime>Doba trvání animace:</crossfadeTime>
+  <useaccentcolor>Použít zvýrazňovací barvu pro přepsání RGB nastavení</useaccentcolor>
+  <glassIntensity>Průhlednost textury odrazu Aero:</glassIntensity>
+  <overrideAccent>Přepsat efekt AccentBlur</overrideAccent>
+  <scaleOptimizer>Povolit optimalizaci vykreslování rozmazání</scaleOptimizer>
+  <disableOnBattery>Vypnout efekt v režimu úspory energie</disableOnBattery>
+  <disableFramerateLimit>Vypnout omezení snímkové frekvence Dcomp</disableFramerateLimit>
+  <symbolfile>Symbolové soubory:</symbolfile>
+  <download>Stáhnout</download>
+  <symtip>Symbolové soubory (pdb) obsahují ladicí informace o programu. Vzhledem k rozdílům mezi verzemi systému je třeba stáhnout symboly ze serverů Microsoftu. Po aktualizaci systému může být nutné je stáhnout znovu.</symtip>
+  <symstatus0>Neplatné</symstatus0>
+  <symstatus1>Platné</symstatus1>
+  <symdowning>Stahuji...</symdowning>
+  <symdownfail>Stahování selhalo! Nelze stáhnout symbolové soubory z „msdl.microsoft.com“.</symdownfail>
+  <syminvalid>Symbolové soubory jsou neplatné, přejděte na stránku „Symboly“ v programu DWMBlurGlass a stáhněte nové soubory.</syminvalid>
+  <configfile>Konfigurační soubor</configfile>
+  <import>Importovat</import>
+  <export>Exportovat</export>
+  <restore>Obnovit výchozí nastavení</restore>
+  <importwarn>Import konfiguračního souboru přepíše vaše aktuální nastavení. Pokračovat?</importwarn>
+  <restorecfg>Opravdu chcete obnovit výchozí konfiguraci?</restorecfg>
+  <aboutinfo>Tento program je licencován pod LGPLv3:</aboutinfo>
+  <curlang>Aktuální jazyk:</curlang>
+  <langauthor>Přispěvatelé překladu:</langauthor>
+</lang>
