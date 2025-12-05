@@ -196,5 +196,16 @@ namespace MDWMBlurGlass
 		extern const ULONG minorVersion;
 		extern const ULONG majorVersion;
 		extern const NT_PRODUCT_TYPE productType;
+
+		auto constexpr w10_2004 = 19041;
+		auto constexpr w10_20h2 = 19042;
+		auto constexpr w10_21h1 = 19043;
+		auto constexpr w10_21h2 = 19044;
+		auto constexpr w10_22h2 = 19045;
+		auto constexpr w11_21h2 = 22000;
+		auto constexpr w11_22h2 = 22621;
+		auto constexpr w11_23h2 = 22631;
+		auto constexpr w11_24h2 = 26100;
+		auto constexpr w11_25h2 = 26200;
 	}
 }

@@ -1,0 +1,18 @@
+﻿<Application x:Class="DWMBlurGlassGUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:local="clr-namespace:DWMBlurGlassGUI"
+             DispatcherUnhandledException="OnDispatcherUnhandledException">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesDictionary />
+                <ui:ControlsDictionary/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <!-- 覆盖导航栏分隔线样式，改为实线 -->
+            <SolidColorBrush x:Key="LeftNavigationViewSeparatorBrush" Color="{DynamicResource DividerStrokeColorDefault}" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

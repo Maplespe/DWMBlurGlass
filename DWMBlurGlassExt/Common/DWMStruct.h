@@ -353,8 +353,8 @@ namespace MDWMBlurGlassExt::DWM
 		CVisualProxy* GetVisualProxy() const;
 
 		bool IsCloneAllowed() const;
+
 		bool AllowVisualTreeClone(bool allow);
-		void Cloak(bool cloak);
 
 		void SetInsetFromParent(MARGINS* margins);
 
@@ -488,7 +488,6 @@ namespace MDWMBlurGlassExt::DWM
 		CCanvasVisual* GetAccentColorVisual() const;
 		CVisual* GetClientAreaContainerParentVisual() const;
 		std::vector<winrt::com_ptr<CVisual>> GetNCBackgroundVisuals() const;
-		bool IsNCBackgroundVisualsCloneAllAllowed();
 		CSolidColorLegacyMilBrushProxy* const* GetBorderMilBrush() const;
 
 		CRgnGeometryProxy* const& GetBorderGeometry() const;
@@ -663,44 +662,6 @@ namespace MDWMBlurGlassExt::DWM
 	struct ResourceHelper
 	{
 		static HRESULT CreateGeometryFromHRGN(HRGN hrgn, CRgnGeometryProxy** geometry);
-	};
-
-	struct CSecondaryWindowRepresentation
-	{
-		CWindowData* GetWindowData() const
-		{
-			return reinterpret_cast<CWindowData* const*>(this)[8];
-		}
-		CWindowData* GetOwnedWindowData() const
-		{
-			return reinterpret_cast<CWindowData* const*>(this)[4];
-		}
-		CVisual* GetCachedVisual() const
-		{
-			return reinterpret_cast<CVisual* const*>(this)[6];
-		}
-		CVisual* GetVisual() const
-		{
-			return reinterpret_cast<CVisual* const*>(this)[7];
-		}
-		POINT GetOffset() const
-		{
-			return
-			{
-				*(reinterpret_cast<LONG const*>(this) + 22),
-				*(reinterpret_cast<LONG const*>(this) + 24)
-			};
-		}
-		RECT GetRect() const
-		{
-			return
-			{
-				*(reinterpret_cast<LONG const*>(this) + 23),
-				*(reinterpret_cast<LONG const*>(this) + 25),
-				*(reinterpret_cast<LONG const*>(this) + 20),
-				*(reinterpret_cast<LONG const*>(this) + 21)
-			};
-		}
 	};
 
 	namespace CCommonRegistryData

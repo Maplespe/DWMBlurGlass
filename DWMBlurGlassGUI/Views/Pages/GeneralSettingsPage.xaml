@@ -1,0 +1,249 @@
+﻿<Page x:Class="DWMBlurGlassGUI.Views.Pages.GeneralSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:viewmodels="clr-namespace:DWMBlurGlassGUI.ViewModels.Pages"
+      xmlns:controls="clr-namespace:DWMBlurGlassGUI.Views.Controls"
+      xmlns:converters="clr-namespace:DWMBlurGlassGUI.Converters"
+      mc:Ignorable="d"
+      d:DataContext="{d:DesignInstance viewmodels:GeneralSettingsViewModel, IsDesignTimeCreatable=False}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="GeneralSettingsPage">
+
+    <Page.Resources>
+        <converters:BoolToOpacityConverter x:Key="BoolToOpacityConverter"/>
+        <converters:BoolToStatusBrushConverter x:Key="BoolToStatusBrushConverter"/>
+    </Page.Resources>
+
+    <StackPanel Margin="20,15,20,20">
+        <ui:TextBlock 
+            Text="{Binding Lang[general]}" 
+            FontTypography="Title"
+            Margin="0,0,0,15"/>
+
+        <!-- Status Card -->
+        <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" 
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource ControlCornerRadius}" 
+                Padding="12" 
+                Margin="0,0,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:SymbolIcon Symbol="Circle12" Foreground="{Binding IsInstalled, Converter={StaticResource BoolToStatusBrushConverter}}" Margin="0,0,8,0" FontSize="10"/>
+                    <TextBlock Text="{Binding Lang[status]}" VerticalAlignment="Center" FontSize="12"/>
+                    <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center" Foreground="{Binding IsInstalled, Converter={StaticResource BoolToStatusBrushConverter}}" Margin="5,0,0,0" FontSize="12"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <ui:Button Content="{Binding Lang[install]}" Command="{Binding InstallCommand}" IsEnabled="{Binding CanInstall}" Appearance="Primary" Margin="0,0,6,0" FontSize="12" Padding="15,6"/>
+                    <ui:Button Content="{Binding Lang[uninstall]}" Command="{Binding UninstallCommand}" IsEnabled="{Binding IsInstalled}" Margin="0,0,6,0" FontSize="12" Padding="15,6"/>
+                    <ui:Button Content="{Binding Lang[saveconfig]}" Command="{Binding SaveConfigCommand}" FontSize="12" Padding="15,6"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Effects Settings Group -->
+        <ui:TextBlock Text="{Binding Lang[effectset]}" FontWeight="SemiBold" FontSize="16" Margin="0,8,0,8"/>
+        <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" 
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource ControlCornerRadius}" 
+                Padding="12" 
+                Margin="0,0,0,12"
+                IsEnabled="{Binding IsEffectsSettingsEnabled}">
+            <StackPanel>
+                <CheckBox IsChecked="{Binding OverrideDwmApi}" Margin="0,0,0,5">
+                    <TextBlock Text="{Binding Lang[overrideDwmapi]}" FontSize="12"/>
+                </CheckBox>
+                <CheckBox IsChecked="{Binding ExtendToBorder}" Margin="0,0,0,5">
+                    <TextBlock Text="{Binding Lang[extendborder]}" FontSize="12"/>
+                </CheckBox>
+                <CheckBox IsChecked="{Binding EnableAeroReflection}" Margin="0,0,0,5">
+                    <TextBlock Text="{Binding Lang[reflection]}" FontSize="12"/>
+                </CheckBox>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                    <CheckBox IsChecked="{Binding RestoreWin7ButtonSize}" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Lang[adjustTitleBtnSize]}" FontSize="12"/>
+                    </CheckBox>
+                    <TextBlock VerticalAlignment="Center" FontSize="12" Margin="2,0,0,0">
+                        <Hyperlink Command="{Binding NavigateToTitleBtnSizeSettingsCommand}" TextDecorations="None">
+                            <Run Text="{Binding TitleBtnSizePresetName, Mode=OneWay}"/>
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+                <CheckBox IsChecked="{Binding EnableWin7ButtonGlow}" Margin="0,0,0,8" IsEnabled="{Binding IsWin7ButtonGlowEnabled}">
+                    <TextBlock Text="{Binding Lang[titlebtnGlow]}" FontSize="12"/>
+                </CheckBox>
+
+                <Grid Margin="0,4,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Grid.Column="0" IsChecked="{Binding CustomAmount}" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Lang[blurvalue]}" FontSize="12"/>
+                    </CheckBox>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="50" Value="{Binding BlurRadius}" TickFrequency="1" IsSnapToTickEnabled="True" MaxWidth="300" Margin="10,0" VerticalAlignment="Center" IsEnabled="{Binding CustomAmount}" />
+                    <TextBlock Grid.Column="2" Text="{Binding BlurRadius}" VerticalAlignment="Center" FontSize="12" Width="25" HorizontalAlignment="Left" Opacity="{Binding CustomAmount, Converter={StaticResource BoolToOpacityConverter}}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Colors Settings Group -->
+        <ui:TextBlock Text="{Binding Lang[cmodelight]}" FontWeight="SemiBold" FontSize="16" Margin="0,8,0,8"/>
+        <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" 
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource ControlCornerRadius}" 
+                Padding="12" 
+                Margin="0,0,0,12"
+                IsEnabled="{Binding IsColorsSettingsEnabled}">
+            <StackPanel>
+                <TabControl SelectedIndex="{Binding SelectedThemeIndex}" Margin="0,0,0,10">
+                    <TabItem Header="{Binding Lang[cmodelight]}" />
+                    <TabItem Header="{Binding Lang[cmodedark]}" />
+                </TabControl>
+                
+                <Grid Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[blendcolor]}" VerticalAlignment="Center" FontSize="12"/>
+                    <controls:ColorSettingItem Grid.Column="1"
+                                               Color="{Binding ActiveTitleBarColor}"
+                                               PickColorCommand="{Binding PickColorCommand}"
+                                               CommandParameter="ActiveTitleBar"
+                                               VerticalAlignment="Center"/>
+                </Grid>
+
+                <Grid Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[inactiveblendcolor]}" VerticalAlignment="Center" FontSize="12"/>
+                    <controls:ColorSettingItem Grid.Column="1"
+                                               Color="{Binding InactiveTitleBarColor}"
+                                               PickColorCommand="{Binding PickColorCommand}"
+                                               CommandParameter="InactiveTitleBar"
+                                               VerticalAlignment="Center"/>
+                </Grid>
+
+                <Grid Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[activecolor]}" VerticalAlignment="Center" FontSize="12"/>
+                    <controls:ColorSettingItem Grid.Column="1"
+                                               Color="{Binding ActiveTextColor}"
+                                               PickColorCommand="{Binding PickColorCommand}"
+                                               CommandParameter="ActiveText"
+                                               IsRgb="True"
+                                               VerticalAlignment="Center"/>
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[inactivecolor]}" VerticalAlignment="Center" FontSize="12"/>
+                    <controls:ColorSettingItem Grid.Column="1"
+                                               Color="{Binding InactiveTextColor}"
+                                               PickColorCommand="{Binding PickColorCommand}"
+                                               CommandParameter="InactiveText"
+                                               IsRgb="True"
+                                               VerticalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Preview Group -->
+        <ui:TextBlock Text="{Binding Lang[preview]}" FontWeight="SemiBold" FontSize="16" Margin="0,8,0,8"/>
+        <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" 
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource ControlCornerRadius}" 
+                Padding="12"
+                IsEnabled="{Binding IsPreviewEnabled}">
+            <Grid Height="200" ClipToBounds="True" x:Name="PreviewGrid">
+                <Grid.OpacityMask>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualWidth}"
+                                    Height="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=ActualHeight}"
+                                    CornerRadius="{DynamicResource ControlCornerRadius}"
+                                    Background="Black"/>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Grid.OpacityMask>
+
+                <!-- Wallpaper Background (Clear) -->
+                <Image Source="{Binding WallpaperSource}" Stretch="UniformToFill" Panel.ZIndex="1" />
+                
+                <!-- Blurred Wallpaper (Hidden Source for VisualBrush) -->
+                <Image x:Name="BlurredWallpaper" Source="{Binding WallpaperSource}" Stretch="UniformToFill" Panel.ZIndex="0">
+                    <Image.Effect>
+                        <BlurEffect Radius="{Binding BlurRadius}" RenderingBias="Quality"/>
+                    </Image.Effect>
+                </Image>
+                
+                <!-- Fallback Background -->
+                <Border Background="#FF0078D7" Panel.ZIndex="-1" />
+
+                <!-- Simulated Window -->
+                <Border VerticalAlignment="Center" HorizontalAlignment="Center" 
+                        Width="400" Height="150" Panel.ZIndex="2">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="0.4" Color="Black"/>
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Blurred Background Layer -->
+                        <Border Grid.RowSpan="2" CornerRadius="{DynamicResource ControlCornerRadius}">
+                            <Border.Background>
+                                <VisualBrush Visual="{Binding ElementName=BlurredWallpaper}" 
+                                             Stretch="None"
+                                             AlignmentX="Center"
+                                             AlignmentY="Center"/>
+                            </Border.Background>
+                        </Border>
+
+                        <!-- Title Bar -->
+                        <Border Grid.Row="0" Height="32" CornerRadius="8,8,0,0">
+                            <Border.Background>
+                                <SolidColorBrush Color="{Binding ActiveTitleBarColor}" />
+                            </Border.Background>
+                            <Grid>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
+                                    <ui:SymbolIcon Symbol="Gift24" FontSize="16" />
+                                    <TextBlock Text="{Binding Lang[sampletitle]}" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12">
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="{Binding ActiveTextColor}" />
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Content Area -->
+                        <Border Grid.Row="1" Background="{Binding ContentAreaBrush}" CornerRadius="0,0,8,8"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </StackPanel>
+</Page>

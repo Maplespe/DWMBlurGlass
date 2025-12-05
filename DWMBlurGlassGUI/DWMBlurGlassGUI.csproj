@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <BaseIntermediateOutputPath>..\Build\Cache\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    
+    <!-- Version Information -->
+    <Version>2.3.2.0</Version>
+    <FileVersion>2.3.2.0</FileVersion>
+    <AssemblyVersion>2.3.2.0</AssemblyVersion>
+    <InformationalVersion>2.3.2</InformationalVersion>
+    
+    <!-- Product Information -->
+    <Product>DWMBlurGlass</Product>
+    <Company>winmoes.com</Company>
+    <Authors>MapleSpe</Authors>
+    <Copyright>Copyright (C) 2026 Maplespe</Copyright>
+    <Description>DWMBlurGlass GUI</Description>
+    
+    <!-- Generate Win32 Resources -->
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\Build\x64\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\Build\x64\Release\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+    <PackageReference Include="TaskScheduler" Version="2.11.0" />
+    <PackageReference Include="WPF-UI" Version="4.1.0" />
+  </ItemGroup>
+
+  <!-- Copy language files to output directory -->
+  <ItemGroup>
+    <LanguageFiles Include="..\Languagefiles\*.xml" />
+  </ItemGroup>
+
+  <Target Name="CopyLanguageFiles" AfterTargets="Build">
+    <MakeDir Directories="$(OutputPath)data\lang" />
+    <Copy SourceFiles="@(LanguageFiles)" DestinationFolder="$(OutputPath)data\lang" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

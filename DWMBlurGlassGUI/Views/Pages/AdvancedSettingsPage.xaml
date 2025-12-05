@@ -1,0 +1,272 @@
+﻿<Page x:Class="DWMBlurGlassGUI.Views.Pages.AdvancedSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:viewmodels="clr-namespace:DWMBlurGlassGUI.ViewModels.Pages"
+      xmlns:converters="clr-namespace:DWMBlurGlassGUI.Converters"
+      mc:Ignorable="d"
+      d:DataContext="{d:DesignInstance viewmodels:AdvancedSettingsViewModel, IsDesignTimeCreatable=False}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AdvancedSettingsPage"
+      MouseDown="Page_MouseDown"
+      Loaded="Page_Loaded"
+      Focusable="True">
+
+    <Page.Resources>
+        <converters:BoolToOpacityConverter x:Key="BoolToOpacityConverter"/>
+    </Page.Resources>
+
+    <StackPanel Margin="20,15,20,20">
+        <ui:TextBlock 
+            Text="{Binding Lang[advanced]}" 
+            FontTypography="Title"
+            Margin="0,0,0,15"/>
+
+        <!-- Blur Method Group -->
+        <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" 
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource ControlCornerRadius}" 
+                Padding="12" 
+                Margin="0,0,0,12">
+            <StackPanel>
+                <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <ui:SymbolIcon Symbol="Code24" Margin="0,0,10,0" FontSize="18"/>
+                        <TextBlock Text="{Binding Lang[blurmethod]}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                    </StackPanel>
+                    <ComboBox Grid.Column="1" HorizontalAlignment="Right" MinWidth="220" SelectedIndex="{Binding SelectedBlurMethodIndex}">
+                        <ComboBoxItem Content="CustomBlur (IComposition)"/>
+                        <ComboBoxItem Content="OldBlur (AccentBlurBehind)"/>
+                        <ComboBoxItem Content="DWMAPI (SystemBackdrop)"/>
+                    </ComboBox>
+                </Grid>
+                <TextBlock Text="{Binding Lang[methodcustom]}" 
+                           TextWrapping="Wrap" 
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}" 
+                           FontSize="12"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Effect Settings Group -->
+        <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" 
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource ControlCornerRadius}" 
+                Padding="12" 
+                Margin="0,0,0,12"
+                IsEnabled="{Binding IsEffectTypeEnabled}">
+            <StackPanel>
+                <Grid Margin="0,0,0,12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[effecttype]}" VerticalAlignment="Center" FontSize="14"/>
+                    <ComboBox Grid.Column="1" MinWidth="150" SelectedIndex="{Binding SelectedEffectTypeIndex}">
+                        <ComboBoxItem Content="Blur"/>
+                        <ComboBoxItem Content="Aero"/>
+                        <ComboBoxItem Content="Acrylic"/>
+                        <ComboBoxItem Content="Mica"/>
+                    </ComboBox>
+                </Grid>
+
+                <Grid Margin="0,0,0,8" Visibility="{Binding BlurRadiusVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[blurvaluetitle]}" VerticalAlignment="Center" FontSize="12"/>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="50" Value="{Binding TitleBarBlurRadius}" TickFrequency="1" IsSnapToTickEnabled="True" MaxWidth="300" Margin="10,0" VerticalAlignment="Center" Opacity="{Binding IsEffectTypeEnabled, Converter={StaticResource BoolToOpacityConverter}}" />
+                    <TextBlock Grid.Column="2" Text="{Binding TitleBarBlurRadius}" VerticalAlignment="Center" FontSize="12" Width="25" HorizontalAlignment="Left" Opacity="{Binding IsEffectTypeEnabled, Converter={StaticResource BoolToOpacityConverter}}"/>
+                </Grid>
+
+                <Grid Margin="0,0,0,8" Visibility="{Binding AeroSettingsVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[colorBalance]}" VerticalAlignment="Center" FontSize="12"/>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="100" Value="{Binding ColorBalance}" TickFrequency="1" IsSnapToTickEnabled="True" MaxWidth="300" Margin="10,0" VerticalAlignment="Center" Opacity="{Binding IsEffectTypeEnabled, Converter={StaticResource BoolToOpacityConverter}}" />
+                    <TextBlock Grid.Column="2" Text="{Binding ColorBalance, StringFormat={}{0}%}" VerticalAlignment="Center" FontSize="12" Width="35" HorizontalAlignment="Left" Opacity="{Binding IsEffectTypeEnabled, Converter={StaticResource BoolToOpacityConverter}}"/>
+                </Grid>
+
+                <Grid Margin="0,0,0,8" Visibility="{Binding AeroSettingsVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[blurBalance]}" VerticalAlignment="Center" FontSize="12"/>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="100" Value="{Binding LuminosityBalance}" TickFrequency="1" IsSnapToTickEnabled="True" MaxWidth="300" Margin="10,0" VerticalAlignment="Center" Opacity="{Binding IsEffectTypeEnabled, Converter={StaticResource BoolToOpacityConverter}}" />
+                    <TextBlock Grid.Column="2" Text="{Binding LuminosityBalance, StringFormat={}{0}%}" VerticalAlignment="Center" FontSize="12" Width="35" HorizontalAlignment="Left" Opacity="{Binding IsEffectTypeEnabled, Converter={StaticResource BoolToOpacityConverter}}"/>
+                </Grid>
+
+                <Grid Margin="0,0,0,8" Visibility="{Binding AeroSettingsVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[afterglowBalance]}" VerticalAlignment="Center" FontSize="12"/>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="100" Value="{Binding SaturationBalance}" TickFrequency="1" IsSnapToTickEnabled="True" MaxWidth="300" Margin="10,0" VerticalAlignment="Center" Opacity="{Binding IsEffectTypeEnabled, Converter={StaticResource BoolToOpacityConverter}}" />
+                    <TextBlock Grid.Column="2" Text="{Binding SaturationBalance, StringFormat={}{0}%}" VerticalAlignment="Center" FontSize="12" Width="35" HorizontalAlignment="Left" Opacity="{Binding IsEffectTypeEnabled, Converter={StaticResource BoolToOpacityConverter}}"/>
+                </Grid>
+
+                <!-- Material Opacity - Acrylic/Mica -->
+                <Grid Visibility="{Binding MaterialOpacityVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[luminosity]}" VerticalAlignment="Center" FontSize="12"/>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="100" Value="{Binding MaterialOpacity}" TickFrequency="1" IsSnapToTickEnabled="True" MaxWidth="300" Margin="10,0" VerticalAlignment="Center" Opacity="{Binding IsEffectTypeEnabled, Converter={StaticResource BoolToOpacityConverter}}" />
+                    <TextBlock Grid.Column="2" Text="{Binding MaterialOpacity, StringFormat={}{0}%}" VerticalAlignment="Center" FontSize="12" Width="35" HorizontalAlignment="Left" Opacity="{Binding IsEffectTypeEnabled, Converter={StaticResource BoolToOpacityConverter}}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Misc Settings Group -->
+        <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" 
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource ControlCornerRadius}" 
+                Padding="12">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <ui:SymbolIcon Symbol="AppsListDetail24" Margin="0,0,10,0" FontSize="18"/>
+                    <TextBlock Text="{Binding Lang[miscsettings]}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                </StackPanel>
+
+                <CheckBox IsChecked="{Binding EnableCrossFade}" Margin="0,0,0,5" IsEnabled="{Binding IsCrossFadeEnabled}">
+                    <TextBlock Text="{Binding Lang[enablecrossfade]}" FontSize="12"/>
+                </CheckBox>
+                <StackPanel Orientation="Horizontal" Margin="28,0,0,10" IsEnabled="{Binding IsCrossFadeDurationEnabled}">
+                    <TextBlock Text="{Binding Lang[crossfadeTime]}" VerticalAlignment="Center" FontSize="12"/>
+                    <ui:TextBox Text="{Binding CrossFadeDuration, TargetNullValue='', FallbackValue='96', UpdateSourceTrigger=PropertyChanged}" Width="60" Margin="5,0" Padding="5,2" ClearButtonEnabled="False" PreviewTextInput="NumericTextBox_PreviewTextInput"/>
+                    <TextBlock Text=" ms" VerticalAlignment="Center" FontSize="12"/>
+                </StackPanel>
+
+                <CheckBox IsChecked="{Binding UseSystemThemeColor}" Margin="0,0,0,8" IsEnabled="{Binding IsUseSystemThemeColorEnabled}">
+                    <TextBlock Text="{Binding Lang[useaccentcolor]}" FontSize="12"/>
+                </CheckBox>
+                <CheckBox IsChecked="{Binding OverrideAccentBlur}" Margin="0,0,0,8" IsEnabled="{Binding IsOverrideAccentBlurEnabled}">
+                    <TextBlock Text="{Binding Lang[overrideAccent]}" FontSize="12"/>
+                </CheckBox>
+                <CheckBox IsChecked="{Binding EnableBlurOptimization}" Margin="0,0,0,8" IsEnabled="{Binding IsEnableBlurOptimizationEnabled}">
+                    <TextBlock Text="{Binding Lang[scaleOptimizer]}" FontSize="12"/>
+                </CheckBox>
+                <CheckBox IsChecked="{Binding DisableInPowerSaving}" Margin="0,0,0,8" IsEnabled="{Binding IsDisableInPowerSavingEnabled}">
+                    <TextBlock Text="{Binding Lang[disableOnBattery]}" FontSize="12"/>
+                </CheckBox>
+                <CheckBox IsChecked="{Binding DisableDcompRateLimit}" Margin="0,0,0,12" IsEnabled="{Binding IsDisableDcompRateLimitEnabled}">
+                    <TextBlock Text="{Binding Lang[disableFramerateLimit]}" FontSize="12"/>
+                </CheckBox>
+
+                <Separator Margin="0,0,0,12" Background="{DynamicResource CardStrokeColorDefaultBrush}"/>
+
+                <Grid IsEnabled="{Binding IsAeroReflectionOpacityEnabled}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Lang[glassIntensity]}" VerticalAlignment="Center" FontSize="12"/>
+                    <Slider Grid.Column="1" Minimum="0" Maximum="100" Value="{Binding AeroReflectionOpacity}" TickFrequency="1" IsSnapToTickEnabled="True" MaxWidth="300" Margin="10,0" VerticalAlignment="Center" Opacity="{Binding IsAeroReflectionOpacityEnabled, Converter={StaticResource BoolToOpacityConverter}}" />
+                    <TextBlock Grid.Column="2" Text="{Binding AeroReflectionOpacity, StringFormat={}{0}%}" VerticalAlignment="Center" FontSize="12" Width="35" HorizontalAlignment="Left" Opacity="{Binding IsAeroReflectionOpacityEnabled, Converter={StaticResource BoolToOpacityConverter}}"/>
+                </Grid>
+
+                <Grid Margin="0,10,0,0" IsEnabled="{Binding IsAeroReflectionOpacityEnabled}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding UseCustomAeroTexture}" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Lang[customAeroTexture]}" FontSize="12"/>
+                    </CheckBox>
+                    <ui:TextBox Grid.Column="1" Text="{Binding CustomAeroTexturePath, UpdateSourceTrigger=PropertyChanged}" 
+                                Margin="10,0" FontSize="12" IsEnabled="{Binding UseCustomAeroTexture}" 
+                                PlaceholderText="*.png"/>
+                    <ui:Button Grid.Column="2" Content="{Binding Lang[browse]}" Command="{Binding BrowseTextureCommand}" 
+                               MinWidth="70" FontSize="12" IsEnabled="{Binding UseCustomAeroTexture}"/>
+                </Grid>
+
+                <Separator Margin="0,12,0,12" Background="{DynamicResource CardStrokeColorDefaultBrush}"/>
+
+                <Border x:Name="TitleBtnSizeSection" 
+                        BorderThickness="2" 
+                        BorderBrush="Transparent" 
+                        CornerRadius="4" 
+                        Margin="-4,-4,-4,-4" 
+                        Padding="4">
+                <StackPanel>
+                <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding CustomTitleBtnSize}" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Lang[customTitleBtnSize]}" FontSize="12"/>
+                    </CheckBox>
+                    <ComboBox Grid.Column="2" MinWidth="120" SelectedIndex="{Binding TitleBtnSizePresetIndex}" IsEnabled="{Binding CustomTitleBtnSize}">
+                        <ComboBoxItem Content="Windows 7"/>
+                        <ComboBoxItem Content="Windows Vista"/>
+                        <ComboBoxItem Content="{Binding Lang[custom]}"/>
+                    </ComboBox>
+                </Grid>
+
+                <StackPanel Margin="28,0,0,0" Visibility="{Binding CustomTitleBtnInputVisibility}">
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Lang[closeBtnWidth]}" VerticalAlignment="Center" FontSize="12"/>
+                        <ui:TextBox Grid.Column="1" Text="{Binding CustomCloseBtnW, TargetNullValue='', FallbackValue='49', UpdateSourceTrigger=PropertyChanged}" 
+                                    Width="80" Padding="5,2" ClearButtonEnabled="False" PreviewTextInput="NumericTextBox_PreviewTextInput" LostFocus="BtnSizeTextBox_LostFocus"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Lang[maxBtnWidth]}" VerticalAlignment="Center" FontSize="12"/>
+                        <ui:TextBox Grid.Column="1" Text="{Binding CustomMaxBtnW, TargetNullValue='', FallbackValue='27', UpdateSourceTrigger=PropertyChanged}" 
+                                    Width="80" Padding="5,2" ClearButtonEnabled="False" PreviewTextInput="NumericTextBox_PreviewTextInput" LostFocus="BtnSizeTextBox_LostFocus"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Lang[minBtnWidth]}" VerticalAlignment="Center" FontSize="12"/>
+                        <ui:TextBox Grid.Column="1" Text="{Binding CustomMinBtnW, TargetNullValue='', FallbackValue='29', UpdateSourceTrigger=PropertyChanged}" 
+                                    Width="80" Padding="5,2" ClearButtonEnabled="False" PreviewTextInput="NumericTextBox_PreviewTextInput" LostFocus="BtnSizeTextBox_LostFocus"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Lang[btnFrameHeight]}" VerticalAlignment="Center" FontSize="12"/>
+                        <ui:TextBox Grid.Column="1" Text="{Binding CustomBtnFrameH, TargetNullValue='', FallbackValue='20', UpdateSourceTrigger=PropertyChanged}" 
+                                    Width="80" Padding="5,2" ClearButtonEnabled="False" PreviewTextInput="NumericTextBox_PreviewTextInput" LostFocus="BtnSizeTextBox_LostFocus"/>
+                    </Grid>
+                </StackPanel>
+                </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</Page>

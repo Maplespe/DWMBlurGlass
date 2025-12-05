@@ -33,7 +33,7 @@
 	<extendborder>Extend effects to borders (Windows 10)</extendborder>
 	<reflection>Enable Aero reflection effect</reflection>
 	<reflectiontip>(Legacy blur method for Windows 10 only)</reflectiontip>
-	<oldBtnSize>Restore Win7 style titlebar button size</oldBtnSize>
+	<adjustTitleBtnSize>Adjust titlebar button size to:</adjustTitleBtnSize>
 	<titlebtnGlow>Enable Win7 style titlebar button glow</titlebtnGlow>
 	<cmodelight>Light Mode colors</cmodelight>
 	<cmodedark>Dark Mode colors</cmodedark>
@@ -58,6 +58,15 @@
 	<crossfadeTime>Animation duration:</crossfadeTime>
 	<useaccentcolor>Use Accent color to override color settings RGB</useaccentcolor>
 	<glassIntensity>Aero reflection texture opacity:</glassIntensity>
+	<customAeroTexture>Custom Aero reflection texture:</customAeroTexture>
+	<browse>Browse</browse>
+	<texturepath_error>The selected file cannot be loaded due to permission restrictions. The file must not be located in the user folder (User) or its subdirectories.</texturepath_error>
+	<customTitleBtnSize>Custom titlebar button size:</customTitleBtnSize>
+	<custom>Custom</custom>
+	<closeBtnWidth>Close button width:</closeBtnWidth>
+	<maxBtnWidth>Maximize button width:</maxBtnWidth>
+	<minBtnWidth>Minimize button width:</minBtnWidth>
+	<btnFrameHeight>Button frame height:</btnFrameHeight>
 	<overrideAccent>Override AccentBlur effect</overrideAccent>
 	<scaleOptimizer>Enable blur rendering optimization</scaleOptimizer>
 	<disableOnBattery>Disable the effect in power-saving mode</disableOnBattery>
@@ -69,7 +78,12 @@
 	<symstatus1>Valid</symstatus1>
 	<symdowning>Downloading...</symdowning>
 	<symdownfail>Download failed! Unable to download symbol files from "msdl.microsoft.com".</symdownfail>
+	<symdowntitle>Download Symbol Files</symdowntitle>
+	<symdowninfo>Downloading symbol files from Microsoft servers...</symdowninfo>
+	<cancel>Cancel</cancel>
 	<syminvalid>Symbol files are invalid, please go to the "Symbols" page of the DWMBlurGlass program to download new symbol files.</syminvalid>
+	<autodownloadsymbol>Auto-download symbol files</autodownloadsymbol>
+	<autodownloadsymboltip>If "Auto-download symbol files" is enabled, symbol files will be automatically downloaded when DWMBlurGlass starts and detects invalid symbols.\n\nNote: We still do not recommend frequently updating your system, as this may cause the software to become invalid frequently.</autodownloadsymboltip>
 	<configfile>Configuration file</configfile>
 	<import>Import</import>
 	<export>Export</export>

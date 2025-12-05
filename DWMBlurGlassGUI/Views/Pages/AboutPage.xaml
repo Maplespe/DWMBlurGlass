@@ -1,0 +1,55 @@
+﻿<Page x:Class="DWMBlurGlassGUI.Views.Pages.AboutPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:viewmodels="clr-namespace:DWMBlurGlassGUI.ViewModels.Pages"
+      mc:Ignorable="d"
+      d:DataContext="{d:DesignInstance viewmodels:AboutViewModel, IsDesignTimeCreatable=False}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AboutPage">
+
+    <StackPanel Margin="20,15,20,20">
+        <ui:TextBlock 
+            Text="{Binding Lang[about]}" 
+            FontTypography="Title"
+            Margin="0,0,0,15"/>
+            
+        <StackPanel>
+            <ui:TextBlock 
+                Text="DWMBlurGlass"
+                FontTypography="Subtitle"
+                Margin="0,0,0,8"/>
+            
+            <ui:TextBlock 
+                Margin="0,0,0,8">
+                <Run Text="Version: "/>
+                <Run Text="{Binding AppVersion, Mode=OneWay}"/>
+            </ui:TextBlock>
+            
+            <ui:TextBlock 
+                Text="Author: MapleSpe、ALTaleX"
+                Margin="0,0,0,8"/>
+            
+            <ui:TextBlock 
+                Margin="0,0,0,8">
+                <Run Text="{Binding Lang[curlang], Mode=OneWay}"/>
+                <Run> </Run>
+                <Run Text="{Binding Lang.LanguageInfo, Mode=OneWay}"/>
+            </ui:TextBlock>
+            
+            <ui:TextBlock 
+                Text="{Binding Lang[aboutinfo]}"
+                TextWrapping="Wrap"
+                Appearance="Secondary"
+                Margin="0,0,0,5"/>
+            
+            <ui:HyperlinkButton 
+                Content="GitHub"
+                NavigateUri="https://github.com/Maplespe/DWMBlurGlass"
+                Icon="{ui:SymbolIcon Link24}"
+                HorizontalAlignment="Left"/>
+        </StackPanel>
+    </StackPanel>
+</Page>

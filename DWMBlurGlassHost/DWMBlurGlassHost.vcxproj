@@ -23,26 +23,27 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{22437b02-7bf2-4e32-94f6-a8d61f545fde}</ProjectGuid>
-    <RootNamespace>DWMBlurGlassExt</RootNamespace>
+    <ProjectGuid>{5f39fb9c-c35f-49c9-85c2-e8bcdbab4b3f}</ProjectGuid>
+    <RootNamespace>DWMBlurGlass</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>DWMBlurGlassHost</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -50,13 +51,14 @@
     <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <SupportLTL>true</SupportLTL>
-    <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
+    <SupportLTL>false</SupportLTL>
+    <WindowsTargetPlatformMinVersion>
+    </WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -89,15 +91,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DWMBLURGLASSEXT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -106,37 +105,32 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;DWMBLURGLASSEXT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;DWMBLURGLASSEXT_EXPORTS;_WINDOWS;_USRDLL;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(MUI_LITE_LIBRARY)\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>./Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(MUI_LITE_LIBRARY)\library\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
+      <ManifestFile>$(IntDir)$(TargetName).dll.intermediate.manifest</ManifestFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,115 +139,56 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;DWMBLURGLASSEXT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(MUI_LITE_LIBRARY)\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>./Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(MUI_LITE_LIBRARY)\library\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Backdrops\AcrylicBackdrop.hpp" />
-    <ClInclude Include="Backdrops\AeroBackdrop.hpp" />
-    <ClInclude Include="Backdrops\BackdropFactory.hpp" />
-    <ClInclude Include="Backdrops\BlurBackdrop.hpp" />
-    <ClInclude Include="Backdrops\ButtonGlowBackdrop.hpp" />
-    <ClInclude Include="Backdrops\DCompBackdrop.hpp" />
-    <ClInclude Include="Backdrops\GlassReflectionBackdrop.hpp" />
-    <ClInclude Include="Backdrops\MicaBackdrop.hpp" />
-    <ClInclude Include="Backdrops\uDwmBackdrop.hpp" />
-    <ClInclude Include="Common\ColorConversion.hpp" />
-    <ClInclude Include="Common\CommonDef.h" />
-    <ClInclude Include="Common\DcompPrivate.h" />
-    <ClInclude Include="Common\DefFunctionList.h" />
-    <ClInclude Include="Common\DWMStruct.h" />
-    <ClInclude Include="Common\HookDef.h" />
-    <ClInclude Include="Common\wil.h" />
-    <ClInclude Include="DWMBlurGlass.h" />
-    <ClInclude Include="Effects\BlendEffect.hpp" />
-    <ClInclude Include="Effects\BorderEffect.hpp" />
-    <ClInclude Include="Effects\CanvasEffect.hpp" />
-    <ClInclude Include="Effects\ColorSourceEffect.hpp" />
-    <ClInclude Include="Effects\CompositeEffect.hpp" />
-    <ClInclude Include="Effects\CrossFadeEffect.hpp" />
-    <ClInclude Include="Effects\ExposureEffect.hpp" />
-    <ClInclude Include="Effects\GaussianBlurEffect.hpp" />
-    <ClInclude Include="Effects\OpacityEffect.hpp" />
-    <ClInclude Include="Effects\SaturationEffect.hpp" />
-    <ClInclude Include="Effects\TintEffect.hpp" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="Helper\CanvasGeometry.hpp" />
-    <ClInclude Include="Helper\Helper.h" />
-    <ClInclude Include="Helper\HookHelper.h" />
-    <ClInclude Include="minhook\buffer.h" />
-    <ClInclude Include="minhook\hde\hde32.h" />
-    <ClInclude Include="minhook\hde\hde64.h" />
-    <ClInclude Include="minhook\hde\pstdint.h" />
-    <ClInclude Include="minhook\hde\table32.h" />
-    <ClInclude Include="minhook\hde\table64.h" />
-    <ClInclude Include="minhook\MinHook.h" />
-    <ClInclude Include="minhook\trampoline.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Section\AccentBlurEffect.h" />
-    <ClInclude Include="Section\BlurRadiusTweaker.h" />
-    <ClInclude Include="Section\CompositedBackdrop.hpp" />
-    <ClInclude Include="Section\CustomBackdropEffect.h" />
-    <ClInclude Include="Section\CustomButton.h" />
-    <ClInclude Include="Section\DwmAPIEffect.h" />
-    <ClInclude Include="Section\GeometryRecorder.h" />
-    <ClInclude Include="Section\OcclusionCulling.h" />
-    <ClInclude Include="Section\ScaleOptimizer.h" />
-    <ClInclude Include="Section\TitleTextTweaker.h" />
-    <ClInclude Include="Section\VisualManager.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Backdrops\BackdropFactory.cpp" />
-    <ClCompile Include="Common\ColorConversion.cpp" />
-    <ClCompile Include="Common\DWMStruct.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="DWMBlurGlass.cpp" />
-    <ClCompile Include="Helper\Helper.cpp" />
-    <ClCompile Include="Helper\HookHelper.cpp" />
-    <ClCompile Include="Helper\Notifier.cpp" />
-    <ClCompile Include="minhook\buffer.cpp" />
-    <ClCompile Include="minhook\hde\hde32.c" />
-    <ClCompile Include="minhook\hde\hde64.c" />
-    <ClCompile Include="minhook\hook.cpp" />
-    <ClCompile Include="minhook\trampoline.cpp" />
-    <ClCompile Include="Section\AccentBlurEffect.cpp" />
-    <ClCompile Include="Section\BlurRadiusTweaker.cpp" />
-    <ClCompile Include="Section\CompositedBackdrop.cpp" />
-    <ClCompile Include="Section\CustomBackdropEffect.cpp" />
-    <ClCompile Include="Section\CustomButton.cpp" />
-    <ClCompile Include="Section\DwmAPIEffect.cpp" />
-    <ClCompile Include="Section\GeometryRecorder.cpp" />
-    <ClCompile Include="Section\OcclusionCulling.cpp" />
-    <ClCompile Include="Section\ScaleOptimizer.cpp" />
-    <ClCompile Include="Section\TitleTextTweaker.cpp" />
-    <ClCompile Include="Section\VisualManager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="minhook\MiniHook.vcxitems" />
-    <None Include="minhook\MiniHook.vcxitems.filters" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="DWMBlurGlassExt.rc" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Helper\Helper.h" />
+    <ClInclude Include="Helper\SymbolDownloader.h" />
+    <ClInclude Include="Helper\SymbolResolver.h" />
+    <ClInclude Include="Helper\wil.h" />
+    <ClInclude Include="MHostHelper.h" />
+    <ClInclude Include="pugixml\pugiconfig.hpp" />
+    <ClInclude Include="pugixml\pugixml.hpp" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="UIManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Helper\Helper.cpp" />
+    <ClCompile Include="Helper\SymbolDownloader.cpp" />
+    <ClCompile Include="Helper\SymbolResolver.cpp" />
+    <ClCompile Include="MHostHelper.cpp" />
+    <ClCompile Include="pugixml\pugixml.cpp" />
+    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="winmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.targets" Condition="Exists('..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.targets')" />
-    <Import Project="..\packages\Microsoft.Windows.ImplementationLibrary.1.0.240122.1\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.240122.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
+    <Import Project="..\packages\Microsoft.Windows.ImplementationLibrary.1.0.231216.1\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.231216.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -262,6 +197,6 @@
     <Error Condition="!Exists('..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.props'))" />
     <Error Condition="!Exists('..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\YY.NuGet.Import.Helper.1.0.0.4\build\native\YY.NuGet.Import.Helper.targets'))" />
     <Error Condition="!Exists('..\packages\VC-LTL.5.0.9\build\native\VC-LTL.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VC-LTL.5.0.9\build\native\VC-LTL.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.240122.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.ImplementationLibrary.1.0.240122.1\build\native\Microsoft.Windows.ImplementationLibrary.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.ImplementationLibrary.1.0.231216.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.ImplementationLibrary.1.0.231216.1\build\native\Microsoft.Windows.ImplementationLibrary.targets'))" />
   </Target>
 </Project>

@@ -62,6 +62,7 @@
 	<scaleOptimizer>启用模糊渲染优化</scaleOptimizer>
 	<disableOnBattery>在省电模式下关闭效果</disableOnBattery>
 	<disableFramerateLimit>关闭Dcomp帧率限制</disableFramerateLimit>
+	<customAeroTexture>自定义Aero反射纹理:</customAeroTexture>
 	<symbolfile>符号文件:</symbolfile>
 	<download>下载</download>
 	<symtip>符号文件(pdb)是记录程序调试信息的一种文件，由于各版本系统各不相同所以\n需要从微软服务器下载符号文件。如果您更新系统 可能需要重新下载新的文件。</symtip>

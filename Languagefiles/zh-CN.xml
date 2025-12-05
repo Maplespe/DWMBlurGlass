@@ -33,7 +33,7 @@
 	<extendborder>扩展效果到边框 (win10)</extendborder>
 	<reflection>启用Aero反射效果</reflection>
 	<reflectiontip>(使用OldBlur仅限win10有效)</reflectiontip>
-	<oldBtnSize>还原win7样式标题栏按钮尺寸</oldBtnSize>
+	<adjustTitleBtnSize>调整标题栏按钮尺寸为:</adjustTitleBtnSize>
 	<titlebtnGlow>启用win7样式标题栏按钮发光效果</titlebtnGlow>
 	<cmodelight>浅色模式颜色</cmodelight>
 	<cmodedark>深色模式颜色</cmodedark>
@@ -62,6 +62,15 @@
 	<scaleOptimizer>启用模糊渲染优化</scaleOptimizer>
 	<disableOnBattery>在省电模式下关闭效果</disableOnBattery>
 	<disableFramerateLimit>关闭Dcomp帧率限制</disableFramerateLimit>
+	<customAeroTexture>自定义Aero反射纹理:</customAeroTexture>
+	<browse>浏览</browse>
+	<texturepath_error>所选择的文件没有权限加载，文件不能位于用户文件夹(User)及其子目录。</texturepath_error>
+	<customTitleBtnSize>自定义标题栏按钮尺寸:</customTitleBtnSize>
+	<custom>自定义</custom>
+	<closeBtnWidth>关闭按钮宽度:</closeBtnWidth>
+	<maxBtnWidth>最大化按钮宽度:</maxBtnWidth>
+	<minBtnWidth>最小化按钮宽度:</minBtnWidth>
+	<btnFrameHeight>按钮框架高度:</btnFrameHeight>
 	<symbolfile>符号文件:</symbolfile>
 	<download>下载</download>
 	<symtip>符号文件(pdb)是记录程序调试信息的一种文件，由于各版本系统各不相同所以\n需要从微软服务器下载符号文件。如果您更新系统 可能需要重新下载新的文件。</symtip>
@@ -69,7 +78,12 @@
 	<symstatus1>有效</symstatus1>
 	<symdowning>下载中...</symdowning>
 	<symdownfail>下载失败! 无法从"msdl.microsoft.com"下载文件</symdownfail>
+	<symdowntitle>下载符号文件</symdowntitle>
+	<symdowninfo>正在从微软服务器下载符号文件...</symdowninfo>
+	<cancel>取消</cancel>
 	<syminvalid>符号文件无效! 请转到DWMBlurGlass"符号文件"页面下载新的符号文件</syminvalid>
+	<autodownloadsymbol>自动下载符号文件</autodownloadsymbol>
+	<autodownloadsymboltip>如果启用"自动下载符号文件"则在启动DWMBlurGlass发现符号无效时自动下载符号文件。\n\n注意，我们仍然不建议您频繁更新系统，这可能会导致软件频繁失效。</autodownloadsymboltip>
 	<configfile>配置文件</configfile>
 	<import>导入</import>
 	<export>导出</export>

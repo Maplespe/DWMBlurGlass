@@ -197,7 +197,7 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		CTopLevelWindow* window{ nullptr };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			window = reinterpret_cast<CTopLevelWindow* const*>(this)[48];
 		}
@@ -210,24 +210,22 @@ namespace MDWMBlurGlassExt::DWM
 
 	bool CWindowData::IsUsingDarkMode() const
 	{
-		bool darkMode = false;
+		bool darkMode;
 
-		if (os::buildNumber < 19041)
-		{
-			// TO-DO
-		}
-		else if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			darkMode = (reinterpret_cast<BYTE const*>(this)[613] & 8) != 0;
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			darkMode = (reinterpret_cast<BYTE const*>(this)[669] & 4) != 0;
 		}
-		else
+		else if (os::buildNumber < os::w11_25h2)
 		{
 			darkMode = (reinterpret_cast<BYTE const*>(this)[677] & 4) != 0; // ok with build 26020
 		}
+		else
+			darkMode = (reinterpret_cast<BYTE const*>(this)[741] & 4) != 0;
 
 		return darkMode;
 	}
@@ -236,22 +234,21 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		DWORD attribute{ 0 };
 
-		if (os::buildNumber < 19041)
-		{
-			// TO-DO
-		}
-		else if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			attribute = *reinterpret_cast<const DWORD*>(reinterpret_cast<BYTE const*>(this) + 608);
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			attribute = *reinterpret_cast<const DWORD*>(reinterpret_cast<BYTE const*>(this) + 664);
 		}
-		else
+		else if (os::buildNumber < os::w11_25h2)
 		{
 			attribute = *reinterpret_cast<const DWORD*>(reinterpret_cast<BYTE const*>(this) + 672); // ok with build 26020
 		}
+		else
+			attribute = *reinterpret_cast<const DWORD*>(reinterpret_cast<BYTE const*>(this) + 736);
+		
 
 		return attribute;
 	}
@@ -269,7 +266,7 @@ namespace MDWMBlurGlassExt::DWM
 	ACCENT_POLICY* CWindowData::GetAccentPolicy()
 	{
 		ACCENT_POLICY* accentpolicy;
-		if (os::buildNumber >= 22000)
+		if (os::buildNumber >= os::w11_21h2)
 			accentpolicy = (ACCENT_POLICY*)((ULONG64)this + 168);
 		else
 			accentpolicy = (ACCENT_POLICY*)((ULONG64)this + 152);
@@ -280,7 +277,7 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		const MARGINS* margins{ nullptr };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			margins = reinterpret_cast<const MARGINS*>(reinterpret_cast<ULONG_PTR>(this) + 80);
 		}
@@ -365,21 +362,22 @@ namespace MDWMBlurGlassExt::DWM
 
 		return allowed;
 	}
+
 	bool CVisual::AllowVisualTreeClone(bool allow)
 	{
 		BYTE* properties;
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			properties = &reinterpret_cast<BYTE*>(this)[84];
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			properties = &reinterpret_cast<BYTE*>(this)[92];
 		}
 		else
 		{
-			properties = &reinterpret_cast<BYTE*>(this)[36];
+			properties = &reinterpret_cast<BYTE*>(this)[36]; // ok with build 26200
 		}
 
 		bool allowed{ false };
@@ -397,19 +395,6 @@ namespace MDWMBlurGlassExt::DWM
 		}
 
 		return allowed;
-	}
-	void CVisual::Cloak(bool cloak)
-	{
-		if (!cloak)
-		{
-			SetOpacity(1.);
-			UpdateOpacity();
-		}
-		else
-		{
-			SetOpacity(0.);
-			UpdateOpacity();
-		}
 	}
 
 	void CVisual::SetInsetFromParent(MARGINS* margins)
@@ -483,7 +468,7 @@ namespace MDWMBlurGlassExt::DWM
 
 	void CVisual::SetDirtyChildren()
 	{
-		if (os::buildNumber < 26020)
+		if (os::buildNumber < os::w11_24h2)
 		{
 			return DEFCALL_MHOST_METHOD(CVisual::SetDirtyChildren);
 		}
@@ -527,7 +512,7 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		LONG width{ 0 };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			width = reinterpret_cast<LONG const*>(this)[30];
 		}
@@ -543,7 +528,7 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		LONG height{ 0 };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			height = reinterpret_cast<LONG const*>(this)[31];
 		}
@@ -559,7 +544,7 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		MARGINS* margins{ nullptr };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			margins = reinterpret_cast<MARGINS*>(this) + 8;
 		}
@@ -590,7 +575,7 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		PVOID windowData;
 
-		if (os::buildNumber >= 22000)
+		if (os::buildNumber >= os::w11_21h2)
 		{
 			if (os::buildNumber < 26020)
 				windowData = *((PVOID*)this + 94);
@@ -605,7 +590,7 @@ namespace MDWMBlurGlassExt::DWM
 				windowData = *((PVOID*)this + 90);
 		}
 
-		return (CWindowData*)windowData;
+		return static_cast<CWindowData*>(windowData);
 	}
 
 	VisualCollection* CTopLevelWindow::GetNCAreaVisualCollection()
@@ -622,21 +607,21 @@ namespace MDWMBlurGlassExt::DWM
 		{
 			visual = reinterpret_cast<CCanvasVisual* const*>(this)[32];
 		}
-		else if (os::buildNumber < 22000)
+		else if (os::buildNumber < os::w11_21h2)
 		{
 			visual = reinterpret_cast<CCanvasVisual* const*>(this)[33];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			visual = reinterpret_cast<CCanvasVisual* const*>(this)[34];
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			visual = reinterpret_cast<CCanvasVisual* const*>(this)[36];
 		}
 		else
 		{
-			visual = reinterpret_cast<CCanvasVisual* const*>(this)[31];
+			visual = reinterpret_cast<CCanvasVisual* const*>(this)[31]; // ok with build 26200
 		}
 
 		return visual;
@@ -646,15 +631,15 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		CAccent* accent{ nullptr };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			accent = reinterpret_cast<CAccent* const*>(this)[34];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			accent = reinterpret_cast<CAccent* const*>(this)[35];
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			accent = reinterpret_cast<CAccent* const*>(this)[37];
 		}
@@ -674,15 +659,15 @@ namespace MDWMBlurGlassExt::DWM
 		{
 			visual = reinterpret_cast<CCanvasVisual* const*>(this)[35];
 		}
-		else if (os::buildNumber < 22000)
+		else if (os::buildNumber < os::w11_21h2)
 		{
 			visual = reinterpret_cast<CCanvasVisual* const*>(this)[36];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			visual = reinterpret_cast<CCanvasVisual* const*>(this)[37];
 		}
-		else if (os::buildNumber < 26100)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			visual = reinterpret_cast<CCanvasVisual* const*>(this)[39];
 		}
@@ -697,15 +682,15 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		CVisual* visual{ nullptr };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			visual = reinterpret_cast<CVisual* const*>(this)[37];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			visual = reinterpret_cast<CVisual* const*>(this)[39];
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			visual = reinterpret_cast<CVisual* const*>(this)[42];
 		}
@@ -720,14 +705,14 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		CVisual* visual{ nullptr };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			visual = reinterpret_cast<CVisual* const*>(this)[38];
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			visual = reinterpret_cast<CVisual* const*>(this)[40];
 		}
@@ -742,13 +727,13 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		CCanvasVisual* visual{ nullptr };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			visual = reinterpret_cast<CCanvasVisual* const*>(this)[41];
 		}
@@ -768,15 +753,15 @@ namespace MDWMBlurGlassExt::DWM
 		{
 			visual = reinterpret_cast<CVisual* const*>(this)[67];
 		}
-		else if (os::buildNumber < 22000)
+		else if (os::buildNumber < os::w11_21h2)
 		{
 			visual = reinterpret_cast<CVisual* const*>(this)[68];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			visual = reinterpret_cast<CVisual* const*>(this)[70];
 		}
-		else if (os::buildNumber < 26100)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			visual = reinterpret_cast<CVisual* const*>(this)[74];
 		}
@@ -815,18 +800,7 @@ namespace MDWMBlurGlassExt::DWM
 
 		return visuals;
 	}
-	bool CTopLevelWindow::IsNCBackgroundVisualsCloneAllAllowed()
-	{
-		for (const auto& visual : GetNCBackgroundVisuals())
-		{
-			if (!visual->IsCloneAllowed())
-			{
-				return false;
-			}
-		}
 
-		return true;
-	}
 	CSolidColorLegacyMilBrushProxy* const* CTopLevelWindow::GetBorderMilBrush() const
 	{
 		CSolidColorLegacyMilBrushProxy* const* brush{ nullptr };
@@ -835,11 +809,11 @@ namespace MDWMBlurGlassExt::DWM
 		{
 			// TO-DO
 		}
-		else if (os::buildNumber < 22000)
+		else if (os::buildNumber < os::w11_21h2)
 		{
 			brush = &reinterpret_cast<CSolidColorLegacyMilBrushProxy* const*>(this)[94];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			brush = &reinterpret_cast<CSolidColorLegacyMilBrushProxy* const*>(this)[98];
 		}
@@ -871,15 +845,15 @@ namespace MDWMBlurGlassExt::DWM
 		{
 			geometry = reinterpret_cast<CRgnGeometryProxy* const*>(this)[68];
 		}
-		else if (os::buildNumber < 22000)
+		else if (os::buildNumber < os::w11_21h2)
 		{
 			geometry = reinterpret_cast<CRgnGeometryProxy* const*>(this)[69];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			geometry = reinterpret_cast<CRgnGeometryProxy* const*>(this)[71];
 		}
-		else if (os::buildNumber < 26100)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			auto legacyBackgroundVisual{ reinterpret_cast<CVisual* const*>(this)[39] };
 			if (legacyBackgroundVisual)
@@ -907,11 +881,11 @@ namespace MDWMBlurGlassExt::DWM
 		{
 			geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(this)[69];
 		}
-		else if (os::buildNumber < 22000)
+		else if (os::buildNumber < os::w11_21h2)
 		{
 			geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(this)[70];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(this)[72];
 		}
@@ -950,32 +924,28 @@ namespace MDWMBlurGlassExt::DWM
 		}*/
 
 		bool nonClientEmpty{ false };
-		if (os::buildNumber < 19041)
-		{
-			// TO-DO
-		}
-		else if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			nonClientEmpty = !reinterpret_cast<DWORD const*>(this)[153] &&
 				!reinterpret_cast<DWORD const*>(this)[154] &&
 				!reinterpret_cast<DWORD const*>(this)[155] &&
 				!reinterpret_cast<DWORD const*>(this)[156];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			nonClientEmpty = !reinterpret_cast<DWORD const*>(this)[157] &&
 				!reinterpret_cast<DWORD const*>(this)[158] &&
 				!reinterpret_cast<DWORD const*>(this)[159] &&
 				!reinterpret_cast<DWORD const*>(this)[160];
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			nonClientEmpty = !reinterpret_cast<DWORD const*>(this)[161] &&
 				!reinterpret_cast<DWORD const*>(this)[162] &&
 				!reinterpret_cast<DWORD const*>(this)[163] &&
 				!reinterpret_cast<DWORD const*>(this)[164];
 		}
-		else
+		else // ok with build 26200、26100
 		{
 			nonClientEmpty = !reinterpret_cast<DWORD const*>(this)[151] &&
 				!reinterpret_cast<DWORD const*>(this)[152] &&
@@ -994,15 +964,15 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		bool systemBackdropApplied{ false };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			systemBackdropApplied = false;
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			systemBackdropApplied = *reinterpret_cast<DWORD*>(reinterpret_cast<ULONG_PTR>(GetData()) + 204);
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			systemBackdropApplied = (reinterpret_cast<DWORD const*>(this)[210] <= 3);
 		}
@@ -1022,7 +992,7 @@ namespace MDWMBlurGlassExt::DWM
 	CText* CTopLevelWindow::GetCText()
 	{
 		CText* text{nullptr};
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			text = *((CText**)this + 65);
 		}
@@ -1035,7 +1005,7 @@ namespace MDWMBlurGlassExt::DWM
 
 	void CTopLevelWindow::CDWriteTextSetColor(COLORREF color)
 	{
-		if(os::buildNumber < 26100)
+		if(os::buildNumber < os::w11_24h2)
 		{
 			auto text = (CDWriteText*)*((ULONG64*)this + 71);//CDWriteText This
 			typedef void(__fastcall**** CDWriteText_SetColor)(CDWriteText*, UINT);//(***((void(__fastcall****)(ULONG64, __int64))This + 71))(*((ULONG64*)This + 71), inputVec);
@@ -1111,15 +1081,15 @@ namespace MDWMBlurGlassExt::DWM
 		{
 			rtlMirrored = (reinterpret_cast<DWORD const*>(this)[146] & 0x20000) != 0;
 		}
-		else if (os::buildNumber < 22000)
+		else if (os::buildNumber < os::w11_21h2)
 		{
 			rtlMirrored = (reinterpret_cast<DWORD const*>(this)[148] & 0x20000) != 0;
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			rtlMirrored = (reinterpret_cast<DWORD const*>(this)[152] & 0x20000) != 0;
 		}
-		else if (os::buildNumber < 26100)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			rtlMirrored = (reinterpret_cast<DWORD const*>(this)[156] & 0x20000) != 0;
 		}
@@ -1150,7 +1120,7 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		DWORD color{};
 
-		if (os::buildNumber < 22621)
+		if (os::buildNumber < os::w11_23h2)
 		{
 			DWORD flags{};
 			color = GetWindowColorizationColor(static_cast<BYTE>(*GetCurrentDefaultColorizationFlags(&flags) | 8u));
@@ -1198,19 +1168,20 @@ namespace MDWMBlurGlassExt::DWM
 		static auto pfun = MHostGetProcAddress<decltype(s_IsPolicyActive)>("CAccent::s_IsPolicyActive");
 		return pfun(accentPolicy);
 	}
+
 	CBaseGeometryProxy* const& CAccent::GetClipGeometry() const
 	{
 		CBaseGeometryProxy* const* geometry{ nullptr };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			geometry = &reinterpret_cast<CBaseGeometryProxy* const*>(this)[52];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			geometry = &reinterpret_cast<CBaseGeometryProxy* const*>(this)[53];
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			geometry = &reinterpret_cast<CBaseGeometryProxy* const*>(this)[48];
 		}
@@ -1244,9 +1215,9 @@ namespace MDWMBlurGlassExt::DWM
 	POINT* CButton::GetPoint()
 	{
 		POINT* pt;
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 			pt = (POINT*)this + 14;
-		else if(os::buildNumber < 26100)
+		else if(os::buildNumber < os::w11_24h2)
 			pt = (POINT*)this + 15;
 		else
 			pt = (POINT*)this + 8;
@@ -1256,9 +1227,9 @@ namespace MDWMBlurGlassExt::DWM
 	SIZE* CButton::GetSize()
 	{
 		SIZE* size;
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 			size = (SIZE*)this + 15;
-		else if (os::buildNumber < 26100)
+		else if (os::buildNumber < os::w11_24h2)
 			size = (SIZE*)this + 16;
 		else
 			size = (SIZE*)this + 9;
@@ -1289,15 +1260,15 @@ namespace MDWMBlurGlassExt::DWM
 	CWindowList* CDesktopManager::GetWindowList() const
 	{
 		CWindowList* windowList{ nullptr };
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			windowList = reinterpret_cast<CWindowList* const*>(this)[61];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			windowList = reinterpret_cast<CWindowList* const*>(this)[52];
 		}
-		else if (os::buildNumber < 26100)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			windowList = reinterpret_cast<CWindowList* const*>(this)[54];
 		}
@@ -1316,15 +1287,15 @@ namespace MDWMBlurGlassExt::DWM
 		{
 			// TO-DO
 		}
-		else if (os::buildNumber < 22000)
+		else if (os::buildNumber < os::w11_21h2)
 		{
 			factory = static_cast<IWICImagingFactory2*>(reinterpret_cast<PVOID const*>(this)[39]);
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			factory = static_cast<IWICImagingFactory2*>(reinterpret_cast<PVOID const*>(this)[30]);
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			factory = static_cast<IWICImagingFactory2*>(reinterpret_cast<PVOID const*>(this)[31]);
 		}
@@ -1344,15 +1315,15 @@ namespace MDWMBlurGlassExt::DWM
 		{
 			// TO-DO
 		}
-		else if (os::buildNumber < 22000)
+		else if (os::buildNumber < os::w11_21h2)
 		{
 			d2dDevice = reinterpret_cast<ID2D1Device* const*>(this)[29];
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			d2dDevice = static_cast<ID2D1Device**>(reinterpret_cast<void* const*>(this)[6])[3];
 		}
-		else if (os::buildNumber < 26020)
+		else if (os::buildNumber < os::w11_24h2)
 		{
 			d2dDevice = static_cast<ID2D1Device**>(reinterpret_cast<void* const*>(this)[7])[3];
 		}
@@ -1368,11 +1339,7 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		DCompPrivate::IDCompositionDesktopDevicePartner* interopDevice = nullptr;
 
-		if (os::buildNumber < 19041)
-		{
-			// TO-DO
-		}
-		else if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			interopDevice = reinterpret_cast<DCompPrivate::IDCompositionDesktopDevicePartner* const*>(this)[27];
 
@@ -1385,7 +1352,7 @@ namespace MDWMBlurGlassExt::DWM
 				class_method_cast<void(STDMETHODCALLTYPE*)()>("CDesktopManager::HandleInteropDeviceLost")();
 			}
 		}
-		else if (os::buildNumber < 22621)
+		else if (os::buildNumber < os::w11_23h2)
 		{
 			interopDevice = static_cast<DCompPrivate::IDCompositionDesktopDevicePartner**>(reinterpret_cast<void* const*>(this)[5])[4];
 		}
@@ -1401,7 +1368,7 @@ namespace MDWMBlurGlassExt::DWM
 	{
 		CCompositor* compositor{ nullptr };
 
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			compositor = reinterpret_cast<CCompositor* const*>(this)[5];
 		}
@@ -1447,7 +1414,7 @@ namespace MDWMBlurGlassExt::DWM
 	LPCWSTR CText::GetText()
 	{
 		LPCWSTR text{nullptr};
-		if (os::buildNumber < 22000)
+		if (os::buildNumber < os::w11_21h2)
 		{
 			text = (wchar_t*)*((DWORD64*)this + 36);
 		}
@@ -1465,7 +1432,7 @@ namespace MDWMBlurGlassExt::DWM
 
 	CMatrixTransformProxy* CText::GetMatrixProxy()
 	{
-		if(os::buildNumber >= 22000)
+		if(os::buildNumber >= os::w11_21h2)
 			return (CMatrixTransformProxy*)*((DWORD64*)this + 50);
 		return (CMatrixTransformProxy*)*((DWORD64*)this + 49);
 	}

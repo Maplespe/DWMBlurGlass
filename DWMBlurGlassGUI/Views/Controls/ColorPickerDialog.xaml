@@ -1,0 +1,209 @@
+﻿<ui:ContentDialog
+    x:Class="DWMBlurGlassGUI.Views.Controls.ColorPickerDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:local="clr-namespace:DWMBlurGlassGUI.Views.Controls"
+    mc:Ignorable="d"
+    Title="Select color:"
+    PrimaryButtonText="OK"
+    CloseButtonText="Cancel"
+    IsPrimaryButtonEnabled="True"
+    DialogMaxWidth="520"
+    d:DesignWidth="500"
+    d:DesignHeight="280"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+
+    <ui:ContentDialog.Resources>
+        <Style BasedOn="{StaticResource {x:Type ui:ContentDialog}}" TargetType="{x:Type local:ColorPickerDialog}" />
+    </ui:ContentDialog.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Main Content Row -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Saturation/Value picker -->
+            <Border x:Name="SaturationValuePicker" 
+                    Grid.Column="0"
+                    Width="256" Height="256"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                    BorderThickness="1"
+                    CornerRadius="2"
+                    ClipToBounds="True"
+                    Cursor="Cross"
+                    MouseLeftButtonDown="SaturationValuePicker_MouseLeftButtonDown"
+                    MouseMove="SaturationValuePicker_MouseMove"
+                    MouseLeftButtonUp="SaturationValuePicker_MouseLeftButtonUp">
+                <Grid>
+                    <Border x:Name="HueBackground" CornerRadius="2"/>
+                    <Border CornerRadius="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="White" Offset="0"/>
+                                <GradientStop Color="Transparent" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Border CornerRadius="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="Transparent" Offset="0"/>
+                                <GradientStop Color="Black" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Canvas>
+                        <Ellipse x:Name="SatValIndicator" 
+                                 Width="12" Height="12" 
+                                 Stroke="White" StrokeThickness="2"
+                                 Fill="Transparent"
+                                 IsHitTestVisible="False">
+                            <Ellipse.Effect>
+                                <DropShadowEffect ShadowDepth="0" BlurRadius="2" Color="Black"/>
+                            </Ellipse.Effect>
+                        </Ellipse>
+                    </Canvas>
+                </Grid>
+            </Border>
+            
+            <!-- Hue slider -->
+            <Border x:Name="HueSliderBorder"
+                    Grid.Column="2" 
+                    Width="20" Height="256"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                    BorderThickness="1"
+                    CornerRadius="2"
+                    ClipToBounds="True"
+                    Cursor="Hand"
+                    MouseLeftButtonDown="HueSlider_MouseLeftButtonDown"
+                    MouseMove="HueSlider_MouseMove"
+                    MouseLeftButtonUp="HueSlider_MouseLeftButtonUp">
+                <Grid>
+                    <Border CornerRadius="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#FFFF0000" Offset="0"/>
+                                <GradientStop Color="#FFFF00FF" Offset="0.167"/>
+                                <GradientStop Color="#FF0000FF" Offset="0.333"/>
+                                <GradientStop Color="#FF00FFFF" Offset="0.5"/>
+                                <GradientStop Color="#FF00FF00" Offset="0.667"/>
+                                <GradientStop Color="#FFFFFF00" Offset="0.833"/>
+                                <GradientStop Color="#FFFF0000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Canvas>
+                        <Border x:Name="HueIndicator" 
+                                Width="20" Height="4"
+                                Background="White"
+                                BorderBrush="Gray"
+                                BorderThickness="1"
+                                CornerRadius="1"
+                                IsHitTestVisible="False"/>
+                    </Canvas>
+                </Grid>
+            </Border>
+
+            <!-- RGB/HSV inputs -->
+            <Grid Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="14"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="16"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- RGB -->
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Red:" VerticalAlignment="Center" FontSize="12" Margin="0,0,0,8"/>
+                <ui:TextBox x:Name="RedTextBox" Grid.Row="0" Grid.Column="1" FontSize="12" Margin="0,0,0,8" TextChanged="RgbTextBox_TextChanged" ClearButtonEnabled="False"/>
+                
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Green:" VerticalAlignment="Center" FontSize="12" Margin="0,0,0,8"/>
+                <ui:TextBox x:Name="GreenTextBox" Grid.Row="1" Grid.Column="1" FontSize="12" Margin="0,0,0,8" TextChanged="RgbTextBox_TextChanged" ClearButtonEnabled="False"/>
+                
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Blue:" VerticalAlignment="Center" FontSize="12" Margin="0,0,0,8"/>
+                <ui:TextBox x:Name="BlueTextBox" Grid.Row="2" Grid.Column="1" FontSize="12" Margin="0,0,0,8" TextChanged="RgbTextBox_TextChanged" ClearButtonEnabled="False"/>
+
+                <!-- HSV -->
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Hue:" VerticalAlignment="Center" FontSize="12" Margin="0,0,0,8"/>
+                <ui:TextBox x:Name="HueTextBox" Grid.Row="4" Grid.Column="1" FontSize="12" Margin="0,0,0,8" TextChanged="HsvTextBox_TextChanged" ClearButtonEnabled="False"/>
+                <TextBlock Grid.Row="4" Grid.Column="2" Text="°" VerticalAlignment="Center" FontSize="12" Margin="4,0,0,8"/>
+                
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Saturate:" VerticalAlignment="Center" FontSize="12" Margin="0,0,0,8"/>
+                <ui:TextBox x:Name="SaturationTextBox" Grid.Row="5" Grid.Column="1" FontSize="12" Margin="0,0,0,8" TextChanged="HsvTextBox_TextChanged" ClearButtonEnabled="False"/>
+                <TextBlock Grid.Row="5" Grid.Column="2" Text="%" VerticalAlignment="Center" FontSize="12" Margin="4,0,0,8"/>
+                
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Value:" VerticalAlignment="Center" FontSize="12"/>
+                <ui:TextBox x:Name="ValueTextBox" Grid.Row="6" Grid.Column="1" FontSize="12" TextChanged="HsvTextBox_TextChanged" ClearButtonEnabled="False"/>
+                <TextBlock Grid.Row="6" Grid.Column="2" Text="%" VerticalAlignment="Center" FontSize="12" Margin="4,0,0,0"/>
+            </Grid>
+        </Grid>
+
+        <!-- HEX and Opacity Row -->
+        <Grid Grid.Row="1" Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" Text="HEX:" VerticalAlignment="Center" FontSize="12" Margin="0,0,8,0"/>
+            <ui:TextBox x:Name="HexTextBox" Grid.Column="1" FontSize="12" TextChanged="HexTextBox_TextChanged" ClearButtonEnabled="False"/>
+            
+            <TextBlock x:Name="OpacityLabel" Grid.Column="3" Text="Opacity:" VerticalAlignment="Center" FontSize="12" Margin="0,0,8,0"/>
+            <Slider x:Name="OpacitySlider" Grid.Column="4"
+                    Minimum="0" Maximum="100" Value="100" 
+                    VerticalAlignment="Center"
+                    ValueChanged="OpacitySlider_ValueChanged"/>
+            <TextBlock x:Name="OpacityText" Grid.Column="5" Text="100%" VerticalAlignment="Center" FontSize="12" Margin="8,0,0,0"/>
+        </Grid>
+
+        <!-- Color Previews Row -->
+        <Grid Grid.Row="2" Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <TextBlock x:Name="NewColorLabel" Text="New color:" VerticalAlignment="Center" FontSize="12" Margin="0,0,8,0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Border x:Name="NewColorPreview" 
+                        Width="90" Height="28" 
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                        BorderThickness="1" CornerRadius="2" Margin="0,0,4,0" />
+                <Border x:Name="OldColorPreview" 
+                        Width="90" Height="28" 
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                        BorderThickness="1" CornerRadius="2" Margin="0,0,4,0" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</ui:ContentDialog>

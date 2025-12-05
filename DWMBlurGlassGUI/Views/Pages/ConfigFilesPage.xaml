@@ -1,0 +1,42 @@
+<Page x:Class="DWMBlurGlassGUI.Views.Pages.ConfigFilesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:viewmodels="clr-namespace:DWMBlurGlassGUI.ViewModels.Pages"
+      mc:Ignorable="d"
+      d:DataContext="{d:DesignInstance viewmodels:ConfigFilesViewModel, IsDesignTimeCreatable=False}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ConfigFilesPage">
+
+    <StackPanel Margin="20,15,20,20">
+        <ui:TextBlock 
+            Text="{Binding Lang[config]}" 
+            FontTypography="Title"
+            Margin="0,0,0,15"/>
+
+        <!-- Config Files Card -->
+        <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" 
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" 
+                BorderThickness="1" 
+                CornerRadius="{DynamicResource ControlCornerRadius}" 
+                Padding="12">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                    <ui:SymbolIcon Symbol="Document24" Margin="0,0,10,0" FontSize="18"/>
+                    <TextBlock Text="{Binding Lang[configfile]}" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <ui:Button Content="{Binding Lang[import]}" Command="{Binding ImportConfigCommand}" Margin="0,0,6,0" MinWidth="80"/>
+                    <ui:Button Content="{Binding Lang[export]}" Command="{Binding ExportConfigCommand}" Margin="0,0,12,0" MinWidth="80"/>
+                    
+                    <Rectangle Width="1" Height="20" Fill="{DynamicResource CardStrokeColorDefaultBrush}" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                    
+                    <ui:Button Content="{Binding Lang[restore]}" Command="{Binding RestoreDefaultConfigCommand}" MinWidth="80"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</Page>

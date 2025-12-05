@@ -19,6 +19,7 @@
 #include "../DWMBlurGlass.h"
 #include "../Backdrops/ButtonGlowBackdrop.hpp"
 #include <shellscalingapi.h>
+#include <algorithm>
 //#include <mutex>
 #pragma comment(lib, "shcore.lib")
 
@@ -141,8 +142,10 @@ namespace MDWMBlurGlassExt::CustomButton
 
 		g_window = data->GetHWND();
 
-		if (!g_window || GetWindowLongPtrW(g_window, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)
+		if (!g_window)
 			return S_OK;
+
+		bool isToolWindow = GetWindowLongPtrW(g_window, GWL_EXSTYLE) & WS_EX_TOOLWINDOW;
 
 		auto GetButtonPtr = [&](int index) -> CButton*
 		{
@@ -196,7 +199,6 @@ namespace MDWMBlurGlassExt::CustomButton
 		if (IsIconic(g_window))
 			return S_OK;
 
-		int frameY = 20;
 		int borderW = ((rect.right - rect.left) - (client.right - client.left)) / 2;
 
 		if (scale != 1.f)
@@ -215,9 +217,25 @@ namespace MDWMBlurGlassExt::CustomButton
 			borderW = g_configData.titlebtnOffsetX;
 
 		borderW = int((float)borderW * scale);
-		const int minbtn_width = int(29.f * scale);
-		const int maxbtn_width = int(27.f * scale);
-		const int closebtn_width = int(49.f * scale);
+
+		// 如果启用了自定义尺寸 使用配置中的按钮尺寸
+		// 默认使用 Windows7 的数值尺寸
+		int minbtn_width_base = 29;
+		int maxbtn_width_base = 27;
+		int closebtn_width_base = 49;
+		int frameY = 20;
+
+		if (g_configData.customTitleBtnSize)
+		{
+			closebtn_width_base = std::clamp(g_configData.customCloseBtnW, 14, 200);
+			maxbtn_width_base = std::clamp(g_configData.customMaxBtnW, 14, 200);
+			minbtn_width_base = std::clamp(g_configData.customMinBtnW, 14, 200);
+			frameY = std::clamp(g_configData.customBtnFrameH, 14, 100);
+		}
+
+		const int minbtn_width = int((float)minbtn_width_base * scale);
+		const int maxbtn_width = int((float)maxbtn_width_base * scale);
+		const int closebtn_width = int((float)closebtn_width_base * scale);
 		const int height = int((float)frameY * scale);
 
 		bool closebtn = false;

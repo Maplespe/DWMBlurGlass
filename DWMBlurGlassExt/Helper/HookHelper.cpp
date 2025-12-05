@@ -33,7 +33,7 @@ namespace MDWMBlurGlassExt
 		if (loaded)
 			return true;
 
-		HMODULE hModule = LoadLibraryW((Utils::GetCurrentDir() + L"\\DWMBlurGlass.exe").c_str());
+		HMODULE hModule = LoadLibraryW((Utils::GetCurrentDir() + L"\\DWMBlurGlassHost.dll").c_str());
 		if (!hModule) 
 			return false;
 

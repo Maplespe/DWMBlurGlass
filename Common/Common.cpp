@@ -62,11 +62,6 @@ namespace MDWMBlurGlass
 			return ret;
 		}
 
-		bool SetIniString(std::wstring_view path, std::wstring_view appName, std::wstring_view keyName, std::wstring_view value)
-		{
-			return WritePrivateProfileStringW(appName.data(), keyName.data(), value.data(), path.data());
-		}
-
 		bool IsAppUseLightMode()
 		{
 			DWORD dwResult = 0;
@@ -111,6 +106,9 @@ namespace MDWMBlurGlass
 		cfgData.disableOnBattery = GetConfigBool(L"disableOnBattery", true);
 		cfgData.titlebtnGlow = GetConfigBool(L"titlebtnGlow");
 		cfgData.disableFramerateLimit = GetConfigBool(L"disableFramerateLimit");
+		cfgData.customAeroTexture = GetConfigBool(L"customAeroTexture");
+		cfgData.autoDownloadSymbols = GetConfigBool(L"autoDownloadSymbols", true);
+		cfgData.customTitleBtnSize = GetConfigBool(L"customTitleBtnSize");
 
 		GetCfgValueInternal(L"extendRound",
 		{
@@ -220,59 +218,33 @@ namespace MDWMBlurGlass
 			cfgData.titlebtnOffsetX = (UINT)std::clamp(_wtoi(value.data()), -1, 1000);
 		});
 
+		GetCfgValueInternal(L"customCloseBtnW",
+		{
+			cfgData.customCloseBtnW = std::clamp(_wtoi(value.data()), 1, 200);
+		});
+
+		GetCfgValueInternal(L"customMaxBtnW",
+		{
+			cfgData.customMaxBtnW = std::clamp(_wtoi(value.data()), 1, 200);
+		});
+
+		GetCfgValueInternal(L"customMinBtnW",
+		{
+			cfgData.customMinBtnW = std::clamp(_wtoi(value.data()), 1, 200);
+		});
+
+		GetCfgValueInternal(L"customBtnFrameH",
+		{
+			cfgData.customBtnFrameH = std::clamp(_wtoi(value.data()), 1, 100);
+		});
+
+		GetCfgValueInternal(L"customAeroTexturePath",
+		{
+			cfgData.customAeroTexturePath = value;
+		});
+
 		return cfgData;
 	}
 
 #pragma pop_macro("GetCfgValueInternal")
-
-	template<typename T>
-	std::wstring make_wstring(T&& value)
-	{
-		return std::to_wstring(std::forward<T>(value));
-	}
-
-	std::wstring make_wstring(bool value)
-	{
-		return value ? L"true" : L"false";
-	}
-
-	void ConfigData::SaveToFile(std::wstring_view path, const ConfigData& cfg)
-	{
-		for (const auto regkeyList = std::to_array<std::pair<LPCWSTR, std::wstring>>
-			({
-				{ L"applyglobal", make_wstring(cfg.applyglobal) },
-				{ L"extendBorder", make_wstring(cfg.extendBorder) },
-				{ L"reflection", make_wstring(cfg.reflection) },
-				{ L"oldBtnHeight", make_wstring(cfg.oldBtnHeight) },
-				{ L"customAmount", make_wstring(cfg.customAmount) },
-				{ L"crossFade", make_wstring(cfg.crossFade) },
-				{ L"useAccentColor", make_wstring(cfg.useAccentColor) },
-				{ L"blurAmount", make_wstring(cfg.blurAmount) },
-				{ L"customBlurAmount", make_wstring(cfg.customBlurAmount) },
-				{ L"luminosityOpacity", make_wstring(cfg.luminosityOpacity) },
-				{ L"activeTextColor", make_wstring(cfg.activeTextColor) },
-				{ L"inactiveTextColor", make_wstring(cfg.inactiveTextColor) },
-				{ L"activeTextColorDark", make_wstring(cfg.activeTextColorDark) },
-				{ L"inactiveTextColorDark", make_wstring(cfg.inactiveTextColorDark) },
-				{ L"activeBlendColor", make_wstring(cfg.activeBlendColor) },
-				{ L"inactiveBlendColor", make_wstring(cfg.inactiveBlendColor) },
-				{ L"activeBlendColorDark", make_wstring(cfg.activeBlendColorDark) },
-				{ L"inactiveBlendColorDark", make_wstring(cfg.inactiveBlendColorDark) },
-				{ L"glassIntensity", make_wstring(cfg.glassIntensity) },
-				{ L"aeroColorBalance", make_wstring(cfg.aeroColorBalance) },
-				{ L"aeroAfterglowBalance", make_wstring(cfg.aeroAfterglowBalance) },
-				{ L"aeroBlurBalance", make_wstring(cfg.aeroBlurBalance) },
-				{ L"blurMethod", make_wstring((int)cfg.blurmethod) },
-				{ L"effectType", make_wstring((int)cfg.effectType) },
-				{ L"crossfadeTime", make_wstring(cfg.crossfadeTime) },
-				{ L"overrideAccent", make_wstring(cfg.overrideAccent) },
-				{ L"occlusionCulling", make_wstring(cfg.scaleOptimizer) },
-				{ L"disableOnBattery", make_wstring(cfg.disableOnBattery) },
-				{ L"titlebtnGlow", make_wstring(cfg.titlebtnGlow) },
-				{ L"disableFramerateLimit", make_wstring(cfg.disableFramerateLimit) }
-				}); const auto & [key, value] : regkeyList)
-		{
-			Utils::SetIniString(path, L"config", key, value);
-		}
-	}
 }

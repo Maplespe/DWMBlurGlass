@@ -58,10 +58,19 @@ namespace MDWMBlurGlass
 		bool titlebtnGlow = false;
 
 		bool disableFramerateLimit = false;
+		bool customAeroTexture = false;
+
+		bool autoDownloadSymbols = true;
+
+		bool customTitleBtnSize = false;
 
 		//Options without GUI
 		int extendRound = 10;
 		int titlebtnOffsetX = -1;
+		int customCloseBtnW = 49;
+		int customMaxBtnW = 27;
+		int customMinBtnW = 29;
+		int customBtnFrameH = 20;
 		//
 
 		float blurAmount = 20.f;
@@ -91,6 +100,8 @@ namespace MDWMBlurGlass
 		blurMethod blurmethod = blurMethod::CustomBlur;
 		effectType effectType = effectType::Blur;
 
+		std::wstring customAeroTexturePath;
+
 		bool isDefault()
 		{
 			static ConfigData _default;
@@ -98,7 +109,6 @@ namespace MDWMBlurGlass
 		}
 
 		static ConfigData LoadFromFile(std::wstring_view path);
-		static void SaveToFile(std::wstring_view path, const ConfigData& cfg);
 	};
 
 	enum class MHostNotifyType
@@ -185,7 +195,6 @@ namespace MDWMBlurGlass
 	{
 		extern std::wstring GetCurrentDir();
 		extern std::wstring GetIniString(std::wstring_view path, std::wstring_view appName, std::wstring_view keyName);
-		extern bool SetIniString(std::wstring_view path, std::wstring_view appName, std::wstring_view keyName, std::wstring_view value);
 		extern bool IsAppUseLightMode();
 	}
 }

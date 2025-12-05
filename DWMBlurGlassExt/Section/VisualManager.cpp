@@ -117,7 +117,7 @@ namespace MDWMBlurGlassExt::CVisualManager
 			{
 				com_ptr<DCompPrivate::ICompositedBackdropVisual> clonedBackdrop{ nullptr };
 
-				clonedBackdrop = legacyVisual->IsCloneAllowed() ? winrt::make<CClonedCompositedBackdropVisual>(reinterpret_cast<CCompositedBackdropVisual*>(backdrop.get()), dst)
+				clonedBackdrop = legacyVisual->AllowVisualTreeClone(true) ? winrt::make<CClonedCompositedBackdropVisual>(reinterpret_cast<CCompositedBackdropVisual*>(backdrop.get()), dst)
 					: winrt::make<CClonedPeekingBackdropVisual>(src, dst);
 
 				auto result{ g_backdropMap.emplace(dst, clonedBackdrop) };
@@ -175,7 +175,13 @@ namespace MDWMBlurGlassExt::CVisualManager
 
 	void RefreshEffectConfig()
 	{
-		CGlassReflectionVisual::UpdateReflectionSurface(Utils::GetCurrentDir() + L"\\data\\aeropeek.png");
+		std::wstring texturePath = Utils::GetCurrentDir() + L"\\data\\aeropeek.png";
+		if (CommonDef::g_configData.customAeroTexture
+			&& PathFileExistsW(CommonDef::g_configData.customAeroTexturePath.data()))
+		{
+			texturePath = CommonDef::g_configData.customAeroTexturePath;
+		}
+		CGlassReflectionVisual::UpdateReflectionSurface(texturePath);
 		CGlassReflectionVisual::UpdateIntensity(CommonDef::g_configData.reflection ? CommonDef::g_configData.glassIntensity : 0.f);
 		BackdropFactory::RefreshConfig();
 	}
