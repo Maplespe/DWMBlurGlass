@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /Tools
 /.sublime
+/Build/Cache/DWMBlurGlassGUI
