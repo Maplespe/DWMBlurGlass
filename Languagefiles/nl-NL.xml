@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang local="nl-NL" author="Simon van Ieperen (@simonvanieperen)">
+
+	<inituifail0>Initialisatie van de MiaoUI-bibliotheek mislukt! Foutcode: </inituifail0>
+	<inituifail1>Kan geen venstercontext aanmaken!</inituifail1>
+	<inituifail2>Kan het venster niet initialiseren!</inituifail2>
+	<initfail0>Let op: omdat DWM in een sandbox draait, moet deze toepassing in een map buiten het gebruikersprofiel staan. Het pad mag niet in "{path}" of een submap daarvan liggen. Plaats de toepassing in een andere map.</initfail0>
+	<symloadfail>Laden van symboolbestanden mislukt! Het programma kon de DLL niet laden. Download de symbolen opnieuw. (Na een systeemupdate moeten symbolen mogelijk opnieuw worden gedownload.)</symloadfail>
+
+	<colorpicker_dlg_sel>Kleur selecteren:</colorpicker_dlg_sel>
+	<colorpicker_dlg_c>Nieuwe kleur:</colorpicker_dlg_c>
+	<msgdlg_no>Annuleren</msgdlg_no>
+	<msgdlg_yes>Bevestigen</msgdlg_yes>
+	<colorpicker_dlg_alpha>Dekking:</colorpicker_dlg_alpha>
+
+	<general>Algemeen</general>
+	<advanced>Geavanceerd</advanced>
+	<symbol>Symbolen</symbol>
+	<config>Configuratie</config>
+	<about>Over</about>
+
+	<status>Status:</status>
+	<status0>Niet geïnstalleerd</status0>
+	<status1>Geïnstalleerd</status1>
+	<install>Installeren</install>
+	<uninstall>Deïnstalleren</uninstall>
+	<installsucs>Installatie geslaagd!</installsucs>
+	<installsucs1>Installatie geslaagd! Je hebt alleen nog geen geldige symboolbestanden gedownload. Download deze via de pagina "Symbolen" om DWMBlurGlass te laten werken.</installsucs1>
+	<installfail>Installatie mislukt! Foutmelding: </installfail>
+	<uninstallsucs>Deïnstallatie geslaagd.</uninstallsucs>
+	<uninstallfail>Deïnstallatie mislukt! Foutmelding: </uninstallfail>
+	<loadfail>Laden van component mislukt! Foutmelding: </loadfail>
+
+	<saveconfig>Opslaan</saveconfig>
+	<effectset>Effectinstellingen</effectset>
+
+	<blurvalue>Vervagingsradius (globaal):</blurvalue>
+	<overrideDwmapi>DWMAPI-effect overschrijven (Windows 11)</overrideDwmapi>
+	<extendborder>Effecten uitbreiden naar vensterranden (Windows 10)</extendborder>
+	<reflection>Aero-reflectie-effect inschakelen</reflection>
+	<reflectiontip>(Verouderde vervagingsmethode, alleen voor Windows 10)</reflectiontip>
+	<oldBtnSize>Grootte van titelbalkknoppen in Win7-stijl herstellen</oldBtnSize>
+	<titlebtnGlow>Gloed rond titelbalkknoppen in Win7-stijl inschakelen</titlebtnGlow>
+
+	<cmodelight>Kleuren voor lichte modus</cmodelight>
+	<cmodedark>Kleuren voor donkere modus</cmodedark>
+	<blendcolor>Mengkleur titelbalk (actief):</blendcolor>
+	<inactiveblendcolor>Mengkleur titelbalk (inactief):</inactiveblendcolor>
+	<activecolor>Tekstkleur actief venster:</activecolor>
+	<inactivecolor>Tekstkleur inactief venster:</inactivecolor>
+	<preview>Voorbeeld</preview>
+	<sampletitle>Voorbeeldvenstertitel (actief)</sampletitle>
+
+	<blurmethod>Vervagingsmethode:</blurmethod>
+	<methodcustom>[Aanbevolen] Aangepaste vervagingsimplementatie via CVisual (DWM)\nen Windows.UI.Composition (dcomp) om aangepaste achtergrondeffecten\nte maken. Je kunt de meeste parameters aanpassen. Hiermee bereik je\nniet alleen de hoogste efficiëntie, maar ook het beste uiterlijk en betere stabiliteit.\nDe compatibiliteit is echter minder goed.\nNa een grote Windows-update kan deze methode niet meer werken; dan moet je\nwachten op de volgende versie.</methodcustom>
+	<methodaccent>[Niet aanbevolen] Gebruikt de interne AccentBlurBehind-klasse van DWM\nom het vervagingseffect toe te passen. Je kunt sommige parameters aanpassen,\nmaar deze methode is minder efficiënt en minder stabiel.\nOp de meeste systemen werkt dit normaal.\nEen systeemupdate maakt deze methode doorgaans niet onbruikbaar.</methodaccent>
+	<methoddwmapi>Gebruikt de gedocumenteerde DWMAPI in Windows 11 om beperkte\nSystemBackdrop-effecten toe te passen, zoals Acrylic en Mica.\nDeze parameters kun je helemaal niet aanpassen, maar de methode is efficiënt\nen stabieler. Het uiterlijk van sommige programma's kan hierdoor wel\nverstoord raken. Deze methode is alleen beschikbaar op Windows 11 22H2\nen nieuwer.</methoddwmapi>
+
+	<effecttype>Effecttype:</effecttype>
+	<blurvaluetitle>Vervagingsradius (alleen titelbalk):</blurvaluetitle>
+	<luminosity>Luminantie-opaciteit:</luminosity>
+	<colorBalance>Kleurbalans:</colorBalance>
+	<blurBalance>Vervagingsbalans:</blurBalance>
+	<afterglowBalance>Nagloeibalans:</afterglowBalance>
+
+	<miscsettings>Overig:</miscsettings>
+	<enablecrossfade>Crossfade-animatie-effect inschakelen</enablecrossfade>
+	<crossfadeTime>Animatieduur:</crossfadeTime>
+	<useaccentcolor>Accentkleur gebruiken om RGB-kleurinstellingen te overschrijven</useaccentcolor>
+	<glassIntensity>Opaciteit Aero-reflectietextuur:</glassIntensity>
+	<overrideAccent>AccentBlur-effect overschrijven</overrideAccent>
+	<scaleOptimizer>Optimalisatie van vervagingsrendering inschakelen</scaleOptimizer>
+	<disableOnBattery>Effect uitschakelen in energiebesparingsmodus</disableOnBattery>
+	<disableFramerateLimit>Dcomp-frameratebeperking uitschakelen</disableFramerateLimit>
+
+	<symbolfile>Symboolbestanden:</symbolfile>
+	<download>Downloaden</download>
+	<symtip>Symboolbestanden (PDB) zijn bestanden met foutopsporingsinformatie over een\nprogramma. Omdat systemen per versie verschillen, moet je\nsymboolbestanden downloaden van de Microsoft-servers. Als je het systeem\nbijwerkt, moet je de symboolbestanden mogelijk opnieuw downloaden.</symtip>
+	<symstatus0>Ongeldig</symstatus0>
+	<symstatus1>Geldig</symstatus1>
+	<symdowning>Downloaden...</symdowning>
+	<symdownfail>Download mislukt! Kan geen symboolbestanden downloaden van "msdl.microsoft.com".</symdownfail>
+	<syminvalid>Symboolbestanden zijn ongeldig. Ga naar de pagina "Symbolen" van DWMBlurGlass om nieuwe symboolbestanden te downloaden.</syminvalid>
+
+	<configfile>Configuratiebestand</configfile>
+	<import>Importeren</import>
+	<export>Exporteren</export>
+	<restore>Standaardinstellingen herstellen</restore>
+	<importwarn>Bij het importeren van een configuratiebestand wordt je bestaande configuratie overschreven. Toch doorgaan?</importwarn>
+	<restorecfg>Weet je zeker dat je de standaardconfiguratie wilt herstellen?</restorecfg>
+
+	<aboutinfo>Dit programma valt onder de LGPLv3-licentie:</aboutinfo>
+	<curlang>Huidige taal:</curlang>
+	<langauthor>Vertaalbijdragers:</langauthor>
+
+</lang>
