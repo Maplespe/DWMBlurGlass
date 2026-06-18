@@ -42,7 +42,7 @@ Este projeto usa [LGNU V3 license](/COPYING.LESSER).
 
 ## Efeitos
 * Adiciona efeitos personalizados à barra de título do sistema global.
-* Customizable global blur radius or title bar blur radius only. Customização global no blur ou apenas blur na barra de título
+* Customização global no blur ou apenas blur na barra de título
 * Cores de mesclagem da barra de título personalizáveis. 
 * Cor do texto da barra de título personalizável.
 * Reflexos Aero Glass e efeitos de paralaxe disponíveis.
