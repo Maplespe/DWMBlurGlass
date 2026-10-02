@@ -1,4 +1,4 @@
-﻿/**
+/**
  * FileName: DWMStruct.cpp
  *
  * Copyright (C) 2024 Maplespe、ALTaleX531
@@ -865,26 +865,26 @@ namespace MDWMBlurGlassExt::DWM
 
 	CRgnGeometryProxy* const& CTopLevelWindow::GetBorderGeometry() const
 	{
-		CRgnGeometryProxy* geometry{ nullptr };
+		CRgnGeometryProxy* const* geometry{ nullptr };
 
 		if (os::buildNumber < 19041)
 		{
-			geometry = reinterpret_cast<CRgnGeometryProxy* const*>(this)[68];
+			geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(this)[68];
 		}
 		else if (os::buildNumber < 22000)
 		{
-			geometry = reinterpret_cast<CRgnGeometryProxy* const*>(this)[69];
+			geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(this)[69];
 		}
 		else if (os::buildNumber < 22621)
 		{
-			geometry = reinterpret_cast<CRgnGeometryProxy* const*>(this)[71];
+			geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(this)[71];
 		}
-		else if (os::buildNumber < 26100)
+		else if (os::buildNumber < 26020)
 		{
 			auto legacyBackgroundVisual{ reinterpret_cast<CVisual* const*>(this)[39] };
 			if (legacyBackgroundVisual)
 			{
-				geometry = reinterpret_cast<CRgnGeometryProxy* const*>(legacyBackgroundVisual)[40];
+				geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(legacyBackgroundVisual)[40];
 			}
 		}
 		else
@@ -892,11 +892,12 @@ namespace MDWMBlurGlassExt::DWM
 			auto legacyBackgroundVisual{ reinterpret_cast<CVisual* const*>(this)[34] };
 			if (legacyBackgroundVisual)
 			{
-				geometry = reinterpret_cast<CRgnGeometryProxy* const*>(legacyBackgroundVisual)[34];
+				geometry = &reinterpret_cast<CRgnGeometryProxy* const*>(legacyBackgroundVisual)[34];
 			}
 		}
 
-		return geometry;
+		static CRgnGeometryProxy* s_emptyGeometry = nullptr;
+		return geometry ? *geometry : s_emptyGeometry;
 	}
 
 	CRgnGeometryProxy* const& CTopLevelWindow::GetTitlebarGeometry() const
@@ -932,7 +933,8 @@ namespace MDWMBlurGlassExt::DWM
 			}
 		}
 
-		return *geometry;
+		static CRgnGeometryProxy* s_emptyGeometry = nullptr;
+		return geometry ? *geometry : s_emptyGeometry;
 	}
 
 	bool CTopLevelWindow::HasNonClientBackground(CWindowData* data)
@@ -940,14 +942,23 @@ namespace MDWMBlurGlassExt::DWM
 		auto windowData{ GetData() };
 		if (data)
 			windowData = data;
+		if (!windowData)
+			return false;
+
+		HWND hWnd = windowData->GetHWND();
+		if (hWnd && IsWindow(hWnd))
+		{
+			LONG style = GetWindowLongW(hWnd, GWL_STYLE);
+			if ((style & WS_CAPTION) == WS_CAPTION)
+			{
+				return true;
+			}
+		}
+
 		if ((windowData->GetNonClientAttribute() & 8) == 0)
 		{
 			return false;
 		}
-		/*if (windowData->IsImmersiveWindow())
-		{
-			return false;
-		}*/
 
 		bool nonClientEmpty{ false };
 		if (os::buildNumber < 19041)

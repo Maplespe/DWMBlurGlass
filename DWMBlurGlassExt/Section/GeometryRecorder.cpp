@@ -1,4 +1,4 @@
-﻿#include "GeometryRecorder.h"
+#include "GeometryRecorder.h"
 #include <wil.h>
 #include <windowsx.h>
 
@@ -87,6 +87,45 @@ namespace MDWMBlurGlassExt::GeometryRecorder
 	size_t GetGeometryCount()
 	{
 		return g_geometryMap.size();
+	}
+
+	bool FindFallbackGeometries(
+		DWM::CBaseGeometryProxy** outCaptionGeom, HRGN* outCaptionRgn,
+		DWM::CBaseGeometryProxy** outBorderGeom, HRGN* outBorderRgn
+	)
+	{
+		if (g_geometryMap.empty()) return false;
+
+		for (const auto& [geom, rgn] : g_geometryMap)
+		{
+			if (!rgn) continue;
+			RECT rc{};
+			auto type = GetRgnBox(rgn.get(), &rc);
+			if (type == NULLREGION || IsRectEmpty(&rc)) continue;
+
+			int h = rc.bottom - rc.top;
+			int w = rc.right - rc.left;
+
+			// A titlebar/caption region is typically wide and between 15 and 80 px in height, located at or near top
+			if (h >= 15 && h <= 100 && w > 80 && rc.top <= 10)
+			{
+				if (outCaptionGeom && !*outCaptionGeom)
+				{
+					*outCaptionGeom = geom;
+					if (outCaptionRgn) *outCaptionRgn = rgn.get();
+					continue;
+				}
+			}
+
+			// Otherwise it might be the border/frame
+			if (outBorderGeom && !*outBorderGeom)
+			{
+				*outBorderGeom = geom;
+				if (outBorderRgn) *outBorderRgn = rgn.get();
+			}
+		}
+
+		return (outCaptionGeom && *outCaptionGeom) || (outBorderGeom && *outBorderGeom);
 	}
 
 	void EndCapture()

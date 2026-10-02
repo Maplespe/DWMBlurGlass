@@ -1,4 +1,4 @@
-﻿/**
+/**
  * FileName: CustomBackdropEffect.cpp
  *
  * Copyright (C) 2024 ALTaleX531, Maplespe
@@ -369,7 +369,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 				oldSystemBackdropType = *reinterpret_cast<DWORD*>(reinterpret_cast<ULONG_PTR>(data) + 204);
 				*reinterpret_cast<DWORD*>(reinterpret_cast<ULONG_PTR>(data) + 204) = 0;
 			}
-			if (os::buildNumber >= 26100)
+			if (os::buildNumber >= 26020)
 			{
 				oldSystemBackdropType = reinterpret_cast<DWORD*>(data)[200];
 				reinterpret_cast<DWORD*>(data)[200] = 0;
@@ -381,7 +381,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 			{
 				*reinterpret_cast<DWORD*>(reinterpret_cast<ULONG_PTR>(data) + 204) = oldSystemBackdropType;
 			}
-			if (os::buildNumber >= 22621)
+			if (os::buildNumber >= 26020)
 			{
 				reinterpret_cast<DWORD*>(data)[200] = oldSystemBackdropType;
 			}
@@ -398,6 +398,29 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 
 					HRGN borderRegion{ GeometryRecorder::GetRegionFromGeometry(borderGeometry) };
 					HRGN captionRegion{ GeometryRecorder::GetRegionFromGeometry(captionGeometry) };
+
+					if (!captionRegion || !captionGeometry)
+					{
+						DWM::CBaseGeometryProxy* fallbackCaptionGeom{ nullptr };
+						HRGN fallbackCaptionRgn{ nullptr };
+						DWM::CBaseGeometryProxy* fallbackBorderGeom{ nullptr };
+						HRGN fallbackBorderRgn{ nullptr };
+
+						if (GeometryRecorder::FindFallbackGeometries(&fallbackCaptionGeom, &fallbackCaptionRgn, &fallbackBorderGeom, &fallbackBorderRgn))
+						{
+							if (!captionRegion && fallbackCaptionRgn)
+							{
+								captionRegion = fallbackCaptionRgn;
+								captionGeometry = reinterpret_cast<CRgnGeometryProxy*>(fallbackCaptionGeom);
+							}
+							if (!borderRegion && fallbackBorderRgn)
+							{
+								borderRegion = fallbackBorderRgn;
+								borderGeometry = reinterpret_cast<CRgnGeometryProxy*>(fallbackBorderGeom);
+							}
+						}
+					}
+
 					wil::unique_hrgn realBorderRegion{ CreateRectRgn(0, 0, 0, 0) };
 					wil::unique_hrgn emptyRegion{ CreateRectRgn(0, 0, 0, 0) };
 
@@ -405,8 +428,8 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 					{
 						RECT captionBox{};
 						RECT borderBox{};
-						GetRgnBox(captionRegion, &captionBox);
-						if (GetRgnBox(borderRegion, &borderBox) != NULLREGION)
+						if (captionRegion) GetRgnBox(captionRegion, &captionBox);
+						if (borderRegion && GetRgnBox(borderRegion, &borderBox) != NULLREGION)
 						{
 							LONG borderWidth{ captionBox.top - borderBox.top };
 							wil::unique_hrgn nonBorderRegion{ CreateRectRgn(borderBox.left + borderWidth, borderBox.top + borderWidth, borderBox.right - borderWidth, borderBox.bottom - borderWidth) };
@@ -414,8 +437,8 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 						}
 					}
 
-					backdrop->SetBorderRegion(borderRegion);
-					backdrop->SetCaptionRegion(captionRegion);
+					if (borderRegion) backdrop->SetBorderRegion(borderRegion);
+					if (captionRegion) backdrop->SetCaptionRegion(captionRegion);
 
 					if (borderGeometry)
 					{
@@ -425,9 +448,12 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 					{
 						ResourceHelper::CreateGeometryFromHRGN(emptyRegion.get(), &captionGeometry);
 					}
-					if (EqualRgn(realBorderRegion.get(), emptyRegion.get()))
+					if (EqualRgn(realBorderRegion.get(), emptyRegion.get()) || g_configData.extendBorder)
 					{
-						This->GetLegacyVisual()->ClearInstructions();
+						if (auto legacyVisual = This->GetLegacyVisual())
+						{
+							legacyVisual->ClearInstructions();
+						}
 					}
 				}
 			}
@@ -505,7 +531,6 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 
 	HRESULT CTopLevelWindow_ValidateVisual(CTopLevelWindow* This)
 	{
-		g_windowData = nullptr;
 		if (!IsBackdropAllowed(This))
 		{
 			return S_OK;
@@ -537,7 +562,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 				backdrop->ValidateVisual();
 			}
 		}
-		g_windowData = nullptr;
+
 		return hr;
 	}
 
@@ -632,7 +657,7 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 		}
 
 		DWORD oldSystemBackdropType{ 0 };
-		if (os::buildNumber >= 26100)
+		if (os::buildNumber >= 26020)
 		{
 			oldSystemBackdropType = reinterpret_cast<DWORD*>(data)[200];
 			reinterpret_cast<DWORD*>(data)[200] = 0;
@@ -641,6 +666,10 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 		if (os::buildNumber == 22000)
 		{
 			*reinterpret_cast<DWORD*>(reinterpret_cast<ULONG_PTR>(data) + 204) = oldSystemBackdropType;
+		}
+		if (os::buildNumber >= 26020)
+		{
+			reinterpret_cast<DWORD*>(data)[200] = oldSystemBackdropType;
 		}
 		if (SUCCEEDED(g_CTopLevelWindow_InitializeVisualTreeClone_HookDispatcher.return_value()))
 		{
@@ -750,11 +779,10 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	{
 		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization_Win10.call_org(a1, a2, a3, a4);
 
-		if (!g_windowData)
-			return ret;
-
 		COLORREF color;
-		bool isLight = !g_windowData->IsUsingDarkMode();
+		bool isLight = true;
+		if (g_windowData)
+			isLight = !g_windowData->IsUsingDarkMode();
 		if (GetForegroundWindow() == g_window)
 			color = isLight ? g_configData.activeBlendColor : g_configData.activeBlendColorDark;
 		else
@@ -777,11 +805,10 @@ namespace MDWMBlurGlassExt::CustomBackdrop
 	{
 		auto ret = g_funCGlassColorizationParameters_AdjustWindowColorization_Win11.call_org(a1, a2, a3, a4);
 
-		if (!g_windowData)
-			return ret;
-
 		COLORREF color;
-		bool isLight = !g_windowData->IsUsingDarkMode();
+		bool isLight = true;
+		if (g_windowData)
+			isLight = !g_windowData->IsUsingDarkMode();
 		if (GetForegroundWindow() == g_window)
 			color = isLight ? g_configData.activeBlendColor : g_configData.activeBlendColorDark;
 		else

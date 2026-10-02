@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "DWMStruct.h"
 
 namespace MDWMBlurGlassExt::GeometryRecorder
@@ -32,5 +32,9 @@ namespace MDWMBlurGlassExt::GeometryRecorder
 	void BeginCapture();
 	HRGN GetRegionFromGeometry(DWM::CBaseGeometryProxy* geometry);
 	size_t GetGeometryCount();
+	bool FindFallbackGeometries(
+		DWM::CBaseGeometryProxy** outCaptionGeom, HRGN* outCaptionRgn,
+		DWM::CBaseGeometryProxy** outBorderGeom, HRGN* outBorderRgn
+	);
 	void EndCapture();
 }
